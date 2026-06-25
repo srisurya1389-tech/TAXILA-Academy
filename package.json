@@ -1,0 +1,13 @@
+{
+  "name": "taxila-academy",
+  "version": "1.0.0",
+  "description": "Taxila Academy Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -l 3000",
+    "dev": "serve -l 3000"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}

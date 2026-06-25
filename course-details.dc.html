@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+<x-dc id="taxila-details-root">
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,system-ui,sans-serif;background:#040c02;color:#f0f6e8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  ::selection{background:#F5B800;color:#0A1F05}
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes checkAnimation {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .reveal-node {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal-node.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .subject-card {
+    background: #F4FAF0;
+    border: 1px solid #e0ecd8;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .subject-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(27,77,14,0.06);
+  }
+
+  .schedule-card {
+    background: #0b1a07;
+    border: 1px solid #e0ecd8;
+    border-radius: 18px;
+    padding: 28px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(27,77,14,0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .schedule-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(27,77,14,0.08);
+  }
+
+  /* 3D Book Cover styling */
+  .book-3d-wrapper {
+    perspective: 600px;
+    cursor: pointer;
+  }
+  .book-3d-card {
+    width: 142px;
+    height: 196px;
+    border-radius: 6px 14px 14px 6px;
+    background: linear-gradient(135deg, #1B4D0E, #0A1F05);
+    box-shadow: 6px 10px 24px rgba(0,0,0,0.25);
+    border-left: 4px solid #F5B800;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    color: #fff;
+    position: relative;
+  }
+  .book-3d-wrapper:hover .book-3d-card {
+    transform: rotateY(-22deg) scale(1.05);
+    box-shadow: 14px 18px 32px rgba(0,0,0,0.3);
+  }
+  .book-spine-glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* Tabs */
+  .t-tabactive {
+    background: #1B4D0E !important;
+    color: #fff !important;
+    border-color: #1B4D0E !important;
+    box-shadow: 0 4px 14px rgba(27,77,14,0.25);
+  }
+  .t-tabinactive {
+    background: transparent !important;
+    color: #1B4D0E !important;
+    border-color: rgba(27,77,14,0.3) !important;
+  }
+  .t-tabinactive:hover {
+    border-color: #1B4D0E !important;
+  }
+
+  /* Video testimonial box styling */
+  .video-testimonial-box {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    background: #000;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease;
+  }
+  .video-testimonial-box:hover {
+    transform: translateY(-4px);
+  }
+  
+  .demo-input {
+    width: 100%;
+    padding: 13px;
+    border: 1.5px solid #d8e6cf;
+    border-radius: 10px;
+    background: #F4FAF0;
+    outline: none;
+    font-size: 14px;
+    color: #16280d;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .demo-input:focus {
+    border-color: #1b4d0e;
+    background: #0b1a07;
+  }
+
+  /* Payment Modal classes */
+  .payment-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,31,5,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+  .payment-modal-content {
+    background: #040c02;
+    width: 90%;
+    max-width: 440px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    animation: scaleIn 0.3s cubic-bezier(0.2,0.8,0.2,1);
+  }
+  
+  /* Premium dashboard card */
+  .premium-dash-card {
+    background: #040c02;
+    border: 1px solid #e0ecd8;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 6px 20px rgba(27,77,14,0.03);
+    transition: transform 0.25s ease;
+  }
+  .premium-dash-card:hover {
+    transform: translateY(-3px);
+  }
+  .curriculum-week {
+    border-bottom: 1px solid #e0ecd8;
+    padding: 18px 0;
+  }
+  .curriculum-week:last-child {
+    border-bottom: none;
+  }
+
+  /* Curriculum Hero Grid Layout */
+  .hero-grid-container {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .hero-right-col {
+    width: 100%;
+  }
+
+  /* Glassmorphic Curriculum Showcase */
+  .curriculum-box {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+    padding: clamp(20px, 3vw, 32px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  }
+  .hero-subjects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .hero-subject-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: left;
+  }
+  .hero-subject-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(245, 184, 0, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .card-top {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .card-icon-wrapper {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(245, 184, 0, 0.08);
+    border: 1.5px solid rgba(245, 184, 0, 0.2);
+    color: #F5B800;
+    transition: all 0.25s ease;
+  }
+  .hero-subject-card:hover .card-icon-wrapper {
+    background: rgba(245, 184, 0, 0.18);
+    border-color: #F5B800;
+    transform: scale(1.05);
+  }
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .card-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+  }
+  .card-desc {
+    font-size: 11.5px;
+    color: #a8c498;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 10px;
+  }
+  .card-demo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .hero-subject-card:hover .card-demo-link {
+    color: #F5B800;
+  }
+  .card-arrow {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    transition: all 0.2s;
+  }
+  .hero-subject-card:hover .card-arrow {
+    transform: translateX(4px);
+    color: #F5B800;
+  }
+
+  /* Timeline Styles */
+  .timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 50px auto 0;
+    padding: 20px 0;
+  }
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e0ecd8;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  .timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 50px;
+    margin-bottom: 60px;
+    z-index: 2;
+  }
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  .timeline-left-content {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .timeline-right-content {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .timeline-badge-month {
+    color: #D98A29;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .timeline-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #16280d;
+    margin: 0 0 8px;
+  }
+  .timeline-desc {
+    color: #516147;
+    font-size: 14.5px;
+    line-height: 1.65;
+    margin: 0;
+  }
+  .timeline-circle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #D98A29;
+    border: 4px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    z-index: 3;
+    box-shadow: 0 3px 8px rgba(217, 138, 41, 0.2);
+  }
+
+  /* Responsive styles for Hero Grid and Timeline */
+  @media (max-width: 991px) {
+    .hero-grid-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 40px;
+    }
+    .hero-left-col {
+      align-items: center;
+      text-align: center;
+    }
+    .hero-left-col h1 {
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-subjects-grid {
+      grid-template-columns: 1fr;
+    }
+    .timeline-line {
+      left: 20px;
+      transform: none;
+    }
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-left: 45px;
+      margin-bottom: 40px;
+      text-align: left !important;
+    }
+    .timeline-left-content {
+      text-align: left;
+    }
+    .timeline-right-content {
+      text-align: left;
+    }
+    .timeline-circle {
+      left: 20px;
+      top: 20px;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  
+
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAXILA ACADEMY — PREMIUM LUXURY DARK SYSTEM v3.0
+     Dark Forest Green · Pure Black · Rich Biscuit Gold
+     ═══════════════════════════════════════════════════════════ -->
+<style>
+  :root {
+    --bg-deep:       #05080a;
+    --bg-base:       #090c0a;
+    --bg-section:    #0d1009;
+    --bg-card:       #111614;
+    --bg-card-glass: rgba(255,255,255,0.035);
+    --green:         #1B4D0E;
+    --green-dark:    #0A1F05;
+    --gold:          #C9A97A;
+    --gold-bright:   #F5B800;
+    --text-white:    #FFFFFF;
+    --text-primary:  #F0EDE5;
+    --text-sub:      rgba(255,255,255,0.65);
+    --text-muted:    rgba(255,255,255,0.4);
+    --border:        rgba(255,255,255,0.07);
+    --border-gold:   rgba(201,169,122,0.22);
+    --shadow-card:   0 16px 50px rgba(0,0,0,0.55);
+    --shadow-hover:  0 28px 70px rgba(0,0,0,0.7);
+    --radius-card:   18px;
+    --radius-lg:     24px;
+  }
+
+  /* ── Base ── */
+  body, #taxila-details-root {
+    background: var(--bg-deep) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* ── Force dark on every light-background section ── */
+  #duration-section, #special-section, #journey-timeline-section,
+  #demo-section, #premium-content, #testimonials-section {
+    background: var(--bg-section) !important;
+    border-top-color:    var(--border) !important;
+    border-bottom-color: var(--border) !important;
+  }
+
+  #fee-section { background: var(--bg-deep) !important; }
+
+  section[style*="background:#F4FAF0"],
+  section[style*="background:#FAF6EE"],
+  section[style*="background:#f8f5f0"],
+  section[style*="background:#f8f4ee"],
+  div[style*="background:#F4FAF0"],
+  div[style*="background:#FAF6EE"] {
+    background: var(--bg-section) !important;
+  }
+
+  /* ── Subject cards — luxury glassmorphism ── */
+  .subject-card {
+    background: rgba(27,77,14,0.12) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    border: 1px solid rgba(201,169,122,0.18) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease !important;
+  }
+  .subject-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,169,122,0.25) !important;
+  }
+  .subject-card h4 { color: var(--text-primary) !important; font-size: 18px !important; }
+  .subject-card p  { color: var(--text-sub) !important; }
+
+  /* ── Schedule / spec cards ── */
+  .schedule-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: var(--shadow-card) !important;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease !important;
+  }
+  .schedule-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: var(--shadow-hover) !important;
+  }
+  .schedule-card h3 { color: var(--text-primary) !important; }
+  .schedule-card p  { color: var(--text-sub) !important; }
+
+  /* ── Demo / booking form inputs ── */
+  .demo-input {
+    background: rgba(255,255,255,0.055) !important;
+    border: 1.5px solid rgba(255,255,255,0.11) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+    font-size: 14.5px !important;
+  }
+  .demo-input:focus {
+    border-color: var(--green) !important;
+    background: rgba(27,77,14,0.12) !important;
+    box-shadow: 0 0 0 3px rgba(27,77,14,0.18) !important;
+    outline: none !important;
+  }
+  .demo-input::placeholder { color: var(--text-muted) !important; }
+  .demo-input option { background: #141414 !important; color: var(--text-primary) !important; }
+
+  /* ── Payment modal (Razorpay) ── */
+  .payment-modal-backdrop { background: rgba(5,8,10,0.88) !important; }
+  .payment-modal-content {
+    background: #111614 !important;
+    border: 1px solid var(--border-gold) !important;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8) !important;
+  }
+
+  /* ── Premium dashboard cards ── */
+  .premium-dash-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: var(--shadow-card) !important;
+  }
+  .curriculum-week { border-bottom-color: var(--border) !important; }
+
+  /* ── Timeline ── */
+  .timeline-line    { background: rgba(201,169,122,0.2) !important; }
+  .timeline-heading { color: var(--text-primary) !important; font-size: 22px !important; }
+  .timeline-desc    { color: var(--text-sub) !important; }
+  .timeline-circle  { border-color: var(--bg-deep) !important; background: var(--gold) !important; box-shadow: 0 4px 16px rgba(201,169,122,0.3) !important; }
+  .timeline-badge-month { color: var(--gold) !important; }
+
+  /* ── Testimonial tabs ── */
+  .t-tabactive  { background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; box-shadow: 0 6px 20px rgba(27,77,14,0.35) !important; }
+  .t-tabinactive { color: rgba(255,255,255,0.65) !important; border-color: rgba(255,255,255,0.18) !important; }
+  .t-tabinactive:hover { border-color: var(--gold) !important; color: var(--gold) !important; }
+
+  /* ── Video testimonial boxes ── */
+  .video-testimonial-box { box-shadow: var(--shadow-card) !important; }
+
+  /* ── Book 3D cards ── */
+  .book-3d-card { box-shadow: 8px 14px 36px rgba(0,0,0,0.6) !important; }
+  .book-3d-wrapper:hover .book-3d-card { box-shadow: 16px 22px 44px rgba(0,0,0,0.75) !important; }
+
+  /* ── Global text-color overrides (inline style matching) ── */
+  [style*="color:#C9920A"] { color: var(--gold) !important; }
+  [style*="color:#D98A29"] { color: var(--gold) !important; }
+  [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
+  [style*="color:#516147"] { color: var(--text-sub) !important; }
+  [style*="color:#cbdcc5"] { color: var(--text-sub) !important; }
+
+  /* Dashboard heading + stat colors */
+  #premium-content h3[style*="color:#0A1F05"],
+  #premium-content h4[style*="color:#0A1F05"],
+  #premium-content [style*="color:#0A1F05"] { color: var(--text-primary) !important; }
+  #premium-content [style*="color:#1B4D0E"] { color: var(--gold) !important; }
+  #premium-content [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
+
+  /* Progress bar track */
+  [style*="background:#e0ecd8;border-radius:4px"],
+  [style*="background:#e0ecd8;border-radius"] { background: rgba(255,255,255,0.08) !important; }
+
+  /* ── Global border overrides ── */
+  [style*="border:1px solid #e0ecd8"]    { border-color: var(--border) !important; }
+  [style*="border:1.5px solid #e0ecd8"]  { border-color: rgba(255,255,255,0.09) !important; }
+  [style*="border:2px solid #e0ecd8"]    { border-color: rgba(255,255,255,0.1) !important; }
+  [style*="border-top:1px solid #e0ecd8"] { border-top-color: var(--border) !important; }
+  [style*="border-bottom:1px solid #e0ecd8"] { border-bottom-color: var(--border) !important; }
+  [style*="border:1.5px solid #d8e6cf"]  { border-color: rgba(255,255,255,0.1) !important; }
+
+  /* ── White card backgrounds → dark ── */
+  #premium-content [style*="background:#fff"],
+  #premium-content [style*="background:#ffffff"] {
+    background: var(--bg-card) !important;
+    border-color: var(--border) !important;
+  }
+
+  /* ── Payment right-panel white cards → dark ── */
+  #fee-section [style*="background:#fff"],
+  #fee-section [style*="background:#ffffff"] {
+    background: var(--bg-card) !important;
+    border-color: var(--border-gold) !important;
+  }
+  #fee-section [style*="color:#16280d"] { color: var(--text-primary) !important; }
+  #fee-section [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
+  #fee-section [style*="background:#f8f5f0"] { background: rgba(255,255,255,0.05) !important; }
+  #fee-section [style*="border:1.5px solid #e0ecd8"] { border-color: rgba(255,255,255,0.1) !important; }
+
+  /* ── Books section accent ── */
+  #books-section [style*="color:#1B4D0E"] { color: var(--gold) !important; }
+
+  /* ── Stats section upgrade ── */
+  #stats-section {
+    background: linear-gradient(135deg, #0d1a08 0%, var(--green-dark) 50%, #040803 100%) !important;
+    border-top: 1px solid rgba(201,169,122,0.15) !important;
+  }
+
+  /* ── Features check icon ── */
+  .reveal-node [style*="background:#e8f5e9"] {
+    background: rgba(27,77,14,0.35) !important;
+    border: 1px solid rgba(27,77,14,0.5) !important;
+    color: var(--gold) !important;
+  }
+
+  /* ── Nav upgrade ── */
+  nav[style*="background:#0A1F05"] {
+    background: rgba(5,8,3,0.92) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(201,169,122,0.12) !important;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.6) !important;
+  }
+
+  /* ── Hero banner upgrade ── */
+  #hero-banner {
+    background: linear-gradient(135deg, #0d2208 0%, #0A1F05 50%, #040c02 100%) !important;
+    border-bottom: 1px solid rgba(201,169,122,0.1) !important;
+  }
+
+  /* ── Footer upgrade ── */
+  footer[style*="background:#0A1F05"] {
+    background: #05080a !important;
+    border-top: 1px solid rgba(201,169,122,0.12) !important;
+  }
+
+  /* ── Payment Razorpay modal form fields ── */
+  #modal-gateway-body input {
+    background: rgba(255,255,255,0.06) !important;
+    border-color: rgba(255,255,255,0.12) !important;
+    color: var(--text-primary) !important;
+    border-radius: 8px !important;
+  }
+  #modal-gateway-body [style*="color:#7a8a6f"],
+  #modal-gateway-body [style*="color:#516147"] { color: var(--text-muted) !important; }
+  #modal-gateway-body [style*="border-bottom:1px solid #f0f0f0"] { border-bottom-color: var(--border) !important; }
+
+  /* ── Loading spinner upgrade ── */
+  #modal-loading-overlay [style*="border:4.5px solid #e0ecd8"] {
+    border-color: rgba(255,255,255,0.1) !important;
+    border-top-color: var(--green) !important;
+  }
+  #modal-loading-overlay [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
+
+  /* ── Premium content: unlock banner emoji → military icon ── */
+  #premium-content [style*="font-size:62px"] { display: none; }
+
+  /* ── Journey timeline section background glow ── */
+  #journey-timeline-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: 10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(201,169,122,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(50px);
+  }
+
+  /* ── Responsive fine-tuning ── */
+  @media (max-width: 768px) {
+    .subject-card { backdrop-filter: none !important; background: var(--bg-card) !important; }
+    .timeline-heading { font-size: 18px !important; }
+  }
+</style>
+</helmet>
+
+<div id="taxila-details-root" style="position:relative;width:100%;background:#040c02;overflow-x:hidden">
+
+  <!-- NAV -->
+  <nav style="position:fixed;top:0;left:0;width:100%;z-index:150;background:#0A1F05;padding:16px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15)">
+    <a href="./Taxila Academy.dc.html" style="display:flex;align-items:center;gap:8px">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:75px;width:auto;object-fit:contain">
+      <span style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:25px;color:#fff;letter-spacing:-0.03em">TAXILA ACADEMY</span>
+    </a>
+    <a href="./Taxila Academy.dc.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:14px;padding:9px 18px;border-radius:8px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='transparent'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Courses
+    </a>
+  </nav>
+
+  <!-- 1. COURSE HERO BANNER SECTION -->
+  <section id="hero-banner" data-banner style="padding:160px clamp(18px, 4vw, 56px) 100px;color:#fff;position:relative;background:linear-gradient(135deg, #1B4D0E, #0A1F05);overflow:hidden">
+    <!-- Subtle grid overlay for high tech / curriculum style -->
+    <div style="position:absolute;inset:0;opacity:0.08;background-image:linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);background-size:45px 45px;background-position:center;pointer-events:none;z-index:1"></div>
+    <!-- Warm/gold ambient radial glow -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(245,184,0,0.1) 0%,transparent 70%);pointer-events:none;z-index:1;filter:blur(50px)"></div>
+
+    <div class="hero-grid-container">
+      <!-- Left Column: Content & Buttons -->
+      <div class="hero-left-col">
+        <!-- Badges row -->
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+          <!-- Badge 1: Admissions open -->
+          <div style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(245,184,0,.4);background:rgba(245,184,0,.08);color:#F5B800;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px">
+            <span style="width:7px;height:7px;border-radius:50%;background:#F5B800;display:inline-block;animation:checkAnimation 1.5s infinite alternate"></span>
+            Admissions open 2025–26
+          </div>
+          <!-- Badge 2: Verified curriculum -->
+          <div style="display:inline-flex;align-items:center;gap:6px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#ffffff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="3" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg>
+            100% Verified Prep
+          </div>
+        </div>
+
+        <!-- Main Title -->
+        <h1 data-course-title style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(32px,4vw,50px);margin:0;line-height:1.2;letter-spacing:-0.01em;color:#fff">
+          Course Loading...
+        </h1>
+        
+        <!-- Tagline -->
+        <p data-course-tagline style="color:#cfe0c4;font-size:clamp(15px,1.6vw,17.5px);line-height:1.6;margin:5px 0 10px;max-width:580px">
+          Please wait while the course details load...
+        </p>
+
+        <!-- Stats list (inline flex) -->
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:12px 0 20px;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 0;width:100%">
+          <!-- Stat 1: Duration -->
+          <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span data-course-duration style="font-weight:600">12 Months Program</span>
+          </div>
+          <!-- Stat 2: Faculty -->
+          <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2.5 3 6 3s6-1 6-3v-5"/></svg>
+            <span style="font-weight:600">Expert Academy Faculty</span>
+          </div>
+          <!-- Stat 3: Rating -->
+          <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#F5B800"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span style="font-weight:600">4.9 · 1,500+ Selections</span>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#fee-section" style="display:inline-flex;align-items:center;gap:8px;background:#F5B800;color:#0A1F05;font-weight:800;font-size:14.5px;padding:12px 28px;border-radius:10px;box-shadow:0 6px 20px rgba(245,184,0,0.25);transition:all 0.2s;text-decoration:none" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            Enroll Now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#demo-section" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:14.5px;padding:11px 28px;border-radius:10px;transition:all 0.2s;text-decoration:none" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Free Demo Class
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Glassmorphic Curriculum Showcase -->
+      <div class="hero-right-col">
+        <div class="curriculum-box">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:12px;gap:10px">
+            <div>
+              <span style="color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;display:block">THE CURRICULUM</span>
+              <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin:4px 0 0;font-weight:800">Six pillars of mastery</h3>
+            </div>
+            <div style="margin-left:auto;text-align:right;flex-shrink:0">
+              <span style="background:rgba(255,255,255,0.08);color:#cfe0c4;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.02em">6 Subjects · 1 Year</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Subject Cards (Grid of 6) -->
+          <div data-hero-subjects-grid class="hero-subjects-grid">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+          <!-- Price & Discount Banner at bottom -->
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="color:#F5B800;font-size:16px;line-height:1">⚡</span>
+              <span style="color:#a8c498;font-size:12px;font-weight:700;letter-spacing:0.02em">Early-bird offer ends in 7 days</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="text-decoration:line-through;color:rgba(255,255,255,0.4);font-size:12.5px;font-weight:600" data-hero-original-fee>₹14,999</span>
+              <span style="color:#ffffff;font-weight:800;font-size:18px" data-hero-discounted-fee>₹9,999</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SUBJECTS COVERED -->
+  <section id="subjects-section" style="background:#040c02;padding:80px clamp(18px,4vw,56px) 60px">
+    <div style="max-width:1180px;margin:0 auto">
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
+        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Curriculum</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">Subjects Covered</h2>
+        <p style="color:#cbdcc5;font-size:15px;margin:10px 0 0">Thorough syllabus breakdown designed for maximum mastery.</p>
+      </div>
+      
+      <div data-subjects-container style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+        <!-- Dynamically populated cards -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. COURSE DURATION & SCHEDULE -->
+  <section id="duration-section" style="background:#0d1009;padding:80px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07)">
+    <div style="max-width:1180px;margin:0 auto">
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
+        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Program Specs</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">Course Duration &amp; Schedule</h2>
+      </div>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+        <!-- Specs 1: Duration -->
+        <div class="schedule-card reveal-node">
+          <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:19px;color:#f0f6e8;margin:0 0 8px;font-weight:700">Duration</h3>
+          <p data-course-duration style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">12 Months Program</p>
+        </div>
+        <!-- Specs 2: Classes -->
+        <div class="schedule-card reveal-node" data-delay="60">
+          <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:19px;color:#f0f6e8;margin:0 0 8px;font-weight:700">Classes</h3>
+          <p style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">5 Days a Week (Mon-Fri)</p>
+        </div>
+        <!-- Specs 3: Tests -->
+        <div class="schedule-card reveal-node" data-delay="120">
+          <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:19px;color:#f0f6e8;margin:0 0 8px;font-weight:700">Tests</h3>
+          <p style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">Weekly Full-Length Mock Exams</p>
+        </div>
+        <!-- Specs 4: Doubts -->
+        <div class="schedule-card reveal-node" data-delay="180">
+          <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:19px;color:#f0f6e8;margin:0 0 8px;font-weight:700">Doubts</h3>
+          <p style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">Weekend Doubt-Clearing Sessions</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BOOKS WE FOLLOW -->
+  <section id="books-section" style="background:#040c02;padding:80px clamp(18px,4vw,56px)">
+    <div style="max-width:1180px;margin:0 auto">
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
+        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Study Material</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">Books We Follow</h2>
+        <p style="color:#cbdcc5;font-size:15px;margin:10px 0 0">Guided textbook integration for robust, standard-aligned training.</p>
+      </div>
+
+      <div data-books-grid style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;justify-items:center;margin-bottom:44px">
+        <!-- Populated dynamically with 6 3D book cover elements -->
+      </div>
+      
+      <div class="reveal-node" style="text-align:center;color:#1B4D0E;font-weight:800;font-size:18px;letter-spacing:0.02em;margin-top:20px;border-top:1px solid #e0ecd8;padding-top:28px">
+        NCERT &bull; Arihant &bull; RS Aggarwal &bull; Institute Study Material
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WHAT MAKES THIS COURSE SPECIAL -->
+  <section id="special-section" style="background:#0d1009;padding:80px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07)">
+    <div style="max-width:1180px;margin:0 auto">
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
+        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Core Advantages</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">What Makes This Course Special</h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px">
+        <!-- Feature 1 -->
+        <div class="reveal-node" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:start">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;color:#2e7d32;flex-shrink:0;font-size:18px;font-weight:bold">&checkmark;</span>
+          <div>
+            <h4 style="font-size:17px;font-weight:700;color:#f0f6e8;margin:0 0 6px">Expert Faculty</h4>
+            <p style="color:#cbdcc5;font-size:14px;line-height:1.5;margin:0">Learn from seasoned trainers, subject matter specialists, and exam experts.</p>
+          </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="reveal-node" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:start">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;color:#2e7d32;flex-shrink:0;font-size:18px;font-weight:bold">&checkmark;</span>
+          <div>
+            <h4 style="font-size:17px;font-weight:700;color:#f0f6e8;margin:0 0 6px">Structured Curriculum</h4>
+            <p style="color:#cbdcc5;font-size:14px;line-height:1.5;margin:0">Step-by-step learning schedules synced perfectly with regional &amp; national targets.</p>
+          </div>
+        </div>
+        <!-- Feature 3 -->
+        <div class="reveal-node" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:start">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;color:#2e7d32;flex-shrink:0;font-size:18px;font-weight:bold">&checkmark;</span>
+          <div>
+            <h4 style="font-size:17px;font-weight:700;color:#f0f6e8;margin:0 0 6px">Weekly Mock Tests</h4>
+            <p style="color:#cbdcc5;font-size:14px;line-height:1.5;margin:0">Timed exams simulating the actual conditions, patterns, and pressure of the test day.</p>
+          </div>
+        </div>
+        <!-- Feature 4 -->
+        <div class="reveal-node" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:start">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;color:#2e7d32;flex-shrink:0;font-size:18px;font-weight:bold">&checkmark;</span>
+          <div>
+            <h4 style="font-size:17px;font-weight:700;color:#f0f6e8;margin:0 0 6px">Personal Mentoring</h4>
+            <p style="color:#cbdcc5;font-size:14px;line-height:1.5;margin:0">Regular review sessions to identify weak points, target bottlenecks, and build speed.</p>
+          </div>
+        </div>
+        <!-- Feature 5 -->
+        <div class="reveal-node" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:start">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;color:#2e7d32;flex-shrink:0;font-size:18px;font-weight:bold">&checkmark;</span>
+          <div>
+            <h4 style="font-size:17px;font-weight:700;color:#f0f6e8;margin:0 0 6px">Exam-Oriented Preparation</h4>
+            <p style="color:#cbdcc5;font-size:14px;line-height:1.5;margin:0">Focused masterclasses on previous papers, shortcuts, and time management tricks.</p>
+          </div>
+        </div>
+        <!-- Feature 6 -->
+        <div class="reveal-node" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:start">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;color:#2e7d32;flex-shrink:0;font-size:18px;font-weight:bold">&checkmark;</span>
+          <div>
+            <h4 style="font-size:17px;font-weight:700;color:#f0f6e8;margin:0 0 6px">Proven Selection Results</h4>
+            <p style="color:#cbdcc5;font-size:14px;line-height:1.5;margin:0">Be part of an academy with 10+ years of high-scoring military selections.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SUCCESS STATISTICS -->
+  <section id="stats-section" style="background:linear-gradient(135deg,#1B4D0E,#0A1F05);padding:80px clamp(18px,4vw,56px);color:#fff">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;text-align:center">
+      <div class="reveal-node">
+        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">5000+</div>
+        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Students Trained</div>
+      </div>
+      <div class="reveal-node" data-delay="100">
+        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">1500+</div>
+        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Selections</div>
+      </div>
+      <div class="reveal-node" data-delay="200">
+        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">10+ Years</div>
+        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Experience</div>
+      </div>
+      <div class="reveal-node" data-delay="300">
+        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">95%</div>
+        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Success Rate</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.5. LEARNING JOURNEY TIMELINE SECTION -->
+  <section id="journey-timeline-section" style="background:#090c0a;padding:90px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);position:relative;overflow:hidden">
+    <!-- Subtle warm glow background -->
+    <div style="position:absolute;top:-40px;right:10%;width:350px;height:350px;background:radial-gradient(circle,rgba(217,138,41,0.06) 0%,transparent 70%);pointer-events:none;filter:blur(40px)"></div>
+
+    <div style="max-width:1100px;margin:0 auto;position:relative;z-index:2">
+      <!-- Section Header -->
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 50px">
+        <span style="color:#D98A29;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:12px">Your Path to Mastery</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4vw,40px);color:#f0f6e8;margin:0;line-height:1.2">
+          Your 12-month <span style="font-family:'Playfair Display',serif;font-style:italic;color:#D98A29;font-weight:800">learning journey</span>
+        </h2>
+        <p style="color:#cbdcc5;font-size:15.5px;margin:12px 0 0;line-height:1.6">
+          Every month is structured around clear outcomes — so you always know where you are and what's next.
+        </p>
+      </div>
+
+      <!-- Timeline Container -->
+      <div class="timeline-container">
+        <!-- Vertical Central line -->
+        <div class="timeline-line"></div>
+        
+        <!-- Steps grid container (populated dynamically in JS) -->
+        <div id="dynamic-timeline-steps">
+          <!-- Populated by renderCourse() -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TESTIMONIALS SECTION -->
+  <section id="testimonials-section" style="background:#040c02;padding:80px clamp(18px,4vw,56px)">
+    <div style="max-width:1080px;margin:0 auto">
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 40px">
+        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Voices of Success</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">Course Testimonials</h2>
+        <p style="color:#cbdcc5;font-size:15px;margin:10px 0 0">Read and watch stories from our proud alumni and families.</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="reveal-node" style="display:flex;justify-content:center;gap:12px;margin-bottom:44px">
+        <button id="tab-students" class="t-tabactive" style="padding:12px 28px;border-radius:100px;font-weight:700;cursor:pointer;font-size:14.5px;border:2px solid transparent;transition:all 0.25s">Students</button>
+        <button id="tab-parents" class="t-tabinactive" style="padding:12px 28px;border-radius:100px;font-weight:700;cursor:pointer;font-size:14.5px;border:2px solid transparent;transition:all 0.25s">Parents</button>
+      </div>
+
+      <!-- Testimonials grid (2 cards) -->
+      <div data-testimonials-grid style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px">
+        <!-- Dynamically populated cards with play overlay and image -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FREE ONLINE DEMO CLASSES -->
+  <section id="demo-section" style="background:#0d1009;padding:80px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07)">
+    <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
+      <!-- Left Column: Specs -->
+      <div style="flex:1 1 450px;min-width:300px">
+        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Pedagogy First</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 18px">Free Online Demo Classes</h2>
+        <p style="color:#cbdcc5;font-size:16px;line-height:1.65;margin:0 0 28px">Get direct experience of our digital learning systems and active classrooms before you take admission.</p>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:28px;height:28px;border-radius:50%;background:#1B4D0E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px">&checkmark;</span>
+            <span style="color:#f0f6e8;font-weight:700;font-size:15px">Live Class Experience</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:28px;height:28px;border-radius:50%;background:#1B4D0E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px">&checkmark;</span>
+            <span style="color:#f0f6e8;font-weight:700;font-size:15px">Faculty Interaction</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:28px;height:28px;border-radius:50%;background:#1B4D0E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px">&checkmark;</span>
+            <span style="color:#f0f6e8;font-weight:700;font-size:15px">Course Overview</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:28px;height:28px;border-radius:50%;background:#1B4D0E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px">&checkmark;</span>
+            <span style="color:#f0f6e8;font-weight:700;font-size:15px">Doubt Solving Session</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Booking Form -->
+      <div style="flex:1 1 380px;min-width:300px;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:24px;padding:34px;box-shadow:0 12px 36px rgba(0,0,0,0.3)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:#f0f6e8;margin:0 0 8px">Experience Our Class</h3>
+        <p style="color:#7a8a6f;font-size:13.5px;margin:0 0 20px">Fill the form to book your free online session slot.</p>
+        
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <input type="text" id="demo-name" class="demo-input" placeholder="Parent / Student Name">
+          <input type="tel" id="demo-phone" class="demo-input" placeholder="Mobile Number">
+          <select id="demo-class" class="demo-input" style="color:#cbdcc5">
+            <option>Select Target Exam Class</option>
+            <option>Class 5 Admission</option>
+            <option>Class 6 Admission</option>
+            <option>Class 9 Admission</option>
+            <option>NDA Entrance (11th &amp; 12th)</option>
+          </select>
+          <button id="book-demo-btn" type="button" style="background:#1B4D0E;color:#fff;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#0A1F05'" onmouseout="this.style.background='#1B4D0E'">Book Free Demo Class</button>
+          <div id="demo-success-msg" style="display:none;color:#2e7d32;font-weight:700;font-size:14px;text-align:center;margin-top:10px;animation:fadeIn 0.3s">✓ Demo Slot Reserved! Our counselors will call you.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. INVESTMENT / PAYMENT SECTION -->
+  <section id="fee-section" style="background:#05080a;padding:100px clamp(18px,4vw,56px) 90px;scroll-margin-top:80px">
+    <div style="max-width:1180px;margin:0 auto">
+
+      <!-- Heading -->
+      <div style="text-align:center;margin-bottom:64px">
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(30px,5vw,52px);color:#f0f6e8;margin:0 0 14px;line-height:1.1">One transparent <em style="color:#C9920A;font-style:italic">investment</em></h2>
+        <p style="color:#7a8a6f;font-size:16px;max-width:500px;margin:0 auto;line-height:1.65">No hidden charges. EMI, UPI, cards and net banking all accepted with bank-grade security.</p>
+      </div>
+
+      <!-- Required Documents / Info Banner -->
+      <div style="background:rgba(27,77,14,0.12);border:1.5px solid rgba(27,77,14,0.35);border-radius:20px;padding:28px 32px;margin-bottom:40px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:800;font-size:15.5px;color:#F5EDD8">Documents &amp; Information Required for Enrollment</div>
+            <div style="font-size:12.5px;color:rgba(232,213,176,0.45);margin-top:2px">Keep these ready before proceeding to payment</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Student's Full Name</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">As it appears in school records</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Date of Birth</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">For admission eligibility verification</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Parent / Guardian Mobile No.</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">Active number for receipt &amp; updates</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Email Address</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">For payment receipt &amp; study portal login</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Previous Class Marksheet</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">Latest report card / result copy (scan/photo)</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Passport-size Photograph</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">Recent photo of the student (digital copy)</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Aadhar Card Copy</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">Student's or parent's Aadhar for KYC</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#F5EDD8">Course Selection</div>
+              <div style="font-size:12px;color:rgba(232,213,176,0.45);margin-top:2px">Sainik / NDA / JNV / RMS / RIMC stream</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:12px 15px;background:rgba(245,184,0,0.06);border:1px solid rgba(245,184,0,0.2);border-radius:10px;display:flex;align-items:flex-start;gap:9px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span style="font-size:13px;color:rgba(232,213,176,0.6);line-height:1.6"><strong style="color:#F5B800">For Bank / UPI Transfer:</strong> Mention <strong style="color:#F5EDD8">Student Name + Course Name + Mobile No.</strong> in the payment remarks / description to ensure instant confirmation.</span>
+        </div>
+      </div>
+
+      <!-- Two-column layout -->
+      <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:start">
+
+        <!-- LEFT: Pricing Card -->
+        <div style="flex:0 1 420px;min-width:280px;background:linear-gradient(145deg,#070f04 0%,#0d2208 50%,#1B4D0E 100%);border-radius:24px;padding:36px;color:#fff;border:1px solid rgba(201,169,122,0.2);box-shadow:0 28px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(27,77,14,0.3)">
+          <span style="background:rgba(245,184,0,0.12);border:1px solid rgba(245,184,0,0.4);color:#F5B800;font-size:11.5px;font-weight:800;padding:5px 16px;border-radius:100px;letter-spacing:.08em;display:inline-block;margin-bottom:22px">⭐ Early Bird Pricing</span>
+
+          <h3 data-pay-course-title style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#fff;margin:0 0 6px;line-height:1.25">Course Program</h3>
+          <p style="color:rgba(255,255,255,0.45);font-size:13.5px;margin:0 0 26px">Full course access · everything included</p>
+
+          <!-- Price row -->
+          <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px">
+            <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:50px;color:#F5B800;line-height:1">₹<span data-course-fee>9,999</span></div>
+            <div style="font-size:19px;color:rgba(255,255,255,0.28);text-decoration:line-through">₹<span data-course-fee-strike>12,999</span></div>
+          </div>
+          <p style="color:rgba(255,255,255,0.38);font-size:13px;margin:0 0 30px">or 12 months no-cost EMI · ₹<span data-course-emi>833</span>/mo</p>
+
+          <!-- Feature list -->
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:34px">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">Complete curriculum with expert faculty</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">Printed study material delivered home</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">Weekly mocks + personalized analytics</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">1:1 mentoring every fortnight</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">30-day full refund guarantee</span></div>
+          </div>
+
+          <!-- Pay Button -->
+          <button id="pay-btn" type="button" style="width:100%;background:#F5B800;color:#0A1F05;font-weight:800;font-size:16px;padding:16px;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:all 0.22s;box-shadow:0 8px 24px rgba(245,184,0,0.3)" onmouseover="this.style.background='#e5ab00';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#F5B800';this.style.transform='translateY(0)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Pay Securely &middot; ₹<span data-course-fee>9,999</span>
+          </button>
+          <p style="text-align:center;color:rgba(255,255,255,0.28);font-size:12px;margin:12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            256-bit encryption &middot; Razorpay secured
+          </p>
+        </div>
+
+        <!-- RIGHT: Payment Methods -->
+        <div style="flex:1 1 400px;min-width:300px;display:flex;flex-direction:column;gap:16px">
+
+          <!-- UPI / QR Code -->
+          <div style="background:#111614;border:1.5px solid rgba(201,169,122,0.2);border-radius:20px;padding:26px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
+              <div style="width:40px;height:40px;border-radius:10px;background:rgba(27,77,14,0.2);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4D0E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;font-size:16px;color:#f0f6e8">UPI / QR Code</div>
+                <div style="font-size:12.5px;color:#7a8a6f">GPay, PhonePe, Paytm, BHIM accepted</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=116x116&data=upi://pay?pa=taxilaacademy@hdfcbank%26pn=TaxilaAcademy%26cu=INR" alt="UPI QR Code" style="width:116px;height:116px;border-radius:12px;border:1.5px solid rgba(201,169,122,0.3);flex-shrink:0;background:#fff;padding:4px;">
+              <div style="flex:1;min-width:180px">
+                <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">UPI ID</div>
+                <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 14px">
+                  <span style="font-size:14px;font-weight:600;color:#f0f6e8;flex:1">taxilaacademy@hdfcbank</span>
+                  <button onclick="navigator.clipboard.writeText('taxilaacademy@hdfcbank');this.textContent='✓ Copied';this.style.color='#1B4D0E';setTimeout(()=>{this.textContent='Copy';this.style.color='#7a8a6f'},2000)" style="background:transparent;border:none;color:#7a8a6f;font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap;padding:0">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bank Transfer -->
+          <div style="background:#111614;border:1.5px solid rgba(201,169,122,0.2);border-radius:20px;padding:26px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
+              <div style="width:40px;height:40px;border-radius:10px;background:rgba(27,77,14,0.2);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4D0E" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;font-size:16px;color:#f0f6e8">Bank Transfer (NEFT / IMPS)</div>
+                <div style="font-size:12.5px;color:#7a8a6f">Direct transfer to our account</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Account Name</div>
+                <div style="font-weight:700;font-size:15px;color:#f0f6e8">Taxila Academy</div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Bank</div>
+                <div style="font-weight:700;font-size:15px;color:#f0f6e8">HDFC Bank</div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Account No.</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-weight:700;font-size:15px;color:#f0f6e8">XXXX XXXX XXXX</span>
+                  <button onclick="navigator.clipboard.writeText('XXXXXXXXXXXXX');this.textContent='✓';setTimeout(()=>this.textContent='⎘',1800)" style="background:transparent;border:none;color:#aaa;font-size:14px;cursor:pointer;line-height:1;padding:0">⎘</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">IFSC</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-weight:700;font-size:15px;color:#f0f6e8">HDFC0001234</span>
+                  <button onclick="navigator.clipboard.writeText('HDFC0001234');this.textContent='✓';setTimeout(()=>this.textContent='⎘',1800)" style="background:transparent;border:none;color:#aaa;font-size:14px;cursor:pointer;line-height:1;padding:0">⎘</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card / Net Banking -->
+          <div style="background:#111614;border:1.5px solid rgba(201,169,122,0.2);border-radius:20px;padding:26px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px">
+              <div style="width:40px;height:40px;border-radius:10px;background:rgba(27,77,14,0.2);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4D0E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;font-size:16px;color:#f0f6e8">Card / Net Banking</div>
+                <div style="font-size:12.5px;color:#7a8a6f">Visa, Mastercard, RuPay, <span style="color:#1B4D0E;font-weight:600">all major banks</span></div>
+              </div>
+            </div>
+            <p style="color:#cbdcc5;font-size:13.5px;margin:0 0 14px;line-height:1.55">Click <strong>"Pay Securely"</strong> on the left to complete your enrollment via our Razorpay-secured checkout. All card types and net banking options are available at checkout.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">VISA</span>
+              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">Mastercard</span>
+              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">RuPay</span>
+              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">Net Banking</span>
+              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">EMI</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAZORPAY SIMULATED CHECKOUT MODAL -->
+  <div id="razorpay-modal" class="payment-modal-backdrop">
+    <div class="payment-modal-content">
+      <!-- Modal Header -->
+      <div style="background:#1B4D0E;padding:24px;color:#fff;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Logo" style="height:38px;width:auto">
+          <div>
+            <div style="font-weight:800;font-size:16px">Taxila Academy</div>
+            <div style="font-size:11.5px;color:#cfe0c4">Course Enrollment Payment</div>
+          </div>
+        </div>
+        <button id="close-payment-btn" style="background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modal-gateway-body" style="padding:28px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;border-bottom:1px solid #f0f0f0;padding-bottom:14px">
+          <span style="font-weight:600;color:#cbdcc5;font-size:14.5px">Amount to Pay</span>
+          <strong style="font-size:20px;color:#1B4D0E">₹ <span id="modal-price">9,999</span></strong>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px">Card Payment Details</div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
+          <div>
+            <input type="text" id="card-number" placeholder="Card Number (4000 1234 5678 9010)" style="width:100%;padding:12px;border:1px solid #e0ecd8;border-radius:8px;outline:none;font-size:14px">
+          </div>
+          <div style="display:flex;gap:12px">
+            <input type="text" id="card-expiry" placeholder="MM/YY" style="width:50%;padding:12px;border:1px solid #e0ecd8;border-radius:8px;outline:none;font-size:14px">
+            <input type="password" id="card-cvv" placeholder="CVV" style="width:50%;padding:12px;border:1px solid #e0ecd8;border-radius:8px;outline:none;font-size:14px">
+          </div>
+        </div>
+
+        <button id="modal-pay-submit" style="width:100%;background:#F5B800;color:#0A1F05;font-weight:800;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='#e5ab00'" onmouseout="this.style.background='#F5B800'">Simulate Payment</button>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;color:#9fb594;font-size:11.5px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Secured by Razorpay checkout
+        </div>
+      </div>
+
+      <!-- Simulated Loading Overlay -->
+      <div id="modal-loading-overlay" style="display:none;padding:50px 24px;text-align:center">
+        <div style="width:54px;height:54px;border:4.5px solid #e0ecd8;border-top-color:#1B4D0E;border-radius:50%;animation:cardMarquee 1s linear infinite;margin:0 auto 20px"></div>
+        <div style="font-weight:700;font-size:16px;color:#f0f6e8" id="modal-loading-txt">Connecting to bank server...</div>
+        <div style="font-size:13px;color:#7a8a6f;margin-top:6px">Please do not refresh or hit the back button.</div>
+      </div>
+
+      <!-- Simulated Success Screen -->
+      <div id="modal-success-screen" style="display:none;padding:50px 24px;text-align:center">
+        <div style="width:68px;height:68px;border-radius:50%;background:rgba(27,77,14,0.25);border:2px solid rgba(201,169,122,0.4);color:#C9A97A;display:inline-flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;margin-bottom:20px;box-shadow:0 6px 24px rgba(0,0,0,0.5);animation:checkAnimation 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both">&checkmark;</div>
+        <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:24px;color:#C9A97A;margin:0 0 8px">Payment Successful!</h3>
+        <p style="color:#cbdcc5;font-size:15px;margin:0 0 10px">Cadet admission processed. Course content unlocked.</p>
+        <p id="rzp-payment-id-display" style="color:rgba(232,213,176,0.4);font-size:12px;font-family:monospace;word-break:break-all"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. PREMIUM CONTENT ACCESS (Locked by default, shown after payment) -->
+  <section id="premium-content" style="display:none;background:#090c0a;padding:90px clamp(18px,4vw,56px);border-top:3px solid #C9A97A;scroll-margin-top:80px">
+    <div style="max-width:1180px;margin:0 auto">
+      
+      <!-- Unlock Banner -->
+      <div style="background:linear-gradient(135deg, #1B4D0E, #0A1F05);border-radius:24px;padding:38px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;box-shadow:0 12px 30px rgba(10,31,5,0.12);margin-bottom:48px">
+        <div>
+          <div style="display:inline-block;background:#F5B800;color:#0A1F05;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:0.06em">Unlocked Status</div>
+          <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:28px;margin:8px 0 4px">Welcome Cadet! Premium Content Unlocked</h2>
+          <p style="color:#cfe0c4;font-size:14.5px;margin:0">Access study materials, mock papers, recorded class lectures below.</p>
+        </div>
+        <span style="font-size:62px;line-height:1;user-select:none">🎖️</span>
+      </div>
+
+      <!-- Student Dashboard Stats Strip -->
+      <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;color:#0A1F05;margin:0 0 20px">Student Dashboard Metrics</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:48px">
+        <div class="premium-dash-card">
+          <div style="color:#7a8a6f;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Course Progress</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:32px;color:#1B4D0E;margin:10px 0 6px">0 %</div>
+          <div style="width:100%;height:6px;background:#e0ecd8;border-radius:4px;overflow:hidden"><div style="width:0;height:100%;background:#F5B800"></div></div>
+        </div>
+        <div class="premium-dash-card">
+          <div style="color:#7a8a6f;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Assignments Completed</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:32px;color:#1B4D0E;margin:10px 0">0 / 24</div>
+          <div style="font-size:12.5px;color:#7a8a6f">Next assignment due on Wednesday</div>
+        </div>
+        <div class="premium-dash-card">
+          <div style="color:#7a8a6f;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Weekly Mock Tests</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:32px;color:#1B4D0E;margin:10px 0">0 / 12</div>
+          <div style="font-size:12.5px;color:#7a8a6f">First mock test opens Sunday morning</div>
+        </div>
+        <div class="premium-dash-card">
+          <div style="color:#7a8a6f;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Global Batch Rank</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:32px;color:#1B4D0E;margin:10px 0"># 142</div>
+          <div style="font-size:12.5px;color:#7a8a6f">Updated live post mock test scores</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Columns: Recorded Classes | Notes | Tests -->
+      <div style="display:flex;flex-wrap:wrap;gap:40px">
+        
+        <!-- Col 1: Recorded Video Classes -->
+        <div style="flex:1 1 380px;min-width:300px">
+          <h4 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#0A1F05;margin:0 0 18px">Recorded Video Classes</h4>
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <!-- Video 1 -->
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:16px;overflow:hidden;display:flex;gap:14px;align-items:center;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3)">
+              <div style="flex:none;width:100px;aspect-ratio:16/10;border-radius:10px;background:#0A1F05;position:relative;display:flex;align-items:center;justify-content:center">
+                <span style="width:28px;height:28px;border-radius:50%;background:#F5B800;display:flex;align-items:center;justify-content:center;color:#0A1F05;font-size:11px">&blacktriangleright;</span>
+              </div>
+              <div>
+                <h5 style="font-size:14.5px;font-weight:700;color:#f0f6e8;margin:0 0 4px">Lecture 01: Welcome &amp; Strategy</h5>
+                <span style="color:#7a8a6f;font-size:12px">Duration: 42 mins &bull; Orientation</span>
+              </div>
+            </div>
+            <!-- Video 2 -->
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:16px;overflow:hidden;display:flex;gap:14px;align-items:center;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3)">
+              <div style="flex:none;width:100px;aspect-ratio:16/10;border-radius:10px;background:#0A1F05;position:relative;display:flex;align-items:center;justify-content:center">
+                <span style="width:28px;height:28px;border-radius:50%;background:#F5B800;display:flex;align-items:center;justify-content:center;color:#0A1F05;font-size:11px">&blacktriangleright;</span>
+              </div>
+              <div>
+                <h5 style="font-size:14.5px;font-weight:700;color:#f0f6e8;margin:0 0 4px">Lecture 02: Speed Arithmetic Tricks</h5>
+                <span style="color:#7a8a6f;font-size:12px">Duration: 58 mins &bull; Mathematics</span>
+              </div>
+            </div>
+            <!-- Video 3 -->
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:16px;overflow:hidden;display:flex;gap:14px;align-items:center;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3)">
+              <div style="flex:none;width:100px;aspect-ratio:16/10;border-radius:10px;background:#0A1F05;position:relative;display:flex;align-items:center;justify-content:center">
+                <span style="width:28px;height:28px;border-radius:50%;background:#F5B800;display:flex;align-items:center;justify-content:center;color:#0A1F05;font-size:11px">&blacktriangleright;</span>
+              </div>
+              <div>
+                <h5 style="font-size:14.5px;font-weight:700;color:#f0f6e8;margin:0 0 4px">Lecture 03: Verbal Reasoning Patterns</h5>
+                <span style="color:#7a8a6f;font-size:12px">Duration: 50 mins &bull; Intelligence Test</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Study Materials & PDF Notes -->
+        <div style="flex:1 1 300px;min-width:260px">
+          <h4 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#0A1F05;margin:0 0 18px">Study Material (PDF Notes)</h4>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Math Syllabus Formula Sheet</div>
+                <div style="font-size:11.5px;color:#7a8a6f">File: PDF &bull; 2.4 MB</div>
+              </div>
+              <button class="pdf-btn" style="background:#1B4D0E;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer">Get PDF</button>
+            </div>
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Reasoning Tricks Chapter 01</div>
+                <div style="font-size:11.5px;color:#7a8a6f">File: PDF &bull; 1.8 MB</div>
+              </div>
+              <button class="pdf-btn" style="background:#1B4D0E;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer">Get PDF</button>
+            </div>
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">AISSEE Mock Test Paper 1</div>
+                <div style="font-size:11.5px;color:#7a8a6f">File: PDF &bull; 800 KB</div>
+              </div>
+              <button class="pdf-btn" style="background:#1B4D0E;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer">Get PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 3: Practice Tests & Quizzes -->
+        <div style="flex:1 1 300px;min-width:260px">
+          <h4 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#0A1F05;margin:0 0 18px">Tests &amp; Mock Exams</h4>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Mock Test 01 (Grand Syllabus)</div>
+                <div style="font-size:11.5px;color:#7a8a6f">Time: 180 mins &bull; 150 questions</div>
+              </div>
+              <button style="background:#F5B800;color:#0A1F05;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:pointer">Start Now</button>
+            </div>
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Verbal Ability Quiz 01</div>
+                <div style="font-size:11.5px;color:#7a8a6f">Time: 30 mins &bull; 25 questions</div>
+              </div>
+              <button style="background:#F5B800;color:#0A1F05;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:pointer">Start Now</button>
+            </div>
+            <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between;opacity:0.6">
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Full Mock Test 02</div>
+                <div style="font-size:11.5px;color:#7a8a6f">Available: Monday 09:00 AM</div>
+              </div>
+              <span style="font-size:13px;font-weight:700;color:#7a8a6f">Locked</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#0A1F05;padding:48px 24px 34px;text-align:center;border-top:1px solid rgba(255,255,255,.08)">
+    <div style="display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:18px">
+      <span style="width:40px;height:40px;border-radius:11px;background:#F5B800;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#0A1F05" stroke-width="1.9"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" stroke-linejoin="round"/></svg></span>
+      <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:20px;color:#fff">Taxila Academy</span>
+    </div>
+    <span style="color:#7a8a6f;font-size:13px;display:block">© 2026 Taxila Academy, Ravulapalem. All rights reserved.</span>
+  </footer>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const root = document.getElementById('taxila-details-root');
+    if (!root) return;
+
+    // Detailed Course Data Map covering all 9 academy streams
+    const courseData = {
+      sainik: {
+        title: "Sainik School Entrance Coaching",
+        tagline: "All-India Sainik Schools Entrance Examination (AISSEE)",
+        bannerColor: "linear-gradient(135deg, #1B4D0E 0%, #0A1F05 100%)",
+        duration: "12 Months Regular Program",
+        fee: "9,999",
+        subjects: [
+          { name: "Mathematics", desc: "Fractions, decimals, unitary method, ratio, algebra." },
+          { name: "Intelligence Test", desc: "Logical reasoning, analogies, patterns, classification." },
+          { name: "English Grammar", desc: "Noun, pronoun, active-passive, direct-indirect, vocabulary." },
+          { name: "General Knowledge", desc: "Basic science, geography, historical timeline, current events." },
+          { name: "Social Studies", desc: "Constitution of India, freedom struggle, environmental awareness." },
+          { name: "Interview Preparation", desc: "Viva-voce practice, personality building, physical drills." }
+        ],
+        books: [
+          "AISSEE Math Master", "Sainik GK Manual", "Arihant AISSEE Guide",
+          "RS Aggarwal Arithmetic", "Taxila Practice Sheets", "Verbal Reasoning Workbook"
+        ],
+        studentTestimonials: [
+          { name: "Ananya K.", text: "The daily mock tests made the real AISSEE paper feel easy. I secured state Rank 12!", sub: "JNVST & AISSEE Selected" },
+          { name: "Akhil S.", text: "Taxila's short mathematical tricks saved me a lot of time in the actual exam.", sub: "Class 6 Selected" }
+        ],
+        parentTestimonials: [
+          { name: "Ramesh Rao", text: "The discipline they teach along with academics is remarkable. My son got selected in first attempt.", sub: "Father of Akhil" },
+          { name: "Sita Kumari", text: "Weekly scorecards and analysis reports helped us monitor her weak areas in real time.", sub: "Mother of Ananya" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Foundation Sprint", desc: "Build strong basics in Mathematics, English, General Knowledge, and Intelligence with concept videos and diagnostic tests." },
+          { month: "Month 3–5", title: "Core Syllabus", desc: "Complete chapter-wise live classes, weekly mock tests, and dedicated doubt-solving sessions with school entrance mentors." },
+          { month: "Month 6–8", title: "Advanced Application", desc: "Master higher-order problem-solving, intelligence test reasoning shortcuts, and detailed personal performance reviews." },
+          { month: "Month 9–10", title: "Full Mock Series", desc: "20+ full-length AISSEE mock exams with state-wide rank predictions, error analysis, and targeted improvement plans." }
+        ]
+      },
+      navodaya: {
+        title: "Navodaya Selection Coaching",
+        tagline: "Jawahar Navodaya Vidyalaya Selection Test (JNVST)",
+        bannerColor: "linear-gradient(135deg, #023E8A 0%, #0077B6 100%)",
+        duration: "12 Months Regular Program",
+        fee: "8,999",
+        subjects: [
+          { name: "Mental Ability Test", desc: "Pattern completion, figure matching, spatial visualization." },
+          { name: "Arithmetic Section", desc: "Number system, LCM/HCF, speed-distance-time, decimals." },
+          { name: "Language Test", desc: "Reading comprehension passages, grammar, word definitions." },
+          { name: "Geometrical Figures", desc: "Triangle, square and circle completion exercises." },
+          { name: "Punch Hold Pattern", desc: "Paper folding, cutting, unfold reconstruction logic." },
+          { name: "Speed Mock Sessions", desc: "Weekly full-length practice under real exam timelines." }
+        ],
+        books: [
+          "JNVST Mental Ability Kit", "JNVST Arithmetic Booster", "Arihant JNVST Guide",
+          "Vidhya Sagar JNVST", "Taxila Figure Practice", "Class 5 Arithmetic Guides"
+        ],
+        studentTestimonials: [
+          { name: "Sri Priya", text: "The figure reasoning questions in JNVST were exactly like what we practiced at Taxila.", sub: "Selected Class 6 JNV" },
+          { name: "Nikhil V.", text: "Telugu comprehension worksheets helped me score full marks in the language test.", sub: "Selected JNV 2024" }
+        ],
+        parentTestimonials: [
+          { name: "Venkata Raman", text: "Securing a free seat at JNV was a dream for us. Taxila's faculty made it achievable.", sub: "Father of Sri Priya" },
+          { name: "Srinivas Rao", text: "Excellent residential care and preparation methods specifically for regional rural students.", sub: "Father of Nikhil" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Foundation Sprint", desc: "Learn primary mental ability patterns, number system fundamentals, and basic language reading skills." },
+          { month: "Month 3–5", title: "Core Syllabus", desc: "Complete full JNVST syllabus chapter-by-chapter with interactive visual guides and daily practice sheets." },
+          { month: "Month 6–8", title: "Advanced Application", desc: "Practice spatial visualization, figure matching, and quick arithmetic shortcuts with our expert mentors." },
+          { month: "Month 9–10", title: "Full Mock Series", desc: "20+ full-length JNVST mock exams, speed practice runs, and error correction worksheets to secure selection." }
+        ]
+      },
+      nda: {
+        title: "NDA Foundation Course",
+        tagline: "National Defence Academy Officers Cadet Prep",
+        bannerColor: "linear-gradient(135deg, #142a0f 0%, #091304 100%)",
+        duration: "24 Months Integrated Course",
+        fee: "14,999",
+        subjects: [
+          { name: "Algebra & Calculus", desc: "Sets, relations, functions, limits, integration." },
+          { name: "Trigonometry & Vectors", desc: "Identities, inverse trigonometry, 3D coordinate geometry." },
+          { name: "English Comprehension", desc: "Vocabulary, grammar, spotting errors, reading tests." },
+          { name: "Physics & Chemistry", desc: "Mechanics, thermodynamics, electrostatics, basic compounds." },
+          { name: "History & Polity", desc: "Indian constitution, world history, geography maps." },
+          { name: "SSB Interview Prep", desc: "Psychology tests, group tasks, lecturette, physical fitness." }
+        ],
+        books: [
+          "Taxila NDA Math Guide", "Defence General Studies", "Pathfinder NDA/NA",
+          "SSB OIR Masterclass", "Wren & Martin English", "Objective Physics Cadet"
+        ],
+        studentTestimonials: [
+          { name: "Manoj T.", text: "The mathematics integration sheets and physics concepts built a very solid base.", sub: "NDA Written Qualifier" },
+          { name: "Varun R.", text: "Physical grooming and daily current affairs lectures prepare you completely for the SSB.", sub: "SSB Phase 1 Qualifier" }
+        ],
+        parentTestimonials: [
+          { name: "Col. K. Prasad (Retd.)", text: "Character development is focus #1 here. Essential for candidates aiming for defence leadership.", sub: "Father of Manoj" },
+          { name: "Vijay Lakshmi", text: "Integrated school support meant my son didn't have to stress about normal boards.", sub: "Mother of Varun" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Foundation Sprint", desc: "Revise intermediate mathematics, basic English grammar, and fundamental physics/chemistry concepts." },
+          { month: "Month 3–5", title: "Core Syllabus", desc: "In-depth coverage of NDA written exam syllabus: Algebra, Calculus, General Studies, and daily current affairs." },
+          { month: "Month 6–8", title: "Advanced Application", desc: "Solve higher-order problems, vector math, and attend regular SSB interview grooming sessions." },
+          { month: "Month 9–10", title: "Full Mock Series", desc: "20+ full-length UPSC NDA mock tests with rank estimations, feedback loops, and final revision sprints." }
+        ]
+      },
+      gurukulam: {
+        title: "AP Gurukulam Coaching",
+        tagline: "APGPCET Residential Entrance Coaching",
+        bannerColor: "linear-gradient(135deg, #1d3c13 0%, #0b1a07 100%)",
+        duration: "12 Months Regular Program",
+        fee: "7,999",
+        subjects: [
+          { name: "Telugu Grammar", desc: "Sandhulu, samasalu, synonyms, traditional literature." },
+          { name: "English Vocabulary", desc: "Parts of speech, singular-plural, opposite words." },
+          { name: "Arithmetic Basics", desc: "Four basic operations, simple fractions, calendar problems." },
+          { name: "Environmental Studies", desc: "Human body systems, environmental pollution, local geography." },
+          { name: "Social Awareness", desc: "Civic duties, national festivals, basic historic timelines." },
+          { name: "Doubt Practicing", desc: "Individual attention to improve slow-reading students." }
+        ],
+        books: [
+          "APGPCET Master Guide", "Gurukulam Math Practice", "EVS Primary Textbook",
+          "Telugu Bhasha Workbook", "Taxila Language Sheets", "Basic GK Cards"
+        ],
+        studentTestimonials: [
+          { name: "Satish Kumar", text: "Daily tests and language worksheets helped me secure a high score in APGPCET.", sub: "AP Gurukulam Selected" },
+          { name: "M. Durga", text: "I learned EVS topics so easily with the visual examples shown in Taxila class.", sub: "Gurukulam Scholar" }
+        ],
+        parentTestimonials: [
+          { name: "Appa Rao", text: "A residential seat in AP Gurukulam saved our family from high educational expenses.", sub: "Father of Satish" },
+          { name: "Padmavati G.", text: "I highly recommend their primary guidance team. They teach kids with a lot of patience.", sub: "Mother of Durga" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Foundation Sprint", desc: "Strengthen Telugu and English grammar basics, and primary arithmetic operations." },
+          { month: "Month 3–5", title: "Core Syllabus", desc: "Complete study of APGPCET exam topics: Environmental Studies, Social Awareness, and language skills." },
+          { month: "Month 6–8", title: "Advanced Application", desc: "Practice reading comprehension, speed arithmetic, and logical reasoning puzzles." },
+          { month: "Month 9–10", title: "Full Mock Series", desc: "20+ APGPCET mock tests with personal score analysis to guarantee a free residential seat." }
+        ]
+      },
+      rms: {
+        title: "RMS Coaching (CET)",
+        tagline: "Rashtriya Military Schools Common Entrance Test",
+        bannerColor: "linear-gradient(135deg, #0e240a 0%, #040e02 100%)",
+        duration: "12 Months Regular Program",
+        fee: "9,999",
+        subjects: [
+          { name: "Mathematics Section", desc: "Percentage, average, profit-loss, geometry formulas." },
+          { name: "English Language", desc: "Grammar, spelling corrections, synonyms-antonyms." },
+          { name: "Intelligence Test", desc: "Logical series, coding-decoding, direction sense." },
+          { name: "General Knowledge", desc: "Static GK, global capitals, sports awards, discoveries." },
+          { name: "SSB Interview & Viva", desc: "Mock panels, speaking exercises, confidence training." },
+          { name: "Physical Conditioning", desc: "Basic running, exercises, and military protocol." }
+        ],
+        books: [
+          "RMS CET Master Guide", "Reasoning & Logic Master", "Arihant Military School",
+          "GK Capsule 2025", "Taxila Mock Paper Book", "SSB Interview Guide"
+        ],
+        studentTestimonials: [
+          { name: "Nikhil V.", text: "The English mock vocabulary matches the real RMS CET exam paper exactly.", sub: "RMS Belgaum Selected" },
+          { name: "K. Rohit", text: "The physical conditioning combined with daily mocks prepared me for the actual school life.", sub: "RMS Chail Selected" }
+        ],
+        parentTestimonials: [
+          { name: "Sujatha K.", text: "Weekly scorecards helped us focus on math which was her weak subject.", sub: "Mother of K. Rohit" },
+          { name: "Lt. Col. S. Dev (Retd.)", text: "Perfect alignment to the military school standards. Top-notch preparation.", sub: "Father of Nikhil" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Foundation Sprint", desc: "Master basic arithmetic formulas, coding-decoding, and static general knowledge facts." },
+          { month: "Month 3–5", title: "Core Syllabus", desc: "Full RMS CET syllabus coverage with weekly test runs and structured verbal/non-verbal reasoning modules." },
+          { month: "Month 6–8", title: "Advanced Application", desc: "Attend military protocol sessions, speaking drills, and advanced analytical reasoning masterclasses." },
+          { month: "Month 9–10", title: "Full Mock Series", desc: "20+ full-length RMS mock exams with negative marking simulations and feedback workshops." }
+        ]
+      },
+      rimc: {
+        title: "RIMC Entrance coaching",
+        tagline: "Rashtriya Indian Military College Admission Prep",
+        bannerColor: "linear-gradient(135deg, #1b3811 0%, #0a1707 100%)",
+        duration: "12 Months Regular Program",
+        fee: "11,999",
+        subjects: [
+          { name: "Subjective Math", desc: "Written step-by-step arithmetic, geometry proofs, algebra." },
+          { name: "English Writing", desc: "Essay writing, letter writing, story drafting, advanced vocabulary." },
+          { name: "General Knowledge", desc: "History, defense sciences, geography, world conventions." },
+          { name: "Viva-Voce Guidance", desc: "Panel mock interviews, confidence training, current events debate." },
+          { name: "Advanced Analytical Skill", desc: "Pattern analysis, advanced verbal and non-verbal logic." },
+          { name: "Syllabus Revision", desc: "Comprehensive testing of previous 20 years subjective papers." }
+        ],
+        books: [
+          "RIMC English Composition", "RIMC Advanced Mathematics", "General Knowledge Cadet",
+          "Viva Preparation Guide", "Taxila Past Papers", "SSB OIR Cadet Pack"
+        ],
+        studentTestimonials: [
+          { name: "Vikram S.", text: "Subjective math was difficult, but teachers guided me on how to write steps for full marks.", sub: "Selected RIMC Dehradun" },
+          { name: "Amit Kumar", text: "Mock viva Voce sessions helped me clear the final round with flying colors.", sub: "RIMC Merit List" }
+        ],
+        parentTestimonials: [
+          { name: "Dr. K. Srinivas", text: "RIMC is extremely competitive. Taxila Academy has the proper experience and standard.", sub: "Father of Vikram" },
+          { name: "Savitri Devi", text: "Highly dedicated staff. They work individually on the child's speaking and writing habits.", sub: "Mother of Amit" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Foundation Sprint", desc: "Practice step-by-step subjective arithmetic writing and build primary essay composition habits." },
+          { month: "Month 3–5", title: "Core Syllabus", desc: "Advanced subjective Math proofs, English story drafting, and world general knowledge manual study." },
+          { month: "Month 6–8", title: "Advanced Application", desc: "Take part in panel mock interviews, RIMC viva prep, and advanced analytical logical tests." },
+          { month: "Month 9–10", title: "Full Mock Series", desc: "20+ full-length RIMC past subjective papers under real-pattern exam conditions." }
+        ]
+      },
+      foundation23: {
+        title: "2nd & 3rd Class Foundation",
+        tagline: "Cognitive Skill & English Foundation Course",
+        bannerColor: "linear-gradient(135deg, #25441b 0%, #0f210a 100%)",
+        duration: "12 Months School Foundation",
+        fee: "5,999",
+        subjects: [
+          { name: "Mental Arithmetic", desc: "Tables, quick addition-subtraction, arithmetic puzzles." },
+          { name: "Phonics & Pronunciation", desc: "Correct reading habits, spelling rules, phonetics." },
+          { name: "Basic Analytical Aptitude", desc: "Odd-one-out, simple pattern series, grouping figures." },
+          { name: "Spoken English Skills", desc: "Constructing small sentences, conversational vocabulary." },
+          { name: "General Awareness", desc: "Our environment, national symbols, basic plants/animals." },
+          { name: "Writing Practice", desc: "Cursive writing, clean presentation, correct punctuation." }
+        ],
+        books: [
+          "Taxila Kid's Math Book", "Phonics Reader Vol 1", "Junior Logic Puzzles",
+          "Spoken English Guide", "Environmental Awareness", "Junior Handwriting Book"
+        ],
+        studentTestimonials: [
+          { name: "Aaradhya G.", text: "I love the GK quizzes and color puzzle games we play in our class.", sub: "Class 3 Student" },
+          { name: "V. Karthik", text: "Multiplication tables are easy now. I can tell up to 20 tables very fast.", sub: "Class 2 Student" }
+        ],
+        parentTestimonials: [
+          { name: "Prasanna", text: "My daughter's cursive writing and spelling habits improved within a few months of joining.", sub: "Mother of Aaradhya" },
+          { name: "Koteswara Rao", text: "Strong cognitive base. Helps the child transition to competitive classes easily.", sub: "Father of Karthik" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Cognitive Sprint", desc: "Practice basic mental arithmetic (tables up to 10), phonics reading, and simple drawing puzzles." },
+          { month: "Month 3–5", title: "Language & Logic", desc: "Build spoken English confidence, sentence construction, and odd-one-out pattern recognition." },
+          { month: "Month 6–8", title: "General Awareness", desc: "Learn environmental science basics, plant/animal life cycles, and cursive writing practice." },
+          { month: "Month 9–10", title: "Creative Review", desc: "Fun GK quizzes, logical games, and interactive assessments to celebrate learning progress." }
+        ]
+      },
+      foundation45: {
+        title: "4th & 5th Class Foundation",
+        tagline: "Primary Math & Reasoning Bridge Course",
+        bannerColor: "linear-gradient(135deg, #1b3e15 0%, #0a1b08 100%)",
+        duration: "12 Months School Foundation",
+        fee: "6,999",
+        subjects: [
+          { name: "Quantitative Basics", desc: "Fractions, calendar math, simple unit conversions." },
+          { name: "Logical Reasoning Intro", desc: "Figure matrices, blood relations, coding series." },
+          { name: "General Science Concepts", desc: "States of matter, water cycle, plant classification." },
+          { name: "Grammar Fundamentals", desc: "Nouns, pronouns, tenses, sentence correction drills." },
+          { name: "General Knowledge Drills", desc: "Indian rivers, state capitals, historical leaders." },
+          { name: "Spoken & Writing Skill", desc: "Paragraph writing, story summary, spoken dialogues." }
+        ],
+        books: [
+          "Aptitude Junior Part 1", "Science Concepts Junior", "Primary Grammatika",
+          "Arithmetic Bridge Book", "GK Digest Primary", "Taxila Workbook Kit"
+        ],
+        studentTestimonials: [
+          { name: "Varun P.", text: "Solving puzzles and math sums is like a game now. I enjoy my studies.", sub: "Class 5 Student" },
+          { name: "Deepa S.", text: "The logical reasoning classes are my favorite. I score full marks in mocks.", sub: "Class 4 Student" }
+        ],
+        parentTestimonials: [
+          { name: "Narayana K.", text: "Perfect bridge program. Clears JNVST and Sainik school entrance basics beforehand.", sub: "Father of Varun" },
+          { name: "Lata Rani", text: "My daughter became very independent with homework after joining Taxila's daily sessions.", sub: "Mother of Deepa" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Bridge Sprint", desc: "Learn quantitative basics (fractions, calendar math) and primary grammatical tenses." },
+          { month: "Month 3–5", title: "Reasoning Intro", desc: "Study figure matrices, blood relations, tenses, and general science classification." },
+          { month: "Month 6–8", title: "Advanced Writing", desc: "Practice paragraph composition, reading comprehension, and basic general knowledge drills." },
+          { month: "Month 9–10", title: "Prep Readiness", desc: "Mock tests tailored for school exams and future competitive selection test baselines." }
+        ]
+      },
+      foundation6: {
+        title: "6th Class Foundation",
+        tagline: "IIT-JEE / NEET & Olympiad Bridge Program",
+        bannerColor: "linear-gradient(135deg, #13320c 0%, #071703 100%)",
+        duration: "12 Months Bridge Program",
+        fee: "7,999",
+        subjects: [
+          { name: "Algebra & Number Theory", desc: "Integers, exponents, basic linear equations, divisibility." },
+          { name: "Basic Geometry", desc: "Angles, triangles, perimeter & area formulas." },
+          { name: "Physics Fundamentals", desc: "Force, motion, friction, light reflection basics." },
+          { name: "Chemistry Concepts", desc: "Elements, compounds, physical-chemical changes." },
+          { name: "Biology Core", desc: "Cell structure basics, classification of organisms." },
+          { name: "Olympiad Aptitude", desc: "High-level logical reasoning, data sufficiency." }
+        ],
+        books: [
+          "Class 6 Olympiad Math", "Bridge Physics & Chem", "Biology Concept Book",
+          "Linear Algebra Junior", "Logical Reasoning Guide", "Taxila Bridge Papers"
+        ],
+        studentTestimonials: [
+          { name: "Deepika R.", text: "The math Olympiad booklets helped me secure state level Rank 3 in Olympiad.", sub: "Class 6 Scholar" },
+          { name: "T. Aditya", text: "Science topics are explained with drawings which makes them very simple.", sub: "Class 6 Student" }
+        ],
+        parentTestimonials: [
+          { name: "V. Satyanarayana", text: "An excellent bridge. It prepares children for high school IIT streams without burden.", sub: "Father of Deepika" },
+          { name: "Meenakshi K.", text: "My son's analytic skills became very sharp. He is performing top in standard school too.", sub: "Mother of T. Aditya" }
+        ],
+        journeyTimeline: [
+          { month: "Month 1–2", title: "Olympiad Sprint", desc: "Cover basic algebra (exponents, linear equations) and fundamental physics/chemistry laws." },
+          { month: "Month 3–5", title: "JEE/NEET Bridge", desc: "Learn basic cell structure, chemical compounds, geometry formulas, and advanced reasoning." },
+          { month: "Month 6–8", title: "Advanced Science", desc: "Practice Olympiad level math, light reflection, force/motion, and data sufficiency exercises." },
+          { month: "Month 9–10", title: "Mock Challenge", desc: "Simulated Olympiad exams, feedback reports, and personal speed-building mentorship." }
+        ]
+      }
+    };
+
+    // Render Dynamic Course View based on Hash
+    const renderCourse = () => {
+      const hash = window.location.hash.substring(1) || 'sainik';
+      const c = courseData[hash] || courseData.sainik;
+
+      // Reset payment premium display back to locked on course hash change
+      document.getElementById('premium-content').style.display = 'none';
+
+      // Update Hero Banner
+      const banner = root.querySelector('[data-banner]');
+      if (banner) banner.style.background = c.bannerColor;
+      
+      const titleEl = root.querySelector('[data-course-title]');
+      if (titleEl) titleEl.textContent = c.title;
+
+      const taglineEl = root.querySelector('[data-course-tagline]');
+      if (taglineEl) taglineEl.textContent = c.tagline;
+
+      // Update specs duration
+      const durationEls = root.querySelectorAll('[data-course-duration]');
+      durationEls.forEach(el => el.textContent = c.duration);
+
+      // Update Hero Pricing Banner
+      const feeNum = parseInt(c.fee.replace(/,/g, ''));
+      const originalFeeNum = Math.round(feeNum * 1.4); // approx 30% discount
+      const discountedFeeEl = root.querySelector('[data-hero-discounted-fee]');
+      const originalFeeEl = root.querySelector('[data-hero-original-fee]');
+      if (discountedFeeEl) discountedFeeEl.textContent = '₹' + c.fee;
+      if (originalFeeEl) originalFeeEl.textContent = '₹' + originalFeeNum.toLocaleString('en-IN');
+
+      // Update Hero Subjects Grid
+      const heroSubjectsGrid = root.querySelector('[data-hero-subjects-grid]');
+      if (heroSubjectsGrid) {
+        heroSubjectsGrid.innerHTML = '';
+        
+        // Define SVG icons for subjects
+        const subjectIcons = [
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="16"></line><line x1="15" y1="22" x2="15" y2="16"></line><line x1="4" y1="16" x2="20" y2="16"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="12" y1="2" x2="12" y2="12"></line></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2z"></path><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2z"></path></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a7 7 0 0 0-7 7c0 2.65 1.5 5 4 6.22V12h6v2.22a7 7 0 0 0 4-6.22 7 7 0 0 0-7-7z"></path></svg>`
+        ];
+
+        c.subjects.forEach((subj, idx) => {
+          const card = document.createElement('a');
+          card.href = '#subjects-section';
+          card.className = 'hero-subject-card';
+          card.innerHTML = `
+            <div class="card-top">
+              <div class="card-icon-wrapper">
+                ${subjectIcons[idx % subjectIcons.length]}
+              </div>
+              <div class="card-info">
+                <h4 class="card-title">${subj.name}</h4>
+                <p class="card-desc">${subj.desc}</p>
+              </div>
+            </div>
+            <div class="card-bottom">
+              <span class="card-demo-link">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="margin-right:2px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Demo
+              </span>
+              <span class="card-arrow">→</span>
+            </div>
+          `;
+          card.onclick = (e) => {
+            e.preventDefault();
+            const target = document.getElementById('subjects-section');
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          };
+          heroSubjectsGrid.appendChild(card);
+        });
+      }
+
+      // Update Learning Journey Timeline
+      const timelineStepsContainer = root.querySelector('#dynamic-timeline-steps');
+      if (timelineStepsContainer && c.journeyTimeline) {
+        timelineStepsContainer.innerHTML = '';
+        c.journeyTimeline.forEach((step, idx) => {
+          const item = document.createElement('div');
+          item.className = 'timeline-item reveal-node active';
+          
+          if (idx % 2 === 0) {
+            item.innerHTML = `
+              <div class="timeline-left-content">
+                <span class="timeline-badge-month">${step.month}</span>
+                <h3 class="timeline-heading">${step.title}</h3>
+              </div>
+              <div class="timeline-circle">${idx + 1}</div>
+              <div class="timeline-right-content">
+                <p class="timeline-desc">${step.desc}</p>
+              </div>
+            `;
+          } else {
+            item.innerHTML = `
+              <div class="timeline-left-content" style="text-align: left; grid-column: 2">
+                <span class="timeline-badge-month">${step.month}</span>
+                <h3 class="timeline-heading">${step.title}</h3>
+              </div>
+              <div class="timeline-circle">${idx + 1}</div>
+              <div class="timeline-right-content" style="text-align: right; grid-column: 1; grid-row: 1">
+                <p class="timeline-desc">${step.desc}</p>
+              </div>
+            `;
+          }
+          timelineStepsContainer.appendChild(item);
+        });
+      }
+
+      // Update Subjects
+      const subjectsContainer = root.querySelector('[data-subjects-container]');
+      if (subjectsContainer) {
+        subjectsContainer.innerHTML = '';
+        c.subjects.forEach(subject => {
+          const card = document.createElement('div');
+          card.className = 'subject-card reveal-node active';
+          card.innerHTML = `
+            <h4 style="font-family:'Playfair Display',serif;font-weight:800;font-size:20px;color:#1B4D0E;margin:0">${subject.name}</h4>
+            <p style="color:#cbdcc5;font-size:14.5px;line-height:1.5;margin:0">${subject.desc}</p>
+          `;
+          subjectsContainer.appendChild(card);
+        });
+      }
+
+      // Update Books
+      const booksGrid = root.querySelector('[data-books-grid]');
+      if (booksGrid) {
+        booksGrid.innerHTML = '';
+        c.books.forEach((bookName) => {
+          const bookCol = document.createElement('div');
+          bookCol.className = 'book-3d-wrapper reveal-node active';
+          
+          bookCol.innerHTML = `
+            <div class="book-3d-card" style="background: ${c.bannerColor}">
+              <div class="book-spine-glow"></div>
+              <span style="font-size:10px;font-weight:800;letter-spacing:.08em;color:#F5B800;text-transform:uppercase">${c.title.split(' ')[0]}</span>
+              <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:14px;line-height:1.2;margin:10px 0">${bookName}</span>
+              <span style="font-size:9px;color:#cfe0c4">Taxila Academy</span>
+            </div>
+          `;
+          booksGrid.appendChild(bookCol);
+        });
+      }
+
+      // Update Fee Text (all data-course-fee elements including payment section)
+      const feeEls = root.querySelectorAll('[data-course-fee]');
+      feeEls.forEach(el => el.textContent = c.fee);
+
+      // Update course title in payment section
+      const payTitleEls = root.querySelectorAll('[data-pay-course-title]');
+      payTitleEls.forEach(el => el.textContent = c.title);
+
+      // Render Testimonials Grid
+      const renderTestimonials = (type) => {
+        const testimonialsGrid = root.querySelector('[data-testimonials-grid]');
+        if (!testimonialsGrid) return;
+        testimonialsGrid.innerHTML = '';
+
+        const list = (type === 'parents') ? c.parentTestimonials : c.studentTestimonials;
+        const unsplashMocks = [
+          "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80"
+        ];
+
+        list.forEach((t, index) => {
+          const tCard = document.createElement('div');
+          tCard.className = 'reveal-node active';
+          tCard.style.background = '#111614';
+          tCard.style.border = '1px solid rgba(201,169,122,0.18)';
+          tCard.style.borderRadius = '22px';
+          tCard.style.boxShadow = '0 16px 50px rgba(0,0,0,0.5)';
+          tCard.style.padding = '24px';
+          tCard.style.display = 'flex';
+          tCard.style.flexDirection = 'column';
+          tCard.style.gap = '20px';
+
+          tCard.innerHTML = `
+            <div class="video-testimonial-box" style="background-image:url('${unsplashMocks[index]}'); background-size:cover; background-position:center; cursor:pointer" onclick="this.innerHTML='<iframe width=100% height=100% src=https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1 frameborder=0 allow=autoplay allowfullscreen></iframe>'">
+              <div style="position:absolute;inset:0;background:rgba(10,31,5,0.45);z-index:1"></div>
+              <button style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:#F5B800;border:none;display:flex;align-items:center;justify-content:center;color:#0A1F05;cursor:pointer;z-index:2;box-shadow:0 4px 14px rgba(245,184,0,0.4)"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+              <div style="position:absolute;bottom:14px;left:14px;right:14px;z-index:2;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Click to play video</div>
+            </div>
+            <div>
+              <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:rgba(255,255,255,0.85);line-height:1.5;margin:0 0 14px">"${t.text}"</p>
+              <strong style="color:#C9A97A;font-size:15px;display:block">— ${t.name}</strong>
+              <span style="color:rgba(255,255,255,0.45);font-size:12.5px;display:block;margin-top:2px">${t.sub}</span>
+            </div>
+          `;
+          testimonialsGrid.appendChild(tCard);
+        });
+      };
+
+      // Set up Tab Listeners
+      const tabStudents = document.getElementById('tab-students');
+      const tabParents = document.getElementById('tab-parents');
+
+      if (tabStudents && tabParents) {
+        tabStudents.onclick = () => {
+          tabStudents.className = 't-tabactive';
+          tabParents.className = 't-tabinactive';
+          renderTestimonials('students');
+        };
+        tabParents.onclick = () => {
+          tabParents.className = 't-tabactive';
+          tabStudents.className = 't-tabinactive';
+          renderTestimonials('parents');
+        };
+      }
+
+      // Initial testimonial render (students)
+      renderTestimonials('students');
+    };
+
+    // Listen to hash changes and page loads
+    window.addEventListener('hashchange', renderCourse);
+    renderCourse();
+
+    // ---- Demo Form Submission ----
+    const bookBtn = document.getElementById('book-demo-btn');
+    const successMsg = document.getElementById('demo-success-msg');
+    if (bookBtn && successMsg) {
+      bookBtn.onclick = () => {
+        const nameVal = document.getElementById('demo-name').value;
+        const phoneVal = document.getElementById('demo-phone').value;
+        if (!nameVal || !phoneVal) {
+          alert('Please enter your name and phone number to request a demo class.');
+          return;
+        }
+        successMsg.style.display = 'block';
+        bookBtn.style.background = '#25803a';
+        bookBtn.textContent = 'Demo Requested ✓';
+        bookBtn.disabled = true;
+      };
+    }
+
+    // ---- RAZORPAY STANDARD CHECKOUT ----
+    const payBtn = document.getElementById('pay-btn');
+    const premiumSection = document.getElementById('premium-content');
+
+    function showPaymentSuccess(paymentId) {
+      // Show success screen in the existing modal overlay
+      const modal = document.getElementById('razorpay-modal');
+      const gatewayBody = document.getElementById('modal-gateway-body');
+      const loadingOverlay = document.getElementById('modal-loading-overlay');
+      const successScreen = document.getElementById('modal-success-screen');
+      if (modal && gatewayBody && loadingOverlay && successScreen) {
+        gatewayBody.style.display = 'none';
+        loadingOverlay.style.display = 'none';
+        successScreen.style.display = 'block';
+        modal.style.display = 'flex';
+        // Inject payment ID into success screen
+        const pidEl = document.getElementById('rzp-payment-id-display');
+        if (pidEl) pidEl.textContent = 'Payment ID: ' + paymentId;
+      }
+      // Unlock premium content after 1.8s
+      setTimeout(() => {
+        if (modal) modal.style.display = 'none';
+        if (premiumSection) {
+          premiumSection.style.display = 'block';
+          premiumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 1800);
+    }
+
+    if (payBtn) {
+      payBtn.onclick = function() {
+        const hash = window.location.hash.substring(1) || 'sainik';
+        const c = courseData[hash] || courseData.sainik;
+        const feeInPaise = parseInt(c.fee.replace(/,/g, ''), 10) * 100;
+        const courseName = c.title || 'Course Program';
+
+        const options = {
+          key: 'rzp_test_T2ZwXoWjV7kRSe',
+          amount: feeInPaise,
+          currency: 'INR',
+          name: 'Taxila Academy',
+          description: courseName + ' — Enrollment',
+          image: 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png',
+          theme: { color: '#1a56db' },
+          prefill: {},
+          notes: { course: hash },
+          modal: {
+            backdropclose: false,
+            ondismiss: function() {
+              // User closed the checkout — do nothing
+            }
+          },
+          handler: function(response) {
+            // Payment captured — response contains:
+            // razorpay_payment_id, razorpay_order_id (blank without backend), razorpay_signature
+            showPaymentSuccess(response.razorpay_payment_id);
+          }
+        };
+
+        if (typeof Razorpay === 'undefined') {
+          alert('Payment gateway failed to load. Please check your internet connection and try again.');
+          return;
+        }
+
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(response) {
+          alert('Payment failed: ' + (response.error.description || 'Unknown error') + '. Please try again.');
+        });
+        rzp.open();
+      };
+    }
+
+    // Close success overlay if user clicks outside
+    const closeBtn = document.getElementById('close-payment-btn');
+    if (closeBtn) {
+      closeBtn.onclick = function() {
+        const modal = document.getElementById('razorpay-modal');
+        if (modal) modal.style.display = 'none';
+      };
+    }
+
+    // ---- Get PDF Download Simulated Toast Notifications ----
+    const pdfButtons = root.querySelectorAll('.pdf-btn');
+    pdfButtons.forEach((btn, index) => {
+      btn.onclick = () => {
+        btn.textContent = "Downloading...";
+        btn.style.background = "#25803a";
+        setTimeout(() => {
+          btn.textContent = "Get PDF ✓";
+          btn.style.background = "#1B4D0E";
+          alert("File downloaded successfully to your device!");
+        }, 1000);
+      };
+    });
+
+    // ---- Reveal animation nodes ----
+    const reveals = root.querySelectorAll('.reveal-node');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('active');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

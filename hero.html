@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxila Academy — India's Premier Military School Coaching</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:      #f0eeea;
+  --dk-green:   #1a3a1a;
+  --md-green:   #2d6a2d;
+  --lt-green:   #e8f5e9;
+  --gold:       #c8a84b;
+  --gold-pale:  #f5edd8;
+  --red-rms:    #8b1a1a;
+  --text:       #1e2a1e;
+  --text-muted: #5a6b5a;
+  --white:      #ffffff;
+  --border:     rgba(26,58,26,0.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── HERO WRAPPER ─────────────────────────────────────────── */
+.hero-section {
+  background: var(--cream);
+  padding: 52px 52px 0;
+  max-width: 1380px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  min-height: 92vh;
+}
+
+/* ─── LEFT COLUMN ──────────────────────────────────────────── */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Eyebrow pill */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--dk-green);
+  color: var(--gold);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 18px 8px 12px;
+  border-radius: 100px;
+  width: fit-content;
+}
+.eyebrow-dot {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* Heading */
+.hero-h1 {
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+}
+.hero-h1 .w-black { color: #080808; }
+.hero-h1 .w-green { color: var(--md-green); }
+
+/* Sub text */
+.hero-sub {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-width: 470px;
+}
+.hero-sub strong { color: var(--dk-green); font-weight: 700; }
+
+/* CTA row */
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 14.5px; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  border: 2px solid transparent;
+  transition: all .22s cubic-bezier(.4,0,.2,1);
+  white-space: nowrap;
+  line-height: 1;
+}
+.btn-fill {
+  background: var(--dk-green); color: var(--white);
+  border-color: var(--dk-green);
+}
+.btn-fill:hover {
+  background: #0f2410; border-color: #0f2410;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(26,58,26,.30);
+}
+.btn-outline {
+  background: transparent; color: var(--dk-green);
+  border-color: var(--dk-green);
+}
+.btn-outline:hover {
+  background: var(--dk-green); color: var(--white);
+  transform: translateY(-2px);
+}
+.btn-arrow { transition: transform .18s; display: inline-block; }
+.btn-fill:hover .btn-arrow { transform: translateX(3px); }
+
+/* Divider + Stats */
+.stats-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+.stats-row {
+  display: flex; gap: 0;
+}
+.stat {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 4px;
+  padding-right: 28px;
+}
+.stat:not(:last-child) {
+  border-right: 1px solid var(--border);
+  margin-right: 28px;
+}
+.stat-num {
+  font-size: 26px; font-weight: 900;
+  color: var(--dk-green);
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.stat-num .accent { color: var(--gold); }
+.stat-label {
+  font-size: 10.5px; font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .9px;
+}
+
+/* ─── RIGHT COLUMN (MAP) ───────────────────────────────────── */
+.hero-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.map-card {
+  position: relative;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow:
+    0 1px 3px rgba(26,58,26,.05),
+    0 8px 24px rgba(26,58,26,.10),
+    0 28px 70px rgba(26,58,26,.13),
+    inset 0 0 0 1px rgba(200,168,75,.22);
+  width: 100%;
+  max-width: 490px;
+}
+
+#india-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Map legend */
+.map-legend {
+  position: absolute;
+  bottom: 38px; left: 38px;
+  background: var(--white);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 14px rgba(0,0,0,.10);
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 7px;
+  font-size: 11px; font-weight: 600; color: var(--text);
+}
+.legend-row { display: flex; align-items: center; gap: 8px; }
+.legend-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* Pin count badge */
+.map-badge {
+  position: absolute;
+  top: 38px; right: 38px;
+  background: var(--dk-green);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 10px 16px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(26,58,26,.38);
+}
+.badge-num {
+  display: block;
+  font-size: 26px; font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.badge-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  opacity: .75;
+  margin-top: 3px;
+}
+
+/* ─── SVG MAP STYLES ───────────────────────────────────────── */
+.india-ocean { fill: #dbeafe; }
+.india-land  {
+  fill: #e8f5e9;
+  stroke: #2d6a2d;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* ─── PIN PULSE ANIMATION ──────────────────────────────────── */
+@keyframes pulse-green {
+  0%   { transform: scale(1); opacity: .65; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+@keyframes pulse-red {
+  0%   { transform: scale(1); opacity: .65; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* ─── TOOLTIP ──────────────────────────────────────────────── */
+#tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .14s ease, transform .14s ease;
+  background: var(--dk-green);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 10px 14px 12px;
+  min-width: 160px; max-width: 210px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.30);
+}
+#tooltip.show { opacity: 1; transform: translateY(0); }
+.tt-name  { font-size: 13.5px; font-weight: 700; line-height: 1.3; }
+.tt-type  { font-size: 10px; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; margin-top: 3px; }
+.tt-state { font-size: 11.5px; opacity: .72; margin-top: 2px; }
+
+/* ─── STREAM CARDS ─────────────────────────────────────────── */
+.streams-wrap {
+  background: var(--dk-green);
+  margin-top: 0;
+}
+.streams-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 30px 52px 44px;
+}
+.streams-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  margin-bottom: 16px;
+}
+.streams-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.stream-card {
+  border-radius: 15px;
+  padding: 24px 18px 20px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.stream-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 42px rgba(0,0,0,.38);
+}
+
+.sc-sainik    { background: linear-gradient(145deg,#4c1d95,#6d28d9); }
+.sc-navodaya  { background: linear-gradient(145deg,#9d174d,#db2777); }
+.sc-rms       { background: linear-gradient(145deg,#14532d,#15803d); }
+.sc-gurukulam { background: linear-gradient(145deg,#78350f,#b45309); }
+.sc-nda       { background: linear-gradient(145deg,#1e3a8a,#2563eb); }
+
+.sc-icon {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,.16);
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sc-icon svg {
+  width: 24px; height: 24px;
+  fill: none; stroke: #fff; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.sc-label { color: #fff; font-size: 13.5px; font-weight: 700; line-height: 1.3; }
+.sc-sub   { color: rgba(255,255,255,.5); font-size: 10.5px; font-weight: 500; margin-top: -6px; }
+
+/* ─── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding: 36px 28px 0;
+    gap: 36px; min-height: auto;
+  }
+  .hero-right { order: -1; }
+  .map-card   { max-width: 380px; margin: 0 auto; }
+  .streams-inner { padding: 24px 28px 36px; }
+  .streams-grid  { grid-template-columns: repeat(3,1fr); }
+  .stream-card:nth-child(4) { grid-column: 1/2; }
+  .stream-card:nth-child(5) { grid-column: 2/3; }
+}
+@media (max-width: 600px) {
+  .hero-section   { padding: 28px 18px 0; }
+  .streams-inner  { padding: 20px 18px 30px; }
+  .streams-grid   { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .stream-card:last-child { grid-column: span 2; }
+  .map-legend { bottom: 28px; left: 28px; }
+  .map-badge  { top: 28px; right: 28px; }
+}
+@media (max-width: 400px) {
+  .hero-h1 { font-size: 26px; }
+  .cta-row { flex-direction: column; }
+  .btn { justify-content: center; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ HERO ══════════════ -->
+<section>
+<div class="hero-section">
+
+  <!-- ── LEFT ────────────────────────────────────────────────── -->
+  <div class="hero-left">
+
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      India's Premier Military School Coaching
+    </div>
+
+    <h1 class="hero-h1">
+      <span class="w-black">WELCOME TO</span><br>
+      <span class="w-green">TAXILA</span><span class="w-black"> ACADEMY</span>
+    </h1>
+
+    <p class="hero-sub">
+      Taxila is a collection of <strong>5 competitive residential streams</strong> —
+      unique preparation classes for
+      <strong>Sainik School, Navodaya, RMS, AP&nbsp;Gurukulam &amp; NDA.</strong>
+    </p>
+
+    <div class="cta-row">
+      <a href="#" class="btn btn-fill">
+        Take Entrance Exam&nbsp;<span class="btn-arrow">→</span>
+      </a>
+      <a href="#" class="btn btn-outline">Explore Courses</a>
+    </div>
+
+    <hr class="stats-divider">
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num">40<span class="accent">+</span></span>
+        <span class="stat-label">Sainik Schools</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">5</span>
+        <span class="stat-label">RMS Schools</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">28</span>
+        <span class="stat-label">States Covered</span>
+      </div>
+    </div>
+
+  </div><!-- /hero-left -->
+
+  <!-- ── RIGHT (MAP) ──────────────────────────────────────────── -->
+  <div class="hero-right">
+    <div class="map-card">
+
+      <!-- ══════════════════════════════════════════════════════
+           INDIA SVG MAP
+           Projection  :  simple linear / plate carrée
+           ViewBox     :  0 0 520 630
+           x = (lon – 68) / 29 × 500 + 10
+           y = (37  – lat) / 29 × 610
+           All border points derived from real lat/lon values.
+      ═══════════════════════════════════════════════════════ -->
+      <svg id="india-svg" viewBox="0 0 520 630"
+           xmlns="http://www.w3.org/2000/svg" aria-label="India map with school locations">
+        <defs>
+          <filter id="drop" x="-6%" y="-6%" width="112%" height="112%">
+            <feDropShadow dx="0" dy="3" stdDeviation="5"
+              flood-color="rgba(26,58,26,.20)"/>
+          </filter>
+        </defs>
+
+        <!-- Ocean -->
+        <rect width="520" height="630" fill="#dbeafe" rx="12"/>
+
+        <!-- ── India outline ──────────────────────────────────
+             Key geographic waypoints (lon°E, lat°N → x, y):
+             J&K NW      (73.5, 35)  → (105, 42)
+             Himachal    (77,   34)  → (165, 63)
+             Uttarakhand (79,   32)  → (199,105)
+             W Nepal     (80,   30)  → (217,147)
+             E Nepal     (85,   28)  → (303,189)
+             Siliguri    (88,   27)  → (355,211)  ← dips south
+             Bhutan      (88,   28)  → (355,189)
+             Arunachal W (91,   28)  → (407,189)
+             Arunachal E (95,   28)  → (476,189)
+             NE corner   (97,   28)  → (510,189)
+             Myanmar bdr (97,   27)  → (510,211) …
+             Kanyakumari (77.5,  8)  → (174,610)
+             Rann W      (68,   24)  → (10, 274)
+        ─────────────────────────────────────────────────── -->
+        <path class="india-land" filter="url(#drop)" d="
+          M 105,42
+          C 125,52 148,58 165,63
+          L 199,105
+          L 217,147
+          L 250,170
+          L 303,189
+          L 355,211
+          L 355,189
+          L 380,185
+          L 407,181
+          L 458,168
+          L 493,178
+          L 510,189
+          L 510,212
+          L 495,233
+          L 478,263
+          L 460,285
+          L 443,306
+          L 426,327
+          L 420,318
+          L 406,298
+          L 390,287
+          L 372,288
+          L 358,298
+          L 350,318
+          L 350,338
+          L 333,358
+          L 315,370
+          L 298,387
+          L 280,402
+          L 263,423
+          L 246,454
+          L 229,485
+          L 211,548
+          L 193,590
+          L 174,610
+          L 163,598
+          L 157,568
+          L 148,547
+          L 138,525
+          L 126,485
+          L 116,463
+          L 107,442
+          L 96,401
+          L 94,380
+          L 88,337
+          L 79,316
+          L 55,305
+          L 30,294
+          L 18,273
+          L 27,253
+          L 44,212
+          L 63,168
+          L 79,147
+          L 105,105
+          L 105,63
+          Z
+        "/>
+
+        <!-- Sri Lanka -->
+        <ellipse cx="208" cy="622" rx="13" ry="9"
+          fill="#d4edda" stroke="#2d6a2d" stroke-width="1.1"/>
+
+        <!-- Andaman Islands (simplified) -->
+        <ellipse cx="460" cy="508" rx="5" ry="13"
+          fill="#d4edda" stroke="#2d6a2d" stroke-width="1"/>
+
+        <!-- Pins layer — populated by JS -->
+        <g id="pins-layer"></g>
+
+      </svg>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <div class="legend-row">
+          <div class="legend-dot" style="background:#2d6a2d;"></div>
+          Sainik Schools
+        </div>
+        <div class="legend-row">
+          <div class="legend-dot" style="background:#8b1a1a;"></div>
+          RMS Schools
+        </div>
+      </div>
+
+      <!-- Count badge -->
+      <div class="map-badge">
+        <span class="badge-num" id="pin-total">39</span>
+        <div class="badge-label">Locations</div>
+      </div>
+
+    </div><!-- /map-card -->
+  </div><!-- /hero-right -->
+
+</div><!-- /hero-section -->
+</section>
+
+<!-- ═══════════════════════════════ STREAM CARDS ══════════════ -->
+<div class="streams-wrap">
+  <div class="streams-inner">
+    <div class="streams-label">Our Coaching Streams</div>
+    <div class="streams-grid">
+
+      <div class="stream-card sc-sainik">
+        <div class="sc-icon">
+          <svg viewBox="0 0 24 24">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sc-label">Sainik School</div>
+          <div class="sc-sub">Class VI &amp; IX</div>
+        </div>
+      </div>
+
+      <div class="stream-card sc-navodaya">
+        <div class="sc-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sc-label">Navodaya</div>
+          <div class="sc-sub">Class V &amp; VIII</div>
+        </div>
+      </div>
+
+      <div class="stream-card sc-rms">
+        <div class="sc-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sc-label">RMS</div>
+          <div class="sc-sub">Class VI</div>
+        </div>
+      </div>
+
+      <div class="stream-card sc-gurukulam">
+        <div class="sc-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sc-label">AP Gurukulam</div>
+          <div class="sc-sub">Class V &amp; VI</div>
+        </div>
+      </div>
+
+      <div class="stream-card sc-nda">
+        <div class="sc-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sc-label">NDA</div>
+          <div class="sc-sub">Foundation</div>
+        </div>
+      </div>
+
+    </div><!-- /streams-grid -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOOLTIP ═══════════════════ -->
+<div id="tooltip" role="tooltip" aria-hidden="true">
+  <div class="tt-name"></div>
+  <div class="tt-type"></div>
+  <div class="tt-state"></div>
+</div>
+
+<!-- ═══════════════════════════════ JAVASCRIPT ════════════════ -->
+<script>
+/* ─── Projection ────────────────────────────────────────────
+   ViewBox 0 0 520 630
+   Lat range : 8° – 37° N   (29°)
+   Lon range : 68° – 97° E  (29°)
+   x = (lon – 68) / 29 × 500 + 10
+   y = (37  – lat) / 29 × 610
+────────────────────────────────────────────────────────── */
+function project(lat, lon) {
+  return {
+    x: +((lon - 68) / 29 * 500 + 10).toFixed(2),
+    y: +((37 - lat)  / 29 * 610     ).toFixed(2)
+  };
+}
+
+/* ─── School data ───────────────────────────────────────── */
+const SAINIK_SCHOOLS = [
+  { name: 'Korukonda',       state: 'Andhra Pradesh',    lat: 17.8, lon: 82.2, url: 'https://www.sainikschoolkorukonda.org' },
+  { name: 'Kalikiri',        state: 'Andhra Pradesh',    lat: 13.7, lon: 78.8, url: 'https://sskal.ac.in/' },
+  { name: 'East Siang',      state: 'Arunachal Pradesh', lat: 28.0, lon: 95.0, url: 'https://www.sainikschooleastsiang.com' },
+  { name: 'Goalpara',        state: 'Assam',             lat: 26.2, lon: 90.6, url: 'https://www.sainikschoolgoalpara.org' },
+  { name: 'Nalanda',         state: 'Bihar',             lat: 25.1, lon: 85.5, url: 'https://sainikschoolnalanda.edu.in/' },
+  { name: 'Gopalganj',       state: 'Bihar',             lat: 26.5, lon: 84.4, url: 'https://www.ssgopalganj.in' },
+  { name: 'Ambikapur',       state: 'Chhattisgarh',      lat: 23.1, lon: 83.2, url: 'https://www.sainikschoolambikapur.org.in' },
+  { name: 'Balachadi',       state: 'Gujarat',           lat: 22.5, lon: 70.0, url: 'https://www.ssbalachadi.org' },
+  { name: 'Kunjpura',        state: 'Haryana',           lat: 29.8, lon: 77.0, url: 'https://sskunjpura.org/' },
+  { name: 'Rewari',          state: 'Haryana',           lat: 28.2, lon: 76.6, url: 'https://www.ssrw.org' },
+  { name: 'Sujanpur Tira',   state: 'Himachal Pradesh',  lat: 31.8, lon: 76.5, url: 'https://www.sainikschoolsujanpurtira.org' },
+  { name: 'Nagrota',         state: 'Jammu & Kashmir',   lat: 32.6, lon: 74.9, url: 'https://www.sainikschoolnagrota.com' },
+  { name: 'Tilaiya',         state: 'Jharkhand',         lat: 24.2, lon: 85.5, url: 'https://www.sainikschooltilaiya.org' },
+  { name: 'Bijapur',         state: 'Karnataka',         lat: 16.8, lon: 75.7, url: 'https://www.ssbj.in' },
+  { name: 'Kodagu',          state: 'Karnataka',         lat: 12.3, lon: 75.8, url: 'http://www.sainikschoolkodagu.edu.in' },
+  { name: 'Kazhakootam',     state: 'Kerala',            lat:  8.6, lon: 76.9, url: 'https://www.sainikschooltvm.edu.in/' },
+  { name: 'Rewa',            state: 'Madhya Pradesh',    lat: 24.5, lon: 81.3, url: 'https://sainikschoolrewa.ac.in' },
+  { name: 'Satara',          state: 'Maharashtra',       lat: 17.7, lon: 74.0, url: 'https://www.sainiksatara.org' },
+  { name: 'Chandrapur',      state: 'Maharashtra',       lat: 19.9, lon: 79.3, url: 'https://sainikschoolchandrapur.com' },
+  { name: 'Imphal',          state: 'Manipur',           lat: 24.8, lon: 93.9, url: 'https://ssimphal.nic.in' },
+  { name: 'Chhingchhip',     state: 'Mizoram',           lat: 23.3, lon: 92.9, url: 'https://sschhingchhip.mizoram.gov.in' },
+  { name: 'Punglwa',         state: 'Nagaland',          lat: 25.9, lon: 94.5, url: 'https://www.sainikschoolpunglwa.nic.in' },
+  { name: 'Bhubaneswar',     state: 'Odisha',            lat: 20.3, lon: 85.8, url: 'https://www.sainikschoolbhubaneswar.edu.in/' },
+  { name: 'Sambalpur',       state: 'Odisha',            lat: 21.5, lon: 83.9, url: 'https://sainikschoolsambalpur.edu.in' },
+  { name: 'Kapurthala',      state: 'Punjab',            lat: 31.4, lon: 75.4, url: 'https://www.sskapurthala.com' },
+  { name: 'Chittorgarh',     state: 'Rajasthan',         lat: 24.9, lon: 74.6, url: 'https://sschittorgarh.edu.in' },
+  { name: 'Jhunjhunu',       state: 'Rajasthan',         lat: 28.1, lon: 75.4, url: 'https://www.ssjhunjhunu.com' },
+  { name: 'Amaravathinagar', state: 'Tamil Nadu',        lat: 10.4, lon: 77.2, url: 'https://www.sainikschoolamaravathinagar.edu.in' },
+  { name: 'Lucknow',         state: 'Uttar Pradesh',     lat: 26.8, lon: 80.9, url: 'https://www.upsainikschool.org' },
+  { name: 'Jhansi',          state: 'Uttar Pradesh',     lat: 25.4, lon: 78.6, url: 'https://www.sainikschooljhansi.com' },
+  { name: 'Mainpuri',        state: 'Uttar Pradesh',     lat: 27.2, lon: 79.0, url: 'https://www.sainikschoolmainpuri.com' },
+  { name: 'Amethi',          state: 'Uttar Pradesh',     lat: 26.2, lon: 81.9, url: 'https://www.sainikschoolamethi.com' },
+  { name: 'Ghorakhal',       state: 'Uttarakhand',       lat: 29.4, lon: 79.4, url: 'https://www.ssghorakhal.org' },
+  { name: 'Purulia',         state: 'West Bengal',       lat: 23.3, lon: 86.4, url: 'https://www.sainikschoolpurulia.com' }
+];
+
+const RMS_SCHOOLS = [
+  { name: 'Chail',     state: 'Himachal Pradesh', lat: 30.9, lon: 77.2, url: 'https://www.rashtriyamilitaryschools.edu.in/chail/' },
+  { name: 'Ajmer',     state: 'Rajasthan',        lat: 26.5, lon: 74.6, url: 'https://www.rashtriyammilitaryschools.edu.in/ajmer/' },
+  { name: 'Belgaum',   state: 'Karnataka',        lat: 15.8, lon: 74.5, url: 'https://www.rashtriyammilitaryschools.edu.in/belgaum/' },
+  { name: 'Bengaluru', state: 'Karnataka',        lat: 12.9, lon: 77.6, url: 'https://www.rashtriyammilitaryschools.edu.in/bengaluru/' },
+  { name: 'Dholpur',   state: 'Rajasthan',        lat: 26.7, lon: 77.9, url: 'https://www.rashtriyammilitaryschools.edu.in/dholpur/' }
+];
+
+/* ─── SVG utility ───────────────────────────────────────── */
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs = {}) {
+  const e = document.createElementNS(NS, tag);
+  Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+  return e;
+}
+
+/* ─── Tooltip ───────────────────────────────────────────── */
+const tooltip = document.getElementById('tooltip');
+const ttName  = tooltip.querySelector('.tt-name');
+const ttType  = tooltip.querySelector('.tt-type');
+const ttState = tooltip.querySelector('.tt-state');
+
+function showTip(evt, school, kind) {
+  ttName.textContent  = school.name;
+  ttType.textContent  = kind === 'sainik' ? '● Sainik School' : '● RMS School';
+  ttType.style.color  = kind === 'sainik' ? '#86efac' : '#fca5a5';
+  
+  let content = school.state;
+  if (school.url && school.url !== '#') {
+    content += `<span style="color:#F5B800;font-size:10px;font-weight:600;display:block;margin-top:5px;border-top:1px solid rgba(255,255,255,0.15);padding-top:4px">Click to visit website ↗</span>`;
+  }
+  ttState.innerHTML = content;
+  
+  tooltip.classList.add('show');
+  moveTip(evt);
+}
+function moveTip(evt) {
+  let x = evt.clientX + 14, y = evt.clientY - 72;
+  if (x + 220 > window.innerWidth)  x = evt.clientX - 220 - 14;
+  if (y < 8)                         y = evt.clientY + 14;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top  = y + 'px';
+}
+function hideTip() { tooltip.classList.remove('show'); }
+
+/* ─── Build one pin ─────────────────────────────────────── */
+function makePin(school, kind) {
+  const { x, y }  = project(school.lat, school.lon);
+  const fill       = kind === 'sainik' ? '#2d6a2d' : '#8b1a1a';
+  const animName   = kind === 'sainik' ? 'pulse-green' : 'pulse-red';
+  const delay      = (Math.random() * 2.5).toFixed(2) + 's';
+
+  /* wrapper group – translate to pin position */
+  const g = el('g', { transform: `translate(${x},${y})` });
+  g.style.cursor = 'pointer';
+
+  /* pulse circle */
+  const pulse = el('circle', { cx: 0, cy: 0, r: 4.5, fill, opacity: 0 });
+  pulse.style.transformBox    = 'fill-box';
+  pulse.style.transformOrigin = 'center center';
+  pulse.style.animation       = `${animName} 2.8s ease-out ${delay} infinite`;
+
+  /* static halo */
+  const halo = el('circle', {
+    cx: 0, cy: 0, r: 6,
+    fill: 'none', stroke: fill, 'stroke-width': '1', opacity: '.35'
+  });
+
+  /* main dot */
+  const dot = el('circle', {
+    cx: 0, cy: 0, r: 4,
+    fill, stroke: '#fff', 'stroke-width': '1.4'
+  });
+  dot.style.transition = 'r .15s ease';
+
+  g.append(pulse, halo, dot);
+
+  /* hover */
+  g.addEventListener('mouseenter', evt => {
+    dot.setAttribute('r', 6);
+    halo.setAttribute('r', 9);
+    halo.setAttribute('opacity', '.6');
+    showTip(evt, school, kind);
+  });
+  g.addEventListener('mousemove', moveTip);
+  g.addEventListener('mouseleave', () => {
+    dot.setAttribute('r', 4);
+    halo.setAttribute('r', 6);
+    halo.setAttribute('opacity', '.35');
+    hideTip();
+  });
+  
+  /* click */
+  g.addEventListener('click', () => {
+    if (school.url && school.url !== '#') {
+      window.open(school.url, '_blank', 'noopener,noreferrer');
+    }
+  });
+
+  return g;
+}
+
+/* ─── Render all pins ───────────────────────────────────── */
+const layer = document.getElementById('pins-layer');
+
+/* RMS underneath Sainik */
+RMS_SCHOOLS.forEach(s    => layer.appendChild(makePin(s, 'rms')));
+SAINIK_SCHOOLS.forEach(s => layer.appendChild(makePin(s, 'sainik')));
+
+/* Update badge count */
+document.getElementById('pin-total').textContent =
+  SAINIK_SCHOOLS.length + RMS_SCHOOLS.length;
+</script>
+
+</body>
+</html>
