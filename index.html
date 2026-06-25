@@ -1634,23 +1634,29 @@
       .dp-wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
       .dp-head{text-align:center;margin-bottom:52px}
       .dp-label{display:inline-flex;align-items:center;gap:7px;background:rgba(245,184,0,0.08);border:1px solid rgba(245,184,0,0.2);color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:18px}
+      .dp-divider{display:flex;align-items:center;gap:16px;margin:16px auto 22px;max-width:340px}
+      .dp-divider::before,.dp-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,122,0.5))}
+      .dp-divider::after{background:linear-gradient(90deg,rgba(201,169,122,0.5),transparent)}
+      .dp-divider-icon{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.32);display:flex;align-items:center;justify-content:center}
       .dp-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4.5vw,48px);color:#F5EDD8;margin:0 0 14px;line-height:1.15;letter-spacing:-0.02em}
       .dp-sub{color:rgba(232,213,176,0.55);font-size:15.5px;line-height:1.65;max-width:520px;margin:0 auto;font-weight:500}
-      .dp-tabs{display:flex;gap:10px;margin-bottom:36px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+      .dp-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:36px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
       .dp-tabs::-webkit-scrollbar{display:none}
-      .dp-tab{flex:none;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,0.035);border:1.5px solid rgba(255,255,255,0.07);border-radius:18px;padding:15px 20px;cursor:pointer;transition:all 0.26s cubic-bezier(0.22,1,0.36,1);min-width:118px;color:rgba(232,213,176,0.5);font-size:13px;font-weight:700;line-height:1.3;text-align:center;outline:none;font-family:inherit}
+      .dp-tab{flex:none;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,0.035);border:1.5px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px 24px;cursor:pointer;transition:all 0.26s cubic-bezier(0.22,1,0.36,1);min-width:130px;color:rgba(232,213,176,0.5);font-size:14px;font-weight:700;line-height:1.3;text-align:center;outline:none;font-family:inherit;position:relative}
       .dp-tab:hover{background:rgba(255,255,255,0.07);border-color:rgba(201,169,122,0.3);color:rgba(232,213,176,0.85);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.35)}
-      .dp-tab.dp-active{border-color:rgba(201,169,122,0.55);color:#F5EDD8;transform:translateY(-4px);box-shadow:0 10px 32px rgba(0,0,0,0.45)}
-      .dp-tab-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:background 0.25s,transform 0.25s}
+      .dp-tab.dp-active{border-color:rgba(201,169,122,0.55);color:#F5EDD8;transform:translateY(-4px)}
+      .dp-tab.dp-active::after{content:'';position:absolute;bottom:-3px;left:22%;width:56%;height:3px;background:linear-gradient(90deg,transparent,#F5B800,transparent);border-radius:2px}
+      .dp-tab-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:background 0.25s,transform 0.25s}
       .dp-tab:hover .dp-tab-icon{transform:scale(1.08)}
       .dp-tab-since{font-size:10.5px;font-weight:600;letter-spacing:.04em;opacity:.6;display:block}
       .dp-body{display:flex;flex-wrap:wrap;gap:22px;align-items:stretch}
       .dp-card{flex:0 0 300px;border-radius:22px;overflow:hidden;box-shadow:0 22px 64px rgba(0,0,0,0.55);transition:transform 0.3s cubic-bezier(0.22,1,0.36,1);display:flex;flex-direction:column}
       .dp-card:hover{transform:translateY(-4px)}
-      .dp-card-hero{padding:30px 26px 26px;position:relative;min-height:155px}
+      .dp-card-hero{padding:30px 26px 26px;position:relative;overflow:hidden;min-height:155px}
+      .dp-hero-watermark{position:absolute;right:-12px;bottom:-18px;font-family:'Playfair Display',serif;font-weight:900;font-size:110px;color:rgba(255,255,255,0.07);line-height:1;user-select:none;pointer-events:none;letter-spacing:-4px}
       .dp-card-icon-wrap{width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
       .dp-card-since{font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px}
-      .dp-card-name{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(20px,2.8vw,26px);color:#fff;margin:0 0 7px;line-height:1.2}
+      .dp-card-name{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,3vw,30px);color:#fff;margin:0 0 7px;line-height:1.2}
       .dp-card-tagline{font-size:13px;color:rgba(255,255,255,0.6);font-weight:500;line-height:1.5}
       .dp-card-body{background:#0e1510;padding:22px 26px;flex:1;display:flex;flex-direction:column}
       .dp-facts-ttl{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,213,176,0.38);margin-bottom:14px}
@@ -1661,12 +1667,15 @@
       .dp-presence-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;margin-top:16px}
       .dp-presence-k{font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,213,176,0.32);margin-bottom:4px}
       .dp-presence-v{font-size:14px;font-weight:700;color:#F5EDD8}
+      .dp-pathway{display:flex;align-items:center;margin-top:18px;padding:13px 14px;background:rgba(245,184,0,0.05);border:1px solid rgba(245,184,0,0.18);border-radius:12px}
+      .dp-pathway-step{font-size:10.5px;font-weight:800;color:rgba(232,213,176,0.8);text-align:center;white-space:nowrap;letter-spacing:.02em;line-height:1.3;flex:1}
+      .dp-pathway-arr{color:#F5B800;font-size:14px;font-weight:900;opacity:0.6;flex-shrink:0;padding:0 2px}
       .dp-right-col{flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:10px}
-      .dp-acc{background:rgba(255,255,255,0.025);border:1.5px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;transition:border-color 0.25s,box-shadow 0.25s}
+      .dp-acc{background:rgba(255,255,255,0.025);border:1.5px solid rgba(255,255,255,0.07);border-left-width:3px;border-radius:16px;overflow:hidden;transition:border-color 0.25s,box-shadow 0.25s}
       .dp-acc.dp-open{border-color:rgba(201,169,122,0.3);box-shadow:0 6px 24px rgba(0,0,0,0.25)}
       .dp-acc-head{display:flex;align-items:center;gap:13px;padding:16px 20px;cursor:pointer;user-select:none;transition:background 0.2s;outline:none}
       .dp-acc-head:hover{background:rgba(255,255,255,0.04)}
-      .dp-acc-num{font-size:11px;font-weight:900;color:#C9A97A;min-width:20px;font-family:'Playfair Display',serif;font-style:italic}
+      .dp-acc-num{font-size:16px;font-weight:900;color:#C9A97A;min-width:28px;font-family:'Playfair Display',serif;font-style:italic;line-height:1}
       .dp-acc-title{flex:1;font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#F5EDD8;line-height:1.3}
       .dp-acc-arr{width:24px;height:24px;flex-shrink:0;border-radius:7px;background:rgba(201,169,122,0.1);border:1px solid rgba(201,169,122,0.2);display:flex;align-items:center;justify-content:center;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),background 0.2s}
       .dp-acc.dp-open .dp-acc-arr{transform:rotate(180deg);background:rgba(201,169,122,0.22)}
@@ -1682,14 +1691,14 @@
       .dp-faq-a{max-height:0;overflow:hidden;transition:max-height 0.32s ease}
       .dp-faq-a-inner{padding:9px 0 5px;color:rgba(232,213,176,0.6);font-size:13.5px;line-height:1.72}
       .dp-statsbar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
-      .dp-stat-box{background:rgba(255,255,255,0.035);border:1.5px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px 16px;text-align:center;transition:border-color 0.25s,background 0.25s,transform 0.28s cubic-bezier(0.22,1,0.36,1)}
-      .dp-stat-box:hover{border-color:rgba(201,169,122,0.35);background:rgba(255,255,255,0.065);transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.4)}
-      .dp-stat-val{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(20px,2.5vw,28px);color:#C9A97A;line-height:1;margin-bottom:6px}
-      .dp-stat-lbl{font-size:11.5px;font-weight:700;color:rgba(232,213,176,0.45);letter-spacing:.04em;text-transform:uppercase}
+      .dp-stat-box{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px 16px;text-align:center;transition:border-color 0.25s,background 0.25s,transform 0.28s cubic-bezier(0.22,1,0.36,1)}
+      .dp-stat-box:hover{border-color:rgba(201,169,122,0.45);background:rgba(201,169,122,0.08);transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.4)}
+      .dp-stat-val{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.8vw,32px);color:#C9A97A;line-height:1;margin-bottom:8px}
+      .dp-stat-lbl{font-size:11.5px;font-weight:700;color:rgba(232,213,176,0.5);letter-spacing:.04em;text-transform:uppercase}
       @keyframes dpIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
       .dp-anim{animation:dpIn 0.3s cubic-bezier(0.22,1,0.36,1) both}
       @media(max-width:920px){.dp-card{flex:1 1 100%}.dp-right-col{flex:1 1 100%}}
-      @media(max-width:600px){.dp-tabs{gap:8px}.dp-tab{min-width:95px;padding:12px 12px;font-size:12px}.dp-tab-icon{width:34px;height:34px}.dp-statsbar{grid-template-columns:repeat(2,1fr)}.dp-acc-inner{padding-left:20px}}
+      @media(max-width:600px){.dp-tabs{gap:8px}.dp-tab{min-width:100px;padding:14px 14px;font-size:12px}.dp-tab-icon{width:36px;height:36px}.dp-statsbar{grid-template-columns:repeat(2,1fr)}.dp-acc-inner{padding-left:20px}}
       @media(max-width:360px){.dp-tab{min-width:80px;padding:10px 8px;font-size:11px}}
     </style>
 
@@ -1699,6 +1708,9 @@
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/></svg>
           Explore Each Pathway
         </span>
+        <div class="dp-divider">
+          <div class="dp-divider-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/></svg></div>
+        </div>
         <h2 class="dp-h2">Defence Education &amp; Career Pathways</h2>
         <p class="dp-sub">Discover India's leading defence-oriented educational institutions and understand your complete journey to a commission.</p>
       </div>
@@ -1729,6 +1741,14 @@
       rimc:{name:'Rashtriya Indian Military College',since:'1922',tagline:"India's premier feeder to the NDA",gradient:'linear-gradient(145deg,#2a3d8b 0%,#131f52 100%)',icon:'<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/>',facts:[['Founded','1922'],['Location','Dehradun, Uttarakhand'],['Intake','~25 cadets / term'],['Entry Class','Class VIII']],presence:'1 — Dehradun',sections:[['What is RIMC?','The Rashtriya Indian Military College, Dehradun, is the oldest and most prestigious feeder institution for the NDA and the Indian Naval Academy. Only 25 cadets are selected nationally every six months, making it one of the most competitive and elite schools in India with a century of military excellence.'],['History &amp; Legacy','Established on 13 March 1922 as the Prince of Wales Royal Indian Military College, RIMC has a 100-year legacy of producing India\'s finest military officers. Many Chiefs of Army Staff, Naval Staff, and Air Staff are proud RIMC alumni. Officers trained here served in World War II and every major Indian conflict since.'],['Admission Process','Entrance exam conducted twice yearly (June and December). Only 25 cadets selected per term from across India. Written examination followed by medical examination only — no separate interview. Candidates must be aged 11.5–13 years for Class VIII entry. Competition is extremely intense nationally.'],['Written Exam','The exam tests English, Mathematics, General Knowledge, and Intelligence at a high standard. Only candidates scoring above cut-off are called for medical examination. The exam is conducted at authorized centres across India. Thorough preparation of Class VI/VII academics plus strong reasoning aptitude is required.'],['Life at RIMC','Fully residential with strong military traditions dating back 100 years. Cadets belong to one of four houses: Ranjit, Pratap, Shivaji, and Chetwode. Daily military drill, physical training, academics, equestrian training, swimming, and extracurriculars. Cadets wear uniform from Day 1 and follow military discipline from the start.'],['NDA Success &amp; Alumni','RIMC has one of the highest NDA entry success rates in India. Most graduates directly proceed to NDA. Distinguished alumni include former Army Chiefs, Vice Chiefs, Sena Bhooshan awardees, Param Vir Chakra recipients, and hundreds of decorated officers who have served with distinction.']],faqs:[['How competitive is RIMC?','Extremely competitive — only 25 cadets per term from across India. The selection rate is less than 1% of applicants. You need to be in the top academic, physical, and medical percentile nationally to secure a place at RIMC.'],['Are girls admitted to RIMC?','Currently RIMC is an all-boys institution. It has maintained this tradition for over a century. However, national policies on women in defence education continue to evolve across all institutions.'],['What is the fee at RIMC?','Annual fee is approximately ₹1.5 lakh covering tuition, boarding, lodging, uniform, and books. Scholarships are available for meritorious and economically weaker students. Central government support is also available.']],stats:[['Elite','Institution'],['25','Cadets/Term'],['Class VIII','Entry'],['102+','Years']]},
     };
 
+    var PATHWAYS={
+      sainik:['Class VI','Sainik School','NDA Exam','Officer'],
+      nda:['Class X','10+2 School','NDA Exam','Officer'],
+      jnv:['Class VI','JNV (Free)','NDA / JEE','Career'],
+      rms:['Class VI','RMS','NDA Exam','Officer'],
+      rimc:['Class VIII','RIMC','NDA Exam','Officer'],
+    };
+
     var cur='sainik';
     var tabsEl=document.getElementById('dp-tabs');
     var leftEl=document.getElementById('dp-left');
@@ -1743,7 +1763,8 @@
     function renderTabs(){
       tabsEl.innerHTML=TABS.map(function(t){
         var isActive=t.id===cur;
-        return '<button class="dp-tab'+(isActive?' dp-active':'')+'" role="tab" aria-selected="'+isActive+'" data-id="'+t.id+'" style="'+(isActive?'background:rgba(255,255,255,0.06)':'')+'">'
+        var glow=isActive?'background:rgba(255,255,255,0.06);box-shadow:0 0 0 3px '+t.color+'44,0 14px 40px rgba(0,0,0,0.5)':'';
+        return '<button class="dp-tab'+(isActive?' dp-active':'')+'" role="tab" aria-selected="'+isActive+'" data-id="'+t.id+'" style="'+glow+'">'
           +'<div class="dp-tab-icon" style="background:'+t.color+'">'+svgIcon(t.icon,18)+'</div>'
           +'<span>'+t.name+'</span>'
           +'<span class="dp-tab-since">'+t.since+'</span>'
@@ -1756,9 +1777,14 @@
     }
 
     function renderLeft(d){
+      var pw=PATHWAYS[cur]||['School','Exam','NDA','Officer'];
+      var pwHTML='<div class="dp-pathway">'
+        +pw.map(function(s,i){return (i>0?'<span class="dp-pathway-arr">›</span>':'')+'<span class="dp-pathway-step">'+s+'</span>';}).join('')
+        +'</div>';
       leftEl.className='dp-card dp-anim';
       leftEl.innerHTML=
         '<div class="dp-card-hero" style="background:'+d.gradient+'">'
+          +'<div class="dp-hero-watermark">'+d.since+'</div>'
           +'<div class="dp-card-icon-wrap">'+svgIcon(d.icon,22)+'</div>'
           +'<div class="dp-card-since">Since '+d.since+'</div>'
           +'<h3 class="dp-card-name">'+d.name+'</h3>'
@@ -1769,14 +1795,16 @@
           +d.facts.map(function(f){return '<div class="dp-fact-row"><span class="dp-fact-k">'+f[0]+'</span><span class="dp-fact-v">'+f[1]+'</span></div>';}).join('')
           +'<div class="dp-presence-spacer" style="flex:1;min-height:16px"></div>'
           +'<div class="dp-presence-box"><div class="dp-presence-k">Presence</div><div class="dp-presence-v">'+d.presence+'</div></div>'
+          +pwHTML
         +'</div>';
     }
 
     function renderRight(d){
+      var tabColor=TABS.find(function(t){return t.id===cur;}).color;
       rightEl.className='dp-right-col dp-anim';
       var accHTML=d.sections.map(function(s,i){
         var num=i<9?'0'+(i+1):''+( i+1);
-        return '<div class="dp-acc" tabindex="0">'
+        return '<div class="dp-acc" tabindex="0" style="border-left-color:'+tabColor+'">'
           +'<div class="dp-acc-head" role="button" aria-expanded="false">'
             +'<span class="dp-acc-num">'+num+'</span>'
             +'<span class="dp-acc-title">'+s[0]+'</span>'
