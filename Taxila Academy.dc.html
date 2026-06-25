@@ -37,6 +37,28 @@
 
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 
+  /* ── 3D Hero Opening ── */
+  @keyframes heroOpen3D {
+    0%   { opacity:0; transform:perspective(1400px) rotateX(7deg) scale(0.95); filter:blur(4px); }
+    45%  { opacity:1; filter:blur(0px); }
+    100% { opacity:1; transform:perspective(1400px) rotateX(0deg) scale(1); filter:blur(0px); }
+  }
+  #home { animation: heroOpen3D 1.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+  /* Deep atmosphere behind hero — radial green glow + dot-grid texture */
+  #home::before {
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(ellipse 85% 65% at 72% 44%, rgba(27,77,14,0.18) 0%, transparent 68%),
+      radial-gradient(ellipse 55% 45% at 18% 65%, rgba(201,169,122,0.045) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 35% at 85% 10%, rgba(245,184,0,0.03) 0%, transparent 55%);
+  }
+  #home::after {
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 38px 38px;
+  }
+
   /* FAQ arrow icon */
   [data-faq-icon] svg { transition: transform 0.32s cubic-bezier(0.22,1,0.36,1), stroke 0.2s; }
 
@@ -1249,6 +1271,7 @@
     
     <!-- Cinematic VFX Canvas Background -->
     <canvas id="hero-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+    <canvas id="flag-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
 
     <!-- 3-Column Hero Layout: Left Text | Centre Map | Right Stats -->
     <div style="position:relative;z-index:2;width:100%;padding:0 clamp(18px,4vw,52px);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:24px;flex:1">
@@ -1265,12 +1288,12 @@
         <!-- Stats strip -->
         <div style="display:flex;gap:28px;margin-top:28px;animation:slideUp .5s cubic-bezier(0.22,1,0.36,1) 0.12s both">
           <div style="text-align:left">
-            <div style="font-family:Inter,sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);color:#F5B800;line-height:1;letter-spacing:-0.03em">500+</div>
+            <div style="font-family:Inter,sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);color:#F5B800;line-height:1;letter-spacing:-0.03em">50+</div>
             <div style="font-size:12px;font-weight:600;color:#cbdcc5;margin-top:4px;text-transform:uppercase;letter-spacing:0.05em">Selections</div>
           </div>
           <div style="width:1px;background:rgba(255,255,255,0.1);align-self:stretch"></div>
           <div style="text-align:left">
-            <div style="font-family:Inter,sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);color:#F5B800;line-height:1;letter-spacing:-0.03em">15+</div>
+            <div style="font-family:Inter,sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);color:#F5B800;line-height:1;letter-spacing:-0.03em">6</div>
             <div style="font-size:12px;font-weight:600;color:#cbdcc5;margin-top:4px;text-transform:uppercase;letter-spacing:0.05em">Years</div>
           </div>
           <div style="width:1px;background:rgba(255,255,255,0.1);align-self:stretch"></div>
@@ -1494,9 +1517,319 @@
             <div style="font-weight:800;font-size:14px;letter-spacing:0.06em;text-align:center;text-transform:uppercase">NDA PREP</div>
           </div>
         </div>
-        
+
       </div>
     </div>
+
+  <!-- ═══════════════════════════════════════════════
+       INDIAN FLAG — Canvas Cloth-Physics Engine
+       ═══════════════════════════════════════════════ -->
+  <script>
+  (function(){
+    var canvas = document.getElementById('flag-canvas');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    /* ── layout constants (recalc on resize) ── */
+    var W, H, POLE_X, POLE_Y, FLAG_W, FLAG_H, COLS, ROWS;
+    var isSmall = false;
+
+    function layout(){
+      W = canvas.offsetWidth  || 1200;
+      H = canvas.offsetHeight || 700;
+      canvas.width  = W;
+      canvas.height = H;
+      isSmall = W < 800;
+      FLAG_W  = isSmall ? W*0.28 : W*0.24;
+      FLAG_H  = FLAG_W * 0.6;
+      POLE_X  = isSmall ? W*0.14 : W*0.16;
+      POLE_Y  = isSmall ? H*0.12 : H*0.11;
+      COLS    = 28;
+      ROWS    = 19;
+    }
+
+    /* ── grid (cloth vertices) ── */
+    function makeGrid(){
+      var pts = [];
+      for(var r=0; r<ROWS; r++){
+        pts[r] = [];
+        for(var c=0; c<COLS; c++){
+          pts[r][c] = {
+            bx: POLE_X + (c/(COLS-1))*FLAG_W,
+            by: POLE_Y + (r/(ROWS-1))*FLAG_H,
+            x: 0, y: 0
+          };
+        }
+      }
+      return pts;
+    }
+    var pts = [];
+
+    /* ── colour bands ── */
+    var SAFFRON = [255,153,51];
+    var WHITE   = [248,248,248];
+    var GREEN   = [19,136,8];
+    function bandColor(r){
+      var t = r/(ROWS-1);
+      if(t < 0.333) return SAFFRON;
+      if(t > 0.666) return GREEN;
+      return WHITE;
+    }
+
+    /* ── atmosphere ── */
+    function drawAtmos(){
+      var grd = ctx.createRadialGradient(
+        POLE_X + FLAG_W*0.55, POLE_Y + FLAG_H*0.5, FLAG_H*0.1,
+        POLE_X + FLAG_W*0.55, POLE_Y + FLAG_H*0.5, FLAG_W*0.85
+      );
+      grd.addColorStop(0,  'rgba(27,77,14,0.13)');
+      grd.addColorStop(0.5,'rgba(10,31,5,0.06)');
+      grd.addColorStop(1,  'transparent');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0,0,W,H);
+    }
+
+    /* ── dust particles ── */
+    var PDUST = 65;
+    var dust = [];
+    function initDust(){
+      dust = [];
+      for(var i=0; i<PDUST; i++){
+        dust.push(spawnDust(true));
+      }
+    }
+    function spawnDust(rand){
+      var gold = Math.random() < 0.52;
+      return {
+        x: rand ? POLE_X + Math.random()*FLAG_W*1.1
+                : POLE_X - 8,
+        y: rand ? POLE_Y - FLAG_H*0.15 + Math.random()*(FLAG_H*1.3)
+                : POLE_Y - FLAG_H*0.1 + Math.random()*(FLAG_H*1.2),
+        vx: 0.35 + Math.random()*0.55,
+        vy: (Math.random()-0.5)*0.18,
+        size: 0.7 + Math.random()*1.4,
+        alpha: 0.08 + Math.random()*0.22,
+        gold: gold
+      };
+    }
+    function stepDust(){
+      for(var i=0; i<dust.length; i++){
+        var d = dust[i];
+        d.x += d.vx;
+        d.y += d.vy;
+        d.alpha -= 0.0008;
+        if(d.x > POLE_X + FLAG_W*1.3 || d.alpha <= 0){
+          dust[i] = spawnDust(false);
+        }
+      }
+    }
+    function drawDust(){
+      for(var i=0; i<dust.length; i++){
+        var d = dust[i];
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.size, 0, Math.PI*2);
+        ctx.fillStyle = d.gold
+          ? 'rgba(201,169,122,'+d.alpha.toFixed(3)+')'
+          : 'rgba(248,248,248,'+d.alpha.toFixed(3)+')';
+        ctx.fill();
+      }
+    }
+
+    /* ── Ashoka Chakra ── */
+    function drawChakra(cx, cy, r, angle){
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.strokeStyle = 'rgba(0,0,128,0.82)';
+      ctx.lineWidth = Math.max(0.4, r*0.055);
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI*2);
+      ctx.stroke();
+      var spokes = 24;
+      for(var s=0; s<spokes; s++){
+        var a = (s/spokes)*Math.PI*2;
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    /* ── main wave ── */
+    var t = 0;
+    var introFrames = 80;
+    var frame = 0;
+
+    function waveDisp(c, r, t){
+      var cx = c/(COLS-1);
+      var cy = r/(ROWS-1);
+      /* primary wave */
+      var p = Math.sin((cx*5.5 - t*1.9)        + cy*0.6)*0.82;
+      /* secondary ripple */
+      var s = Math.sin((cx*9.0 - t*2.7)*0.7    + cy*1.1)*0.28;
+      /* gust flutter */
+      var g = Math.sin((cx*3.2 - t*1.1 + cy*2) + Math.sin(t*0.8)*1.4)*0.18;
+      return (p + s + g) * cx;   /* zero at pole (cx=0), max at fly end */
+    }
+
+    function render(){
+      ctx.clearRect(0,0,W,H);
+
+      /* intro scale/fade */
+      var prog = Math.min(frame / introFrames, 1);
+      var eased = 1 - Math.pow(1 - prog, 3);   /* ease-out cubic */
+      var sc    = 0.88 + 0.12 * eased;
+      var alpha = eased;
+
+      ctx.save();
+      /* scale from pole anchor */
+      ctx.translate(POLE_X, POLE_Y + FLAG_H*0.5);
+      ctx.scale(sc, sc);
+      ctx.translate(-POLE_X, -(POLE_Y + FLAG_H*0.5));
+      ctx.globalAlpha = alpha;
+
+      drawAtmos();
+
+      /* ── build displaced grid ── */
+      var amp  = FLAG_H * 0.09;
+      var ampX = FLAG_W * 0.022;
+      for(var r=0; r<ROWS; r++){
+        for(var c=0; c<COLS; c++){
+          var dw = waveDisp(c, r, t);
+          pts[r][c].x = pts[r][c].bx + dw * ampX;
+          pts[r][c].y = pts[r][c].by + dw * amp;
+        }
+      }
+
+      /* ── draw quads ── */
+      for(var r=0; r<ROWS-1; r++){
+        var col = bandColor(r + 0.5);
+        for(var c=0; c<COLS-1; c++){
+          var p00 = pts[r  ][c  ];
+          var p10 = pts[r  ][c+1];
+          var p01 = pts[r+1][c  ];
+          var p11 = pts[r+1][c+1];
+
+          /* surface normal z for lighting */
+          var v1x = p10.x - p00.x, v1y = p10.y - p00.y;
+          var v2x = p01.x - p00.x, v2y = p01.y - p00.y;
+          var nz  = v1x*v2y - v1y*v2x;
+          var len = Math.sqrt(v1x*v1x + v1y*v1y + 1) * Math.sqrt(v2x*v2x + v2y*v2y + 1);
+          nz = len > 0 ? nz/len : 1;
+
+          /* pole shadow: left quads darker */
+          var cx01 = c/(COLS-1);
+          var shadow = 0.35 + 0.65 * Math.pow(cx01, 0.25);
+
+          /* final brightness */
+          var bright = Math.max(0.45, Math.min(1.0, 0.78 + nz*0.38)) * shadow;
+
+          var R = Math.round(col[0]*bright);
+          var G = Math.round(col[1]*bright);
+          var B = Math.round(col[2]*bright);
+
+          ctx.beginPath();
+          ctx.moveTo(p00.x, p00.y);
+          ctx.lineTo(p10.x, p10.y);
+          ctx.lineTo(p11.x, p11.y);
+          ctx.lineTo(p01.x, p01.y);
+          ctx.closePath();
+          ctx.fillStyle = 'rgb('+R+','+G+','+B+')';
+          ctx.fill();
+        }
+      }
+
+      /* ── Ashoka Chakra ── */
+      var midRow = Math.floor(ROWS/2);
+      var midCol = Math.floor(COLS*0.38);
+      var cx = pts[midRow][midCol].x + (pts[midRow][midCol+1].x - pts[midRow][midCol].x)*0.5;
+      var cy = pts[midRow][midCol].y + (pts[midRow][midCol+1].y - pts[midRow][midCol].y)*0.5;
+      var chakrR = FLAG_H * 0.135;
+      /* rotation follows local horizontal angle */
+      var dx = pts[midRow][midCol+1].x - pts[midRow][midCol].x;
+      var dy = pts[midRow][midCol+1].y - pts[midRow][midCol].y;
+      var chakraAngle = Math.atan2(dy, dx) + t*0.5;
+      drawChakra(cx, cy, chakrR, chakraAngle);
+
+      /* ── flag outline ── */
+      var topRow = pts[0], botRow = pts[ROWS-1];
+      ctx.beginPath();
+      ctx.moveTo(topRow[0].x, topRow[0].y);
+      for(var c=1; c<COLS; c++) ctx.lineTo(topRow[c].x, topRow[c].y);
+      for(var r=1; r<ROWS; r++) ctx.lineTo(pts[r][COLS-1].x, pts[r][COLS-1].y);
+      for(var c=COLS-2; c>=0; c--) ctx.lineTo(botRow[c].x, botRow[c].y);
+      for(var r=ROWS-2; r>=1; r--) ctx.lineTo(pts[r][0].x, pts[r][0].y);
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+
+      /* ── pole ── */
+      var poleTop    = POLE_Y - FLAG_H*0.08;
+      var poleBottom = POLE_Y + FLAG_H*1.28;
+      var poleGrd = ctx.createLinearGradient(POLE_X-3, 0, POLE_X+3, 0);
+      poleGrd.addColorStop(0,   '#a8720a');
+      poleGrd.addColorStop(0.35,'#F5C842');
+      poleGrd.addColorStop(0.65,'#d4a017');
+      poleGrd.addColorStop(1,   '#7a5200');
+      ctx.beginPath();
+      ctx.moveTo(POLE_X, poleTop);
+      ctx.lineTo(POLE_X, poleBottom);
+      ctx.strokeStyle = poleGrd;
+      ctx.lineWidth = isSmall ? 3.5 : 5;
+      ctx.stroke();
+
+      /* finial (golden ball) */
+      var finialR = isSmall ? 5 : 7;
+      var finGrd = ctx.createRadialGradient(
+        POLE_X-finialR*0.3, poleTop - finialR*0.3, 1,
+        POLE_X, poleTop, finialR
+      );
+      finGrd.addColorStop(0, '#FFF0A0');
+      finGrd.addColorStop(0.6,'#F5B800');
+      finGrd.addColorStop(1, '#7a5200');
+      ctx.beginPath();
+      ctx.arc(POLE_X, poleTop, finialR, 0, Math.PI*2);
+      ctx.fillStyle = finGrd;
+      ctx.fill();
+
+      /* rope (dashed line from finial to flag top-left) */
+      ctx.beginPath();
+      ctx.moveTo(POLE_X, poleTop + finialR);
+      ctx.lineTo(pts[0][0].x, pts[0][0].y);
+      ctx.setLineDash([3,4]);
+      ctx.strokeStyle = 'rgba(245,200,66,0.38)';
+      ctx.lineWidth = 0.9;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      /* ── dust ── */
+      stepDust();
+      drawDust();
+
+      ctx.restore();
+
+      t += 0.028;
+      frame++;
+      requestAnimationFrame(render);
+    }
+
+    /* ── init ── */
+    layout();
+    pts = makeGrid();
+    initDust();
+    requestAnimationFrame(render);
+
+    window.addEventListener('resize', function(){
+      layout();
+      pts = makeGrid();
+      initDust();
+    });
+
+  })();
+  </script>
+
   </section>
 
   <!-- STATS -->
@@ -1510,10 +1843,10 @@
     <div style="position:relative;width:100%;background:rgba(245,184,0,0.06);border-bottom:1px solid rgba(245,184,0,0.12);padding:13px 0;overflow:hidden;z-index:2">
       <div style="display:flex;width:max-content;animation:marquee 26s linear infinite;will-change:transform">
         <span style="display:flex;align-items:center;gap:14px;padding-right:14px;color:#dbe8d2;font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase">
-          <span>Sainik School</span><span style="color:#F5B800;font-size:8px">◆</span><span>Navodaya</span><span style="color:#F5B800;font-size:8px">◆</span><span>RMS</span><span style="color:#F5B800;font-size:8px">◆</span><span>AP Gurukulam</span><span style="color:#F5B800;font-size:8px">◆</span><span>NDA</span><span style="color:#F5B800;font-size:8px">◆</span><span style="color:#F5B800">Admissions Open 2025–26</span><span style="color:#F5B800;font-size:8px">◆</span>
+          <span>Sainik School</span><span style="color:#F5B800;font-size:8px">◆</span><span>Navodaya</span><span style="color:#F5B800;font-size:8px">◆</span><span>RMS</span><span style="color:#F5B800;font-size:8px">◆</span><span>AP Gurukulam</span><span style="color:#F5B800;font-size:8px">◆</span><span>NDA</span><span style="color:#F5B800;font-size:8px">◆</span><span style="color:#F5B800">Admissions Open 2026–27</span><span style="color:#F5B800;font-size:8px">◆</span>
         </span>
         <span style="display:flex;align-items:center;gap:14px;padding-right:14px;color:#dbe8d2;font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase">
-          <span>Sainik School</span><span style="color:#F5B800;font-size:8px">◆</span><span>Navodaya</span><span style="color:#F5B800;font-size:8px">◆</span><span>RMS</span><span style="color:#F5B800;font-size:8px">◆</span><span>AP Gurukulam</span><span style="color:#F5B800;font-size:8px">◆</span><span>NDA</span><span style="color:#F5B800;font-size:8px">◆</span><span style="color:#F5B800">Admissions Open 2025–26</span><span style="color:#F5B800;font-size:8px">◆</span>
+          <span>Sainik School</span><span style="color:#F5B800;font-size:8px">◆</span><span>Navodaya</span><span style="color:#F5B800;font-size:8px">◆</span><span>RMS</span><span style="color:#F5B800;font-size:8px">◆</span><span>AP Gurukulam</span><span style="color:#F5B800;font-size:8px">◆</span><span>NDA</span><span style="color:#F5B800;font-size:8px">◆</span><span style="color:#F5B800">Admissions Open 2026–27</span><span style="color:#F5B800;font-size:8px">◆</span>
         </span>
       </div>
     </div>
@@ -1525,7 +1858,7 @@
       <div class="bento-headline" data-reveal>
         <span class="stats-badge">
           <svg width="9" height="9" viewBox="0 0 24 24" fill="#F5B800"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Est. 2014
+          Est. 2020
         </span>
         <h2 class="bento-headline-title">India's Most Trusted<br>Defence Prep Academy</h2>
         <p class="bento-headline-sub">Andhra Pradesh's #1 residential coaching — Sainik School, RMS, Navodaya, AP Gurukulam &amp; NDA, all under one roof with a proven selection system.</p>
@@ -1566,7 +1899,7 @@
         </div>
         <div class="bento-stat-num"><span data-count="5">0</span></div>
         <div class="bento-stat-label">Exam Streams</div>
-        <div class="bento-stat-sub">Sainik · RMS · Navodaya · Gurukulam · NDA</div>
+        <div class="bento-stat-sub">Sainik · RMS · Navodaya · Gurukulam · NDA · RIMC</div>
       </div>
 
       <!-- ── Stat 4: Years Experience ── -->
@@ -1574,9 +1907,9 @@
         <div class="bento-stat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div class="bento-stat-num"><span data-count="10" data-suffix="+">0</span></div>
+        <div class="bento-stat-num"><span data-count="6">0</span></div>
         <div class="bento-stat-label">Years Experience</div>
-        <div class="bento-stat-sub">building champions since 2014</div>
+        <div class="bento-stat-sub">building champions since 2020</div>
       </div>
 
     </div>
@@ -2468,7 +2801,7 @@
       <!-- Trust strip -->
       <div data-reveal style="opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px 0 52px">
         <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,169,122,0.1);border:1.5px solid rgba(201,169,122,0.28);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:600;color:#C9A97A"><span style="width:8px;height:8px;border-radius:50%;background:#C9A97A;animation:pulseRing 2s ease-out infinite;display:inline-block"></span>Next Batch: August 2026</span>
-        <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(27,77,14,0.28);border:1.5px solid rgba(27,77,14,0.55);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:600;color:#a3c98a">✓ 500+ Selections · All India</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(27,77,14,0.28);border:1.5px solid rgba(27,77,14,0.55);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:600;color:#a3c98a">✓ 50+ Selections · All India</span>
         <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(232,213,176,0.05);border:1.5px solid rgba(232,213,176,0.1);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:600;color:rgba(232,213,176,0.65)">🎓 Scholarships up to 50%</span>
         <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(232,213,176,0.05);border:1.5px solid rgba(232,213,176,0.1);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:600;color:rgba(232,213,176,0.65)">📋 EMI Available</span>
       </div>
@@ -5072,6 +5405,223 @@ class Component extends DCLogic {
 
   renderVals() { return {}; }
 }
+</script>
+<script>
+(function() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'cursor-smoke-canvas';
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '999999';
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.scale(dpr, dpr);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let mouse = { x: width / 2, y: height / 2 };
+  let lastMouse = { x: width / 2, y: height / 2 };
+  let ring = { x: width / 2, y: height / 2 };
+  let isHovered = false;
+  let isMouseDown = false;
+  let isMoving = false;
+  let moveTimeout;
+
+  window.addEventListener('mousemove', (e) => {
+    lastMouse.x = mouse.x;
+    lastMouse.y = mouse.y;
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    
+    isMoving = true;
+    clearTimeout(moveTimeout);
+    moveTimeout = setTimeout(() => {
+      isMoving = false;
+    }, 100);
+  });
+
+  window.addEventListener('mousedown', () => isMouseDown = true);
+  window.addEventListener('mouseup', () => isMouseDown = false);
+
+  window.addEventListener('mouseover', (e) => {
+    if (!e.target) return;
+    const interactive = e.target.closest('a, button, [role="button"], input, select, textarea, [onclick]');
+    isHovered = !!interactive;
+  });
+
+  document.documentElement.classList.add('custom-cursor-active');
+
+  class Particle {
+    constructor(x, y, vx, vy) {
+      this.x = x;
+      this.y = y;
+      this.vx = vx || (Math.random() - 0.5) * 1.5;
+      this.vy = vy || (Math.random() - 0.5) * 1.5;
+      
+      this.size = Math.random() * 5 + 3;
+      this.shrinkRate = Math.random() * 0.12 + 0.08;
+      
+      this.alpha = 1.0;
+      this.fade = Math.random() * 0.02 + 0.015;
+      
+      this.angle = Math.random() * Math.PI * 2;
+      this.spin = (Math.random() - 0.5) * 0.1;
+      
+      const rand = Math.random();
+      if (rand < 0.6) {
+        this.color = { r: 57, g: 255, b: 20 };
+      } else if (rand < 0.85) {
+        this.color = { r: 0, g: 230, b: 118 };
+      } else {
+        this.color = { r: 245, g: 184, b: 0 };
+      }
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.size -= this.shrinkRate;
+      if (this.size < 0) this.size = 0;
+      this.alpha -= this.fade;
+      this.angle += this.spin;
+    }
+
+    draw(ctx) {
+      if (this.alpha <= 0 || this.size <= 0) return;
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+
+      ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha})`;
+      ctx.shadowBlur = this.size * 1.5;
+      ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.8)`;
+      
+      ctx.beginPath();
+      ctx.moveTo(0, -this.size);
+      ctx.quadraticCurveTo(0, 0, this.size, 0);
+      ctx.quadraticCurveTo(0, 0, 0, this.size);
+      ctx.quadraticCurveTo(0, 0, -this.size, 0);
+      ctx.quadraticCurveTo(0, 0, 0, -this.size);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.restore();
+    }
+  }
+
+  const particles = [];
+  const maxParticles = 100;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    @media (pointer: fine) {
+      .custom-cursor-active,
+      .custom-cursor-active * {
+        cursor: none !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Spawns 4-pointed sparkling stars along mouse coordinate delta
+  function spawnStars(x1, y1, x2, y2, count) {
+    for (let i = 0; i < count; i++) {
+      const t = count > 1 ? i / (count - 1) : 0.5;
+      const px = x1 + (x2 - x1) * t;
+      const py = y1 + (y2 - y1) * t;
+      
+      const ox = (Math.random() - 0.5) * 4;
+      const oy = (Math.random() - 0.5) * 4;
+      
+      const vx = (x2 - x1) * 0.05 + (Math.random() - 0.5) * 1.2;
+      const vy = (y2 - y1) * 0.05 + (Math.random() - 0.5) * 1.2;
+      
+      particles.push(new Particle(px + ox, py + oy, vx, vy));
+    }
+  }
+
+  let currentRingRadius = 8;
+  let targetRingRadius = 8;
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    if (isMoving) {
+      const dx = mouse.x - lastMouse.x;
+      const dy = mouse.y - lastMouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      const count = Math.min(Math.floor(dist / 5) + 1, 4);
+      spawnStars(lastMouse.x, lastMouse.y, mouse.x, mouse.y, count);
+    } else {
+      if (Math.random() < 0.15) {
+        const vx = (Math.random() - 0.5) * 0.6;
+        const vy = (Math.random() - 0.5) * 0.6;
+        particles.push(new Particle(mouse.x, mouse.y, vx, vy));
+      }
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].update();
+      if (particles[i].alpha <= 0) {
+        particles.splice(i, 1);
+      } else {
+        particles[i].draw(ctx);
+      }
+    }
+
+    if (particles.length > maxParticles) {
+      particles.splice(0, particles.length - maxParticles);
+    }
+
+    ring.x += (mouse.x - ring.x) * 0.15;
+    ring.y += (mouse.y - ring.y) * 0.15;
+
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, isMouseDown ? 2.5 : 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = isHovered ? '#F5B800' : '#39FF14';
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = isHovered ? 'rgba(245, 184, 0, 0.9)' : 'rgba(57, 255, 20, 0.9)';
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    targetRingRadius = isHovered ? 18 : (isMouseDown ? 5 : 9);
+    currentRingRadius += (targetRingRadius - currentRingRadius) * 0.2;
+
+    ctx.beginPath();
+    ctx.arc(ring.x, ring.y, currentRingRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = isHovered ? 'rgba(245, 184, 0, 0.75)' : 'rgba(57, 255, 20, 0.55)';
+    ctx.lineWidth = isHovered ? 2.2 : 1.5;
+    ctx.shadowBlur = isHovered ? 10 : 3;
+    ctx.shadowColor = isHovered ? 'rgba(245, 184, 0, 0.5)' : 'rgba(57, 255, 20, 0.35)';
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
 </script>
 </body>
 </html>
