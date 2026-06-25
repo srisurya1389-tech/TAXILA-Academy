@@ -1271,58 +1271,51 @@
     
     <!-- Cinematic VFX Canvas Background -->
     <canvas id="hero-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
-    <canvas id="flag-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+    <!-- Waving Indian flag clipped to India shape — behind the outline -->
+    <div id="flag-india-wrap" style="position:absolute;right:clamp(2%,8vw,12%);top:50%;transform:translateY(-50%);width:clamp(220px,28vw,420px);aspect-ratio:370/480;pointer-events:none;z-index:1;clip-path:polygon(22% 8%,26% 5%,32% 3%,42% 2%,51% 2%,61% 2%,71% 4%,80% 5%,86% 8%,92% 11%,97% 15%,98% 20%,96% 25%,92% 27%,89% 28%,85% 30%,88% 34%,89% 38%,87% 41%,84% 43%,82% 48%,80% 52%,79% 56%,78% 60%,77% 64%,74% 68%,71% 71%,67% 75%,63% 78%,58% 82%,54% 85%,51% 89%,49% 93%,48% 96%,47% 98%,45% 96%,43% 93%,42% 89%,40% 86%,37% 83%,34% 79%,29% 75%,25% 70%,22% 66%,18% 61%,15% 57%,13% 52%,12% 48%,11% 43%,12% 38%,14% 34%,16% 30%,17% 26%,18% 22%,20% 18%,21% 13%)">
+      <canvas id="flag-canvas" style="width:100%;height:100%;display:block;"></canvas>
+    </div>
 
-    <!-- India Map — decorative silhouette background -->
-    <div style="position:absolute;right:clamp(2%,8vw,12%);top:50%;transform:translateY(-50%);width:clamp(220px,28vw,420px);pointer-events:none;z-index:0;opacity:0.07;animation:mapPulse 7s ease-in-out infinite">
-      <svg viewBox="0 0 370 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;filter:drop-shadow(0 0 28px rgba(201,169,122,0.55))">
-        <defs>
-          <linearGradient id="mapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   stop-color="#F5B800"/>
-            <stop offset="45%"  stop-color="#C9A97A"/>
-            <stop offset="100%" stop-color="#1B8F08"/>
-          </linearGradient>
-        </defs>
-        <!-- India outline — clockwise from NW coast -->
-        <path fill="url(#mapGrad)" stroke="rgba(245,184,0,0.6)" stroke-width="1.5" stroke-linejoin="round"
-          d="
-            M 82,38
-            L 95,22  L 120,13  L 155,8   L 190,7   L 225,10
-            L 262,18  L 295,26  L 318,38  L 340,52
-            L 358,72  L 362,96  L 355,118
-            L 342,128 L 328,132 L 316,144
-            L 325,162 L 328,180 L 322,196
-            L 312,208 L 302,228 L 296,248
-            L 292,268 L 290,290 L 284,308
-            L 275,325 L 262,342 L 248,358
-            L 232,375 L 215,392 L 200,410
-            L 188,428 L 180,445 L 177,460
-            L 172,472
-            L 165,460 L 160,445 L 155,428
-            L 148,412 L 138,396 L 124,378
-            L 108,358 L 94,338  L 80,316
-            L 66,294  L 55,272  L 48,250
-            L 44,228  L 42,206  L 44,184
-            L 50,164  L 58,146  L 64,126
-            L 68,106  L 72,86   L 78,62
-            Z
-          "/>
+    <!-- India Map — gold glowing outline on top of flag -->
+    <div style="position:absolute;right:clamp(2%,8vw,12%);top:50%;transform:translateY(-50%);width:clamp(220px,28vw,420px);pointer-events:none;z-index:2;animation:mapPulse 7s ease-in-out infinite">
+      <svg viewBox="0 0 370 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;filter:drop-shadow(0 0 14px rgba(245,184,0,0.75)) drop-shadow(0 0 4px rgba(245,184,0,0.5))">
+        <!-- India outline — stroke only, no fill -->
+        <path fill="rgba(0,0,0,0.10)" stroke="rgba(245,184,0,0.88)" stroke-width="2.5" stroke-linejoin="round"
+          d="M 82,38
+             L 95,22  L 120,13  L 155,8   L 190,7   L 225,10
+             L 262,18  L 295,26  L 318,38  L 340,52
+             L 358,72  L 362,96  L 355,118
+             L 342,128 L 328,132 L 316,144
+             L 325,162 L 328,180 L 322,196
+             L 312,208 L 302,228 L 296,248
+             L 292,268 L 290,290 L 284,308
+             L 275,325 L 262,342 L 248,358
+             L 232,375 L 215,392 L 200,410
+             L 188,428 L 180,445 L 177,460
+             L 172,472
+             L 165,460 L 160,445 L 155,428
+             L 148,412 L 138,396 L 124,378
+             L 108,358 L 94,338  L 80,316
+             L 66,294  L 55,272  L 48,250
+             L 44,228  L 42,206  L 44,184
+             L 50,164  L 58,146  L 64,126
+             L 68,106  L 72,86   L 78,62 Z"/>
         <!-- Andaman dot -->
-        <circle cx="340" cy="360" r="5" fill="rgba(245,184,0,0.5)"/>
-        <!-- Kashmir indicator -->
-        <path fill="none" stroke="rgba(245,184,0,0.4)" stroke-width="1" stroke-dasharray="3,3"
+        <circle cx="340" cy="360" r="5.5" fill="rgba(245,184,0,0.7)" stroke="rgba(245,184,0,0.9)" stroke-width="1"/>
+        <!-- Kashmir dashed border -->
+        <path fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.5" stroke-dasharray="3,3"
           d="M 155,8 L 140,2 L 118,4 L 100,12 L 92,22"/>
       </svg>
     </div>
     <style>
     @keyframes mapPulse {
-      0%,100% { opacity:0.07; transform:translateY(-50%) scale(1); }
-      50%      { opacity:0.11; transform:translateY(-50%) scale(1.018); }
+      0%,100% { transform:translateY(-50%) scale(1); }
+      50%      { transform:translateY(-50%) scale(1.012); }
     }
     </style>
 
     <!-- 3-Column Hero Layout: Left Text | Centre Map | Right Stats -->
-    <div style="position:relative;z-index:2;width:100%;padding:0 clamp(18px,4vw,52px);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:24px;flex:1">
+    <div style="position:relative;z-index:3;width:100%;padding:0 clamp(18px,4vw,52px);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:24px;flex:1">
 
       <!-- LEFT: Hero Text -->
       <div style="flex:1 1 320px;max-width:480px;text-align:left">
@@ -1578,45 +1571,36 @@
     if(!canvas) return;
     var ctx = canvas.getContext('2d');
 
-    /* ── layout constants (recalc on resize) ── */
-    var W, H, POLE_X, POLE_Y, FLAG_W, FLAG_H, COLS, ROWS;
-    var isSmall = false;
+    /* ── dimensions from the India-map container ── */
+    var W, H, COLS = 30, ROWS = 40, pts = [];
 
     function layout(){
-      W = canvas.offsetWidth  || 1200;
-      H = canvas.offsetHeight || 700;
+      W = canvas.offsetWidth  || 280;
+      H = canvas.offsetHeight || 0;
+      if(H < 10) H = Math.round(W * (480/370));
       canvas.width  = W;
       canvas.height = H;
-      isSmall = W < 800;
-      FLAG_W  = isSmall ? W*0.28 : W*0.24;
-      FLAG_H  = FLAG_W * 0.6;
-      POLE_X  = isSmall ? W*0.14 : W*0.16;
-      POLE_Y  = isSmall ? H*0.12 : H*0.11;
-      COLS    = 28;
-      ROWS    = 19;
     }
 
-    /* ── grid (cloth vertices) ── */
     function makeGrid(){
-      var pts = [];
+      pts = [];
       for(var r=0; r<ROWS; r++){
         pts[r] = [];
         for(var c=0; c<COLS; c++){
           pts[r][c] = {
-            bx: POLE_X + (c/(COLS-1))*FLAG_W,
-            by: POLE_Y + (r/(ROWS-1))*FLAG_H,
+            bx: (c/(COLS-1)) * W,
+            by: (r/(ROWS-1)) * H,
             x: 0, y: 0
           };
         }
       }
-      return pts;
     }
-    var pts = [];
 
     /* ── colour bands ── */
     var SAFFRON = [255,153,51];
     var WHITE   = [248,248,248];
     var GREEN   = [19,136,8];
+
     function bandColor(r){
       var t = r/(ROWS-1);
       if(t < 0.333) return SAFFRON;
@@ -1624,63 +1608,14 @@
       return WHITE;
     }
 
-    /* ── atmosphere ── */
-    function drawAtmos(){
-      var grd = ctx.createRadialGradient(
-        POLE_X + FLAG_W*0.55, POLE_Y + FLAG_H*0.5, FLAG_H*0.1,
-        POLE_X + FLAG_W*0.55, POLE_Y + FLAG_H*0.5, FLAG_W*0.85
-      );
-      grd.addColorStop(0,  'rgba(27,77,14,0.13)');
-      grd.addColorStop(0.5,'rgba(10,31,5,0.06)');
-      grd.addColorStop(1,  'transparent');
-      ctx.fillStyle = grd;
-      ctx.fillRect(0,0,W,H);
-    }
-
-    /* ── dust particles ── */
-    var PDUST = 65;
-    var dust = [];
-    function initDust(){
-      dust = [];
-      for(var i=0; i<PDUST; i++){
-        dust.push(spawnDust(true));
-      }
-    }
-    function spawnDust(rand){
-      var gold = Math.random() < 0.52;
-      return {
-        x: rand ? POLE_X + Math.random()*FLAG_W*1.1
-                : POLE_X - 8,
-        y: rand ? POLE_Y - FLAG_H*0.15 + Math.random()*(FLAG_H*1.3)
-                : POLE_Y - FLAG_H*0.1 + Math.random()*(FLAG_H*1.2),
-        vx: 0.35 + Math.random()*0.55,
-        vy: (Math.random()-0.5)*0.18,
-        size: 0.7 + Math.random()*1.4,
-        alpha: 0.08 + Math.random()*0.22,
-        gold: gold
-      };
-    }
-    function stepDust(){
-      for(var i=0; i<dust.length; i++){
-        var d = dust[i];
-        d.x += d.vx;
-        d.y += d.vy;
-        d.alpha -= 0.0008;
-        if(d.x > POLE_X + FLAG_W*1.3 || d.alpha <= 0){
-          dust[i] = spawnDust(false);
-        }
-      }
-    }
-    function drawDust(){
-      for(var i=0; i<dust.length; i++){
-        var d = dust[i];
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.size, 0, Math.PI*2);
-        ctx.fillStyle = d.gold
-          ? 'rgba(201,169,122,'+d.alpha.toFixed(3)+')'
-          : 'rgba(248,248,248,'+d.alpha.toFixed(3)+')';
-        ctx.fill();
-      }
+    /* ── sine-wave cloth displacement ── */
+    function waveDisp(c, r, t){
+      var cx = c/(COLS-1);
+      var cy = r/(ROWS-1);
+      var p = Math.sin((cx*6.0 - t*2.0) + cy*0.7) * 0.9;
+      var s = Math.sin((cx*9.5 - t*2.8)*0.7 + cy*1.2) * 0.32;
+      var g = Math.sin((cx*3.5 - t*1.2 + cy*2.1) + Math.sin(t*0.9)*1.5) * 0.2;
+      return (p + s + g) * cx;
     }
 
     /* ── Ashoka Chakra ── */
@@ -1688,14 +1623,13 @@
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(angle);
-      ctx.strokeStyle = 'rgba(0,0,128,0.82)';
-      ctx.lineWidth = Math.max(0.4, r*0.055);
+      ctx.strokeStyle = 'rgba(0,0,128,0.88)';
+      ctx.lineWidth = Math.max(0.6, r*0.06);
       ctx.beginPath();
-      ctx.arc(0, 0, r, 0, Math.PI*2);
+      ctx.arc(0,0,r,0,Math.PI*2);
       ctx.stroke();
-      var spokes = 24;
-      for(var s=0; s<spokes; s++){
-        var a = (s/spokes)*Math.PI*2;
+      for(var s=0; s<24; s++){
+        var a = (s/24)*Math.PI*2;
         ctx.beginPath();
         ctx.moveTo(0,0);
         ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
@@ -1704,175 +1638,72 @@
       ctx.restore();
     }
 
-    /* ── main wave ── */
-    var t = 0;
-    var introFrames = 80;
-    var frame = 0;
-
-    function waveDisp(c, r, t){
-      var cx = c/(COLS-1);
-      var cy = r/(ROWS-1);
-      /* primary wave */
-      var p = Math.sin((cx*5.5 - t*1.9)        + cy*0.6)*0.82;
-      /* secondary ripple */
-      var s = Math.sin((cx*9.0 - t*2.7)*0.7    + cy*1.1)*0.28;
-      /* gust flutter */
-      var g = Math.sin((cx*3.2 - t*1.1 + cy*2) + Math.sin(t*0.8)*1.4)*0.18;
-      return (p + s + g) * cx;   /* zero at pole (cx=0), max at fly end */
-    }
+    /* ── render loop ── */
+    var t = 0, frame = 0, introFrames = 90;
 
     function render(){
       ctx.clearRect(0,0,W,H);
 
-      /* intro scale/fade */
-      var prog = Math.min(frame / introFrames, 1);
-      var eased = 1 - Math.pow(1 - prog, 3);   /* ease-out cubic */
-      var sc    = 0.88 + 0.12 * eased;
-      var alpha = eased;
+      /* intro fade-in */
+      var prog  = Math.min(frame/introFrames, 1);
+      var eased = 1 - Math.pow(1-prog, 3);
+      ctx.globalAlpha = eased;
 
-      ctx.save();
-      /* scale from pole anchor */
-      ctx.translate(POLE_X, POLE_Y + FLAG_H*0.5);
-      ctx.scale(sc, sc);
-      ctx.translate(-POLE_X, -(POLE_Y + FLAG_H*0.5));
-      ctx.globalAlpha = alpha;
+      var ampX = W * 0.03;
+      var ampY = H * 0.025;
 
-      drawAtmos();
-
-      /* ── build displaced grid ── */
-      var amp  = FLAG_H * 0.09;
-      var ampX = FLAG_W * 0.022;
+      /* displace grid */
       for(var r=0; r<ROWS; r++){
         for(var c=0; c<COLS; c++){
           var dw = waveDisp(c, r, t);
           pts[r][c].x = pts[r][c].bx + dw * ampX;
-          pts[r][c].y = pts[r][c].by + dw * amp;
+          pts[r][c].y = pts[r][c].by + dw * ampY;
         }
       }
 
-      /* ── draw quads ── */
+      /* draw quads with surface-normal lighting */
       for(var r=0; r<ROWS-1; r++){
         var col = bandColor(r + 0.5);
         for(var c=0; c<COLS-1; c++){
-          var p00 = pts[r  ][c  ];
-          var p10 = pts[r  ][c+1];
-          var p01 = pts[r+1][c  ];
-          var p11 = pts[r+1][c+1];
-
-          /* surface normal z for lighting */
-          var v1x = p10.x - p00.x, v1y = p10.y - p00.y;
-          var v2x = p01.x - p00.x, v2y = p01.y - p00.y;
+          var p00=pts[r][c], p10=pts[r][c+1], p01=pts[r+1][c], p11=pts[r+1][c+1];
+          var v1x=p10.x-p00.x, v1y=p10.y-p00.y;
+          var v2x=p01.x-p00.x, v2y=p01.y-p00.y;
           var nz  = v1x*v2y - v1y*v2x;
-          var len = Math.sqrt(v1x*v1x + v1y*v1y + 1) * Math.sqrt(v2x*v2x + v2y*v2y + 1);
-          nz = len > 0 ? nz/len : 1;
-
-          /* pole shadow: left quads darker */
-          var cx01 = c/(COLS-1);
-          var shadow = 0.35 + 0.65 * Math.pow(cx01, 0.25);
-
-          /* final brightness */
-          var bright = Math.max(0.45, Math.min(1.0, 0.78 + nz*0.38)) * shadow;
-
-          var R = Math.round(col[0]*bright);
-          var G = Math.round(col[1]*bright);
-          var B = Math.round(col[2]*bright);
-
+          var len = Math.sqrt(v1x*v1x+v1y*v1y+1)*Math.sqrt(v2x*v2x+v2y*v2y+1);
+          nz = len>0 ? nz/len : 1;
+          var bright = Math.max(0.48, Math.min(1.0, 0.74 + nz*0.42));
+          var R=Math.round(col[0]*bright), G=Math.round(col[1]*bright), B=Math.round(col[2]*bright);
           ctx.beginPath();
-          ctx.moveTo(p00.x, p00.y);
-          ctx.lineTo(p10.x, p10.y);
-          ctx.lineTo(p11.x, p11.y);
-          ctx.lineTo(p01.x, p01.y);
+          ctx.moveTo(p00.x,p00.y); ctx.lineTo(p10.x,p10.y);
+          ctx.lineTo(p11.x,p11.y); ctx.lineTo(p01.x,p01.y);
           ctx.closePath();
-          ctx.fillStyle = 'rgb('+R+','+G+','+B+')';
+          ctx.fillStyle='rgb('+R+','+G+','+B+')';
           ctx.fill();
         }
       }
 
-      /* ── Ashoka Chakra ── */
+      /* Ashoka Chakra — centre of white band */
       var midRow = Math.floor(ROWS/2);
-      var midCol = Math.floor(COLS*0.38);
-      var cx = pts[midRow][midCol].x + (pts[midRow][midCol+1].x - pts[midRow][midCol].x)*0.5;
-      var cy = pts[midRow][midCol].y + (pts[midRow][midCol+1].y - pts[midRow][midCol].y)*0.5;
-      var chakrR = FLAG_H * 0.135;
-      /* rotation follows local horizontal angle */
-      var dx = pts[midRow][midCol+1].x - pts[midRow][midCol].x;
-      var dy = pts[midRow][midCol+1].y - pts[midRow][midCol].y;
-      var chakraAngle = Math.atan2(dy, dx) + t*0.5;
-      drawChakra(cx, cy, chakrR, chakraAngle);
+      var midCol = Math.floor(COLS/2);
+      var cxC = pts[midRow][midCol].x;
+      var cyC = pts[midRow][midCol].y;
+      var dxA = pts[midRow][Math.min(midCol+1,COLS-1)].x - pts[midRow][Math.max(midCol-1,0)].x;
+      var dyA = pts[midRow][Math.min(midCol+1,COLS-1)].y - pts[midRow][Math.max(midCol-1,0)].y;
+      drawChakra(cxC, cyC, Math.min(W,H)*0.075, Math.atan2(dyA,dxA)*0.5 + t*0.45);
 
-      /* ── flag outline ── */
-      var topRow = pts[0], botRow = pts[ROWS-1];
-      ctx.beginPath();
-      ctx.moveTo(topRow[0].x, topRow[0].y);
-      for(var c=1; c<COLS; c++) ctx.lineTo(topRow[c].x, topRow[c].y);
-      for(var r=1; r<ROWS; r++) ctx.lineTo(pts[r][COLS-1].x, pts[r][COLS-1].y);
-      for(var c=COLS-2; c>=0; c--) ctx.lineTo(botRow[c].x, botRow[c].y);
-      for(var r=ROWS-2; r>=1; r--) ctx.lineTo(pts[r][0].x, pts[r][0].y);
-      ctx.closePath();
-      ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-      ctx.lineWidth = 0.7;
-      ctx.stroke();
-
-      /* ── pole ── */
-      var poleTop    = POLE_Y - FLAG_H*0.08;
-      var poleBottom = POLE_Y + FLAG_H*1.28;
-      var poleGrd = ctx.createLinearGradient(POLE_X-3, 0, POLE_X+3, 0);
-      poleGrd.addColorStop(0,   '#a8720a');
-      poleGrd.addColorStop(0.35,'#F5C842');
-      poleGrd.addColorStop(0.65,'#d4a017');
-      poleGrd.addColorStop(1,   '#7a5200');
-      ctx.beginPath();
-      ctx.moveTo(POLE_X, poleTop);
-      ctx.lineTo(POLE_X, poleBottom);
-      ctx.strokeStyle = poleGrd;
-      ctx.lineWidth = isSmall ? 3.5 : 5;
-      ctx.stroke();
-
-      /* finial (golden ball) */
-      var finialR = isSmall ? 5 : 7;
-      var finGrd = ctx.createRadialGradient(
-        POLE_X-finialR*0.3, poleTop - finialR*0.3, 1,
-        POLE_X, poleTop, finialR
-      );
-      finGrd.addColorStop(0, '#FFF0A0');
-      finGrd.addColorStop(0.6,'#F5B800');
-      finGrd.addColorStop(1, '#7a5200');
-      ctx.beginPath();
-      ctx.arc(POLE_X, poleTop, finialR, 0, Math.PI*2);
-      ctx.fillStyle = finGrd;
-      ctx.fill();
-
-      /* rope (dashed line from finial to flag top-left) */
-      ctx.beginPath();
-      ctx.moveTo(POLE_X, poleTop + finialR);
-      ctx.lineTo(pts[0][0].x, pts[0][0].y);
-      ctx.setLineDash([3,4]);
-      ctx.strokeStyle = 'rgba(245,200,66,0.38)';
-      ctx.lineWidth = 0.9;
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      /* ── dust ── */
-      stepDust();
-      drawDust();
-
-      ctx.restore();
-
+      ctx.globalAlpha = 1;
       t += 0.028;
       frame++;
       requestAnimationFrame(render);
     }
 
-    /* ── init ── */
     layout();
-    pts = makeGrid();
-    initDust();
+    makeGrid();
     requestAnimationFrame(render);
 
     window.addEventListener('resize', function(){
       layout();
-      pts = makeGrid();
-      initDust();
+      makeGrid();
     });
 
   })();
