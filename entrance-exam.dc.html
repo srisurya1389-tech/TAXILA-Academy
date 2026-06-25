@@ -476,11 +476,11 @@
 
   <!-- NAV -->
   <nav style="width:100%;background:rgba(3,10,2,0.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:16px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15);border-bottom:1px solid rgba(255,255,255,0.05);z-index:50;position:relative">
-    <a href="./Taxila Academy.dc.html" style="display:flex;align-items:center;gap:8px">
+    <a href="./index.html" style="display:flex;align-items:center;gap:8px">
       <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:70px;width:auto;object-fit:contain">
       <span style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:23px;color:#fff;letter-spacing:-0.03em">TAXILA ACADEMY</span>
     </a>
-    <a href="./Taxila Academy.dc.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.2);color:#fff;font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:8px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,.08)';" onmouseout="this.style.background='transparent'">
+    <a href="./index.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.2);color:#fff;font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:8px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,.08)';" onmouseout="this.style.background='transparent'">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back to Home
     </a>
@@ -1458,6 +1458,223 @@ class Component extends DCLogic {
 
   renderVals() { return {}; }
 }
+</script>
+<script>
+(function() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'cursor-smoke-canvas';
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '999999';
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.scale(dpr, dpr);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let mouse = { x: width / 2, y: height / 2 };
+  let lastMouse = { x: width / 2, y: height / 2 };
+  let ring = { x: width / 2, y: height / 2 };
+  let isHovered = false;
+  let isMouseDown = false;
+  let isMoving = false;
+  let moveTimeout;
+
+  window.addEventListener('mousemove', (e) => {
+    lastMouse.x = mouse.x;
+    lastMouse.y = mouse.y;
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    
+    isMoving = true;
+    clearTimeout(moveTimeout);
+    moveTimeout = setTimeout(() => {
+      isMoving = false;
+    }, 100);
+  });
+
+  window.addEventListener('mousedown', () => isMouseDown = true);
+  window.addEventListener('mouseup', () => isMouseDown = false);
+
+  window.addEventListener('mouseover', (e) => {
+    if (!e.target) return;
+    const interactive = e.target.closest('a, button, [role="button"], input, select, textarea, [onclick]');
+    isHovered = !!interactive;
+  });
+
+  document.documentElement.classList.add('custom-cursor-active');
+
+  class Particle {
+    constructor(x, y, vx, vy) {
+      this.x = x;
+      this.y = y;
+      this.vx = vx || (Math.random() - 0.5) * 1.5;
+      this.vy = vy || (Math.random() - 0.5) * 1.5;
+      
+      this.size = Math.random() * 5 + 3;
+      this.shrinkRate = Math.random() * 0.12 + 0.08;
+      
+      this.alpha = 1.0;
+      this.fade = Math.random() * 0.02 + 0.015;
+      
+      this.angle = Math.random() * Math.PI * 2;
+      this.spin = (Math.random() - 0.5) * 0.1;
+      
+      const rand = Math.random();
+      if (rand < 0.6) {
+        this.color = { r: 57, g: 255, b: 20 };
+      } else if (rand < 0.85) {
+        this.color = { r: 0, g: 230, b: 118 };
+      } else {
+        this.color = { r: 245, g: 184, b: 0 };
+      }
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.size -= this.shrinkRate;
+      if (this.size < 0) this.size = 0;
+      this.alpha -= this.fade;
+      this.angle += this.spin;
+    }
+
+    draw(ctx) {
+      if (this.alpha <= 0 || this.size <= 0) return;
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+
+      ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha})`;
+      ctx.shadowBlur = this.size * 1.5;
+      ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.8)`;
+      
+      ctx.beginPath();
+      ctx.moveTo(0, -this.size);
+      ctx.quadraticCurveTo(0, 0, this.size, 0);
+      ctx.quadraticCurveTo(0, 0, 0, this.size);
+      ctx.quadraticCurveTo(0, 0, -this.size, 0);
+      ctx.quadraticCurveTo(0, 0, 0, -this.size);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.restore();
+    }
+  }
+
+  const particles = [];
+  const maxParticles = 100;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    @media (pointer: fine) {
+      .custom-cursor-active,
+      .custom-cursor-active * {
+        cursor: none !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Spawns 4-pointed sparkling stars along mouse coordinate delta
+  function spawnStars(x1, y1, x2, y2, count) {
+    for (let i = 0; i < count; i++) {
+      const t = count > 1 ? i / (count - 1) : 0.5;
+      const px = x1 + (x2 - x1) * t;
+      const py = y1 + (y2 - y1) * t;
+      
+      const ox = (Math.random() - 0.5) * 4;
+      const oy = (Math.random() - 0.5) * 4;
+      
+      const vx = (x2 - x1) * 0.05 + (Math.random() - 0.5) * 1.2;
+      const vy = (y2 - y1) * 0.05 + (Math.random() - 0.5) * 1.2;
+      
+      particles.push(new Particle(px + ox, py + oy, vx, vy));
+    }
+  }
+
+  let currentRingRadius = 8;
+  let targetRingRadius = 8;
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    if (isMoving) {
+      const dx = mouse.x - lastMouse.x;
+      const dy = mouse.y - lastMouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      const count = Math.min(Math.floor(dist / 5) + 1, 4);
+      spawnStars(lastMouse.x, lastMouse.y, mouse.x, mouse.y, count);
+    } else {
+      if (Math.random() < 0.15) {
+        const vx = (Math.random() - 0.5) * 0.6;
+        const vy = (Math.random() - 0.5) * 0.6;
+        particles.push(new Particle(mouse.x, mouse.y, vx, vy));
+      }
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].update();
+      if (particles[i].alpha <= 0) {
+        particles.splice(i, 1);
+      } else {
+        particles[i].draw(ctx);
+      }
+    }
+
+    if (particles.length > maxParticles) {
+      particles.splice(0, particles.length - maxParticles);
+    }
+
+    ring.x += (mouse.x - ring.x) * 0.15;
+    ring.y += (mouse.y - ring.y) * 0.15;
+
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, isMouseDown ? 2.5 : 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = isHovered ? '#F5B800' : '#39FF14';
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = isHovered ? 'rgba(245, 184, 0, 0.9)' : 'rgba(57, 255, 20, 0.9)';
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    targetRingRadius = isHovered ? 18 : (isMouseDown ? 5 : 9);
+    currentRingRadius += (targetRingRadius - currentRingRadius) * 0.2;
+
+    ctx.beginPath();
+    ctx.arc(ring.x, ring.y, currentRingRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = isHovered ? 'rgba(245, 184, 0, 0.75)' : 'rgba(57, 255, 20, 0.55)';
+    ctx.lineWidth = isHovered ? 2.2 : 1.5;
+    ctx.shadowBlur = isHovered ? 10 : 3;
+    ctx.shadowColor = isHovered ? 'rgba(245, 184, 0, 0.5)' : 'rgba(57, 255, 20, 0.35)';
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
 </script>
 </body>
 </html>

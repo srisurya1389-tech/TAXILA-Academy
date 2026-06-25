@@ -26,7 +26,7 @@ if %ERRORLEVEL% equ 0 (
 :: Fallback: Open the file directly
 echo [INFO] Neither Python nor Node.js was found in PATH.
 echo Opening the HTML file directly in your default browser...
-start "" "Taxila Academy.dc.html"
+start "" "index.html"
 
 :end
 pause
