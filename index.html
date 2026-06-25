@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 <x-dc id="taxila-root">
@@ -3873,8 +3874,8 @@
 
           <!-- Simulate pay button -->
           <div style="margin-top:28px;display:flex;flex-direction:column;gap:10px;align-items:center">
-            <button id="p-btn-pay" class="parental-biscuit-btn" style="width:100%;justify-content:center;padding:15px">Verify &amp; Simulate Payment Success</button>
-            <span style="font-size:12px;color:#cfe0c4;text-align:center">This is a mock transaction simulation. No real money is charged.</span>
+            <button id="p-btn-pay" class="parental-biscuit-btn" style="width:100%;justify-content:center;padding:15px">Pay Securely ₹499</button>
+            <span style="font-size:12px;color:#cfe0c4;text-align:center">🔒 256-bit Secure SSL Connection · Razorpay Encrypted</span>
           </div>
         </div>
 
@@ -4144,7 +4145,30 @@ class Component extends DCLogic {
       const pBtnPay = parentalModal.querySelector('#p-btn-pay');
       if (pBtnPay) {
         pBtnPay.addEventListener('click', () => {
-          setParentalStep(2);
+          const options = {
+            key: 'rzp_live_T5ptyJeQl3KoUD',
+            amount: 49900, // ₹499 in paise
+            currency: 'INR',
+            name: 'Taxila Academy',
+            description: 'Parental Awareness Session — Booking',
+            image: 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png',
+            theme: { color: '#1B4D0E' },
+            prefill: {},
+            handler: function(response) {
+              setParentalStep(2);
+            }
+          };
+
+          if (typeof Razorpay === 'undefined') {
+            alert('Payment gateway failed to load. Please check your internet connection and try again.');
+            return;
+          }
+
+          const rzp = new Razorpay(options);
+          rzp.on('payment.failed', function(response) {
+            alert('Payment failed: ' + (response.error.description || 'Unknown error'));
+          });
+          rzp.open();
         });
       }
 
