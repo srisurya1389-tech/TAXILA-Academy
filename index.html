@@ -2446,177 +2446,90 @@
   </div>
 
   <!-- EVENTS -->
-  <!-- ═══════════════════════════════════════════════════
-       WINS, EVENTS & CHAMPIONS — merged 3-column section
-  ════════════════════════════════════════════════════ -->
-  <section id="events" data-screen-label="Events" style="background:#040c02;padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:5%;left:5%;width:400px;height:400px;background:radial-gradient(circle,rgba(27,77,14,0.1) 0%,transparent 70%);pointer-events:none;filter:blur(60px)"></div>
-    <div style="position:absolute;bottom:10%;right:5%;width:350px;height:350px;background:radial-gradient(circle,rgba(201,169,122,0.06) 0%,transparent 70%);pointer-events:none;filter:blur(50px)"></div>
+  <section id="events" data-screen-label="Events" style="background:#040c02;padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px">
+    <div style="max-width:1180px;margin:0 auto">
 
-    <style>
-      .wu-wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
-      .wu-head{text-align:center;margin-bottom:56px}
-      .wu-label{display:inline-flex;align-items:center;gap:7px;background:rgba(245,184,0,0.08);border:1px solid rgba(245,184,0,0.2);color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:16px}
-      .wu-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4vw,44px);color:#F5EDD8;margin:0 0 12px;line-height:1.15;letter-spacing:-0.02em}
-      .wu-sub{color:rgba(232,213,176,0.5);font-size:15px;line-height:1.65;max-width:500px;margin:0 auto}
-      .wu-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:28px;align-items:start}
-      .wu-col{display:flex;flex-direction:column}
-      .wu-col-panel{background:rgba(255,255,255,0.025);border:1.5px solid rgba(255,255,255,0.07);border-radius:20px;padding:22px 20px;flex:1}
-      .wu-col-ttl{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,213,176,0.45);padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:16px}
-      /* Events */
-      .wu-event{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-      .wu-event:last-child{border-bottom:none;padding-bottom:0}
-      .wu-event-date{flex:none;width:48px;height:56px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.3)}
-      .wu-event-dd{font-family:'Playfair Display',serif;font-weight:800;font-size:20px;line-height:1;color:#F5B800}
-      .wu-event-mm{font-size:8.5px;font-weight:700;letter-spacing:.14em;color:#a3c98a;margin-top:2px;text-transform:uppercase}
-      .wu-event-body{flex:1;min-width:0}
-      .wu-event-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.06em;padding:2px 7px;border-radius:4px;margin-bottom:5px}
-      .wu-event-title{font-size:13px;font-weight:700;color:#F5EDD8;line-height:1.3;margin:0 0 3px}
-      .wu-event-desc{font-size:11.5px;color:rgba(232,213,176,0.48);line-height:1.5}
-      /* Selections */
-      .wu-sel-list{max-height:390px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(201,169,122,0.25) transparent;display:flex;flex-direction:column;gap:7px}
-      .wu-sel-list::-webkit-scrollbar{width:3px}
-      .wu-sel-list::-webkit-scrollbar-thumb{background:rgba(201,169,122,0.3);border-radius:2px}
-      .wu-sel-row{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.055);border-radius:11px;padding:10px 13px;transition:background .18s,border-color .18s}
-      .wu-sel-row:hover{background:rgba(201,169,122,0.07);border-color:rgba(201,169,122,0.2)}
-      .wu-sel-badge{display:inline-block;font-size:8.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-bottom:4px}
-      .wu-sel-name{font-size:12.5px;font-weight:700;color:#F5EDD8;margin:0 0 1px;line-height:1.2}
-      .wu-sel-detail{font-size:11px;color:rgba(232,213,176,0.45)}
-      .wu-sel-year{font-size:9.5px;font-weight:800;color:#C9A97A;margin-top:2px;letter-spacing:.05em}
-      /* Champions flip cards */
-      .wu-champ-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-      .wu-flip{perspective:900px;height:155px;cursor:pointer}
-      .wu-flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,.2,.2,1)}
-      .wu-flip.flipped .wu-flip-inner{transform:rotateY(180deg)}
-      .wu-flip-front,.wu-flip-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 10px}
-      .wu-flip-front{background:#0b1a07;border:1px solid rgba(228,238,217,0.1);box-shadow:0 4px 14px rgba(0,0,0,0.25)}
-      .wu-flip-back{transform:rotateY(180deg);background:linear-gradient(145deg,#1B4D0E,#0A1F05);box-shadow:0 6px 20px rgba(10,31,5,.3)}
-      .wu-flip-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1B4D0E,#0A1F05);border:1.5px solid rgba(245,184,0,0.35);color:#F5B800;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:13px;margin-bottom:7px}
-      .wu-flip-name{font-family:'Playfair Display',serif;font-weight:700;font-size:12.5px;color:#F5EDD8;margin:0 0 4px}
-      .wu-flip-stream{font-size:9px;font-weight:700;color:#C9A97A;background:rgba(201,169,122,0.1);border:1px solid rgba(245,184,0,0.25);padding:2px 7px;border-radius:100px}
-      .wu-flip-hint{font-size:8.5px;color:rgba(168,196,152,0.6);margin-top:5px}
-      .wu-flip-rank{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;color:#F5B800;line-height:1;margin-bottom:2px}
-      .wu-flip-exam{font-size:9px;color:#cfe0c4;letter-spacing:.1em;margin-bottom:5px}
-      .wu-flip-quote{font-size:9.5px;line-height:1.45;color:#e6f0de;font-style:italic}
-      @media(max-width:1024px){.wu-grid{grid-template-columns:1fr 1fr}}
-      @media(max-width:700px){.wu-grid{grid-template-columns:1fr}.wu-champ-grid{grid-template-columns:1fr 1fr}.wu-sel-list{max-height:220px}}
-    </style>
-
-    <div class="wu-wrap">
-      <!-- Section header -->
-      <div class="wu-head" data-reveal>
-        <span class="wu-label">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Hall of Fame &amp; Updates
-        </span>
-        <h2 class="wu-h2">Wins, Events &amp; Champions</h2>
-        <p class="wu-sub">Upcoming events, recent selections, and student stories — all in one place.</p>
+      <!-- Header -->
+      <div data-reveal style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;margin-bottom:48px">
+        <div>
+          <span style="color:#C9920A;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:12px">What's Happening</span>
+          <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4vw,44px);color:#0A1F05;margin:0;line-height:1.15;letter-spacing:-0.02em">Events &amp; Announcements</h2>
+        </div>
+        <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid #1B4D0E;color:#1B4D0E;font-weight:700;font-size:13.5px;padding:10px 22px;border-radius:100px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#1B4D0E';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#1B4D0E'">
+          View All Events
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
 
-      <!-- 3-column grid -->
-      <div class="wu-grid">
+      <!-- Event Cards Grid -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
 
-        <!-- ── LEFT: Upcoming Events ── -->
-        <div class="wu-col" data-reveal>
-          <div class="wu-col-panel">
-            <div class="wu-col-ttl">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,213,176,0.45)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              Upcoming Events
-            </div>
-            <div class="wu-event">
-              <div class="wu-event-date"><span class="wu-event-dd">12</span><span class="wu-event-mm">JUL</span></div>
-              <div class="wu-event-body">
-                <span class="wu-event-tag" style="background:rgba(27,77,14,0.3);color:#a3c98a">Admissions</span>
-                <div class="wu-event-title">New Batch Orientation</div>
-                <div class="wu-event-desc">Class 3–5 parents — meet faculty &amp; get the schedule.</div>
-              </div>
-            </div>
-            <div class="wu-event">
-              <div class="wu-event-date"><span class="wu-event-dd">20</span><span class="wu-event-mm">JUL</span></div>
-              <div class="wu-event-body">
-                <span class="wu-event-tag" style="background:rgba(201,169,122,0.12);color:#C9A97A;border:1px solid rgba(245,184,0,0.22)">Mock Test</span>
-                <div class="wu-event-title">All-Stream Grand Mock</div>
-                <div class="wu-event-desc">AISSEE &amp; JNVST full-length with same-day rank report.</div>
-              </div>
-            </div>
-            <div class="wu-event">
-              <div class="wu-event-date"><span class="wu-event-dd">03</span><span class="wu-event-mm">AUG</span></div>
-              <div class="wu-event-body">
-                <span class="wu-event-tag" style="background:rgba(27,77,14,0.3);color:#a3c98a">Parents</span>
-                <div class="wu-event-title">Parental Awareness Session</div>
-                <div class="wu-event-desc">How to choose the right residential exam.</div>
-              </div>
-            </div>
-            <div class="wu-event">
-              <div class="wu-event-date"><span class="wu-event-dd">15</span><span class="wu-event-mm">AUG</span></div>
-              <div class="wu-event-body">
-                <span class="wu-event-tag" style="background:rgba(201,169,122,0.12);color:#C9A97A;border:1px solid rgba(245,184,0,0.22)">Free Entry</span>
-                <div class="wu-event-title">Free Aptitude Camp</div>
-                <div class="wu-event-desc">Class 4 &amp; 5 aspirants. Scholarships up to 50%.</div>
-              </div>
-            </div>
+        <!-- Event 1 -->
+        <div data-reveal style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
+          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
+            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">12</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">JUL</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;letter-spacing:0.04em">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#1B4D0E"><circle cx="12" cy="12" r="10"/></svg>
+              Admissions
+            </span>
+            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">New Batch Orientation</h3>
+            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">Welcome session for Class 3–5 &amp; coaching parents — meet the faculty and get the schedule.</p>
           </div>
         </div>
 
-        <!-- ── CENTER: Recent Selections ── -->
-        <div class="wu-col" data-reveal data-delay="120">
-          <div class="wu-col-panel">
-            <div class="wu-col-ttl">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,213,176,0.45)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              Recent Selections
-            </div>
-            <div class="wu-sel-list">
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(29,74,107,0.35);color:#7eb8d4">Sainik School</span><div class="wu-sel-name">Arjun Reddy</div><div class="wu-sel-detail">All India Rank 12 · Class VI</div><div class="wu-sel-year">2024</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(30,107,46,0.35);color:#74c47a">Navodaya</span><div class="wu-sel-name">Priya Sharma</div><div class="wu-sel-detail">District Topper · Guntur</div><div class="wu-sel-year">2024</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(122,32,32,0.35);color:#fc8d59">RMS</span><div class="wu-sel-name">Kiran Babu</div><div class="wu-sel-detail">All India Rank 8 · Merit List</div><div class="wu-sel-year">2024</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(107,30,107,0.35);color:#c994c7">AP Gurukulam</span><div class="wu-sel-name">Lakshmi Devi</div><div class="wu-sel-detail">State Rank 3 · SC Category</div><div class="wu-sel-year">2024</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(29,74,107,0.35);color:#7eb8d4">Sainik School</span><div class="wu-sel-name">Venkat Sai</div><div class="wu-sel-detail">All India Rank 29 · Class IX</div><div class="wu-sel-year">2023</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(107,50,0,0.35);color:#fd8d3c">NDA</span><div class="wu-sel-name">Rohit Kumar</div><div class="wu-sel-detail">NDA Merit List · Army Wing</div><div class="wu-sel-year">2023</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(30,107,46,0.35);color:#74c47a">Navodaya</span><div class="wu-sel-name">Meena Kumari</div><div class="wu-sel-detail">District Rank 1 · Krishna</div><div class="wu-sel-year">2023</div></div>
-              <div class="wu-sel-row"><span class="wu-sel-badge" style="background:rgba(122,32,32,0.35);color:#fc8d59">RMS</span><div class="wu-sel-name">Suresh Varma</div><div class="wu-sel-detail">All India Rank 15 · Class VI</div><div class="wu-sel-year">2023</div></div>
-            </div>
-            <p style="font-size:10.5px;color:rgba(232,213,176,0.28);margin:10px 0 0;text-align:center">Names shown with guardian consent.</p>
+        <!-- Event 2 -->
+        <div data-reveal data-delay="80" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
+          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
+            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">20</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">JUL</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;border:1px solid rgba(245,184,0,0.3);letter-spacing:0.04em">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#F5B800"><circle cx="12" cy="12" r="10"/></svg>
+              Mock Test
+            </span>
+            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">All-Stream Grand Mock</h3>
+            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">Full-length AISSEE &amp; JNVST pattern test with same-day analysis and rank report.</p>
           </div>
         </div>
 
-        <!-- ── RIGHT: Champions flip cards ── -->
-        <div class="wu-col" data-reveal data-delay="240">
-          <div class="wu-col-panel">
-            <div class="wu-col-ttl">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,213,176,0.45)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              Our Champions
-            </div>
-            <div class="wu-champ-grid">
-              <div class="wu-flip" onclick="this.classList.toggle('flipped')">
-                <div class="wu-flip-inner">
-                  <div class="wu-flip-front"><div class="wu-flip-avatar">AK</div><div class="wu-flip-name">Ananya K.</div><span class="wu-flip-stream">Sainik School</span><div class="wu-flip-hint">Tap to reveal</div></div>
-                  <div class="wu-flip-back"><div class="wu-flip-rank">Rank 12</div><div class="wu-flip-exam">AISSEE 2024</div><div class="wu-flip-quote">"Mock tests made the real exam feel easy."</div></div>
-                </div>
-              </div>
-              <div class="wu-flip" onclick="this.classList.toggle('flipped')">
-                <div class="wu-flip-inner">
-                  <div class="wu-flip-front"><div class="wu-flip-avatar">RV</div><div class="wu-flip-name">Rohit V.</div><span class="wu-flip-stream">Navodaya</span><div class="wu-flip-hint">Tap to reveal</div></div>
-                  <div class="wu-flip-back"><div class="wu-flip-rank">Selected</div><div class="wu-flip-exam">JNVST 2024</div><div class="wu-flip-quote">"Teachers believed in me before I did."</div></div>
-                </div>
-              </div>
-              <div class="wu-flip" onclick="this.classList.toggle('flipped')">
-                <div class="wu-flip-inner">
-                  <div class="wu-flip-front"><div class="wu-flip-avatar">SP</div><div class="wu-flip-name">Sai Priya</div><span class="wu-flip-stream">AP Gurukulam</span><div class="wu-flip-hint">Tap to reveal</div></div>
-                  <div class="wu-flip-back"><div class="wu-flip-rank">State 1st</div><div class="wu-flip-exam">APGPCET 2023</div><div class="wu-flip-quote">"Free residential seat changed my family's future."</div></div>
-                </div>
-              </div>
-              <div class="wu-flip" onclick="this.classList.toggle('flipped')">
-                <div class="wu-flip-inner">
-                  <div class="wu-flip-front"><div class="wu-flip-avatar">MT</div><div class="wu-flip-name">Manoj T.</div><span class="wu-flip-stream">RMS</span><div class="wu-flip-hint">Tap to reveal</div></div>
-                  <div class="wu-flip-back"><div class="wu-flip-rank">Rank 7</div><div class="wu-flip-exam">RMS CET 2024</div><div class="wu-flip-quote">"Discipline from day one got me through."</div></div>
-                </div>
-              </div>
-            </div>
+        <!-- Event 3 -->
+        <div data-reveal data-delay="160" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
+          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
+            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">03</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">AUG</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;letter-spacing:0.04em">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#1B4D0E"><circle cx="12" cy="12" r="10"/></svg>
+              Parents
+            </span>
+            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">Parental Awareness Session</h3>
+            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">How to choose the right residential exam &amp; best support your child at home.</p>
           </div>
         </div>
 
-      </div><!-- end wu-grid -->
-    </div><!-- end wu-wrap -->
+        <!-- Event 4 -->
+        <div data-reveal data-delay="240" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
+          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
+            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">15</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">AUG</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;border:1px solid rgba(245,184,0,0.3);letter-spacing:0.04em">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#F5B800"><circle cx="12" cy="12" r="10"/></svg>
+              Free Entry
+            </span>
+            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">Free Aptitude Camp</h3>
+            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">Open scholarship-cum-aptitude test for Class 4 &amp; 5 aspirants. Scholarships up to 50%.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </section>
 
   <!-- COURSES & FEES -->
@@ -4496,12 +4409,11 @@ class Component extends DCLogic {
       const container = root.querySelector('#india-map-container');
       if (!container || container.querySelector('svg')) return;
 
-      // Inline SVG — accurate India outline (geographic coordinate mapping)
-      // x = (lon - 68.1) / 29.4 * 450 + 5   |   y = (37.1 - lat) / 29.0 * 510 + 5
-      container.innerHTML = `<svg viewBox="0 0 460 525" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;overflow:visible">
+      // Inline SVG — no external fetch needed
+      container.innerHTML = `<svg viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;overflow:visible">
         <defs>
-          <radialGradient id="india-grad" cx="42%" cy="45%" r="60%">
-            <stop offset="0%" stop-color="#2d7a1a" stop-opacity="0.72"/>
+          <radialGradient id="india-grad" cx="45%" cy="42%" r="58%">
+            <stop offset="0%" stop-color="#2d7a1a" stop-opacity="0.7"/>
             <stop offset="100%" stop-color="#0e3008" stop-opacity="0.45"/>
           </radialGradient>
           <filter id="india-glow" x="-18%" y="-18%" width="136%" height="136%">
@@ -4516,79 +4428,74 @@ class Component extends DCLogic {
             .pin-ring{animation:dotPulse 2.5s ease-out infinite}
           </style>
         </defs>
-
-        <!-- Outer glow shadow (same outline, offset + blurred) -->
-        <path d="M99,15 L140,7 L159,33 L175,58 L190,75 L193,128 L251,158 L311,177 L372,181 L372,163 L450,163 L419,198 L426,215 L401,227 L381,270 L378,279 L355,253 L317,279 L305,284 L285,308 L265,330 L237,340 L215,368 L195,415 L188,471 L152,509 L136,499 L128,471 L113,437 L95,380 L82,319 L78,294 L50,290 L22,252 L19,237 L30,217 L36,175 L30,136 L56,120 L99,91 L110,75 L103,59 L97,31 Z"
-          fill="rgba(30,80,15,0.3)" stroke="none" transform="translate(4,7)" filter="url(#india-glow)"/>
-
+        <!-- Outer glow shadow -->
+        <path d="M58,38 L65,22 L82,14 L105,10 L132,7 L158,9 L182,12 L208,17 L228,22 L252,28 L278,30 L295,36 L308,42 L322,58 L332,76 L338,96 L344,118 L348,142 L352,165 L350,188 L345,210 L337,230 L326,250 L314,268 L300,285 L286,300 L272,316 L257,332 L244,348 L232,364 L222,380 L213,396 L205,412 L198,428 L192,444 L187,457 L183,469 L180,478 L177,485 L175,490 L172,485 L168,477 L163,466 L157,452 L150,437 L142,420 L134,402 L125,384 L116,364 L107,344 L98,324 L88,304 L79,284 L71,264 L64,244 L57,225 L52,206 L47,187 L43,168 L40,149 L38,130 L38,110 L40,91 L44,73 L49,57 L54,46 L58,38 Z"
+          fill="rgba(30,80,15,0.3)" stroke="none" transform="translate(3,6)" filter="url(#india-glow)"/>
         <!-- Subtle lat/lon grid lines -->
-        <line x1="30" y1="128" x2="420" y2="128" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <line x1="30" y1="270" x2="385" y2="270" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <line x1="193" y1="10" x2="193" y2="515" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <line x1="311" y1="10" x2="311" y2="285" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-        <!-- Main India fill + border — accurate geographic outline -->
-        <!-- Clockwise from J&K NW: north border → Arunachal E → east coast → Kanyakumari → west coast → back -->
+        <line x1="30" y1="175" x2="370" y2="175" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="30" y1="310" x2="370" y2="310" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="170" y1="10" x2="170" y2="500" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="285" y1="10" x2="285" y2="500" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <!-- Main India fill + border -->
         <path class="india-outline"
-          d="M99,15 L140,7 L159,33 L175,58 L190,75 L193,128 L251,158 L311,177 L372,181 L372,163 L450,163 L419,198 L426,215 L401,227 L381,270 L378,279 L355,253 L317,279 L305,284 L285,308 L265,330 L237,340 L215,368 L195,415 L188,471 L152,509 L136,499 L128,471 L113,437 L95,380 L82,319 L78,294 L50,290 L22,252 L19,237 L30,217 L36,175 L30,136 L56,120 L99,91 L110,75 L103,59 L97,31 Z"
+          d="M58,38 L65,22 L82,14 L105,10 L132,7 L158,9 L182,12 L208,17 L228,22 L252,28 L278,30 L295,36 L308,42 L322,58 L332,76 L338,96 L344,118 L348,142 L352,165 L350,188 L345,210 L337,230 L326,250 L314,268 L300,285 L286,300 L272,316 L257,332 L244,348 L232,364 L222,380 L213,396 L205,412 L198,428 L192,444 L187,457 L183,469 L180,478 L177,485 L175,490 L172,485 L168,477 L163,466 L157,452 L150,437 L142,420 L134,402 L125,384 L116,364 L107,344 L98,324 L88,304 L79,284 L71,264 L64,244 L57,225 L52,206 L47,187 L43,168 L40,149 L38,130 L38,110 L40,91 L44,73 L49,57 L54,46 L58,38 Z"
           fill="url(#india-grad)" stroke="rgba(201,169,122,0.65)" stroke-width="1.6" stroke-linejoin="round"/>
-
-        <!-- Interior texture curves (latitude parallels) -->
-        <path d="M193,128 Q260,148 311,177" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <path d="M52,248 Q160,260 285,248" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <path d="M82,340 Q170,328 265,330" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <!-- Interior texture lines (gives map-like feel) -->
+        <path d="M100,130 Q180,110 260,125 Q310,132 348,142" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <path d="M55,225 Q150,210 250,218 Q310,222 350,188" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <path d="M75,310 Q170,295 268,308" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
 
         <!-- ── Sainik School pins (green) ── -->
-        <!-- Kapurthala, Punjab (75.4°E, 31.4°N) -->
-        <g transform="translate(117,105)">
+        <!-- Kapurthala, Punjab -->
+        <g transform="translate(140,78)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:0s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Lucknow, UP (80.8°E, 26.8°N) -->
-        <g transform="translate(198,186)">
+        <!-- Lucknow, UP -->
+        <g transform="translate(240,145)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:0.5s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Purulia, West Bengal (86.4°E, 23.3°N) -->
-        <g transform="translate(285,248)">
+        <!-- Purulia, West Bengal -->
+        <g transform="translate(298,188)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:1.0s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Bijapur/Vijayapura, Karnataka (76.0°E, 16.8°N) -->
-        <g transform="translate(126,362)">
+        <!-- Bijapur, Karnataka -->
+        <g transform="translate(188,295)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:1.5s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Amaravathinagar, Tamil Nadu (77.2°E, 10.2°N) -->
-        <g transform="translate(144,478)">
+        <!-- Amaravathinagar, Tamil Nadu -->
+        <g transform="translate(212,370)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:2.0s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Chittorgarh, Rajasthan (74.6°E, 24.9°N) -->
-        <g transform="translate(104,219)">
+        <!-- Chittorgarh, Rajasthan -->
+        <g transform="translate(148,168)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:0.8s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
 
         <!-- ── RMS pins (red) ── -->
-        <!-- Chail, Himachal Pradesh (77.2°E, 31.0°N) -->
-        <g transform="translate(144,112)">
+        <!-- Chail, Himachal Pradesh -->
+        <g transform="translate(155,68)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(239,83,80,0.6)" stroke-width="1.5" style="animation-delay:0.3s"/>
           <circle r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>
         </g>
-        <!-- Ajmer, Rajasthan (74.6°E, 26.5°N) -->
-        <g transform="translate(104,193)">
+        <!-- Ajmer, Rajasthan -->
+        <g transform="translate(142,178)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(239,83,80,0.6)" stroke-width="1.5" style="animation-delay:0.9s"/>
           <circle r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>
         </g>
-        <!-- Belagavi (Belgaum), Karnataka (74.5°E, 15.9°N) -->
-        <g transform="translate(103,378)">
+        <!-- Belgaum, Karnataka -->
+        <g transform="translate(175,305)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(239,83,80,0.6)" stroke-width="1.5" style="animation-delay:1.6s"/>
           <circle r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>
         </g>
 
         <!-- Legend -->
-        <g transform="translate(15,435)">
+        <g transform="translate(18,418)">
           <rect x="0" y="0" width="116" height="58" rx="9" fill="rgba(8,24,4,0.82)" stroke="rgba(201,169,122,0.22)" stroke-width="1"/>
           <circle cx="14" cy="16" r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
           <text x="24" y="20" fill="rgba(232,213,176,0.72)" font-family="Inter,sans-serif" font-size="9.5" font-weight="700">Sainik Schools</text>
@@ -4596,8 +4503,8 @@ class Component extends DCLogic {
           <text x="24" y="42" fill="rgba(232,213,176,0.72)" font-family="Inter,sans-serif" font-size="9.5" font-weight="700">RMS Schools</text>
         </g>
 
-        <!-- Subtle INDIA watermark -->
-        <text x="210" y="280" text-anchor="middle" fill="rgba(201,169,122,0.08)" font-family="Georgia,serif" font-size="40" font-weight="bold" letter-spacing="10">INDIA</text>
+        <!-- Subtle INDIA watermark label -->
+        <text x="195" y="255" text-anchor="middle" fill="rgba(201,169,122,0.1)" font-family="Georgia,serif" font-size="42" font-weight="bold" letter-spacing="10">INDIA</text>
       </svg>`;
       return; // early return — old D3 GeoJSON block below is bypassed
 
