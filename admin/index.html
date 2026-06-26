@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Taxila Academy — Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--sidebar-w:240px;--header-h:60px;--bg:#f2f6f2;--sidebar:#0c1a0a;--sidebar-border:rgba(163,201,138,0.12);--sidebar-text:rgba(163,201,138,0.7);--sidebar-active:#1B4D0E;--sidebar-active-text:#F5EDD8;--card:#ffffff;--border:#ddeedd;--text:#1a2e1a;--muted:#6b8f6b;--gold:#C9920A;--green:#1B4D0E;--red:#b91c1c;--blue:#1d4ed8;--shadow:0 1px 4px rgba(0,0,0,0.07),0 4px 16px rgba(0,0,0,0.05);--radius:12px}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    #login-screen{position:fixed;inset:0;background:linear-gradient(145deg,#061004,#0e2408);display:flex;align-items:center;justify-content:center;z-index:1000}
+    .login-box{background:rgba(255,255,255,0.04);border:1px solid rgba(201,169,122,0.2);border-radius:20px;padding:48px 44px;width:380px;text-align:center;backdrop-filter:blur(20px)}
+    .login-logo{font-size:13px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#C9920A;margin-bottom:8px}
+    .login-title{font-size:26px;font-weight:800;color:#F5EDD8;margin-bottom:6px}
+    .login-sub{font-size:13px;color:rgba(163,201,138,0.6);margin-bottom:36px}
+    .btn-google{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:14px 20px;border-radius:10px;border:1px solid rgba(201,169,122,0.3);background:rgba(255,255,255,0.07);color:#F5EDD8;font-size:14.5px;font-weight:600;cursor:pointer;transition:background .2s}
+    .btn-google:hover{background:rgba(255,255,255,0.12)}
+    #login-error{margin-top:16px;font-size:12.5px;color:#f87171;display:none}
+    #setup-notice{margin-top:20px;padding:14px;background:rgba(201,169,122,0.08);border:1px solid rgba(201,169,122,0.2);border-radius:8px;font-size:11.5px;color:rgba(163,201,138,0.7);text-align:left;line-height:1.6}
+    #setup-notice a{color:#C9920A}
+    #admin-app{display:none;min-height:100vh}
+    #sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--sidebar);border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+    .sidebar-brand{padding:22px 20px 18px;border-bottom:1px solid var(--sidebar-border)}
+    .sidebar-brand-label{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#C9920A}
+    .sidebar-brand-title{font-size:16px;font-weight:800;color:#F5EDD8;margin-top:3px}
+    .sidebar-brand-badge{display:inline-block;margin-top:6px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0c1a0a;background:#C9920A;padding:2px 8px;border-radius:4px}
+    .sidebar-nav{flex:1;padding:16px 10px}
+    .nav-section{font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(163,201,138,0.35);padding:10px 10px 6px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;color:var(--sidebar-text);font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s,color .15s;margin-bottom:2px;user-select:none}
+    .nav-item:hover{background:rgba(255,255,255,0.05);color:#F5EDD8}
+    .nav-item.active{background:var(--sidebar-active);color:var(--sidebar-active-text);font-weight:600}
+    .nav-item svg{flex-shrink:0;opacity:.75}
+    .nav-item.active svg{opacity:1}
+    .nav-badge{margin-left:auto;background:#C9920A;color:#0c1a0a;font-size:10px;font-weight:800;padding:1px 7px;border-radius:100px;min-width:20px;text-align:center}
+    .sidebar-footer{padding:16px 14px;border-top:1px solid var(--sidebar-border)}
+    .user-chip{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .user-avatar{width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(201,169,122,0.3);flex-shrink:0;background:var(--sidebar-active);display:flex;align-items:center;justify-content:center;color:#F5EDD8;font-size:12px;font-weight:700}
+    .user-name{font-size:12.5px;font-weight:600;color:#F5EDD8;line-height:1.2}
+    .user-role{font-size:10.5px;color:rgba(163,201,138,0.55)}
+    .btn-signout{width:100%;padding:9px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(163,201,138,0.7);font-size:12.5px;font-weight:600;cursor:pointer;transition:background .15s}
+    .btn-signout:hover{background:rgba(239,83,80,0.12);color:#fca5a5}
+    #main-content{margin-left:var(--sidebar-w);min-height:100vh;display:flex;flex-direction:column}
+    .topbar{position:sticky;top:0;z-index:50;height:var(--header-h);background:rgba(242,246,242,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between}
+    .topbar-title{font-size:18px;font-weight:700}
+    .topbar-date{font-size:12px;color:var(--muted);font-weight:500}
+    .content-area{padding:28px;flex:1}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .card-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .card-title{font-size:15px;font-weight:700}
+    .card-body{padding:22px}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
+    .stat-card{background:var(--card);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);border-left:4px solid transparent;display:flex;align-items:center;gap:16px}
+    .stat-card.gold{border-left-color:var(--gold)}.stat-card.green{border-left-color:var(--green)}.stat-card.red{border-left-color:var(--red)}.stat-card.blue{border-left-color:var(--blue)}
+    .stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .stat-icon.gold{background:#fef3c7}.stat-icon.green{background:#dcfce7}.stat-icon.red{background:#fee2e2}.stat-icon.blue{background:#dbeafe}
+    .stat-num{font-size:28px;font-weight:800;line-height:1}
+    .stat-label{font-size:12px;color:var(--muted);font-weight:500;margin-top:3px}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    thead th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#f8fbf8;border-bottom:1px solid var(--border)}
+    tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:#f0f8f0}
+    tbody td{padding:11px 14px;vertical-align:middle}
+    .empty-row td{text-align:center;color:var(--muted);padding:40px;font-size:13px}
+    .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:700}
+    .badge-green{background:#dcfce7;color:#166534}.badge-red{background:#fee2e2;color:#991b1b}.badge-gold{background:#fef3c7;color:#92400e}.badge-blue{background:#dbeafe;color:#1e40af}.badge-grey{background:#f1f5f9;color:#475569}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:background .15s;user-select:none;font-family:inherit}
+    .btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:#245f15}
+    .btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:#a87a08}
+    .btn-danger{background:#fee2e2;color:var(--red)}.btn-danger:hover{background:#fecaca}
+    .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text)}.btn-outline:hover{background:#f0f8f0;border-color:var(--green)}
+    .btn-sm{padding:5px 11px;font-size:12px;border-radius:6px}
+    .search-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .search-input{flex:1;min-width:180px;padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;font-family:inherit;outline:none;background:#f8fbf8}
+    .search-input:focus{border-color:var(--green)}
+    select.filter-select{padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;font-family:inherit;background:#f8fbf8;color:var(--text);outline:none;cursor:pointer}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:flex-start;justify-content:center;z-index:500;padding:20px;backdrop-filter:blur(4px);overflow-y:auto}
+    .modal{background:#fff;border-radius:16px;width:100%;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,0.2);margin:auto}
+    .modal.modal-wide{max-width:760px}
+    .modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .modal-title{font-size:16px;font-weight:700}
+    .modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;padding:2px 6px;border-radius:6px}
+    .modal-close:hover{background:#fee2e2;color:var(--red)}
+    .modal-body{padding:24px}
+    .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+    .form-group{margin-bottom:16px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    label.form-label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+    input.form-input,select.form-input,textarea.form-input{width:100%;padding:9px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:13.5px;font-family:inherit;outline:none;background:#f8fbf8;color:var(--text)}
+    input.form-input:focus,select.form-input:focus,textarea.form-input:focus{border-color:var(--green);background:#fff}
+    textarea.form-input{resize:vertical;min-height:80px}
+    .section{display:none}.section.active{display:block}
+    .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .settings-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .settings-card-header{padding:16px 20px;background:#f8fbf8;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+    .settings-card-body{padding:20px}
+    .feature-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    .feature-row input{flex:1;padding:7px 11px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;font-family:inherit;outline:none;background:#f8fbf8}
+    .feature-row input:focus{border-color:var(--green)}
+    .btn-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:2px 5px}
+    .btn-remove:hover{color:var(--red)}
+    #toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:#1a2e1a;color:#F5EDD8;padding:12px 20px;border-radius:10px;font-size:13.5px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.25);transform:translateY(80px);opacity:0;transition:transform .3s,opacity .3s}
+    #toast.show{transform:translateY(0);opacity:1}
+    #toast.error{background:#7f1d1d}
+    @media(max-width:900px){:root{--sidebar-w:64px}.sidebar-brand-label,.sidebar-brand-title,.sidebar-brand-badge,.nav-section,.nav-item span,.user-name,.user-role{display:none}.nav-item{justify-content:center;padding:10px}.stats-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.stats-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.content-area{padding:16px}.settings-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="toast"></div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Taxila Academy</div>
+    <h1 class="login-title">Admin Panel</h1>
+    <p class="login-sub">Sign in with your authorized Google account</p>
+    <button class="btn-google" onclick="signInWithGoogle()">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Sign in with Google
+    </button>
+    <div id="login-error"></div>
+    <div id="setup-notice"><strong style="color:#C9920A">First time?</strong> Fill in your Firebase config in the script block at the bottom, then reload.<br><a href="https://console.firebase.google.com" target="_blank">→ Firebase Console</a></div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app">
+  <aside id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-label">Taxila Academy</div>
+      <div class="sidebar-brand-title">Admin Panel</div>
+      <span class="sidebar-brand-badge">CMS v2</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <div class="nav-item active" data-section="dashboard" onclick="navigate('dashboard',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-section">Admissions</div>
+      <div class="nav-item" data-section="registrations" onclick="navigate('registrations',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Registrations</span><span class="nav-badge" id="badge-registrations">0</span>
+      </div>
+      <div class="nav-item" data-section="enquiries" onclick="navigate('enquiries',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Enquiries</span><span class="nav-badge" id="badge-enquiries">0</span>
+      </div>
+      <div class="nav-item" data-section="selections" onclick="navigate('selections',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Selections</span>
+      </div>
+      <div class="nav-section">Website Content</div>
+      <div class="nav-item" data-section="courses-cms" onclick="navigate('courses-cms',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>
+        <span>Courses</span>
+      </div>
+      <div class="nav-item" data-section="pricing" onclick="navigate('pricing',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span>Pricing</span>
+      </div>
+      <div class="nav-item" data-section="testimonials-cms" onclick="navigate('testimonials-cms',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Testimonials</span>
+      </div>
+      <div class="nav-item" data-section="events" onclick="navigate('events',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Events</span>
+      </div>
+      <div class="nav-item" data-section="settings" onclick="navigate('settings',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Site Settings</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">A</div>
+        <div><div class="user-name" id="user-name">Admin</div><div class="user-role">Super Admin</div></div>
+      </div>
+      <button class="btn-signout" onclick="signOut()">Sign Out ↩</button>
+    </div>
+  </aside>
+
+  <div id="main-content">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <span class="topbar-date" id="topbar-date"></span>
+    </div>
+    <div class="content-area">
+
+      <!-- DASHBOARD -->
+      <section class="section active" id="section-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card gold"><div class="stat-icon gold"><svg width="22" height="22" fill="none" stroke="#92400e" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="stat-num" id="stat-reg">—</div><div class="stat-label">Registrations</div></div></div>
+          <div class="stat-card green"><div class="stat-icon green"><svg width="22" height="22" fill="none" stroke="#166534" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="stat-num" id="stat-sel">—</div><div class="stat-label">Selections</div></div></div>
+          <div class="stat-card red"><div class="stat-icon red"><svg width="22" height="22" fill="none" stroke="#991b1b" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><div class="stat-num" id="stat-enq">—</div><div class="stat-label">New Enquiries</div></div></div>
+          <div class="stat-card blue"><div class="stat-icon blue"><svg width="22" height="22" fill="none" stroke="#1e40af" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg></div><div><div class="stat-num" id="stat-courses">—</div><div class="stat-label">Courses Live</div></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:20px">
+          <div class="card"><div class="card-header"><span class="card-title">Recent Registrations</span><button class="btn btn-outline btn-sm" onclick="navigate('registrations',document.querySelector('[data-section=registrations]'))">View all</button></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Class</th><th>Exam</th><th>Date</th><th>Status</th></tr></thead><tbody id="dash-reg-table"><tr class="empty-row"><td colspan="5">Loading…</td></tr></tbody></table></div></div>
+          <div class="card"><div class="card-header"><span class="card-title">Recent Activity</span></div><div class="card-body" id="activity-feed"><div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">Loading…</div></div></div>
+        </div>
+      </section>
+
+      <!-- REGISTRATIONS -->
+      <section class="section" id="section-registrations">
+        <div class="card">
+          <div class="card-header"><span class="card-title">T-EE Exam Registrations</span><button class="btn btn-outline btn-sm" onclick="exportCSV('registrations')">↓ Export CSV</button></div>
+          <div class="card-body" style="padding-bottom:0"><div class="search-bar" style="margin-bottom:16px"><input class="search-input" type="text" placeholder="Search name, phone, email…" id="reg-search" oninput="filterTable('reg')"/><select class="filter-select" id="reg-filter-status" onchange="filterTable('reg')"><option value="">All Status</option><option value="paid">Paid</option><option value="pending">Pending</option><option value="failed">Failed</option></select><select class="filter-select" id="reg-filter-class" onchange="filterTable('reg')"><option value="">All Classes</option><option>Class VI</option><option>Class VII</option><option>Class VIII</option><option>Class IX</option><option>Class X</option></select></div></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Name</th><th>Class</th><th>School</th><th>Phone</th><th>Email</th><th>Exam</th><th>Date</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="reg-table"><tr class="empty-row"><td colspan="10">Loading…</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- ENQUIRIES -->
+      <section class="section" id="section-enquiries">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Contact Enquiries</span><div class="search-bar"><input class="search-input" type="text" placeholder="Search…" id="enq-search" oninput="filterTable('enq')"/><select class="filter-select" id="enq-filter-status" onchange="filterTable('enq')"><option value="">All</option><option value="new">New</option><option value="followup">Follow-up</option><option value="closed">Closed</option></select></div></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="enq-table"><tr class="empty-row"><td colspan="8">Loading…</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- SELECTIONS -->
+      <section class="section" id="section-selections">
+        <div class="card"><div class="card-header"><span class="card-title">Student Selections</span><button class="btn btn-primary" onclick="openSelModal()">+ Add Selection</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Student</th><th>School Selected</th><th>Exam</th><th>Rank</th><th>Year</th><th>State</th><th>Actions</th></tr></thead><tbody id="sel-table"><tr class="empty-row"><td colspan="8">Loading…</td></tr></tbody></table></div></div>
+      </section>
+
+      <!-- COURSES CMS -->
+      <section class="section" id="section-courses-cms">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Courses</span><div style="display:flex;gap:10px;align-items:center"><span style="font-size:12px;color:var(--muted)">Changes reflect on website immediately</span><button class="btn btn-primary" onclick="openCourseModal()">+ Add Course</button></div></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Course Name</th><th>Exam</th><th>Target</th><th>Duration</th><th>Batch</th><th>Price</th><th>Actions</th></tr></thead><tbody id="courses-table"><tr class="empty-row"><td colspan="8">Loading…</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- PRICING -->
+      <section class="section" id="section-pricing">
+        <div style="margin-bottom:16px"><h3 style="font-size:16px;font-weight:700">Fee Structure Cards</h3><p style="font-size:12.5px;color:var(--muted);margin-top:3px">Edit prices and features for each learning mode. Changes go live instantly.</p></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" id="pricing-cards-grid"></div>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="section" id="section-testimonials-cms">
+        <div class="card"><div class="card-header"><span class="card-title">Testimonials</span><button class="btn btn-primary" onclick="openTestimonialModal()">+ Add Testimonial</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Name</th><th>Role / Exam</th><th>Quote (preview)</th><th>Order</th><th>Actions</th></tr></thead><tbody id="testimonials-table"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody></table></div></div>
+      </section>
+
+      <!-- EVENTS -->
+      <section class="section" id="section-events">
+        <div class="card"><div class="card-header"><span class="card-title">Events</span><button class="btn btn-primary" onclick="openEventModal()">+ Add Event</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Title</th><th>Date</th><th>Tag</th><th>Description</th><th>Actions</th></tr></thead><tbody id="events-table"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody></table></div></div>
+      </section>
+
+      <!-- SITE SETTINGS -->
+      <section class="section" id="section-settings">
+        <div style="margin-bottom:16px"><h3 style="font-size:16px;font-weight:700">Site Settings</h3><p style="font-size:12.5px;color:var(--muted);margin-top:3px">Edit hero text, stats, batch info, and contact details. Click Save in each card.</p></div>
+        <div class="settings-grid">
+          <div class="settings-card"><div class="settings-card-header">Hero Section</div><div class="settings-card-body">
+            <div class="form-group"><label class="form-label">Headline Line 1</label><input class="form-input" type="text" id="s-hero-line1" placeholder="INDIA'S PREMIER"/></div>
+            <div class="form-group"><label class="form-label">Headline Line 2 (gold text)</label><input class="form-input" type="text" id="s-hero-line2" placeholder="DEFENCE ACADEMY"/></div>
+            <div class="form-group"><label class="form-label">Subtitle</label><textarea class="form-input" id="s-hero-sub" rows="2"></textarea></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">CTA Button 1</label><input class="form-input" type="text" id="s-hero-cta1" placeholder="Take Entrance Exam"/></div><div class="form-group"><label class="form-label">CTA Button 2</label><input class="form-input" type="text" id="s-hero-cta2" placeholder="Explore Courses"/></div></div>
+            <button class="btn btn-primary" onclick="saveSettings('hero')" style="width:100%">Save Hero Text</button>
+          </div></div>
+
+          <div class="settings-card"><div class="settings-card-header">Hero Stats</div><div class="settings-card-body">
+            <div class="form-row"><div class="form-group"><label class="form-label">Stat 1 Number</label><input class="form-input" type="text" id="s-stat1-num" placeholder="50+"/></div><div class="form-group"><label class="form-label">Stat 1 Label</label><input class="form-input" type="text" id="s-stat1-label" placeholder="Selections"/></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Stat 2 Number</label><input class="form-input" type="text" id="s-stat2-num" placeholder="6"/></div><div class="form-group"><label class="form-label">Stat 2 Label</label><input class="form-input" type="text" id="s-stat2-label" placeholder="Years"/></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Stat 3 Number</label><input class="form-input" type="text" id="s-stat3-num" placeholder="5"/></div><div class="form-group"><label class="form-label">Stat 3 Label</label><input class="form-input" type="text" id="s-stat3-label" placeholder="Exam Streams"/></div></div>
+            <button class="btn btn-primary" onclick="saveSettings('stats')" style="width:100%">Save Stats</button>
+          </div></div>
+
+          <div class="settings-card"><div class="settings-card-header">Batch &amp; Course Info</div><div class="settings-card-body">
+            <div class="form-group"><label class="form-label">Next Batch Date</label><input class="form-input" type="text" id="s-batch-date" placeholder="August 2026"/></div>
+            <div class="form-group"><label class="form-label">Seats Info</label><input class="form-input" type="text" id="s-batch-seats" placeholder="Limited seats"/></div>
+            <div class="form-group"><label class="form-label">Total Selections (displayed)</label><input class="form-input" type="text" id="s-total-sel" placeholder="200+"/></div>
+            <div class="form-group"><label class="form-label">Scholarship Badge</label><input class="form-input" type="text" id="s-scholarship" placeholder="Scholarships up to 50%"/></div>
+            <button class="btn btn-primary" onclick="saveSettings('batch')" style="width:100%">Save Batch Info</button>
+          </div></div>
+
+          <div class="settings-card"><div class="settings-card-header">Contact Details</div><div class="settings-card-body">
+            <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" type="text" id="s-phone" placeholder="+91 XXXXX XXXXX"/></div>
+            <div class="form-group"><label class="form-label">WhatsApp Number</label><input class="form-input" type="text" id="s-whatsapp" placeholder="+91 XXXXX XXXXX"/></div>
+            <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="s-email" placeholder="info@taxilaacademy.com"/></div>
+            <div class="form-group"><label class="form-label">Address</label><textarea class="form-input" id="s-address" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label">Office Hours</label><input class="form-input" type="text" id="s-hours" placeholder="Mon–Sat, 8 AM – 7 PM"/></div>
+            <button class="btn btn-primary" onclick="saveSettings('contact')" style="width:100%">Save Contact Info</button>
+          </div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-course" style="display:none" onclick="if(event.target===this)closeModal('course')">
+  <div class="modal modal-wide">
+    <div class="modal-header"><span class="modal-title" id="modal-course-title">Add Course</span><button class="modal-close" onclick="closeModal('course')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="course-id"/>
+      <div class="form-row"><div class="form-group"><label class="form-label">Course Name *</label><input class="form-input" type="text" id="c-name"/></div><div class="form-group"><label class="form-label">Exam *</label><input class="form-input" type="text" id="c-exam" placeholder="AISSEE"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Target Students</label><input class="form-input" type="text" id="c-target" placeholder="Class 6 & 9 Admissions"/></div><div class="form-group"><label class="form-label">Badge Text</label><input class="form-input" type="text" id="c-badge" placeholder="Most Popular"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Price / Fee</label><input class="form-input" type="text" id="c-price" placeholder="Contact for Fee"/></div><div class="form-group"><label class="form-label">Duration</label><input class="form-input" type="text" id="c-duration" placeholder="12 Months"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Batch Size</label><input class="form-input" type="text" id="c-batch" placeholder="Max 20"/></div><div class="form-group"><label class="form-label">Mode</label><input class="form-input" type="text" id="c-mode" placeholder="Day / Residential"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Mock Tests</label><input class="form-input" type="text" id="c-tests" placeholder="Weekly"/></div><div class="form-group"><label class="form-label">Course Type</label><select class="form-input" id="c-type"><option value="sainik">Sainik (featured hero)</option><option value="defence">Defence</option><option value="foundation">Foundation</option></select></div></div>
+      <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input" id="c-desc" rows="3"></textarea></div>
+      <div class="form-group"><label class="form-label">Key Features (one per line)</label><textarea class="form-input" id="c-features" rows="5" placeholder="Mathematics Mastery&#10;Logical Reasoning&#10;English Grammar"></textarea></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Selections / Achievement</label><input class="form-input" type="text" id="c-selections" placeholder="200+ Selections"/></div><div class="form-group"><label class="form-label">Sort Order (lower = first)</label><input class="form-input" type="number" id="c-order" placeholder="0" min="0"/></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('course')">Cancel</button><button class="btn btn-primary" onclick="saveCourse()">Save Course</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-testimonial" style="display:none" onclick="if(event.target===this)closeModal('testimonial')">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title" id="modal-testimonial-title">Add Testimonial</span><button class="modal-close" onclick="closeModal('testimonial')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="testi-id"/>
+      <div class="form-row"><div class="form-group"><label class="form-label">Name *</label><input class="form-input" type="text" id="t-name" placeholder="Lakshmi Devi"/></div><div class="form-group"><label class="form-label">Role / Exam</label><input class="form-input" type="text" id="t-role" placeholder="Parent · Navodaya (JNVST 2024)"/></div></div>
+      <div class="form-group"><label class="form-label">Quote *</label><textarea class="form-input" id="t-quote" rows="4"></textarea></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Initials (avatar)</label><input class="form-input" type="text" id="t-initials" placeholder="LD" maxlength="3"/></div><div class="form-group"><label class="form-label">Sort Order</label><input class="form-input" type="number" id="t-order" placeholder="1" min="1"/></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('testimonial')">Cancel</button><button class="btn btn-primary" onclick="saveTestimonial()">Save</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-event" style="display:none" onclick="if(event.target===this)closeModal('event')">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title" id="modal-event-title">Add Event</span><button class="modal-close" onclick="closeModal('event')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="evt-id"/>
+      <div class="form-row"><div class="form-group"><label class="form-label">Title *</label><input class="form-input" type="text" id="evt-title"/></div><div class="form-group"><label class="form-label">Date *</label><input class="form-input" type="date" id="evt-date"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Tag</label><select class="form-input" id="evt-tag"><option value="exam">Exam</option><option value="result">Result</option><option value="workshop">Workshop</option><option value="announcement">Announcement</option><option value="admission">Admission</option></select></div><div class="form-group"><label class="form-label">Location</label><input class="form-input" type="text" id="evt-location" placeholder="All India"/></div></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="evt-desc"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('event')">Cancel</button><button class="btn btn-primary" onclick="saveEvent()">Save Event</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-sel" style="display:none" onclick="if(event.target===this)closeModal('sel')">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title" id="modal-sel-title">Add Selection</span><button class="modal-close" onclick="closeModal('sel')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="sel-id"/>
+      <div class="form-row"><div class="form-group"><label class="form-label">Student Name *</label><input class="form-input" type="text" id="sel-name"/></div><div class="form-group"><label class="form-label">School Selected *</label><input class="form-input" type="text" id="sel-school"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Exam</label><select class="form-input" id="sel-exam"><option>AISSEE (Sainik School)</option><option>RMS Entrance</option><option>JNVST (Navodaya)</option><option>NDA</option><option>RIMC</option><option>AP Gurukulam</option></select></div><div class="form-group"><label class="form-label">Rank</label><input class="form-input" type="text" id="sel-rank" placeholder="AIR 12"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Year</label><input class="form-input" type="number" id="sel-year" placeholder="2025"/></div><div class="form-group"><label class="form-label">State</label><input class="form-input" type="text" id="sel-state"/></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('sel')">Cancel</button><button class="btn btn-primary" onclick="saveSelection()">Save</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-enq-view" style="display:none" onclick="if(event.target===this)closeModal('enq-view')">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Enquiry Details</span><button class="modal-close" onclick="closeModal('enq-view')">×</button></div>
+    <div class="modal-body" id="enq-view-body"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('enq-view')">Close</button></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  FIREBASE CONFIG
+//  Go to: console.firebase.google.com → Project Settings → Your apps → Web
+// ══════════════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+const ADMIN_EMAIL = "srisurya1389@gmail.com";
+// ══════════════════════════════════════════════════════════════════
+
+const CFG = firebaseConfig.apiKey !== "YOUR_API_KEY";
+let auth, db;
+if (CFG) {
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db   = firebase.firestore();
+  document.getElementById('setup-notice').style.display = 'none';
+}
+
+function signInWithGoogle() {
+  if (!CFG) { showToast('Configure Firebase first','error'); return; }
+  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e => { const el=document.getElementById('login-error'); el.style.display='block'; el.textContent=e.message; });
+}
+function signOut() { if (CFG) auth.signOut(); }
+
+if (CFG) {
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      if (user.email !== ADMIN_EMAIL) { auth.signOut(); return; }
+      show(); document.getElementById('user-name').textContent = user.displayName||user.email; document.getElementById('user-avatar').textContent = (user.displayName||'A')[0].toUpperCase(); initAdmin();
+    } else { document.getElementById('login-screen').style.display='flex'; document.getElementById('admin-app').style.display='none'; }
+  });
+} else { setTimeout(()=>{ show(); initAdmin(); },0); }
+
+function show() { document.getElementById('login-screen').style.display='none'; document.getElementById('admin-app').style.display='block'; }
+
+const TITLES = {dashboard:'Dashboard',registrations:'Registrations',enquiries:'Enquiries',selections:'Selections','courses-cms':'Courses',pricing:'Pricing','testimonials-cms':'Testimonials',events:'Events',settings:'Site Settings'};
+function navigate(id, el) {
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); if(el)el.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.getElementById('section-'+id).classList.add('active');
+  document.getElementById('topbar-title').textContent = TITLES[id]||id;
+}
+
+let DATA = {registrations:[],enquiries:[],events:[],selections:[],courses:[],testimonials:[]};
+
+function initAdmin() {
+  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  if(!CFG){document.getElementById('user-name').textContent='Demo Admin';}
+  loadRegistrations(); loadEnquiries(); loadEvents(); loadSelections(); loadCoursesCMS(); loadPricing(); loadTestimonialsCMS(); loadSettingsForm();
+}
+
+// ── REGISTRATIONS ─────────────────────────────────────────────────
+function loadRegistrations() {
+  if (!CFG) { DATA.registrations=DEMO.regs; renderRegTable(DATA.registrations); updateBadge('registrations',DEMO.regs.length); document.getElementById('stat-reg').textContent=DEMO.regs.length; updateDash(); return; }
+  db.collection('registrations').orderBy('createdAt','desc').onSnapshot(snap=>{
+    DATA.registrations=snap.docs.map(d=>({id:d.id,...d.data()})); renderRegTable(DATA.registrations); updateBadge('registrations',DATA.registrations.length); document.getElementById('stat-reg').textContent=DATA.registrations.length; updateDash();
+  });
+}
+function renderRegTable(rows) {
+  const tb=document.getElementById('reg-table');
+  if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="10">No registrations yet.</td></tr>';return;}
+  tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.class||'—')}</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.school||'—')}</td><td>${esc(r.phone||'—')}</td><td style="color:var(--muted)">${esc(r.email||'—')}</td><td>${esc(r.exam||'—')}</td><td style="color:var(--muted)">${fmtDate(r.createdAt)}</td><td>${payBadge(r.paymentStatus)}</td><td><div style="display:flex;gap:5px">${CFG?`<button class="btn btn-sm btn-outline" onclick="setPayment('${r.id}','paid')">✓ Paid</button><button class="btn btn-sm btn-danger" onclick="delDoc('registrations','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');
+}
+function payBadge(s){return s==='paid'?'<span class="badge badge-green">Paid</span>':s==='failed'?'<span class="badge badge-red">Failed</span>':'<span class="badge badge-gold">Pending</span>';}
+function setPayment(id,s){db.collection('registrations').doc(id).update({paymentStatus:s}).then(()=>showToast('Payment updated'));}
+
+// ── ENQUIRIES ─────────────────────────────────────────────────────
+function loadEnquiries() {
+  if (!CFG) { DATA.enquiries=DEMO.enqs; renderEnqTable(DATA.enquiries); const n=DEMO.enqs.filter(e=>!e.status||e.status==='new').length; updateBadge('enquiries',n); document.getElementById('stat-enq').textContent=n; return; }
+  db.collection('enquiries').orderBy('createdAt','desc').onSnapshot(snap=>{
+    DATA.enquiries=snap.docs.map(d=>({id:d.id,...d.data()})); renderEnqTable(DATA.enquiries); const n=DATA.enquiries.filter(e=>!e.status||e.status==='new').length; updateBadge('enquiries',n); document.getElementById('stat-enq').textContent=n;
+  });
+}
+function renderEnqTable(rows) {
+  const tb=document.getElementById('enq-table');
+  if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="8">No enquiries yet.</td></tr>';return;}
+  tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.phone||'—')}</td><td style="color:var(--muted)">${esc(r.email||'—')}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${esc(r.message||'—')}</td><td style="color:var(--muted)">${fmtDate(r.createdAt)}</td><td>${enqBadge(r.status)}</td><td><div style="display:flex;gap:5px"><button class="btn btn-sm btn-outline" onclick="viewEnquiry(${i})">👁</button>${CFG?`<button class="btn btn-sm btn-outline" onclick="setEnqStatus('${r.id}','closed')">✓ Close</button><button class="btn btn-sm btn-danger" onclick="delDoc('enquiries','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');
+}
+function enqBadge(s){return s==='followup'?'<span class="badge badge-blue">Follow-up</span>':s==='closed'?'<span class="badge badge-grey">Closed</span>':'<span class="badge badge-red">New</span>';}
+function setEnqStatus(id,s){db.collection('enquiries').doc(id).update({status:s}).then(()=>showToast('Updated'));}
+function viewEnquiry(i) {
+  const r=(CFG?DATA.enquiries:DEMO.enqs)[i];
+  document.getElementById('enq-view-body').innerHTML=`<div style="display:grid;gap:14px"><div><label class="form-label">Name</label><div style="font-size:15px;font-weight:600;margin-top:3px">${esc(r.name)}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div><label class="form-label">Phone</label><div>${esc(r.phone||'—')}</div></div><div><label class="form-label">Email</label><div>${esc(r.email||'—')}</div></div></div><div><label class="form-label">Message</label><div style="margin-top:6px;padding:14px;background:#f8fbf8;border-radius:8px;line-height:1.6">${esc(r.message||'—')}</div></div><div><label class="form-label">Received</label><div style="color:var(--muted)">${fmtDate(r.createdAt)}</div></div></div>`;
+  document.getElementById('modal-enq-view').style.display='flex';
+}
+
+// ── SELECTIONS ────────────────────────────────────────────────────
+function loadSelections() {
+  if (!CFG) { DATA.selections=DEMO.sels; renderSelTable(DATA.selections); document.getElementById('stat-sel').textContent=DEMO.sels.length; return; }
+  db.collection('selections').orderBy('year','desc').onSnapshot(snap=>{DATA.selections=snap.docs.map(d=>({id:d.id,...d.data()})); renderSelTable(DATA.selections); document.getElementById('stat-sel').textContent=DATA.selections.length;});
+}
+function renderSelTable(rows) {
+  const tb=document.getElementById('sel-table');
+  if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="8">No selections yet.</td></tr>';return;}
+  tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.school)}</td><td><span class="badge badge-green">${esc(r.exam||'—')}</span></td><td><strong style="color:var(--gold)">${esc(r.rank||'—')}</strong></td><td>${esc(r.year||'—')}</td><td style="color:var(--muted)">${esc(r.state||'—')}</td><td><div style="display:flex;gap:6px"><button class="btn btn-sm btn-outline" onclick="editSel('${r.id}')">Edit</button>${CFG?`<button class="btn btn-sm btn-danger" onclick="delDoc('selections','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');
+}
+function openSelModal(reset=true){if(reset){['sel-id','sel-name','sel-school','sel-rank','sel-state'].forEach(id=>document.getElementById(id).value='');document.getElementById('sel-year').value=new Date().getFullYear();document.getElementById('modal-sel-title').textContent='Add Selection';}document.getElementById('modal-sel').style.display='flex';}
+function editSel(id){const r=DATA.selections.find(s=>s.id===id);if(!r)return;document.getElementById('sel-id').value=id;document.getElementById('sel-name').value=r.name||'';document.getElementById('sel-school').value=r.school||'';document.getElementById('sel-exam').value=r.exam||'AISSEE (Sainik School)';document.getElementById('sel-rank').value=r.rank||'';document.getElementById('sel-year').value=r.year||2025;document.getElementById('sel-state').value=r.state||'';document.getElementById('modal-sel-title').textContent='Edit Selection';openSelModal(false);}
+function saveSelection(){const id=document.getElementById('sel-id').value,name=document.getElementById('sel-name').value.trim(),school=document.getElementById('sel-school').value.trim();if(!name||!school){showToast('Name and school required','error');return;}const data={name,school,exam:document.getElementById('sel-exam').value,rank:document.getElementById('sel-rank').value.trim(),year:parseInt(document.getElementById('sel-year').value)||new Date().getFullYear(),state:document.getElementById('sel-state').value.trim(),updatedAt:CFG?firebase.firestore.FieldValue.serverTimestamp():new Date().toISOString()};if(!CFG){showToast('Demo mode');closeModal('sel');return;}(id?db.collection('selections').doc(id).update(data):db.collection('selections').add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()})).then(()=>{showToast(id?'Updated':'Added');closeModal('sel');});}
+
+// ── COURSES CMS ───────────────────────────────────────────────────
+function loadCoursesCMS() {
+  if (!CFG) { DATA.courses=DEMO.courses; renderCoursesTable(DATA.courses); document.getElementById('stat-courses').textContent=DATA.courses.length; return; }
+  db.collection('courses').orderBy('order','asc').onSnapshot(snap=>{DATA.courses=snap.docs.map(d=>({id:d.id,...d.data()})); renderCoursesTable(DATA.courses); document.getElementById('stat-courses').textContent=DATA.courses.length;});
+}
+function renderCoursesTable(rows) {
+  const tb=document.getElementById('courses-table');
+  if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="8">No courses. Click "+ Add Course" to add courses that appear on the website.</td></tr>';return;}
+  tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong><div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(r.type||'defence')}</div></td><td><span class="badge badge-green">${esc(r.exam||'—')}</span></td><td style="color:var(--muted)">${esc(r.target||'—')}</td><td>${esc(r.duration||'—')}</td><td>${esc(r.batch||'—')}</td><td><strong style="color:var(--gold)">${esc(r.price||'—')}</strong></td><td><div style="display:flex;gap:6px"><button class="btn btn-sm btn-outline" onclick="editCourse('${r.id}')">Edit</button>${CFG?`<button class="btn btn-sm btn-danger" onclick="delDoc('courses','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');
+}
+function openCourseModal(reset=true){if(reset){['course-id','c-name','c-exam','c-target','c-badge','c-price','c-duration','c-batch','c-mode','c-tests','c-desc','c-features','c-selections'].forEach(id=>document.getElementById(id).value='');document.getElementById('c-order').value=0;document.getElementById('c-type').value='defence';document.getElementById('modal-course-title').textContent='Add Course';}document.getElementById('modal-course').style.display='flex';}
+function editCourse(id){const r=DATA.courses.find(c=>c.id===id);if(!r)return;document.getElementById('course-id').value=id;document.getElementById('c-name').value=r.name||'';document.getElementById('c-exam').value=r.exam||'';document.getElementById('c-target').value=r.target||'';document.getElementById('c-badge').value=r.badge||'';document.getElementById('c-price').value=r.price||'';document.getElementById('c-duration').value=r.duration||'';document.getElementById('c-batch').value=r.batch||'';document.getElementById('c-mode').value=r.mode||'';document.getElementById('c-tests').value=r.tests||'';document.getElementById('c-type').value=r.type||'defence';document.getElementById('c-desc').value=r.desc||'';document.getElementById('c-features').value=(r.features||[]).join('\n');document.getElementById('c-selections').value=r.selections||'';document.getElementById('c-order').value=r.order||0;document.getElementById('modal-course-title').textContent='Edit Course';openCourseModal(false);}
+function saveCourse(){const id=document.getElementById('course-id').value,name=document.getElementById('c-name').value.trim(),exam=document.getElementById('c-exam').value.trim();if(!name||!exam){showToast('Name and exam required','error');return;}const features=document.getElementById('c-features').value.split('\n').map(l=>l.trim()).filter(Boolean);const data={name,exam,target:document.getElementById('c-target').value.trim(),badge:document.getElementById('c-badge').value.trim(),price:document.getElementById('c-price').value.trim(),duration:document.getElementById('c-duration').value.trim(),batch:document.getElementById('c-batch').value.trim(),mode:document.getElementById('c-mode').value.trim(),tests:document.getElementById('c-tests').value.trim(),type:document.getElementById('c-type').value,desc:document.getElementById('c-desc').value.trim(),features,selections:document.getElementById('c-selections').value.trim(),order:parseInt(document.getElementById('c-order').value)||0,updatedAt:CFG?firebase.firestore.FieldValue.serverTimestamp():new Date().toISOString()};if(!CFG){showToast('Demo mode');closeModal('course');return;}(id?db.collection('courses').doc(id).update(data):db.collection('courses').add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()})).then(()=>{showToast(id?'Course updated':'Course added — live on website');closeModal('course');});}
+
+// ── PRICING ───────────────────────────────────────────────────────
+const PRICE_DEFAULTS = {'day-scholar':{title:'Day Scholar',badge:'Most Flexible',price:'Contact for Fee',priceNote:'/ year',emi:'EMI options available · Scholarship up to 50%',features:['Daily classroom sessions','All study materials included','Weekly mock tests + reports','Doubt sessions & mentoring','Parent WhatsApp updates']},residential:{title:'Residential',badge:'⭐ Recommended',price:'Contact for Fee',priceNote:'/ year',emi:'EMI options · Scholarship available',features:['Everything in Day Scholar','Hostel + 3 meals/day','Supervised study hours (6–9 PM)','Daily PT & physical discipline','24/7 security · medical room','Weekly parent video calls']},online:{title:'Online',badge:'Study Anywhere',price:'Contact for Fee',priceNote:'/ year',emi:'Scholarships available',features:['Live interactive classes','Recorded session access','All study materials (digital)','Weekly doubt sessions','Progress reports']}};
+function loadPricing(){
+  if(!CFG){renderPricingCards(PRICE_DEFAULTS);return;}
+  const ids=['day-scholar','residential','online'];
+  Promise.all(ids.map(id=>db.collection('pricing').doc(id).get())).then(snaps=>{const data={};snaps.forEach((s,i)=>{data[ids[i]]=s.exists?s.data():PRICE_DEFAULTS[ids[i]];});renderPricingCards(data);});
+}
+function renderPricingCards(data){
+  document.getElementById('pricing-cards-grid').innerHTML=Object.keys(data).map(key=>{const d=data[key];const feats=(d.features||[]).map((f,fi)=>`<div class="feature-row"><input type="text" value="${esc(f)}" data-pk="${key}" data-fi="${fi}" placeholder="Feature"/><button class="btn-remove" onclick="this.parentElement.remove()">×</button></div>`).join('');return `<div class="settings-card"><div class="settings-card-header">${esc(d.title||key)}</div><div class="settings-card-body"><div class="form-group"><label class="form-label">Plan Name</label><input class="form-input" type="text" id="p-title-${key}" value="${esc(d.title||'')}"/></div><div class="form-group"><label class="form-label">Badge Text</label><input class="form-input" type="text" id="p-badge-${key}" value="${esc(d.badge||'')}"/></div><div class="form-row"><div class="form-group"><label class="form-label">Price</label><input class="form-input" type="text" id="p-price-${key}" value="${esc(d.price||'')}"/></div><div class="form-group"><label class="form-label">Price Note</label><input class="form-input" type="text" id="p-note-${key}" value="${esc(d.priceNote||'')}"/></div></div><div class="form-group"><label class="form-label">EMI / Scholarship text</label><input class="form-input" type="text" id="p-emi-${key}" value="${esc(d.emi||'')}"/></div><div class="form-group"><label class="form-label">Features <button style="margin-left:8px;background:var(--green);color:#fff;border:none;border-radius:5px;padding:2px 8px;font-size:11px;cursor:pointer;font-family:inherit" onclick="addFeature('${key}')">+ Add</button></label><div id="feat-list-${key}">${feats}</div></div><button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="savePricingPlan('${key}')">Save ${esc(d.title||key)}</button></div></div>`;}).join('');
+}
+function addFeature(key){const list=document.getElementById('feat-list-'+key);const row=document.createElement('div');row.className='feature-row';row.innerHTML=`<input type="text" placeholder="Feature"/><button class="btn-remove" onclick="this.parentElement.remove()">×</button>`;list.appendChild(row);}
+function savePricingPlan(key){const list=document.getElementById('feat-list-'+key);const features=Array.from(list.querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);const data={title:document.getElementById('p-title-'+key).value.trim(),badge:document.getElementById('p-badge-'+key).value.trim(),price:document.getElementById('p-price-'+key).value.trim(),priceNote:document.getElementById('p-note-'+key).value.trim(),emi:document.getElementById('p-emi-'+key).value.trim(),features,updatedAt:CFG?firebase.firestore.FieldValue.serverTimestamp():new Date().toISOString()};if(!CFG){showToast('Demo mode');return;}db.collection('pricing').doc(key).set(data,{merge:true}).then(()=>showToast('Pricing updated — live on website'));}
+
+// ── TESTIMONIALS ──────────────────────────────────────────────────
+function loadTestimonialsCMS(){
+  if(!CFG){DATA.testimonials=DEMO.testimonials;renderTestimonialsTable(DATA.testimonials);return;}
+  db.collection('testimonials').orderBy('order','asc').onSnapshot(snap=>{DATA.testimonials=snap.docs.map(d=>({id:d.id,...d.data()}));renderTestimonialsTable(DATA.testimonials);});
+}
+function renderTestimonialsTable(rows){const tb=document.getElementById('testimonials-table');if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="6">No testimonials yet.</td></tr>';return;}tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong></td><td style="color:var(--muted)">${esc(r.role||'—')}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${esc((r.quote||'').substring(0,80))}…</td><td>${esc(String(r.order||i+1))}</td><td><div style="display:flex;gap:6px"><button class="btn btn-sm btn-outline" onclick="editTestimonial('${r.id}')">Edit</button>${CFG?`<button class="btn btn-sm btn-danger" onclick="delDoc('testimonials','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');}
+function openTestimonialModal(reset=true){if(reset){['testi-id','t-name','t-role','t-quote','t-initials'].forEach(id=>document.getElementById(id).value='');document.getElementById('t-order').value=1;document.getElementById('modal-testimonial-title').textContent='Add Testimonial';}document.getElementById('modal-testimonial').style.display='flex';}
+function editTestimonial(id){const r=DATA.testimonials.find(t=>t.id===id);if(!r)return;document.getElementById('testi-id').value=id;document.getElementById('t-name').value=r.name||'';document.getElementById('t-role').value=r.role||'';document.getElementById('t-quote').value=r.quote||'';document.getElementById('t-initials').value=r.initials||'';document.getElementById('t-order').value=r.order||1;document.getElementById('modal-testimonial-title').textContent='Edit Testimonial';openTestimonialModal(false);}
+function saveTestimonial(){const id=document.getElementById('testi-id').value,name=document.getElementById('t-name').value.trim(),quote=document.getElementById('t-quote').value.trim();if(!name||!quote){showToast('Name and quote required','error');return;}const data={name,quote,role:document.getElementById('t-role').value.trim(),initials:document.getElementById('t-initials').value.trim()||name.substring(0,2).toUpperCase(),order:parseInt(document.getElementById('t-order').value)||1,updatedAt:CFG?firebase.firestore.FieldValue.serverTimestamp():new Date().toISOString()};if(!CFG){showToast('Demo mode');closeModal('testimonial');return;}(id?db.collection('testimonials').doc(id).update(data):db.collection('testimonials').add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()})).then(()=>{showToast(id?'Updated':'Added');closeModal('testimonial');});}
+
+// ── EVENTS ────────────────────────────────────────────────────────
+function loadEvents(){if(!CFG){DATA.events=DEMO.events;renderEventsTable(DATA.events);return;}db.collection('events').orderBy('date','asc').onSnapshot(snap=>{DATA.events=snap.docs.map(d=>({id:d.id,...d.data()}));renderEventsTable(DATA.events);});}
+function renderEventsTable(rows){const tb=document.getElementById('events-table');if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="6">No events yet.</td></tr>';return;}tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.title)}</strong></td><td>${fmtDate(r.date)}</td><td>${tagBadge(r.tag)}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${esc(r.description||'—')}</td><td><div style="display:flex;gap:6px"><button class="btn btn-sm btn-outline" onclick="editEvent('${r.id}')">Edit</button>${CFG?`<button class="btn btn-sm btn-danger" onclick="delDoc('events','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');}
+function tagBadge(t){const m={exam:'badge-red',result:'badge-green',workshop:'badge-blue',announcement:'badge-gold',admission:'badge-grey'};return `<span class="badge ${m[t]||'badge-grey'}">${t||'other'}</span>`;}
+function openEventModal(reset=true){if(reset){['evt-id','evt-title','evt-date','evt-desc','evt-location'].forEach(id=>document.getElementById(id).value='');document.getElementById('modal-event-title').textContent='Add Event';}document.getElementById('modal-event').style.display='flex';}
+function editEvent(id){const r=DATA.events.find(e=>e.id===id);if(!r)return;document.getElementById('evt-id').value=id;document.getElementById('evt-title').value=r.title||'';document.getElementById('evt-date').value=fmtDateInput(r.date);document.getElementById('evt-desc').value=r.description||'';document.getElementById('evt-tag').value=r.tag||'exam';document.getElementById('evt-location').value=r.location||'';document.getElementById('modal-event-title').textContent='Edit Event';openEventModal(false);}
+function saveEvent(){const id=document.getElementById('evt-id').value,title=document.getElementById('evt-title').value.trim(),date=document.getElementById('evt-date').value;if(!title||!date){showToast('Title and date required','error');return;}const data={title,date:CFG?firebase.firestore.Timestamp.fromDate(new Date(date)):date,tag:document.getElementById('evt-tag').value,description:document.getElementById('evt-desc').value.trim(),location:document.getElementById('evt-location').value.trim(),updatedAt:CFG?firebase.firestore.FieldValue.serverTimestamp():new Date().toISOString()};if(!CFG){showToast('Demo mode');closeModal('event');return;}(id?db.collection('events').doc(id).update(data):db.collection('events').add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()})).then(()=>{showToast(id?'Event updated':'Event added');closeModal('event');});}
+
+// ── SETTINGS ──────────────────────────────────────────────────────
+function loadSettingsForm(){
+  if(!CFG)return;
+  db.collection('content').get().then(snap=>{const c={};snap.docs.forEach(d=>{c[d.id]=d.data();});const h=c.hero||{},s=c.stats||{},b=c.batch||{},ct=c.contact||{};const set=(id,v)=>{if(v)document.getElementById(id).value=v;};set('s-hero-line1',h.line1);set('s-hero-line2',h.line2);set('s-hero-sub',h.subtitle);set('s-hero-cta1',h.cta1);set('s-hero-cta2',h.cta2);set('s-stat1-num',s.stat1num);set('s-stat1-label',s.stat1label);set('s-stat2-num',s.stat2num);set('s-stat2-label',s.stat2label);set('s-stat3-num',s.stat3num);set('s-stat3-label',s.stat3label);set('s-batch-date',b.batchDate);set('s-batch-seats',b.seats);set('s-total-sel',b.totalSel);set('s-scholarship',b.scholarship);set('s-phone',ct.phone);set('s-whatsapp',ct.whatsapp);set('s-email',ct.email);set('s-address',ct.address);set('s-hours',ct.hours);});
+}
+function saveSettings(type){
+  if(!CFG){showToast('Demo mode');return;}
+  let data={};
+  if(type==='hero')data={line1:v('s-hero-line1'),line2:v('s-hero-line2'),subtitle:v('s-hero-sub'),cta1:v('s-hero-cta1'),cta2:v('s-hero-cta2')};
+  if(type==='stats')data={stat1num:v('s-stat1-num'),stat1label:v('s-stat1-label'),stat2num:v('s-stat2-num'),stat2label:v('s-stat2-label'),stat3num:v('s-stat3-num'),stat3label:v('s-stat3-label')};
+  if(type==='batch')data={batchDate:v('s-batch-date'),seats:v('s-batch-seats'),totalSel:v('s-total-sel'),scholarship:v('s-scholarship')};
+  if(type==='contact')data={phone:v('s-phone'),whatsapp:v('s-whatsapp'),email:v('s-email'),address:v('s-address'),hours:v('s-hours')};
+  data.updatedAt=firebase.firestore.FieldValue.serverTimestamp();
+  db.collection('content').doc(type).set(data,{merge:true}).then(()=>showToast('Saved — live on website'));
+}
+function v(id){return document.getElementById(id).value.trim();}
+
+// ── Dashboard ─────────────────────────────────────────────────────
+function updateDash(){
+  const rows=(CFG?DATA.registrations:DEMO.regs).slice(0,5);const tb=document.getElementById('dash-reg-table');
+  if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="5">No registrations yet.</td></tr>';return;}
+  tb.innerHTML=rows.map(r=>`<tr><td><strong>${esc(r.name)}</strong></td><td>${esc(r.class||'—')}</td><td>${esc(r.exam||'—')}</td><td style="color:var(--muted)">${fmtDate(r.createdAt)}</td><td>${payBadge(r.paymentStatus)}</td></tr>`).join('');
+  const all=[...(CFG?DATA.registrations:DEMO.regs).map(r=>({type:'reg',text:'New registration: '+r.name,time:r.createdAt})),...(CFG?DATA.enquiries:DEMO.enqs).map(e=>({type:'enq',text:'Enquiry from: '+e.name,time:e.createdAt}))].sort((a,b)=>(b.time||0)-(a.time||0)).slice(0,8);
+  document.getElementById('activity-feed').innerHTML=all.length?all.map(a=>`<div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)"><div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;background:${a.type==='reg'?'var(--gold)':'var(--blue)'}"></div><div><div style="font-size:13px">${esc(a.text)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${fmtDate(a.time)}</div></div></div>`).join(''):'<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No activity yet.</div>';
+}
+
+// ── Helpers ────────────────────────────────────────────────────────
+function delDoc(col,id){if(!confirm('Delete permanently?'))return;db.collection(col).doc(id).delete().then(()=>showToast('Deleted'));}
+function updateBadge(key,n){document.getElementById('badge-'+key).textContent=n;}
+function filterTable(key){if(key==='reg'){const q=v2('reg-search'),st=document.getElementById('reg-filter-status').value.toLowerCase(),cl=document.getElementById('reg-filter-class').value,src=CFG?DATA.registrations:DEMO.regs;renderRegTable(src.filter(r=>(!q||[r.name,r.phone,r.email].join(' ').toLowerCase().includes(q))&&(!st||(r.paymentStatus||'pending').toLowerCase()===st)&&(!cl||r.class===cl)));}if(key==='enq'){const q=v2('enq-search'),st=document.getElementById('enq-filter-status').value,src=CFG?DATA.enquiries:DEMO.enqs;renderEnqTable(src.filter(r=>(!q||[r.name,r.message].join(' ').toLowerCase().includes(q))&&(!st||(r.status||'new')===st)));}}
+function v2(id){return document.getElementById(id).value.toLowerCase();}
+function exportCSV(type){const rows=DATA[type]||[];if(!rows.length){showToast('No data','error');return;}const keys=Object.keys(rows[0]).filter(k=>k!=='id');const csv=[keys.join(','),...rows.map(r=>keys.map(k=>JSON.stringify(r[k]||'')).join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`${type}_${new Date().toISOString().slice(0,10)}.csv`;a.click();showToast('CSV downloaded');}
+function closeModal(id){document.getElementById('modal-'+id).style.display='none';}
+let _tt;function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=(type==='error'?'⚠ ':'✓ ')+msg;t.className='show'+(type==='error'?' error':'');clearTimeout(_tt);_tt=setTimeout(()=>{t.className='';},3200);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtDate(ts){if(!ts)return '—';const d=ts.toDate?ts.toDate():new Date(ts);return isNaN(d)?'—':d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+function fmtDateInput(ts){if(!ts)return '';const d=ts.toDate?ts.toDate():new Date(ts);return isNaN(d)?'':d.toISOString().slice(0,10);}
+
+// ── Demo data ──────────────────────────────────────────────────────
+const DEMO={regs:[{id:'1',name:'Arjun Sharma',class:'Class VI',school:'Delhi Public School',phone:'9876543210',email:'arjun@email.com',exam:'AISSEE',paymentStatus:'paid',createdAt:'2025-06-10'},{id:'2',name:'Priya Reddy',class:'Class VII',school:'Kendriya Vidyalaya',phone:'9988776655',email:'priya@email.com',exam:'AISSEE',paymentStatus:'pending',createdAt:'2025-06-12'}],enqs:[{id:'1',name:'Ramesh Kumar',phone:'9876500001',email:'ramesh@email.com',message:'I want to know about Sainik School coaching fees and batch schedule.',status:'new',createdAt:'2025-06-15'},{id:'2',name:'Anita Devi',phone:'9876500002',email:'',message:'When should we start preparation for Class 6 exam?',status:'followup',createdAt:'2025-06-14'}],sels:[{id:'1',name:'Aditya Kumar',school:'Sainik School Kapurthala',exam:'AISSEE (Sainik School)',rank:'AIR 4',year:2025,state:'Punjab'},{id:'2',name:'Meera Singh',school:'RMS Chail',exam:'RMS Entrance',rank:'AIR 12',year:2025,state:'HP'}],events:[{id:'1',title:'AISSEE 2026 Application Opens',date:'2025-08-01',tag:'exam',description:'Class VI & IX applications open on NTA portal.'},{id:'2',title:'Free Demo Class',date:'2025-07-15',tag:'workshop',description:'2-hour demo class for Class V & VIII.'}],courses:[{id:'1',name:'Sainik School Coaching',exam:'AISSEE',target:'Class 6 & 9',badge:'Most Popular',price:'Contact for Fee',duration:'12 Months',batch:'Max 20',mode:'Day / Residential',type:'sainik',order:0},{id:'2',name:'Navodaya Entrance',exam:'JNVST',target:'Class 6',badge:'180+ Selected',price:'Contact for Fee',duration:'10–12 Months',batch:'Max 20',mode:'Day / Residential',type:'defence',order:1}],testimonials:[{id:'1',name:'Lakshmi Devi',role:'Parent · Navodaya (JNVST 2024)',quote:'My daughter cleared the Navodaya test in her first attempt. The weekly mock tests made all the difference.',initials:'LD',order:1},{id:'2',name:'Srinivas Rao',role:'Parent · Sainik School (AISSEE 2024)',quote:'Two years of coaching built real confidence. He walked into the Sainik School interview without any fear.',initials:'SR',order:2}]};
+</script>
+</body>
+</html>
