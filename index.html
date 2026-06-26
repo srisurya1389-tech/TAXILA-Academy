@@ -4409,347 +4409,242 @@ class Component extends DCLogic {
       const container = root.querySelector('#india-map-container');
       if (!container || container.querySelector('svg')) return;
 
-      // ── India geographic border [lat, lon], clockwise from J&K NW ─────────
-      // Coordinates sourced from Natural Earth / standard geographic data
-      const border = [
-        // J&K and Himalayan northern border (west → east)
-        [36.0,74.0],[37.0,76.5],[35.5,78.0],[33.5,79.0],[30.5,80.2],
-        // Nepal border
-        [28.3,84.0],[27.3,87.8],[27.0,89.5],[27.0,91.5],
-        // Bhutan → Arunachal (steps north before going east)
-        [28.5,92.0],[28.0,97.2],
-        // NE states: Myanmar border going south
-        [26.0,95.0],[25.0,95.0],[24.5,94.0],[23.0,93.0],[21.9,92.7],
-        // Bangladesh border going west, then WB coast
-        [22.5,91.5],[21.5,88.5],
-        // East coast going south
-        [20.9,87.1],[19.5,86.5],[18.5,84.5],[17.5,83.3],[15.5,80.5],
-        [13.1,80.3],[10.0,79.8],
-        // Kanyakumari – southernmost tip
-        [8.07,77.6],
-        // West coast going north
-        [8.5,76.5],[10.0,76.0],[11.5,75.3],[14.8,74.1],[19.0,73.0],[20.5,72.8],
-        // Gujarat: Gulf of Khambhat, Saurashtra peninsula, Gulf of Kutch
-        [22.0,72.0],[20.8,70.8],[22.5,68.9],[23.5,68.7],[24.0,69.5],[24.5,70.0],
-        // Western border north: Rajasthan → Punjab → J&K LoC
-        [27.5,70.2],[29.5,70.0],[30.5,71.5],[32.0,74.0],[33.0,74.8],[34.0,74.2],[35.5,73.9]
+      // ── Create SVG canvas and D3 selection ────────────────────────────────
+      const W = 600, H = 640;
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      svgEl.setAttribute('width', '100%');
+      svgEl.setAttribute('height', '100%');
+      svgEl.style.cssText = 'display:block;overflow:visible';
+
+      // Inline animation styles so they survive innerHTML re-renders
+      svgEl.innerHTML = `<defs>
+        <style>
+          @keyframes pp-sainik{0%{r:6;opacity:.7}100%{r:22;opacity:0}}
+          @keyframes pp-rms   {0%{r:6;opacity:.7}100%{r:22;opacity:0}}
+          .pp-sainik{animation:pp-sainik 2.6s ease-out infinite}
+          .pp-rms   {animation:pp-rms    2.6s ease-out infinite}
+          .map-pin-group{cursor:pointer}
+          .i-state{transition:fill .18s}
+        </style>
+      </defs>`;
+      container.appendChild(svgEl);
+      const svg = d3.select(svgEl);
+
+      // ── Tooltip ───────────────────────────────────────────────────────────
+      let tip = d3.select('#map-tooltip');
+      if (tip.empty()) {
+        tip = d3.select('body').append('div')
+          .attr('id', 'map-tooltip')
+          .style('position', 'absolute')
+          .style('background', 'rgba(10,31,5,0.96)')
+          .style('color', '#fff')
+          .style('padding', '10px 14px')
+          .style('border-radius', '8px')
+          .style('border', '1px solid #F5B800')
+          .style('font-family', 'Inter,sans-serif')
+          .style('font-size', '12.5px')
+          .style('pointer-events', 'none')
+          .style('opacity', 0)
+          .style('z-index', 9999)
+          .style('box-shadow', '0 6px 20px rgba(0,0,0,0.4)');
+      }
+
+      // ── School data ───────────────────────────────────────────────────────
+      const sainikSchools = [
+        { name:'Korukonda',       state:'Andhra Pradesh',    lat:17.80,lon:82.20,url:'https://www.sainikschoolkorukonda.org' },
+        { name:'Kalikiri',        state:'Andhra Pradesh',    lat:13.70,lon:78.80,url:'https://sskal.ac.in/' },
+        { name:'East Siang',      state:'Arunachal Pradesh', lat:28.00,lon:95.00,url:'https://www.sainikschooleastsiang.com' },
+        { name:'Goalpara',        state:'Assam',             lat:26.17,lon:90.62,url:'https://www.sainikschoolgoalpara.org' },
+        { name:'Nalanda',         state:'Bihar',             lat:25.13,lon:85.44,url:'https://sainikschoolnalanda.edu.in/' },
+        { name:'Gopalganj',       state:'Bihar',             lat:26.50,lon:84.40,url:'https://www.ssgopalganj.in' },
+        { name:'Ambikapur',       state:'Chhattisgarh',      lat:23.10,lon:83.20,url:'https://www.sainikschoolambikapur.org.in' },
+        { name:'Balachadi',       state:'Gujarat',           lat:22.47,lon:70.05,url:'https://www.ssbalachadi.org' },
+        { name:'Kunjpura',        state:'Haryana',           lat:29.80,lon:77.00,url:'https://sskunjpura.org/' },
+        { name:'Rewari',          state:'Haryana',           lat:28.20,lon:76.60,url:'https://www.ssrw.org' },
+        { name:'Sujanpur Tira',   state:'Himachal Pradesh',  lat:31.83,lon:76.50,url:'https://www.sainikschoolsujanpurtira.org' },
+        { name:'Nagrota',         state:'Jammu & Kashmir',   lat:32.68,lon:74.92,url:'https://www.sainikschoolnagrota.com' },
+        { name:'Tilaiya',         state:'Jharkhand',         lat:24.20,lon:85.50,url:'https://www.sainikschooltilaiya.org' },
+        { name:'Bijapur',         state:'Karnataka',         lat:16.80,lon:75.70,url:'https://www.ssbj.in' },
+        { name:'Kodagu',          state:'Karnataka',         lat:12.42,lon:75.73,url:'http://www.sainikschoolkodagu.edu.in' },
+        { name:'Kazhakootam',     state:'Kerala',            lat: 8.57,lon:76.87,url:'https://www.sainikschooltvm.edu.in/' },
+        { name:'Rewa',            state:'Madhya Pradesh',    lat:24.53,lon:81.30,url:'https://sainikschoolrewa.ac.in' },
+        { name:'Satara',          state:'Maharashtra',       lat:17.68,lon:73.98,url:'https://www.sainiksatara.org' },
+        { name:'Chandrapur',      state:'Maharashtra',       lat:19.90,lon:79.30,url:'https://sainikschoolchandrapur.com' },
+        { name:'Imphal',          state:'Manipur',           lat:24.80,lon:93.90,url:'https://ssimphal.nic.in' },
+        { name:'Chhingchhip',     state:'Mizoram',           lat:23.30,lon:92.90,url:'https://sschhingchhip.mizoram.gov.in' },
+        { name:'Punglwa',         state:'Nagaland',          lat:25.90,lon:94.50,url:'https://www.sainikschoolpunglwa.nic.in' },
+        { name:'Bhubaneswar',     state:'Odisha',            lat:20.30,lon:85.82,url:'https://www.sainikschoolbhubaneswar.edu.in/' },
+        { name:'Sambalpur',       state:'Odisha',            lat:21.50,lon:83.90,url:'https://sainikschoolsambalpur.edu.in' },
+        { name:'Kapurthala',      state:'Punjab',            lat:31.37,lon:75.37,url:'https://www.sskapurthala.com' },
+        { name:'Chittorgarh',     state:'Rajasthan',         lat:24.88,lon:74.62,url:'https://sschittorgarh.edu.in' },
+        { name:'Jhunjhunu',       state:'Rajasthan',         lat:28.10,lon:75.40,url:'https://www.ssjhunjhunu.com' },
+        { name:'Amaravathinagar', state:'Tamil Nadu',        lat:10.37,lon:77.22,url:'https://www.sainikschoolamaravathinagar.edu.in' },
+        { name:'Lucknow',         state:'Uttar Pradesh',     lat:26.85,lon:80.92,url:'https://www.upsainikschool.org' },
+        { name:'Jhansi',          state:'Uttar Pradesh',     lat:25.40,lon:78.60,url:'https://www.sainikschooljhansi.com' },
+        { name:'Mainpuri',        state:'Uttar Pradesh',     lat:27.20,lon:79.00,url:'https://www.sainikschoolmainpuri.com' },
+        { name:'Amethi',          state:'Uttar Pradesh',     lat:26.20,lon:81.90,url:'https://www.sainikschoolamethi.com' },
+        { name:'Ghorakhal',       state:'Uttarakhand',       lat:29.42,lon:79.52,url:'https://www.ssghorakhal.org' },
+        { name:'Purulia',         state:'West Bengal',       lat:23.33,lon:86.37,url:'https://www.sainikschoolpurulia.com' }
+      ];
+      const rmsSchools = [
+        { name:'Chail',     state:'Himachal Pradesh', lat:30.90,lon:77.20,url:'https://www.rashtriyammilitaryschools.edu.in/chail/' },
+        { name:'Ajmer',     state:'Rajasthan',        lat:26.50,lon:74.60,url:'https://www.rashtriyammilitaryschools.edu.in/ajmer/' },
+        { name:'Belgaum',   state:'Karnataka',        lat:15.80,lon:74.50,url:'https://www.rashtriyammilitaryschools.edu.in/belgaum/' },
+        { name:'Bengaluru', state:'Karnataka',        lat:12.90,lon:77.60,url:'https://www.rashtriyammilitaryschools.edu.in/bengaluru/' },
+        { name:'Dholpur',   state:'Rajasthan',        lat:26.70,lon:77.90,url:'https://www.rashtriyammilitaryschools.edu.in/dholpur/' }
       ];
 
-      // ── Project [lat,lon] → SVG [x,y] ─────────────────────────────────────
-      const W = 460, H = 525, PAD = 12;
-      const lons = border.map(c=>c[1]), lats = border.map(c=>c[0]);
-      const lonMin = Math.min.apply(null,lons), lonMax = Math.max.apply(null,lons);
-      const latMin = Math.min.apply(null,lats), latMax = Math.max.apply(null,lats);
-      const sx = (W-2*PAD)/(lonMax-lonMin);
-      const sy = (H-2*PAD)/(latMax-latMin);
-      const px = function(lon){ return Math.round(PAD+(lon-lonMin)*sx); };
-      const py = function(lat){ return Math.round(PAD+(latMax-lat)*sy); };
+      // ── Pin renderer (shared for both school types) ───────────────────────
+      function renderPins(schools, kind, projection) {
+        const fillCore = kind === 'sainik' ? '#1B4D0E' : '#8b1a1a';
+        const pulseCls = kind === 'sainik' ? 'pp-sainik' : 'pp-rms';
+        const label    = kind === 'sainik' ? 'Sainik School' : 'RMS School';
+        const labelClr = kind === 'sainik' ? '#86efac' : '#fca5a5';
 
-      const outline = border.map(function(c,i){
-        return (i?'L':'M')+px(c[1])+','+py(c[0]);
-      }).join(' ')+' Z';
+        svg.append('g').attr('class', 'pins-group-' + kind)
+          .selectAll('g').data(schools).enter().append('g')
+          .attr('class', 'map-pin-group')
+          .attr('transform', d => {
+            const c = projection([d.lon, d.lat]);
+            return c ? `translate(${c[0].toFixed(1)},${c[1].toFixed(1)})` : 'translate(-9999,-9999)';
+          })
+          .each(function(d) {
+            const node = d3.select(this);
+            const delay = (Math.random() * 2.4).toFixed(2) + 's';
+            node.append('circle').attr('class', pulseCls).attr('r', 5)
+              .attr('fill', fillCore).attr('opacity', 0).style('animation-delay', delay);
+            node.append('circle').attr('class', 'pin-halo').attr('r', 7)
+              .attr('fill', 'none').attr('stroke', fillCore).attr('stroke-width', 1.2).attr('opacity', 0.35);
+            node.append('circle').attr('class', 'pin-core').attr('r', 4.5)
+              .attr('fill', fillCore).attr('stroke', '#fff').attr('stroke-width', 1.4);
+          })
+          .on('mouseover', function(event, d) {
+            d3.select(this).select('.pin-core').attr('r', 7).attr('fill', '#fff');
+            d3.select(this).select('.pin-halo').attr('r', 11).attr('opacity', 0.6);
+            tip.transition().duration(100).style('opacity', 1);
+            const link = d.url ? `<span style="color:#F5B800;font-size:10px;font-weight:600;display:block;margin-top:5px;border-top:1px solid rgba(255,255,255,0.15);padding-top:4px">Click to visit ↗</span>` : '';
+            tip.html(`<strong style="color:#F5B800;font-size:13px;display:block;margin-bottom:2px">${label} ${d.name}</strong><span style="color:${labelClr};font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:3px">${label}</span><span style="color:#cfe0c4">${d.state}</span>${link}`);
+          })
+          .on('mousemove', function(event) {
+            tip.style('left', (event.pageX + 15) + 'px').style('top', (event.pageY - 15) + 'px');
+          })
+          .on('mouseout', function() {
+            d3.select(this).select('.pin-core').attr('r', 4.5).attr('fill', fillCore);
+            d3.select(this).select('.pin-halo').attr('r', 7).attr('opacity', 0.35);
+            tip.transition().duration(120).style('opacity', 0);
+          })
+          .on('click', function(event, d) { if (d.url) window.open(d.url, '_blank', 'noopener,noreferrer'); })
+          .style('cursor', 'pointer');
+      }
 
-      // ── School pin data [lat, lon, type, animDelay] ────────────────────────
-      const pins = [
-        // Sainik Schools (green) — actual locations
-        [31.4,75.4,'g',0.0],   // Kapurthala, Punjab
-        [26.8,80.8,'g',0.5],   // Lucknow, UP
-        [23.3,86.4,'g',1.0],   // Purulia, West Bengal
-        [16.8,76.0,'g',1.5],   // Bijapur, Karnataka
-        [10.2,77.2,'g',2.0],   // Amaravathinagar, TN
-        [24.9,74.6,'g',0.8],   // Chittorgarh, Rajasthan
-        // RMS Schools (red) — actual locations
-        [31.0,77.2,'r',0.3],   // Chail, Himachal Pradesh
-        [26.5,74.6,'r',0.9],   // Ajmer, Rajasthan
-        [15.9,74.5,'r',1.6]    // Belagavi, Karnataka
-      ];
-      var pinsSVG = pins.map(function(p){
-        var x=px(p[1]), y=py(p[0]), type=p[2], delay=p[3];
-        var bg    = type==='g' ? '#1B4D0E' : '#7a1a1a';
-        var stroke= type==='g' ? '#4CAF50' : '#ef5350';
-        var ring  = type==='g' ? 'rgba(74,196,74,0.6)' : 'rgba(239,83,80,0.6)';
-        return '<g transform="translate('+x+','+y+')">'
-          +'<circle class="pin-ring" r="5" fill="none" stroke="'+ring+'" stroke-width="1.5" style="animation-delay:'+delay+'s"/>'
-          +'<circle r="4.5" fill="'+bg+'" stroke="'+stroke+'" stroke-width="1.2"/>'
-          +'</g>';
-      }).join('');
-
-      // Legend & watermark at fixed geographic positions
-      var lgX=px(69.0), lgY=py(11.5);
-      var wmX=px(82.0), wmY=py(22.0);
-
-      container.innerHTML = '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;overflow:visible">'
-        +'<defs>'
-        +'<radialGradient id="india-grad" cx="42%" cy="45%" r="60%">'
-        +'<stop offset="0%" stop-color="#2d7a1a" stop-opacity="0.72"/>'
-        +'<stop offset="100%" stop-color="#0e3008" stop-opacity="0.45"/>'
-        +'</radialGradient>'
-        +'<filter id="india-glow" x="-20%" y="-20%" width="140%" height="140%">'
-        +'<feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>'
-        +'<feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.18  0 0 0 0 0.55  0 0 0 0 0.1  0 0 0 0.6 0" result="glow"/>'
-        +'<feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>'
-        +'</filter>'
-        +'<style>'
-        +'@keyframes indiaBorderPulse{0%,100%{stroke-opacity:.5}50%{stroke-opacity:.9}}'
-        +'.india-outline{animation:indiaBorderPulse 3.2s ease-in-out infinite}'
-        +'@keyframes dotPulse{0%{r:5;opacity:.65}100%{r:20;opacity:0}}'
-        +'.pin-ring{animation:dotPulse 2.5s ease-out infinite}'
-        +'</style>'
-        +'</defs>'
-
-        // Glow shadow (offset duplicate)
-        +'<path d="'+outline+'" fill="rgba(30,80,15,0.35)" stroke="none" transform="translate(5,8)" filter="url(#india-glow)"/>'
-
-        // Subtle grid lines at real lat/lon
-        +'<line x1="'+px(lonMin)+'" y1="'+py(30)+'" x2="'+px(lonMax)+'" y2="'+py(30)+'" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>'
-        +'<line x1="'+px(lonMin)+'" y1="'+py(20)+'" x2="'+px(lonMax)+'" y2="'+py(20)+'" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>'
-        +'<line x1="'+px(80)+'" y1="'+py(latMax)+'" x2="'+px(80)+'" y2="'+py(latMin)+'" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>'
-        +'<line x1="'+px(88)+'" y1="'+py(latMax)+'" x2="'+px(88)+'" y2="'+py(21.5)+'" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>'
-
-        // Main India outline — geographic projection
-        +'<path class="india-outline" d="'+outline+'" fill="url(#india-grad)" stroke="rgba(201,169,122,0.7)" stroke-width="1.8" stroke-linejoin="round"/>'
-
-        // School pins at exact geographic positions
-        +pinsSVG
-
-        // Legend box
-        +'<g transform="translate('+lgX+','+lgY+')">'
-        +'<rect x="0" y="0" width="116" height="58" rx="9" fill="rgba(8,24,4,0.85)" stroke="rgba(201,169,122,0.25)" stroke-width="1"/>'
-        +'<circle cx="14" cy="16" r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>'
-        +'<text x="24" y="20" fill="rgba(232,213,176,0.75)" font-family="Inter,sans-serif" font-size="9.5" font-weight="700">Sainik Schools</text>'
-        +'<circle cx="14" cy="38" r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>'
-        +'<text x="24" y="42" fill="rgba(232,213,176,0.75)" font-family="Inter,sans-serif" font-size="9.5" font-weight="700">RMS Schools</text>'
-        +'</g>'
-
-        // INDIA watermark
-        +'<text x="'+wmX+'" y="'+wmY+'" text-anchor="middle" fill="rgba(201,169,122,0.08)" font-family="Georgia,serif" font-size="36" font-weight="bold" letter-spacing="10">INDIA</text>'
-        +'</svg>';
-
-      return; // old D3 GeoJSON block below is bypassed
-
-      // Legacy D3 GeoJSON block (unreachable — kept for reference)
+      // ── Fetch India states GeoJSON and render with D3 ─────────────────────
       d3.json('https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson')
-      .then(geojson => {
-          // Mainland only — island UTs excluded
-          const mainlandFeatures = geojson.features.filter(d =>
-            d.properties.ST_NM !== "Andaman & Nicobar" &&
-            d.properties.ST_NM !== "Lakshadweep"
+        .then(geojson => {
+          const features = geojson.features.filter(d =>
+            d.properties.ST_NM !== 'Andaman & Nicobar' &&
+            d.properties.ST_NM !== 'Lakshadweep'
           );
+          const fc = { type: 'FeatureCollection', features };
+          const proj = d3.geoMercator().fitExtent([[20, 20], [W - 20, H - 20]], fc);
+          const path = d3.geoPath().projection(proj);
 
-          const mainProjection = d3.geoMercator()
-            .fitExtent([[22, 60], [578, 782]], { type: "FeatureCollection", features: mainlandFeatures });
-          const mainPath = d3.geoPath().projection(mainProjection);
+          // Drop-shadow layer
+          svg.append('path')
+            .datum(fc).attr('d', path)
+            .attr('fill', 'rgba(10,40,5,0.5)').attr('stroke', 'none')
+            .attr('transform', 'translate(4,7)').attr('filter', 'url(#map-drop-shadow)');
 
-          // ── Tooltip ──────────────────────────────────────────
-          let tip = d3.select('#map-tooltip');
-          if (tip.empty()) {
-            tip = d3.select('body').append('div')
-              .attr('id', 'map-tooltip')
-              .style('position', 'absolute')
-              .style('background', 'rgba(10,31,5,0.95)')
-              .style('color', '#fff')
-              .style('padding', '10px 14px')
-              .style('border-radius', '8px')
-              .style('border', '1px solid #F5B800')
-              .style('font-family', 'Inter, sans-serif')
-              .style('font-size', '12.5px')
-              .style('pointer-events', 'none')
-              .style('opacity', 0)
-              .style('z-index', 1000)
-              .style('box-shadow', '0 6px 16px rgba(0,0,0,0.25)');
-          }
+          // Inject drop-shadow filter into defs
+          svgEl.querySelector('defs').insertAdjacentHTML('beforeend',
+            `<filter id="map-drop-shadow" x="-10%" y="-10%" width="120%" height="120%">
+               <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="rgba(0,0,0,0.6)"/>
+             </filter>`);
 
-          // ── Layer 1: Base — thick stroke creates the OUTER BLACK BOUNDARY ──
-          // Strokes the outer country boundary. Turns gold when cursor enters map.
-          const baseGroup = svg.append('g').attr('class', 'states-base');
-          baseGroup.selectAll('path')
-            .data(mainlandFeatures).enter().append('path')
-            .attr('d', mainPath)
-            .attr('fill', '#c5e2b6')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', 2.8)
-            .attr('stroke-linejoin', 'round');
-
-          // Gold outline on map hover using state paths
-          svg.on('mouseenter', function() {
-            baseGroup.selectAll('path')
-              .transition().duration(220)
-              .attr('stroke', '#F5B800')
-              .attr('stroke-width', 3.2);
-          }).on('mouseleave', function() {
-            baseGroup.selectAll('path')
-              .transition().duration(220)
-              .attr('stroke', '#000000')
-              .attr('stroke-width', 2.8);
-          });
-
-          // ── Layer 2: Interactive state layer — thin inner borders + hover ──
-          svg.append('g').attr('class', 'states-interactive')
-            .selectAll('path')
-            .data(mainlandFeatures).enter().append('path')
-            .attr('d', mainPath)
-            .attr('fill', '#c5e2b6')
-            .attr('stroke', '#1a1a1a')
-            .attr('stroke-width', 0.45)
+          // State fill (individual paths — dark forest green theme)
+          svg.append('g').attr('class', 'states-fill')
+            .selectAll('path').data(features).enter().append('path')
+            .attr('class', 'i-state')
+            .attr('d', path)
+            .attr('fill', '#1a4d10')
+            .attr('stroke', 'rgba(201,169,122,0.28)')
+            .attr('stroke-width', 0.7)
             .style('cursor', 'pointer')
-            .style('transition', 'fill 0.18s ease')
             .on('mouseover', function(event, d) {
-              d3.select(this).attr('fill', '#F5C842');
-              tip.transition().duration(100).style('opacity', 1);
-              tip.html(
-                `<strong style="color:#F5B800;font-size:14px;display:block;margin-bottom:2px">${d.properties.ST_NM}</strong>` +
-                `<span style="color:#cfe0c4;font-size:11px">Hover a pin to see schools</span>`
-              );
+              d3.select(this).attr('fill', '#245f15');
+              tip.transition().duration(80).style('opacity', 1);
+              tip.html(`<strong style="color:#F5B800;font-size:13px">${d.properties.ST_NM}</strong><br><span style="color:#a3c98a;font-size:10px">Hover pins to see schools</span>`);
             })
             .on('mousemove', function(event) {
               tip.style('left', (event.pageX + 15) + 'px').style('top', (event.pageY - 15) + 'px');
             })
             .on('mouseout', function() {
-              d3.select(this).attr('fill', '#c5e2b6');
-              tip.transition().duration(150).style('opacity', 0);
+              d3.select(this).attr('fill', '#1a4d10');
+              tip.transition().duration(120).style('opacity', 0);
             });
 
-          // ── No frame rect ─────────────────────────────────────
+          // Outer country border — gold, animated pulse
+          svg.append('path').datum(fc).attr('d', path)
+            .attr('fill', 'none')
+            .attr('stroke', 'rgba(201,169,122,0.8)')
+            .attr('stroke-width', 2.2)
+            .attr('stroke-linejoin', 'round')
+            .style('animation', 'indiaBorderPulse 3s ease-in-out infinite');
+          svgEl.querySelector('defs').insertAdjacentHTML('beforeend',
+            `<style>@keyframes indiaBorderPulse{0%,100%{stroke-opacity:.6}50%{stroke-opacity:1}}</style>`);
 
-          // ── School data (with real links from reference) ──
-          const sainikSchools = [
-            { name: 'Korukonda',       state: 'Andhra Pradesh',    lat: 17.80, lon: 82.20, url: 'https://www.sainikschoolkorukonda.org' },
-            { name: 'Kalikiri',        state: 'Andhra Pradesh',    lat: 13.70, lon: 78.80, url: 'https://sskal.ac.in/' },
-            { name: 'East Siang',      state: 'Arunachal Pradesh', lat: 28.00, lon: 95.00, url: 'https://www.sainikschooleastsiang.com' },
-            { name: 'Goalpara',        state: 'Assam',             lat: 26.17, lon: 90.62, url: 'https://www.sainikschoolgoalpara.org' },
-            { name: 'Nalanda',         state: 'Bihar',             lat: 25.13, lon: 85.44, url: 'https://sainikschoolnalanda.edu.in/' },
-            { name: 'Gopalganj',       state: 'Bihar',             lat: 26.50, lon: 84.40, url: 'https://www.ssgopalganj.in' },
-            { name: 'Ambikapur',       state: 'Chhattisgarh',      lat: 23.10, lon: 83.20, url: 'https://www.sainikschoolambikapur.org.in' },
-            { name: 'Balachadi',       state: 'Gujarat',           lat: 22.47, lon: 70.05, url: 'https://www.ssbalachadi.org' },
-            { name: 'Kunjpura',        state: 'Haryana',           lat: 29.80, lon: 77.00, url: 'https://sskunjpura.org/' },
-            { name: 'Rewari',          state: 'Haryana',           lat: 28.20, lon: 76.60, url: 'https://www.ssrw.org' },
-            { name: 'Sujanpur Tira',   state: 'Himachal Pradesh',  lat: 31.83, lon: 76.50, url: 'https://www.sainikschoolsujanpurtira.org' },
-            { name: 'Nagrota',         state: 'Jammu & Kashmir',   lat: 32.68, lon: 74.92, url: 'https://www.sainikschoolnagrota.com' },
-            { name: 'Tilaiya',         state: 'Jharkhand',         lat: 24.20, lon: 85.50, url: 'https://www.sainikschooltilaiya.org' },
-            { name: 'Bijapur',         state: 'Karnataka',         lat: 16.80, lon: 75.70, url: 'https://www.ssbj.in' },
-            { name: 'Kodagu',          state: 'Karnataka',         lat: 12.42, lon: 75.73, url: 'http://www.sainikschoolkodagu.edu.in' },
-            { name: 'Kazhakootam',     state: 'Kerala',            lat:  8.57, lon: 76.87, url: 'https://www.sainikschooltvm.edu.in/' },
-            { name: 'Rewa',            state: 'Madhya Pradesh',    lat: 24.53, lon: 81.30, url: 'https://sainikschoolrewa.ac.in' },
-            { name: 'Satara',          state: 'Maharashtra',       lat: 17.68, lon: 73.98, url: 'https://www.sainiksatara.org' },
-            { name: 'Chandrapur',      state: 'Maharashtra',       lat: 19.90, lon: 79.30, url: 'https://sainikschoolchandrapur.com' },
-            { name: 'Imphal',          state: 'Manipur',           lat: 24.80, lon: 93.90, url: 'https://ssimphal.nic.in' },
-            { name: 'Chhingchhip',     state: 'Mizoram',           lat: 23.30, lon: 92.90, url: 'https://sschhingchhip.mizoram.gov.in' },
-            { name: 'Punglwa',         state: 'Nagaland',          lat: 25.90, lon: 94.50, url: 'https://www.sainikschoolpunglwa.nic.in' },
-            { name: 'Bhubaneswar',     state: 'Odisha',            lat: 20.30, lon: 85.82, url: 'https://www.sainikschoolbhubaneswar.edu.in/' },
-            { name: 'Sambalpur',       state: 'Odisha',            lat: 21.50, lon: 83.90, url: 'https://sainikschoolsambalpur.edu.in' },
-            { name: 'Kapurthala',      state: 'Punjab',            lat: 31.37, lon: 75.37, url: 'https://www.sskapurthala.com' },
-            { name: 'Chittorgarh',     state: 'Rajasthan',         lat: 24.88, lon: 74.62, url: 'https://sschittorgarh.edu.in' },
-            { name: 'Jhunjhunu',       state: 'Rajasthan',         lat: 28.10, lon: 75.40, url: 'https://www.ssjhunjhunu.com' },
-            { name: 'Amaravathinagar', state: 'Tamil Nadu',        lat: 10.37, lon: 77.22, url: 'https://www.sainikschoolamaravathinagar.edu.in' },
-            { name: 'Lucknow',         state: 'Uttar Pradesh',     lat: 26.85, lon: 80.92, url: 'https://www.upsainikschool.org' },
-            { name: 'Jhansi',          state: 'Uttar Pradesh',     lat: 25.40, lon: 78.60, url: 'https://www.sainikschooljhansi.com' },
-            { name: 'Mainpuri',        state: 'Uttar Pradesh',     lat: 27.20, lon: 79.00, url: 'https://www.sainikschoolmainpuri.com' },
-            { name: 'Amethi',          state: 'Uttar Pradesh',     lat: 26.20, lon: 81.90, url: 'https://www.sainikschoolamethi.com' },
-            { name: 'Ghorakhal',       state: 'Uttarakhand',       lat: 29.42, lon: 79.52, url: 'https://www.ssghorakhal.org' },
-            { name: 'Purulia',         state: 'West Bengal',       lat: 23.33, lon: 86.37, url: 'https://www.sainikschoolpurulia.com' }
+          // INDIA watermark centroid
+          const [[x0,y0],[x1,y1]] = path.bounds(fc);
+          const cx = (x0+x1)/2, cy = (y0+y1)/2 + 40;
+          svg.append('text').attr('x', cx).attr('y', cy)
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'rgba(201,169,122,0.07)')
+            .attr('font-family', 'Georgia,serif').attr('font-size', 52)
+            .attr('font-weight', 'bold').attr('letter-spacing', 12)
+            .text('INDIA');
+
+          // Legend
+          const lgX = 18, lgY = H - 88;
+          svg.append('g').attr('transform', `translate(${lgX},${lgY})`).html(`
+            <rect x="0" y="0" width="126" height="62" rx="9" fill="rgba(6,18,4,0.88)" stroke="rgba(201,169,122,0.28)" stroke-width="1"/>
+            <circle cx="15" cy="18" r="5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.3"/>
+            <text x="26" y="22" fill="rgba(232,213,176,0.8)" font-family="Inter,sans-serif" font-size="10" font-weight="700">Sainik Schools</text>
+            <circle cx="15" cy="42" r="5" fill="#8b1a1a" stroke="#ef5350" stroke-width="1.3"/>
+            <text x="26" y="46" fill="rgba(232,213,176,0.8)" font-family="Inter,sans-serif" font-size="10" font-weight="700">RMS Schools</text>
+          `);
+
+          // Render pins — RMS behind Sainik
+          renderPins(rmsSchools,    'rms',    proj);
+          renderPins(sainikSchools, 'sainik', proj);
+        })
+        .catch(() => {
+          // Fallback: draw accurate outline without state borders
+          const border = [
+            [36.0,74.0],[37.0,76.5],[35.5,78.0],[33.5,79.0],[30.5,80.2],
+            [28.3,84.0],[27.3,87.8],[27.0,89.5],[27.0,91.5],[28.5,92.0],[28.0,97.2],
+            [26.0,95.0],[25.0,95.0],[24.5,94.0],[23.0,93.0],[21.9,92.7],[22.5,91.5],[21.5,88.5],
+            [20.9,87.1],[19.5,86.5],[18.5,84.5],[17.5,83.3],[15.5,80.5],[13.1,80.3],[10.0,79.8],[8.07,77.6],
+            [8.5,76.5],[10.0,76.0],[11.5,75.3],[14.8,74.1],[19.0,73.0],[20.5,72.8],
+            [22.0,72.0],[20.8,70.8],[22.5,68.9],[23.5,68.7],[24.0,69.5],[24.5,70.0],
+            [27.5,70.2],[29.5,70.0],[30.5,71.5],[32.0,74.0],[33.0,74.8],[34.0,74.2],[35.5,73.9]
           ];
+          const PAD = 20;
+          const lons = border.map(c=>c[1]), lats = border.map(c=>c[0]);
+          const lonMin = Math.min.apply(null,lons), lonMax = Math.max.apply(null,lons);
+          const latMax = Math.max.apply(null,lats), latMin = Math.min.apply(null,lats);
+          const sx = (W-2*PAD)/(lonMax-lonMin), sy = (H-2*PAD)/(latMax-latMin);
+          const fpx = lon => PAD+(lon-lonMin)*sx;
+          const fpy = lat => PAD+(latMax-lat)*sy;
+          const outline = border.map((c,i)=>(i?'L':'M')+fpx(c[1]).toFixed(1)+','+fpy(c[0]).toFixed(1)).join(' ')+' Z';
 
-          const rmsSchools = [
-            { name: 'Chail',     state: 'Himachal Pradesh', lat: 30.90, lon: 77.20, url: 'https://www.rashtriyammilitaryschools.edu.in/chail/' },
-            { name: 'Ajmer',     state: 'Rajasthan',        lat: 26.50, lon: 74.60, url: 'https://www.rashtriyammilitaryschools.edu.in/ajmer/' },
-            { name: 'Belgaum',   state: 'Karnataka',        lat: 15.80, lon: 74.50, url: 'https://www.rashtriyammilitaryschools.edu.in/belgaum/' },
-            { name: 'Bengaluru', state: 'Karnataka',        lat: 12.90, lon: 77.60, url: 'https://www.rashtriyammilitaryschools.edu.in/bengaluru/' },
-            { name: 'Dholpur',   state: 'Rajasthan',        lat: 26.70, lon: 77.90, url: 'https://www.rashtriyammilitaryschools.edu.in/dholpur/' }
-          ];
+          svg.append('path').attr('d', outline)
+            .attr('fill', '#1a4d10').attr('stroke', 'rgba(201,169,122,0.8)')
+            .attr('stroke-width', 2.2).attr('stroke-linejoin', 'round');
 
-          // ── Pin renderer ──────────────────────────────────────
-          function renderPins(schools, kind) {
-            const fillCore  = kind === 'sainik' ? '#1B4D0E' : '#8b1a1a';
-            const fillPulse = kind === 'sainik' ? '#2d6a2d' : '#8b1a1a';
-            const pulseCls  = kind === 'sainik' ? 'pp-sainik' : 'pp-rms';
-            const label     = kind === 'sainik' ? 'Sainik School' : 'RMS School';
-            const labelClr  = kind === 'sainik' ? '#86efac'       : '#fca5a5';
-
-            const g = svg.append('g').attr('class', 'pins-group-' + kind);
-
-            g.selectAll('g').data(schools).enter().append('g')
-              .attr('class', 'map-pin-group')
-              .attr('transform', d => {
-                const c = mainProjection([d.lon, d.lat]);
-                return c ? `translate(${c[0]},${c[1]})` : 'translate(-9999,-9999)';
-              })
-              .each(function(d, i) {
-                const node = d3.select(this);
-                const delay = (Math.random() * 2.5).toFixed(2) + 's';
-
-                // Pulse ring
-                node.append('circle')
-                  .attr('class', pulseCls)
-                  .attr('r', 5)
-                  .attr('fill', fillPulse)
-                  .attr('opacity', 0)
-                  .style('animation-delay', delay);
-
-                // Static halo
-                node.append('circle')
-                  .attr('class', 'pin-halo')
-                  .attr('r', 7)
-                  .attr('fill', 'none')
-                  .attr('stroke', fillCore)
-                  .attr('stroke-width', 1.2)
-                  .attr('opacity', 0.4);
-
-                // Core dot
-                node.append('circle')
-                  .attr('class', 'pin-core')
-                  .attr('r', 4.5)
-                  .attr('fill', fillCore)
-                  .attr('stroke', '#fff')
-                  .attr('stroke-width', 1.4);
-              })
-              .on('mouseover', function(event, d) {
-                d3.select(this).select('.pin-core').attr('r', 7).attr('fill', '#fff');
-                d3.select(this).select('.pin-halo').attr('r', 11).attr('opacity', 0.7);
-                tip.transition().duration(120).style('opacity', 1);
-                
-                let clickText = '';
-                if (d.url && d.url !== '#') {
-                  clickText = `<span style="color:#F5B800;font-size:10px;font-weight:600;display:block;margin-top:5px;border-top:1px solid rgba(255,255,255,0.15);padding-top:4px">Click to visit website ↗</span>`;
-                }
-
-                tip.html(`
-                  <strong style="color:#F5B800;font-size:13.5px;display:block;margin-bottom:3px">
-                    Sainik School ${d.name}
-                  </strong>
-                  <span style="color:${labelClr};font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px">
-                    ${label}
-                  </span>
-                  <span style="color:#cfe0c4;display:block">${d.state}</span>
-                  ${clickText}
-                `);
-              })
-              .on('mousemove', function(event) {
-                tip.style('left', (event.pageX + 15) + 'px')
-                   .style('top',  (event.pageY - 15) + 'px');
-              })
-              .on('mouseout', function(event, d) {
-                d3.select(this).select('.pin-core').attr('r', 4.5).attr('fill', fillCore);
-                d3.select(this).select('.pin-halo').attr('r', 7).attr('opacity', 0.4);
-                tip.transition().duration(120).style('opacity', 0);
-              })
-              .on('click', function(event, d) {
-                if (d.url && d.url !== '#') {
-                  window.open(d.url, '_blank', 'noopener,noreferrer');
-                }
-              })
-              .style('cursor', 'pointer');
-          }
-
-          // Render RMS first (behind Sainik)
-          renderPins(rmsSchools,    'rms');
-          renderPins(sainikSchools, 'sainik');
-
-      }).catch(err => {
-          console.error(err);
-          container.innerHTML = `<div style="padding:40px;text-align:center;color:#1B4D0E;font-weight:600">
-            Failed to load India map. Please check your connection.
-          </div>`;
-      });
+          const fbProj = ([lon, lat]) => [fpx(lon), fpy(lat)];
+          renderPins(rmsSchools,    'rms',    fbProj);
+          renderPins(sainikSchools, 'sainik', fbProj);
+        });
     };
     drawMap();
 
