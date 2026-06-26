@@ -4496,11 +4496,12 @@ class Component extends DCLogic {
       const container = root.querySelector('#india-map-container');
       if (!container || container.querySelector('svg')) return;
 
-      // Inline SVG — no external fetch needed
-      container.innerHTML = `<svg viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;overflow:visible">
+      // Inline SVG — accurate India outline (geographic coordinate mapping)
+      // x = (lon - 68.1) / 29.4 * 450 + 5   |   y = (37.1 - lat) / 29.0 * 510 + 5
+      container.innerHTML = `<svg viewBox="0 0 460 525" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;overflow:visible">
         <defs>
-          <radialGradient id="india-grad" cx="45%" cy="42%" r="58%">
-            <stop offset="0%" stop-color="#2d7a1a" stop-opacity="0.7"/>
+          <radialGradient id="india-grad" cx="42%" cy="45%" r="60%">
+            <stop offset="0%" stop-color="#2d7a1a" stop-opacity="0.72"/>
             <stop offset="100%" stop-color="#0e3008" stop-opacity="0.45"/>
           </radialGradient>
           <filter id="india-glow" x="-18%" y="-18%" width="136%" height="136%">
@@ -4515,74 +4516,79 @@ class Component extends DCLogic {
             .pin-ring{animation:dotPulse 2.5s ease-out infinite}
           </style>
         </defs>
-        <!-- Outer glow shadow -->
-        <path d="M58,38 L65,22 L82,14 L105,10 L132,7 L158,9 L182,12 L208,17 L228,22 L252,28 L278,30 L295,36 L308,42 L322,58 L332,76 L338,96 L344,118 L348,142 L352,165 L350,188 L345,210 L337,230 L326,250 L314,268 L300,285 L286,300 L272,316 L257,332 L244,348 L232,364 L222,380 L213,396 L205,412 L198,428 L192,444 L187,457 L183,469 L180,478 L177,485 L175,490 L172,485 L168,477 L163,466 L157,452 L150,437 L142,420 L134,402 L125,384 L116,364 L107,344 L98,324 L88,304 L79,284 L71,264 L64,244 L57,225 L52,206 L47,187 L43,168 L40,149 L38,130 L38,110 L40,91 L44,73 L49,57 L54,46 L58,38 Z"
-          fill="rgba(30,80,15,0.3)" stroke="none" transform="translate(3,6)" filter="url(#india-glow)"/>
+
+        <!-- Outer glow shadow (same outline, offset + blurred) -->
+        <path d="M99,15 L140,7 L159,33 L175,58 L190,75 L193,128 L251,158 L311,177 L372,181 L372,163 L450,163 L419,198 L426,215 L401,227 L381,270 L378,279 L355,253 L317,279 L305,284 L285,308 L265,330 L237,340 L215,368 L195,415 L188,471 L152,509 L136,499 L128,471 L113,437 L95,380 L82,319 L78,294 L50,290 L22,252 L19,237 L30,217 L36,175 L30,136 L56,120 L99,91 L110,75 L103,59 L97,31 Z"
+          fill="rgba(30,80,15,0.3)" stroke="none" transform="translate(4,7)" filter="url(#india-glow)"/>
+
         <!-- Subtle lat/lon grid lines -->
-        <line x1="30" y1="175" x2="370" y2="175" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <line x1="30" y1="310" x2="370" y2="310" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <line x1="170" y1="10" x2="170" y2="500" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <line x1="285" y1="10" x2="285" y2="500" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-        <!-- Main India fill + border -->
+        <line x1="30" y1="128" x2="420" y2="128" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="30" y1="270" x2="385" y2="270" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="193" y1="10" x2="193" y2="515" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="311" y1="10" x2="311" y2="285" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+        <!-- Main India fill + border — accurate geographic outline -->
+        <!-- Clockwise from J&K NW: north border → Arunachal E → east coast → Kanyakumari → west coast → back -->
         <path class="india-outline"
-          d="M58,38 L65,22 L82,14 L105,10 L132,7 L158,9 L182,12 L208,17 L228,22 L252,28 L278,30 L295,36 L308,42 L322,58 L332,76 L338,96 L344,118 L348,142 L352,165 L350,188 L345,210 L337,230 L326,250 L314,268 L300,285 L286,300 L272,316 L257,332 L244,348 L232,364 L222,380 L213,396 L205,412 L198,428 L192,444 L187,457 L183,469 L180,478 L177,485 L175,490 L172,485 L168,477 L163,466 L157,452 L150,437 L142,420 L134,402 L125,384 L116,364 L107,344 L98,324 L88,304 L79,284 L71,264 L64,244 L57,225 L52,206 L47,187 L43,168 L40,149 L38,130 L38,110 L40,91 L44,73 L49,57 L54,46 L58,38 Z"
+          d="M99,15 L140,7 L159,33 L175,58 L190,75 L193,128 L251,158 L311,177 L372,181 L372,163 L450,163 L419,198 L426,215 L401,227 L381,270 L378,279 L355,253 L317,279 L305,284 L285,308 L265,330 L237,340 L215,368 L195,415 L188,471 L152,509 L136,499 L128,471 L113,437 L95,380 L82,319 L78,294 L50,290 L22,252 L19,237 L30,217 L36,175 L30,136 L56,120 L99,91 L110,75 L103,59 L97,31 Z"
           fill="url(#india-grad)" stroke="rgba(201,169,122,0.65)" stroke-width="1.6" stroke-linejoin="round"/>
-        <!-- Interior texture lines (gives map-like feel) -->
-        <path d="M100,130 Q180,110 260,125 Q310,132 348,142" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <path d="M55,225 Q150,210 250,218 Q310,222 350,188" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <path d="M75,310 Q170,295 268,308" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+        <!-- Interior texture curves (latitude parallels) -->
+        <path d="M193,128 Q260,148 311,177" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <path d="M52,248 Q160,260 285,248" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <path d="M82,340 Q170,328 265,330" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
 
         <!-- ── Sainik School pins (green) ── -->
-        <!-- Kapurthala, Punjab -->
-        <g transform="translate(140,78)">
+        <!-- Kapurthala, Punjab (75.4°E, 31.4°N) -->
+        <g transform="translate(117,105)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:0s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Lucknow, UP -->
-        <g transform="translate(240,145)">
+        <!-- Lucknow, UP (80.8°E, 26.8°N) -->
+        <g transform="translate(198,186)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:0.5s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Purulia, West Bengal -->
-        <g transform="translate(298,188)">
+        <!-- Purulia, West Bengal (86.4°E, 23.3°N) -->
+        <g transform="translate(285,248)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:1.0s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Bijapur, Karnataka -->
-        <g transform="translate(188,295)">
+        <!-- Bijapur/Vijayapura, Karnataka (76.0°E, 16.8°N) -->
+        <g transform="translate(126,362)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:1.5s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Amaravathinagar, Tamil Nadu -->
-        <g transform="translate(212,370)">
+        <!-- Amaravathinagar, Tamil Nadu (77.2°E, 10.2°N) -->
+        <g transform="translate(144,478)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:2.0s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
-        <!-- Chittorgarh, Rajasthan -->
-        <g transform="translate(148,168)">
+        <!-- Chittorgarh, Rajasthan (74.6°E, 24.9°N) -->
+        <g transform="translate(104,219)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(74,196,74,0.6)" stroke-width="1.5" style="animation-delay:0.8s"/>
           <circle r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
         </g>
 
         <!-- ── RMS pins (red) ── -->
-        <!-- Chail, Himachal Pradesh -->
-        <g transform="translate(155,68)">
+        <!-- Chail, Himachal Pradesh (77.2°E, 31.0°N) -->
+        <g transform="translate(144,112)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(239,83,80,0.6)" stroke-width="1.5" style="animation-delay:0.3s"/>
           <circle r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>
         </g>
-        <!-- Ajmer, Rajasthan -->
-        <g transform="translate(142,178)">
+        <!-- Ajmer, Rajasthan (74.6°E, 26.5°N) -->
+        <g transform="translate(104,193)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(239,83,80,0.6)" stroke-width="1.5" style="animation-delay:0.9s"/>
           <circle r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>
         </g>
-        <!-- Belgaum, Karnataka -->
-        <g transform="translate(175,305)">
+        <!-- Belagavi (Belgaum), Karnataka (74.5°E, 15.9°N) -->
+        <g transform="translate(103,378)">
           <circle class="pin-ring" r="5" fill="none" stroke="rgba(239,83,80,0.6)" stroke-width="1.5" style="animation-delay:1.6s"/>
           <circle r="4.5" fill="#7a1a1a" stroke="#ef5350" stroke-width="1.2"/>
         </g>
 
         <!-- Legend -->
-        <g transform="translate(18,418)">
+        <g transform="translate(15,435)">
           <rect x="0" y="0" width="116" height="58" rx="9" fill="rgba(8,24,4,0.82)" stroke="rgba(201,169,122,0.22)" stroke-width="1"/>
           <circle cx="14" cy="16" r="4.5" fill="#1B4D0E" stroke="#4CAF50" stroke-width="1.2"/>
           <text x="24" y="20" fill="rgba(232,213,176,0.72)" font-family="Inter,sans-serif" font-size="9.5" font-weight="700">Sainik Schools</text>
@@ -4590,8 +4596,8 @@ class Component extends DCLogic {
           <text x="24" y="42" fill="rgba(232,213,176,0.72)" font-family="Inter,sans-serif" font-size="9.5" font-weight="700">RMS Schools</text>
         </g>
 
-        <!-- Subtle INDIA watermark label -->
-        <text x="195" y="255" text-anchor="middle" fill="rgba(201,169,122,0.1)" font-family="Georgia,serif" font-size="42" font-weight="bold" letter-spacing="10">INDIA</text>
+        <!-- Subtle INDIA watermark -->
+        <text x="210" y="280" text-anchor="middle" fill="rgba(201,169,122,0.08)" font-family="Georgia,serif" font-size="40" font-weight="bold" letter-spacing="10">INDIA</text>
       </svg>`;
       return; // early return — old D3 GeoJSON block below is bypassed
 
