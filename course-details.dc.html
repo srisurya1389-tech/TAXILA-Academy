@@ -1453,93 +1453,221 @@
   </section>
 
   <!-- 9. INVESTMENT / PAYMENT SECTION -->
-  <section id="fee-section" style="background:#05080a;padding:100px clamp(18px,4vw,56px) 90px;scroll-margin-top:80px">
-    <div style="max-width:1180px;margin:0 auto">
+  <section id="fee-section" style="position:relative;background:#030806;padding:100px clamp(18px,4vw,56px) 100px;scroll-margin-top:80px;overflow:hidden">
 
-      <!-- Heading -->
-      <div style="text-align:center;margin-bottom:64px">
-        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(30px,5vw,52px);color:#f0f6e8;margin:0 0 14px;line-height:1.1">One transparent <em style="color:#C9920A;font-style:italic">investment</em></h2>
-        <p style="color:#7a8a6f;font-size:16px;max-width:500px;margin:0 auto;line-height:1.65">No hidden charges. EMI, UPI, cards and net banking all accepted with bank-grade security.</p>
+    <!-- Decorative radial glows -->
+    <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(27,77,14,0.18) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:0;right:0;width:420px;height:420px;background:radial-gradient(ellipse,rgba(212,160,23,0.07) 0%,transparent 65%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:0;left:0;width:320px;height:320px;background:radial-gradient(ellipse,rgba(27,77,14,0.1) 0%,transparent 65%);pointer-events:none"></div>
+
+    <style>
+      /* ── Payment Section Styles ── */
+      .pay-outer{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+
+      .pay-header{text-align:center;margin-bottom:56px}
+      .pay-label{display:inline-flex;align-items:center;gap:7px;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.28);color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:18px}
+      .pay-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(28px,4.5vw,48px);color:#f0f6e8;margin:0 0 12px;line-height:1.1}
+      .pay-title em{color:#C9920A;font-style:italic}
+      .pay-subtitle{color:rgba(248,242,224,0.45);font-size:15px;max-width:480px;margin:0 auto}
+
+      /* Main unified card */
+      .pay-card{background:linear-gradient(145deg,#070f04 0%,#0c1e08 60%,#111a09 100%);border:1px solid rgba(212,160,23,0.2);border-radius:28px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(27,77,14,0.25),inset 0 1px 0 rgba(255,255,255,0.04)}
+
+      /* Top urgency ribbon */
+      .pay-ribbon{background:linear-gradient(90deg,rgba(27,77,14,0.6) 0%,rgba(212,160,23,0.15) 50%,rgba(27,77,14,0.6) 100%);border-bottom:1px solid rgba(212,160,23,0.18);padding:11px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+      .pay-ribbon-left{display:flex;align-items:center;gap:8px;color:#F5B800;font-size:12.5px;font-weight:700}
+      .pay-ribbon-right{display:flex;align-items:center;gap:6px;color:rgba(248,242,224,0.5);font-size:12px}
+      .pay-ribbon-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:payBlink 1.8s ease-in-out infinite}
+      @keyframes payBlink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+      /* Body: left info + right payment */
+      .pay-body{display:flex;flex-wrap:wrap;align-items:stretch}
+
+      /* LEFT panel */
+      .pay-left{flex:0 0 42%;min-width:280px;padding:40px 36px;border-right:1px solid rgba(212,160,23,0.12);display:flex;flex-direction:column;justify-content:space-between}
+      .pay-course-tag{display:inline-block;background:rgba(30,96,16,0.2);border:1px solid rgba(30,96,16,0.5);color:#7dd56f;font-size:11px;font-weight:700;padding:4px 14px;border-radius:100px;letter-spacing:.06em;margin-bottom:14px}
+      .pay-course-name{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(16px,2vw,20px);color:#f8f2e0;margin:0 0 6px;line-height:1.3}
+      .pay-course-sub{color:rgba(248,242,224,0.4);font-size:13px;margin:0 0 28px}
+
+      .pay-price-block{margin-bottom:28px}
+      .pay-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+      .pay-price{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(44px,6vw,64px);color:#F5B800;line-height:1;letter-spacing:-1px}
+      .pay-price-strike{font-size:18px;color:rgba(255,255,255,0.22);text-decoration:line-through;font-weight:600}
+      .pay-price-note{color:rgba(255,255,255,0.32);font-size:12.5px}
+      .pay-save-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#4ade80;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:100px;margin-top:8px}
+
+      .pay-features{display:flex;flex-direction:column;gap:10px}
+      .pay-feat{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.72);font-size:13.5px}
+      .pay-feat-icon{width:22px;height:22px;border-radius:6px;background:rgba(30,96,16,0.3);border:1px solid rgba(74,222,128,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+      /* RIGHT panel */
+      .pay-right{flex:1 1 300px;padding:40px 36px;display:flex;flex-direction:column;gap:24px}
+
+      /* UPI header row */
+      .pay-upi-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px}
+      .pay-upi-title{font-weight:800;font-size:17px;color:#f8f2e0}
+      .pay-upi-apps{display:flex;align-items:center;gap:6px}
+      .pay-upi-app{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;color:rgba(248,242,224,0.55)}
+
+      /* QR + ID row */
+      .pay-qr-row{display:flex;gap:22px;align-items:center;flex-wrap:wrap;background:rgba(255,255,255,0.03);border:1.5px solid rgba(212,160,23,0.14);border-radius:16px;padding:20px}
+      .pay-qr-wrap{flex-shrink:0;text-align:center}
+      .pay-qr-img{width:120px;height:120px;border-radius:12px;background:#fff;padding:6px;border:2px solid rgba(212,160,23,0.35);display:block}
+      .pay-qr-label{font-size:10.5px;color:#5a7a50;font-weight:700;letter-spacing:.06em;margin-top:7px;text-transform:uppercase}
+      .pay-id-block{flex:1;min-width:160px}
+      .pay-id-label{font-size:10.5px;font-weight:800;color:rgba(248,242,224,0.35);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+      .pay-id-row{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.3);border:1.5px solid rgba(212,160,23,0.22);border-radius:10px;padding:11px 14px;margin-bottom:12px}
+      .pay-id-text{font-size:13.5px;font-weight:700;color:#f8f2e0;flex:1;letter-spacing:.01em}
+      .pay-copy-btn{background:rgba(212,160,23,0.1);border:1px solid rgba(212,160,23,0.3);color:#F5B800;font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:7px;cursor:pointer;transition:background .18s;white-space:nowrap}
+      .pay-copy-btn:hover{background:rgba(212,160,23,0.2)}
+      .pay-hint{display:flex;align-items:flex-start;gap:7px;background:rgba(212,160,23,0.05);border:1px solid rgba(212,160,23,0.12);border-radius:9px;padding:10px 13px}
+      .pay-hint span{font-size:12px;color:rgba(248,242,224,0.48);line-height:1.55}
+
+      /* CTA */
+      #pay-btn{width:100%;background:linear-gradient(135deg,#F5B800 0%,#e8a800 100%);color:#0A1F05;font-weight:900;font-size:17px;padding:18px 24px;border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.22s;box-shadow:0 10px 32px rgba(245,184,0,0.32),0 0 0 0 rgba(245,184,0,0.4);letter-spacing:.01em;position:relative;overflow:hidden}
+      #pay-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.12) 0%,transparent 60%);pointer-events:none}
+      #pay-btn:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(245,184,0,0.45)}
+      #pay-btn:active{transform:translateY(0)}
+
+      /* Trust bar */
+      .pay-trust{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:36px;padding-top:28px;border-top:1px solid rgba(212,160,23,0.1)}
+      .pay-trust-item{display:flex;align-items:center;gap:7px;color:rgba(248,242,224,0.38);font-size:12.5px;font-weight:600}
+      .pay-trust-item svg{flex-shrink:0}
+
+      @media(max-width:720px){
+        .pay-left{border-right:none;border-bottom:1px solid rgba(212,160,23,0.12)}
+        .pay-left,.pay-right{padding:28px 22px}
+      }
+    </style>
+
+    <div class="pay-outer">
+
+      <!-- Section Header -->
+      <div class="pay-header">
+        <div class="pay-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#F5B800"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Secure Enrollment
+        </div>
+        <h2 class="pay-title">One transparent <em>investment</em></h2>
+        <p class="pay-subtitle">No hidden charges · Instant confirmation · Bank-grade security</p>
       </div>
 
-      <!-- Two-column layout -->
-      <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:start">
+      <!-- Main Card -->
+      <div class="pay-card">
 
-        <!-- LEFT: Pricing Card -->
-        <div style="flex:0 1 420px;min-width:280px;background:linear-gradient(145deg,#070f04 0%,#0d2208 50%,#1B4D0E 100%);border-radius:24px;padding:36px;color:#fff;border:1px solid rgba(201,169,122,0.2);box-shadow:0 28px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(27,77,14,0.3)">
-          <span style="background:rgba(245,184,0,0.12);border:1px solid rgba(245,184,0,0.4);color:#F5B800;font-size:11.5px;font-weight:800;padding:5px 16px;border-radius:100px;letter-spacing:.08em;display:inline-block;margin-bottom:22px">⭐ Early Bird Pricing</span>
-
-          <h3 data-pay-course-title style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#fff;margin:0 0 6px;line-height:1.25">Course Program</h3>
-          <p style="color:rgba(255,255,255,0.45);font-size:13.5px;margin:0 0 26px">Full course access · everything included</p>
-
-          <!-- Price row -->
-          <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px">
-            <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:50px;color:#F5B800;line-height:1">₹<span data-course-fee>9,999</span></div>
-            <div style="font-size:19px;color:rgba(255,255,255,0.28);text-decoration:line-through">₹<span data-course-fee-strike>12,999</span></div>
+        <!-- Urgency Ribbon -->
+        <div class="pay-ribbon">
+          <div class="pay-ribbon-left">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Early Bird offer · Limited seats available
           </div>
-          <p style="color:rgba(255,255,255,0.38);font-size:13px;margin:0 0 30px">One-time payment · No hidden charges</p>
-
-          <!-- Feature list -->
-          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:34px">
-            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">Complete curriculum with expert faculty</span></div>
-            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">Printed study material delivered home</span></div>
-            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">Weekly mocks + personalized analytics</span></div>
-            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">1:1 mentoring every fortnight</span></div>
-            <div style="display:flex;align-items:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.8);font-size:14px">30-day full refund guarantee</span></div>
+          <div class="pay-ribbon-right">
+            <span class="pay-ribbon-dot"></span>
+            Enrollment open now
           </div>
-
-          <!-- Pay Button -->
-          <button id="pay-btn" type="button" style="width:100%;background:#F5B800;color:#0A1F05;font-weight:800;font-size:16px;padding:16px;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:all 0.22s;box-shadow:0 8px 24px rgba(245,184,0,0.3)" onmouseover="this.style.background='#e5ab00';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#F5B800';this.style.transform='translateY(0)'">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            Pay via UPI &middot; ₹<span data-course-fee>9,999</span>
-          </button>
-          <p style="text-align:center;color:rgba(255,255,255,0.28);font-size:12px;margin:12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            UPI · Instant confirmation · Zero extra charges
-          </p>
         </div>
 
-        <!-- RIGHT: Payment Method — UPI only -->
-        <div style="flex:1 1 400px;min-width:300px;display:flex;flex-direction:column;justify-content:center">
+        <!-- Body -->
+        <div class="pay-body">
 
-          <div style="background:#111614;border:1.5px solid rgba(212,160,23,0.25);border-radius:20px;padding:32px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
-            <!-- Header -->
-            <div style="display:flex;align-items:center;gap:11px;margin-bottom:24px">
-              <div style="width:44px;height:44px;border-radius:12px;background:rgba(30,96,16,0.22);border:1.5px solid rgba(30,96,16,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-              </div>
-              <div>
-                <div style="font-weight:800;font-size:17px;color:#f8f2e0">Pay via UPI / QR Code</div>
-                <div style="font-size:12.5px;color:#7a9c6e;margin-top:2px">GPay · PhonePe · Paytm · BHIM · any UPI app</div>
+          <!-- LEFT: Course info + price + features -->
+          <div class="pay-left">
+            <div>
+              <span class="pay-course-tag">JNVST Coaching</span>
+              <h3 class="pay-course-name" data-pay-course-title>NAVODAYA ONLINE/OFFLINE COACHING</h3>
+              <p class="pay-course-sub">Full course access · Everything included</p>
+
+              <div class="pay-price-block">
+                <div class="pay-price-row">
+                  <div class="pay-price">₹<span data-course-fee>7,999</span></div>
+                  <div class="pay-price-strike">₹<span data-course-fee-strike>12,999</span></div>
+                </div>
+                <div class="pay-price-note">One-time payment · No hidden charges</div>
+                <div class="pay-save-badge">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  You save ₹5,000 today
+                </div>
               </div>
             </div>
 
-            <!-- QR + UPI ID row -->
-            <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
-              <div style="flex-shrink:0;text-align:center">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=taxilaacademy@hdfcbank%26pn=TaxilaAcademy%26cu=INR" alt="UPI QR Code" style="width:130px;height:130px;border-radius:14px;border:2px solid rgba(212,160,23,0.3);background:#fff;padding:5px;display:block">
-                <div style="font-size:11px;color:#5a7a50;margin-top:8px;font-weight:600;letter-spacing:.04em">Scan to pay</div>
-              </div>
-              <div style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:16px">
-                <div>
-                  <div style="font-size:11px;font-weight:700;color:rgba(248,242,224,0.42);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">UPI ID</div>
-                  <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(212,160,23,0.18);border-radius:10px;padding:12px 14px">
-                    <span style="font-size:14px;font-weight:600;color:#f8f2e0;flex:1">taxilaacademy@hdfcbank</span>
-                    <button onclick="navigator.clipboard.writeText('taxilaacademy@hdfcbank');this.textContent='✓ Copied';this.style.color='#4ade80';setTimeout(()=>{this.textContent='Copy';this.style.color='#7a9c6e'},2000)" style="background:transparent;border:none;color:#7a9c6e;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;padding:0;transition:color .2s">Copy</button>
-                  </div>
-                </div>
-                <div style="background:rgba(212,160,23,0.06);border:1px solid rgba(212,160,23,0.14);border-radius:10px;padding:12px 14px">
-                  <div style="display:flex;align-items:center;gap:7px">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    <span style="font-size:12.5px;color:rgba(248,242,224,0.55)">After payment, share screenshot on WhatsApp for instant confirmation</span>
-                  </div>
-                </div>
-              </div>
+            <div class="pay-features">
+              <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Complete curriculum with expert faculty</div>
+              <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Printed study material delivered home</div>
+              <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Weekly mocks + personalized analytics</div>
+              <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>1:1 mentoring every fortnight</div>
+              <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Online + Offline class access</div>
             </div>
           </div>
 
+          <!-- RIGHT: UPI Payment -->
+          <div class="pay-right">
+
+            <div>
+              <div class="pay-upi-head">
+                <div class="pay-upi-title">Pay via UPI / QR Code</div>
+                <div class="pay-upi-apps">
+                  <span class="pay-upi-app">GPay</span>
+                  <span class="pay-upi-app">PhonePe</span>
+                  <span class="pay-upi-app">Paytm</span>
+                </div>
+              </div>
+              <p style="color:rgba(248,242,224,0.35);font-size:12.5px;margin:0 0 20px">Scan QR or copy UPI ID to pay instantly</p>
+            </div>
+
+            <!-- QR + UPI ID -->
+            <div class="pay-qr-row">
+              <div class="pay-qr-wrap">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=taxilaacademy@hdfcbank%26pn=TaxilaAcademy%26cu=INR" alt="UPI QR Code" class="pay-qr-img">
+                <div class="pay-qr-label">Scan to pay</div>
+              </div>
+              <div class="pay-id-block">
+                <div class="pay-id-label">UPI ID</div>
+                <div class="pay-id-row">
+                  <span class="pay-id-text">taxilaacademy@hdfcbank</span>
+                  <button class="pay-copy-btn" onclick="navigator.clipboard.writeText('taxilaacademy@hdfcbank');this.textContent='✓ Copied';this.style.color='#4ade80';setTimeout(()=>{this.textContent='Copy';this.style.color='#F5B800'},2200)">Copy</button>
+                </div>
+                <div class="pay-hint">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" style="flex-shrink:0;margin-top:1px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>After payment, share your screenshot on WhatsApp for instant confirmation</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <button id="pay-btn" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              Enroll Now · Pay ₹<span data-course-fee>7,999</span>
+            </button>
+
+            <p style="text-align:center;color:rgba(255,255,255,0.22);font-size:12px;margin:0;display:flex;align-items:center;justify-content:center;gap:6px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              256-bit encrypted · Instant confirmation · Zero extra charges
+            </p>
+
+          </div>
         </div>
       </div>
+
+      <!-- Trust Bar -->
+      <div class="pay-trust">
+        <div class="pay-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Bank-Grade Security
+        </div>
+        <div class="pay-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Instant Enrollment
+        </div>
+        <div class="pay-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          100+ Successful Selections
+        </div>
+        <div class="pay-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Trusted by 500+ Families
+        </div>
+      </div>
+
     </div>
   </section>
 
