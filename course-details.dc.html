@@ -15,7 +15,7 @@
 <style>
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;font-family:Inter,system-ui,sans-serif;background:#040c02;color:#f0f6e8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{margin:0;font-family:Inter,system-ui,sans-serif;background:#060d03;color:#F8F2E0;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{text-decoration:none;color:inherit}
   ::selection{background:#F5B800;color:#0A1F05}
   
@@ -465,174 +465,268 @@
 </style>
 
 <!-- ═══════════════════════════════════════════════════════════
-     TAXILA ACADEMY — PREMIUM LUXURY DARK SYSTEM v3.0
-     Dark Forest Green · Pure Black · Rich Biscuit Gold
+     TAXILA ACADEMY — FOREST GOLD SYSTEM v4.0
+     Vibrant Forest Green · Deep Black · Rich Biscuit Gold
+     Psychology-tuned for students & parents — education platform
      ═══════════════════════════════════════════════════════════ -->
 <style>
   :root {
-    --bg-deep:       #05080a;
-    --bg-base:       #090c0a;
-    --bg-section:    #0d1009;
-    --bg-card:       #111614;
-    --bg-card-glass: rgba(255,255,255,0.035);
-    --green:         #1B4D0E;
-    --green-dark:    #0A1F05;
-    --gold:          #C9A97A;
-    --gold-bright:   #F5B800;
-    --text-white:    #FFFFFF;
-    --text-primary:  #F0EDE5;
-    --text-sub:      rgba(255,255,255,0.65);
-    --text-muted:    rgba(255,255,255,0.4);
-    --border:        rgba(255,255,255,0.07);
-    --border-gold:   rgba(201,169,122,0.22);
-    --shadow-card:   0 16px 50px rgba(0,0,0,0.55);
-    --shadow-hover:  0 28px 70px rgba(0,0,0,0.7);
+    /* Backgrounds — warm dark forest, not dead black */
+    --bg-deep:       #060d03;
+    --bg-base:       #0a1606;
+    --bg-section:    #0e1f09;
+    --bg-card:       #152d0d;
+    --bg-card-2:     #1a3810;
+
+    /* Brand greens */
+    --green:         #1e6010;
+    --green-dark:    #0d3408;
+    --green-bright:  #27a01a;
+
+    /* Gold / Biscuit — the achievement colour */
+    --gold:          #D4A017;
+    --gold-bright:   #F5C12E;
+    --biscuit:       #C9920A;
+
+    /* Text — warm cream, not cold white */
+    --text-white:    #FFFEF8;
+    --text-primary:  #F8F2E0;
+    --text-sub:      rgba(248,242,224,0.72);
+    --text-muted:    rgba(248,242,224,0.45);
+    --text-dark:     #0d2a06;
+
+    /* Borders — gold-tinted for premium feel */
+    --border:        rgba(212,160,23,0.14);
+    --border-gold:   rgba(212,160,23,0.32);
+    --border-light:  #d8eccb;
+
+    /* Shadows */
+    --shadow-card:   0 12px 40px rgba(0,0,0,0.42);
+    --shadow-hover:  0 24px 64px rgba(0,0,0,0.58);
+    --shadow-gold:   0 8px 32px rgba(212,160,23,0.18);
+
     --radius-card:   18px;
     --radius-lg:     24px;
   }
 
-  /* ── Base ── */
+  /* ══════════════════════════════════════════
+     BASE
+  ══════════════════════════════════════════ */
   body, #taxila-details-root {
     background: var(--bg-deep) !important;
     color: var(--text-primary) !important;
   }
 
-  /* ── Force dark on every light-background section ── */
-  #duration-section, #special-section, #journey-timeline-section,
-  #demo-section, #premium-content, #testimonials-section {
-    background: var(--bg-section) !important;
-    border-top-color:    var(--border) !important;
-    border-bottom-color: var(--border) !important;
+  /* ══════════════════════════════════════════
+     SECTION BACKGROUNDS — alternating rhythm
+  ══════════════════════════════════════════ */
+  #subjects-section   { background: #f4fbee !important; }
+  #navodaya-demo-videos { background: #0c1e07 !important; border-top: 2px solid rgba(212,160,23,0.2) !important; }
+  #duration-section   { background: #faf8f0 !important; border-top: none !important; border-bottom: none !important; }
+  #books-section      { background: #f4fbee !important; }
+  #special-section    { background: var(--bg-section) !important; border-top: 2px solid rgba(212,160,23,0.15) !important; border-bottom: 2px solid rgba(212,160,23,0.15) !important; }
+  #journey-timeline-section { background: #081403 !important; }
+  #testimonials-section { background: #faf8f0 !important; border-top: none !important; border-bottom: none !important; }
+  #demo-section       { background: var(--bg-section) !important; border-top: 2px solid var(--border-gold) !important; border-bottom: 2px solid var(--border-gold) !important; }
+  #fee-section        { background: var(--bg-deep) !important; }
+  #premium-content    { background: var(--bg-base) !important; }
+
+  /* ══════════════════════════════════════════
+     NAV — rich forest with gold underline
+  ══════════════════════════════════════════ */
+  nav[style*="background:#0A1F05"] {
+    background: rgba(6,13,3,0.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 2px solid rgba(212,160,23,0.22) !important;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.55) !important;
   }
 
-  #fee-section { background: var(--bg-deep) !important; }
-
-  section[style*="background:#F4FAF0"],
-  section[style*="background:#FAF6EE"],
-  section[style*="background:#f8f5f0"],
-  section[style*="background:#f8f4ee"],
-  div[style*="background:#F4FAF0"],
-  div[style*="background:#FAF6EE"] {
-    background: var(--bg-section) !important;
+  /* ══════════════════════════════════════════
+     HERO BANNER
+  ══════════════════════════════════════════ */
+  #hero-banner {
+    background: linear-gradient(135deg, #0d2a06 0%, #1a5008 45%, #0a1e05 100%) !important;
+    border-bottom: 2px solid rgba(212,160,23,0.18) !important;
+  }
+  #hero-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #D4A017 30%, #F5C12E 50%, #D4A017 70%, transparent);
+    pointer-events: none;
   }
 
-  /* ── Subject cards — luxury glassmorphism ── */
+  /* ══════════════════════════════════════════
+     SUBJECT CARDS — light section, clean white
+  ══════════════════════════════════════════ */
   .subject-card {
-    background: rgba(27,77,14,0.12) !important;
-    backdrop-filter: blur(18px) !important;
-    -webkit-backdrop-filter: blur(18px) !important;
-    border: 1px solid rgba(201,169,122,0.18) !important;
-    border-radius: 18px !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06) !important;
-    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1.5px solid #cce8b8 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 18px rgba(27,77,14,0.07), 0 1px 3px rgba(27,77,14,0.04) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
   }
   .subject-card:hover {
-    transform: translateY(-6px) !important;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,169,122,0.25) !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 0 14px 36px rgba(27,77,14,0.14) !important;
+    border-color: var(--biscuit) !important;
   }
-  .subject-card h4 { color: var(--text-primary) !important; font-size: 18px !important; }
-  .subject-card p  { color: var(--text-sub) !important; }
+  .subject-card h4 { color: #0d2a06 !important; font-size: 17px !important; font-weight: 700 !important; }
+  .subject-card p  { color: #4a6b3c !important; }
 
-  /* ── Schedule / spec cards ── */
+  /* Subject section headings — on light bg */
+  #subjects-section [style*="color:#C9920A"]       { color: var(--biscuit) !important; }
+  #subjects-section [style*="color:#f0f6e8"],
+  #subjects-section [style*="color:#F0F6E8"]        { color: #0d2a06 !important; }
+  #subjects-section [style*="color:#cbdcc5"]        { color: #4a6b3c !important; }
+
+  /* ══════════════════════════════════════════
+     SCHEDULE / SPEC CARDS — light section
+  ══════════════════════════════════════════ */
   .schedule-card {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border) !important;
-    box-shadow: var(--shadow-card) !important;
-    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cce8b8 !important;
+    box-shadow: 0 4px 18px rgba(27,77,14,0.07) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
   }
   .schedule-card:hover {
-    transform: translateY(-6px) !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 0 14px 36px rgba(27,77,14,0.13) !important;
+    border-color: var(--biscuit) !important;
+  }
+  .schedule-card h3 { color: #0d2a06 !important; }
+  .schedule-card p  { color: #4a6b3c !important; }
+
+  /* Duration section text on light bg */
+  #duration-section [style*="color:#C9920A"]        { color: var(--biscuit) !important; }
+  #duration-section [style*="color:#f0f6e8"],
+  #duration-section [style*="color:#F0F6E8"]         { color: #0d2a06 !important; }
+  #duration-section [style*="color:#cbdcc5"]         { color: #4a6b3c !important; }
+
+  /* Duration icon boxes — gold */
+  #duration-section [style*="background:#1B4D0E"] {
+    background: var(--biscuit) !important;
+    box-shadow: 0 4px 16px rgba(212,160,23,0.3) !important;
+  }
+
+  /* Premium Navodaya schedule cards layout, reveal, and hover transitions */
+  #duration-section .schedule-card.reveal-node {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    background: #ffffff !important;
+    border: 1.5px solid #cce8b8 !important;
+    box-shadow: 0 4px 18px rgba(27,77,14,0.07) !important;
+    transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1),
+                transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                border-color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                background-color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  }
+  #duration-section .schedule-card.reveal-node.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  #duration-section .schedule-card.reveal-node.active:hover {
+    transform: translateY(-10px) scale(1.03) !important;
+    box-shadow: 0 20px 40px rgba(212,160,23,0.18), 0 1px 3px rgba(212,160,23,0.08) !important;
+    border-color: var(--gold-bright) !important;
+    background: #ffffff !important;
+  }
+
+  /* ══════════════════════════════════════════
+     DARK SECTION CARDS (special, demo, fee)
+  ══════════════════════════════════════════ */
+  #special-section .reveal-node[style*="background:#0b1a07"] {
+    background: var(--bg-card) !important;
+    border: 1.5px solid var(--border-gold) !important;
+    box-shadow: var(--shadow-card) !important;
+  }
+  #special-section .reveal-node[style*="background:#0b1a07"]:hover {
     box-shadow: var(--shadow-hover) !important;
-  }
-  .schedule-card h3 { color: var(--text-primary) !important; }
-  .schedule-card p  { color: var(--text-sub) !important; }
-
-  /* ── Demo / booking form inputs ── */
-  .demo-input {
-    background: rgba(255,255,255,0.055) !important;
-    border: 1.5px solid rgba(255,255,255,0.11) !important;
-    color: var(--text-primary) !important;
-    border-radius: 10px !important;
-    font-size: 14.5px !important;
-  }
-  .demo-input:focus {
-    border-color: var(--green) !important;
-    background: rgba(27,77,14,0.12) !important;
-    box-shadow: 0 0 0 3px rgba(27,77,14,0.18) !important;
-    outline: none !important;
-  }
-  .demo-input::placeholder { color: var(--text-muted) !important; }
-  .demo-input option { background: #141414 !important; color: var(--text-primary) !important; }
-
-  /* ── Payment modal (Razorpay) ── */
-  .payment-modal-backdrop { background: rgba(5,8,10,0.88) !important; }
-  .payment-modal-content {
-    background: #111614 !important;
-    border: 1px solid var(--border-gold) !important;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.8) !important;
+    border-color: rgba(212,160,23,0.5) !important;
   }
 
-  /* ── Premium dashboard cards ── */
+  /* Feature check icons on dark — gold circles */
+  #special-section [style*="background:#e8f5e9"],
+  .reveal-node [style*="background:#e8f5e9"] {
+    background: rgba(212,160,23,0.18) !important;
+    border: 1px solid rgba(212,160,23,0.35) !important;
+    color: var(--gold-bright) !important;
+  }
+
+  /* Special section text */
+  #special-section [style*="color:#f0f6e8"],
+  #special-section [style*="color:#F0F6E8"] { color: var(--text-primary) !important; }
+  #special-section [style*="color:#cbdcc5"] { color: var(--text-sub) !important; }
+  #special-section [style*="color:#C9920A"] { color: var(--gold) !important; }
+
+  /* ══════════════════════════════════════════
+     PREMIUM DASHBOARD CARDS
+  ══════════════════════════════════════════ */
   .premium-dash-card {
     background: var(--bg-card) !important;
-    border: 1px solid var(--border) !important;
+    border: 1.5px solid var(--border-gold) !important;
     box-shadow: var(--shadow-card) !important;
   }
   .curriculum-week { border-bottom-color: var(--border) !important; }
-
-  /* ── Timeline ── */
-  .timeline-line    { background: rgba(201,169,122,0.2) !important; }
-  .timeline-heading { color: var(--text-primary) !important; font-size: 22px !important; }
-  .timeline-desc    { color: var(--text-sub) !important; }
-  .timeline-circle  { border-color: var(--bg-deep) !important; background: var(--gold) !important; box-shadow: 0 4px 16px rgba(201,169,122,0.3) !important; }
-  .timeline-badge-month { color: var(--gold) !important; }
-
-  /* ── Testimonial tabs ── */
-  .t-tabactive  { background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; box-shadow: 0 6px 20px rgba(27,77,14,0.35) !important; }
-  .t-tabinactive { color: rgba(255,255,255,0.65) !important; border-color: rgba(255,255,255,0.18) !important; }
-  .t-tabinactive:hover { border-color: var(--gold) !important; color: var(--gold) !important; }
-
-  /* ── Video testimonial boxes ── */
-  .video-testimonial-box { box-shadow: var(--shadow-card) !important; }
-
-  /* ── Book 3D cards ── */
-  .book-3d-card { box-shadow: 8px 14px 36px rgba(0,0,0,0.6) !important; }
-  .book-3d-wrapper:hover .book-3d-card { box-shadow: 16px 22px 44px rgba(0,0,0,0.75) !important; }
-
-  /* ── Global text-color overrides (inline style matching) ── */
-  [style*="color:#C9920A"] { color: var(--gold) !important; }
-  [style*="color:#D98A29"] { color: var(--gold) !important; }
-  [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
-  [style*="color:#516147"] { color: var(--text-sub) !important; }
-  [style*="color:#cbdcc5"] { color: var(--text-sub) !important; }
-
-  /* Dashboard heading + stat colors */
+  #premium-content [style*="color:#0A1F05"],
   #premium-content h3[style*="color:#0A1F05"],
-  #premium-content h4[style*="color:#0A1F05"],
-  #premium-content [style*="color:#0A1F05"] { color: var(--text-primary) !important; }
-  #premium-content [style*="color:#1B4D0E"] { color: var(--gold) !important; }
-  #premium-content [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
-
-  /* Progress bar track */
-  [style*="background:#e0ecd8;border-radius:4px"],
-  [style*="background:#e0ecd8;border-radius"] { background: rgba(255,255,255,0.08) !important; }
-
-  /* ── Global border overrides ── */
-  [style*="border:1px solid #e0ecd8"]    { border-color: var(--border) !important; }
-  [style*="border:1.5px solid #e0ecd8"]  { border-color: rgba(255,255,255,0.09) !important; }
-  [style*="border:2px solid #e0ecd8"]    { border-color: rgba(255,255,255,0.1) !important; }
-  [style*="border-top:1px solid #e0ecd8"] { border-top-color: var(--border) !important; }
-  [style*="border-bottom:1px solid #e0ecd8"] { border-bottom-color: var(--border) !important; }
-  [style*="border:1.5px solid #d8e6cf"]  { border-color: rgba(255,255,255,0.1) !important; }
-
-  /* ── White card backgrounds → dark ── */
+  #premium-content h4[style*="color:#0A1F05"] { color: var(--text-primary) !important; }
+  #premium-content [style*="color:#1B4D0E"]   { color: var(--gold) !important; }
+  #premium-content [style*="color:#7a8a6f"]   { color: var(--text-muted) !important; }
   #premium-content [style*="background:#fff"],
   #premium-content [style*="background:#ffffff"] {
     background: var(--bg-card) !important;
-    border-color: var(--border) !important;
+    border-color: var(--border-gold) !important;
   }
 
-  /* ── Payment right-panel white cards → dark ── */
+  /* ══════════════════════════════════════════
+     TIMELINE — gold dots, warm text
+  ══════════════════════════════════════════ */
+  .timeline-line    { background: rgba(212,160,23,0.25) !important; }
+  .timeline-heading { color: var(--text-primary) !important; font-size: 22px !important; }
+  .timeline-desc    { color: var(--text-sub) !important; }
+  .timeline-circle  {
+    background: linear-gradient(135deg, var(--gold-bright), var(--biscuit)) !important;
+    border-color: var(--bg-deep) !important;
+    box-shadow: 0 4px 16px rgba(212,160,23,0.4), 0 0 0 4px rgba(212,160,23,0.12) !important;
+  }
+  .timeline-badge-month { color: var(--gold-bright) !important; font-weight: 800 !important; }
+  #journey-timeline-section::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: 8%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(212,160,23,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(60px);
+  }
+
+  /* ══════════════════════════════════════════
+     TESTIMONIALS — light section
+  ══════════════════════════════════════════ */
+  .t-tabactive  {
+    background: var(--green) !important;
+    color: #fff !important;
+    border-color: var(--green) !important;
+    box-shadow: 0 6px 20px rgba(30,96,16,0.3) !important;
+  }
+  .t-tabinactive { color: #4a6b3c !important; border-color: #cce8b8 !important; }
+  .t-tabinactive:hover { border-color: var(--biscuit) !important; color: var(--biscuit) !important; }
+  #testimonials-section [style*="color:#f0f6e8"],
+  #testimonials-section [style*="color:#F0F6E8"] { color: #0d2a06 !important; }
+  #testimonials-section [style*="color:#cbdcc5"] { color: #4a6b3c !important; }
+  #testimonials-section [style*="color:#C9920A"] { color: var(--biscuit) !important; }
+  #testimonials-section [style*="color:#7a8a6f"] { color: #6a8a5c !important; }
+  .video-testimonial-box { box-shadow: var(--shadow-card) !important; }
+
+  /* ══════════════════════════════════════════
+     FEE SECTION
+  ══════════════════════════════════════════ */
   #fee-section [style*="background:#fff"],
   #fee-section [style*="background:#ffffff"] {
     background: var(--bg-card) !important;
@@ -640,89 +734,107 @@
   }
   #fee-section [style*="color:#16280d"] { color: var(--text-primary) !important; }
   #fee-section [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
-  #fee-section [style*="background:#f8f5f0"] { background: rgba(255,255,255,0.05) !important; }
-  #fee-section [style*="border:1.5px solid #e0ecd8"] { border-color: rgba(255,255,255,0.1) !important; }
+  #fee-section [style*="background:#f8f5f0"] { background: rgba(212,160,23,0.06) !important; }
+  #fee-section [style*="border:1.5px solid #e0ecd8"] { border-color: var(--border-gold) !important; }
 
-  /* ── Books section accent ── */
-  #books-section [style*="color:#1B4D0E"] { color: var(--gold) !important; }
+  /* ══════════════════════════════════════════
+     BOOKS SECTION
+  ══════════════════════════════════════════ */
+  #subjects-section [style*="color:#1B4D0E"],
+  #books-section [style*="color:#1B4D0E"] { color: var(--biscuit) !important; }
 
-  /* ── Stats section upgrade ── */
-  #stats-section {
-    background: linear-gradient(135deg, #0d1a08 0%, var(--green-dark) 50%, #040803 100%) !important;
-    border-top: 1px solid rgba(201,169,122,0.15) !important;
+  /* ══════════════════════════════════════════
+     DEMO VIDEOS (dark section)
+  ══════════════════════════════════════════ */
+  .ndv-player-wrap { border-color: rgba(212,160,23,0.22) !important; }
+  .ndv-playlist    { border-color: rgba(212,160,23,0.22) !important; }
+  .ndv-player-wrap, .ndv-playlist { background: #0d2009 !important; }
+  .ndv-pl-head { border-bottom-color: rgba(212,160,23,0.12) !important; }
+  .ndv-item:hover { background: rgba(212,160,23,0.06) !important; }
+  .ndv-item.active { background: rgba(212,160,23,0.1) !important; border-left-color: var(--gold-bright) !important; }
+
+  /* ══════════════════════════════════════════
+     PAYMENT MODAL
+  ══════════════════════════════════════════ */
+  .payment-modal-backdrop { background: rgba(4,8,2,0.88) !important; }
+  .payment-modal-content  {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-gold) !important;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.75) !important;
   }
 
-  /* ── Features check icon ── */
-  .reveal-node [style*="background:#e8f5e9"] {
-    background: rgba(27,77,14,0.35) !important;
-    border: 1px solid rgba(27,77,14,0.5) !important;
-    color: var(--gold) !important;
+  /* ══════════════════════════════════════════
+     DEMO / BOOKING FORM INPUTS
+  ══════════════════════════════════════════ */
+  .demo-input {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1.5px solid rgba(212,160,23,0.18) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+    font-size: 14.5px !important;
   }
-
-  /* ── Nav upgrade ── */
-  nav[style*="background:#0A1F05"] {
-    background: rgba(5,8,3,0.92) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-bottom: 1px solid rgba(201,169,122,0.12) !important;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.6) !important;
+  .demo-input:focus {
+    border-color: var(--gold) !important;
+    background: rgba(212,160,23,0.05) !important;
+    box-shadow: 0 0 0 3px rgba(212,160,23,0.12) !important;
+    outline: none !important;
   }
+  .demo-input::placeholder { color: var(--text-muted) !important; }
+  .demo-input option       { background: #141414 !important; color: var(--text-primary) !important; }
 
-  /* ── Hero banner upgrade ── */
-  #hero-banner {
-    background: linear-gradient(135deg, #0d2208 0%, #0A1F05 50%, #040c02 100%) !important;
-    border-bottom: 1px solid rgba(201,169,122,0.1) !important;
-  }
+  /* ══════════════════════════════════════════
+     GLOBAL OVERRIDES
+  ══════════════════════════════════════════ */
+  [style*="color:#C9920A"]  { color: var(--biscuit) !important; }
+  [style*="color:#D98A29"]  { color: var(--gold) !important; }
+  [style*="color:#7a8a6f"]  { color: var(--text-muted) !important; }
+  [style*="color:#cbdcc5"]  { color: var(--text-sub) !important; }
+  [style*="background:#e0ecd8;border-radius:4px"],
+  [style*="background:#e0ecd8;border-radius"] { background: rgba(255,255,255,0.08) !important; }
+  [style*="border:1px solid #e0ecd8"]         { border-color: var(--border) !important; }
+  [style*="border:1.5px solid #e0ecd8"]        { border-color: var(--border) !important; }
+  [style*="border-top:1px solid #e0ecd8"]      { border-top-color: var(--border) !important; }
+  [style*="border-bottom:1px solid #e0ecd8"]   { border-bottom-color: var(--border) !important; }
+  [style*="border:1.5px solid #d8e6cf"]        { border-color: var(--border) !important; }
 
-  /* ── Footer upgrade ── */
-  footer[style*="background:#0A1F05"] {
-    background: #05080a !important;
-    border-top: 1px solid rgba(201,169,122,0.12) !important;
-  }
+  /* Progress bar track */
+  [style*="background:#e0ecd8;border-radius"] { background: rgba(212,160,23,0.1) !important; }
 
-  /* ── Payment Razorpay modal form fields ── */
+  /* Modal gateway */
   #modal-gateway-body input {
     background: rgba(255,255,255,0.06) !important;
-    border-color: rgba(255,255,255,0.12) !important;
+    border-color: rgba(212,160,23,0.18) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
   }
   #modal-gateway-body [style*="color:#7a8a6f"],
   #modal-gateway-body [style*="color:#516147"] { color: var(--text-muted) !important; }
   #modal-gateway-body [style*="border-bottom:1px solid #f0f0f0"] { border-bottom-color: var(--border) !important; }
-
-  /* ── Loading spinner upgrade ── */
   #modal-loading-overlay [style*="border:4.5px solid #e0ecd8"] {
-    border-color: rgba(255,255,255,0.1) !important;
-    border-top-color: var(--green) !important;
+    border-color: rgba(212,160,23,0.12) !important;
+    border-top-color: var(--gold-bright) !important;
   }
-  #modal-loading-overlay [style*="color:#7a8a6f"] { color: var(--text-muted) !important; }
 
-  /* ── Premium content: unlock banner emoji → military icon ── */
+  /* Hide premium emoji placeholder */
   #premium-content [style*="font-size:62px"] { display: none; }
 
-  /* ── Journey timeline section background glow ── */
-  #journey-timeline-section::before {
-    content: '';
-    position: absolute;
-    top: -100px;
-    right: 10%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(201,169,122,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    filter: blur(50px);
+  /* Footer */
+  footer[style*="background:#0A1F05"] {
+    background: #050d03 !important;
+    border-top: 2px solid rgba(212,160,23,0.14) !important;
   }
 
-  /* ── Responsive fine-tuning ── */
+  /* ══════════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════════ */
   @media (max-width: 768px) {
-    .subject-card { backdrop-filter: none !important; background: var(--bg-card) !important; }
+    .subject-card { backdrop-filter: none !important; }
     .timeline-heading { font-size: 18px !important; }
   }
 </style>
 </helmet>
 
-<div id="taxila-details-root" style="position:relative;width:100%;background:#040c02;overflow-x:hidden">
+<div id="taxila-details-root" style="position:relative;width:100%;background:#060d03;overflow-x:hidden">
 
   <!-- NAV -->
   <nav style="position:fixed;top:0;left:0;width:100%;z-index:150;background:#0A1F05;padding:16px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15)">
@@ -738,10 +850,15 @@
 
   <!-- 1. COURSE HERO BANNER SECTION -->
   <section id="hero-banner" data-banner style="padding:160px clamp(18px, 4vw, 56px) 100px;color:#fff;position:relative;background:linear-gradient(135deg, #1B4D0E, #0A1F05);overflow:hidden">
-    <!-- Subtle grid overlay for high tech / curriculum style -->
-    <div style="position:absolute;inset:0;opacity:0.08;background-image:linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);background-size:45px 45px;background-position:center;pointer-events:none;z-index:1"></div>
-    <!-- Warm/gold ambient radial glow -->
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(245,184,0,0.1) 0%,transparent 70%);pointer-events:none;z-index:1;filter:blur(50px)"></div>
+    <!-- Background image -->
+    <div style="position:absolute;inset:0;z-index:0">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1782483597/Copilot_20260626_194929_wfjxij.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 70%;display:block" fetchpriority="high">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,30,5,0.82) 0%,rgba(18,60,8,0.72) 50%,rgba(6,18,3,0.85) 100%)"></div>
+    </div>
+    <!-- Subtle grid overlay -->
+    <div style="position:absolute;inset:0;opacity:0.06;background-image:linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);background-size:45px 45px;background-position:center;pointer-events:none;z-index:1"></div>
+    <!-- Gold ambient glow -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(212,160,23,0.12) 0%,transparent 70%);pointer-events:none;z-index:1;filter:blur(50px)"></div>
 
     <div class="hero-grid-container">
       <!-- Left Column: Content & Buttons -->
@@ -785,7 +902,7 @@
           <!-- Stat 3: Rating -->
           <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#F5B800"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <span style="font-weight:600">4.9 · 1,500+ Selections</span>
+            <span style="font-weight:600">100+ Selections</span>
           </div>
         </div>
 
@@ -837,22 +954,248 @@
   </section>
 
   <!-- 2. SUBJECTS COVERED -->
-  <section id="subjects-section" style="background:#040c02;padding:80px clamp(18px,4vw,56px) 60px">
-    <div style="max-width:1180px;margin:0 auto">
-      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
-        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Curriculum</span>
-        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">Subjects Covered</h2>
-        <p style="color:#cbdcc5;font-size:15px;margin:10px 0 0">Thorough syllabus breakdown designed for maximum mastery.</p>
+  <section id="subjects-section" style="background:#f4fbee;padding:80px clamp(18px,4vw,56px) 90px;overflow:hidden;position:relative">
+    <!-- Decorative background circles -->
+    <div style="position:absolute;top:-80px;right:-60px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(30,96,16,0.07) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-60px;left:-40px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(212,160,23,0.08) 0%,transparent 70%);pointer-events:none"></div>
+
+    <style>
+      /* ── Tilt card 3D system ── */
+      .tilt-card-wrap{perspective:900px;cursor:pointer}
+      .tilt-card{
+        position:relative;
+        background:#ffffff;
+        border:1.5px solid #cce8b8;
+        border-radius:20px;
+        padding:32px 28px 28px;
+        box-shadow:0 6px 24px rgba(27,77,14,0.09),0 2px 6px rgba(27,77,14,0.05);
+        transform-style:preserve-3d;
+        transform:rotateX(0deg) rotateY(0deg);
+        transition:transform 0.08s linear,box-shadow 0.25s ease,border-color 0.25s ease;
+        will-change:transform;
+      }
+      .tilt-card:hover{
+        box-shadow:0 20px 56px rgba(27,77,14,0.18),0 4px 12px rgba(27,77,14,0.08);
+        border-color:#C9920A;
+      }
+      /* floating icon layer — sits above card surface */
+      .tilt-icon-wrap{
+        width:56px;height:56px;border-radius:14px;
+        background:linear-gradient(135deg,#1e6010,#0d3408);
+        display:flex;align-items:center;justify-content:center;
+        margin-bottom:18px;
+        box-shadow:0 8px 20px rgba(14,52,8,0.28);
+        transform:translateZ(30px);
+        transition:transform 0.08s linear;
+      }
+      .tilt-card:hover .tilt-icon-wrap{transform:translateZ(45px) scale(1.08)}
+      .tilt-card-title{
+        font-family:'Playfair Display',serif;
+        font-weight:700;font-size:18px;color:#0d2a06;
+        margin:0 0 10px;transform:translateZ(20px);
+        transition:transform 0.08s linear;
+      }
+      .tilt-card:hover .tilt-card-title{transform:translateZ(30px)}
+      .tilt-card-desc{
+        color:#4a6b3c;font-size:13.5px;line-height:1.65;margin:0;
+        transform:translateZ(12px);
+        transition:transform 0.08s linear;
+      }
+      /* gold corner accent */
+      .tilt-card::before{
+        content:'';position:absolute;top:0;right:0;
+        width:48px;height:48px;
+        background:linear-gradient(225deg,rgba(212,160,23,0.14) 0%,transparent 60%);
+        border-radius:0 20px 0 0;
+        pointer-events:none;
+      }
+      /* shimmer line at top */
+      .tilt-card::after{
+        content:'';position:absolute;top:0;left:20px;right:20px;height:2px;
+        background:linear-gradient(90deg,transparent,rgba(212,160,23,0.5),transparent);
+        border-radius:100px;
+        opacity:0;transition:opacity 0.25s;
+      }
+      .tilt-card:hover::after{opacity:1}
+    </style>
+
+    <div style="max-width:1180px;margin:0 auto;position:relative;z-index:1">
+      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 56px">
+        <span style="color:#C9920A;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:10px">Curriculum</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,3.8vw,40px);color:#0d2a06;margin:0 0 12px;line-height:1.2">Subjects Covered</h2>
+        <p style="color:#4a6b3c;font-size:15px;margin:0;line-height:1.65">Thorough syllabus breakdown designed for maximum mastery.</p>
       </div>
-      
-      <div data-subjects-container style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
-        <!-- Dynamically populated cards -->
+
+      <div data-subjects-container style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px">
+        <!-- Dynamically populated tilt cards -->
       </div>
     </div>
+
+    <script>
+    (function(){
+      function initTilt(){
+        document.querySelectorAll('.tilt-card-wrap').forEach(function(wrap){
+          var card = wrap.querySelector('.tilt-card');
+          if(!card) return;
+          wrap.addEventListener('mousemove',function(e){
+            var r = wrap.getBoundingClientRect();
+            var x = (e.clientX - r.left) / r.width  - 0.5;
+            var y = (e.clientY - r.top)  / r.height - 0.5;
+            card.style.transform = 'rotateY('+(x*18)+'deg) rotateX('+(-y*14)+'deg) translateZ(4px)';
+          });
+          wrap.addEventListener('mouseleave',function(){
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+          });
+        });
+      }
+      // run after dynamic cards are injected
+      var obs = new MutationObserver(function(){ initTilt(); });
+      var container = document.querySelector('[data-subjects-container]');
+      if(container) obs.observe(container,{childList:true});
+      // also run on load in case cards are already there
+      document.addEventListener('DOMContentLoaded', initTilt);
+      setTimeout(initTilt, 800);
+    })();
+    </script>
+  </section>
+
+  <!-- NAVODAYA DEMO VIDEOS -->
+  <section id="navodaya-demo-videos" style="position:relative;padding:80px clamp(18px,4vw,56px) 90px;border-top:2px solid rgba(212,160,23,0.2);overflow:hidden">
+    <div style="position:absolute;inset:0;z-index:0">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783400522/WhatsApp_Image_2026-06-12_at_12.02.25_PM_1_oq0bjm.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,22,4,0.88) 0%,rgba(14,42,7,0.80) 50%,rgba(6,16,3,0.90) 100%)"></div>
+    </div>
+    <div style="position:relative;z-index:1;display:contents">
+    <style>
+      .ndv-wrap{max-width:1160px;margin:0 auto}
+      .ndv-head{text-align:center;margin-bottom:52px}
+      .ndv-label{color:#C9920A;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;margin:0 0 10px;display:block}
+      .ndv-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,3.8vw,40px);color:#f0f6e8;margin:0 0 12px;line-height:1.2}
+      .ndv-sub{color:#7a9c6e;font-size:15px;line-height:1.6;margin:0}
+      .ndv-body{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
+      @media(max-width:860px){.ndv-body{grid-template-columns:1fr}}
+      /* Player */
+      .ndv-player-wrap{background:#080f06;border:1px solid rgba(245,184,0,0.14);border-radius:20px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.55)}
+      .ndv-iframe-box{position:relative;padding-top:56.25%;background:#050b03}
+      .ndv-iframe-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+      .ndv-player-info{padding:20px 24px 24px}
+      .ndv-now-label{display:inline-block;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.25);color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:10px}
+      .ndv-now-title{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:#f0f6e8;margin:0 0 6px}
+      .ndv-now-desc{color:#7a9c6e;font-size:13.5px;line-height:1.55;margin:0}
+      /* Playlist */
+      .ndv-playlist{background:#080f06;border:1px solid rgba(245,184,0,0.14);border-radius:20px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.4)}
+      .ndv-pl-head{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between}
+      .ndv-pl-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:#f0f6e8;margin:0}
+      .ndv-pl-count{background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.2);color:#F5B800;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+      .ndv-item{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;transition:background .18s;border-bottom:1px solid rgba(255,255,255,0.04);text-decoration:none}
+      .ndv-item:last-child{border-bottom:none}
+      .ndv-item:hover{background:rgba(245,184,0,0.05)}
+      .ndv-item.active{background:rgba(245,184,0,0.08);border-left:3px solid #F5B800}
+      .ndv-item.active .ndv-thumb{border-color:rgba(245,184,0,0.5)}
+      .ndv-thumb{width:56px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.1);transition:border-color .18s}
+      .ndv-play-icon{width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center}
+      .ndv-item-info{flex:1;min-width:0}
+      .ndv-item-title{color:#e8f2e0;font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 3px}
+      .ndv-item.active .ndv-item-title{color:#F5B800}
+      .ndv-item-dur{color:#5a7a50;font-size:12px;font-weight:500}
+      /* Coming soon badge */
+      .ndv-coming{display:inline-flex;align-items:center;gap:5px;background:rgba(201,146,10,0.08);border:1px solid rgba(201,146,10,0.2);color:#C9920A;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;flex-shrink:0}
+    </style>
+
+    <div class="ndv-wrap" style="position:relative;z-index:1">
+      <div class="ndv-head">
+        <span class="ndv-label">Demo Videos</span>
+        <h2 class="ndv-h2">See Our Classes In Action</h2>
+        <p class="ndv-sub">Watch sample lessons for each subject. Click any lesson to preview the class.</p>
+      </div>
+
+      <div class="ndv-body">
+        <!-- Main Player -->
+        <div class="ndv-player-wrap">
+          <div class="ndv-iframe-box">
+            <iframe id="ndv-player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Demo class video"></iframe>
+          </div>
+          <div class="ndv-player-info">
+            <span class="ndv-now-label">Now Playing</span>
+            <h3 class="ndv-now-title" id="ndv-now-title">Maths — Numbers &amp; Arithmetic</h3>
+            <p class="ndv-now-desc" id="ndv-now-desc">Learn number system, basic arithmetic operations and how we make Maths simple for JNVST.</p>
+          </div>
+        </div>
+
+        <!-- Playlist -->
+        <div class="ndv-playlist">
+          <div class="ndv-pl-head">
+            <p class="ndv-pl-title">Course Lessons</p>
+            <span class="ndv-pl-count">3 Demos</span>
+          </div>
+
+          <!-- Lesson 1: Maths -->
+          <a class="ndv-item active" data-video="MATHS_VIDEO_ID" data-title="Maths — Numbers &amp; Arithmetic" data-desc="Learn number system, basic arithmetic operations and how we make Maths simple for JNVST." onclick="ndvPlay(this);return false;" href="#">
+            <div class="ndv-thumb" style="background:linear-gradient(135deg,#1B4D0E,#0f2c08)">
+              <div class="ndv-play-icon">
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="#F5B800"><polygon points="0,0 10,6 0,12"/></svg>
+              </div>
+            </div>
+            <div class="ndv-item-info">
+              <p class="ndv-item-title">Maths class: Numbers &amp; Arithmetic</p>
+              <span class="ndv-item-dur">Demo · Subject 1</span>
+            </div>
+            <span class="ndv-coming">Soon</span>
+          </a>
+
+          <!-- Lesson 2: Reasoning -->
+          <a class="ndv-item" data-video="REASONING_VIDEO_ID" data-title="Reasoning — Patterns &amp; Logic" data-desc="Figure matching, pattern completion and spatial reasoning techniques used in our classroom." onclick="ndvPlay(this);return false;" href="#">
+            <div class="ndv-thumb" style="background:linear-gradient(135deg,#3d1a70,#1e0c38)">
+              <div class="ndv-play-icon">
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="#c084fc"><polygon points="0,0 10,6 0,12"/></svg>
+              </div>
+            </div>
+            <div class="ndv-item-info">
+              <p class="ndv-item-title">Reasoning class: Logic Puzzles</p>
+              <span class="ndv-item-dur">Demo · Subject 2</span>
+            </div>
+            <span class="ndv-coming">Soon</span>
+          </a>
+
+          <!-- Lesson 3: English -->
+          <a class="ndv-item" data-video="ENGLISH_VIDEO_ID" data-title="English — Phonics &amp; Grammar" data-desc="Reading comprehension, grammar rules and vocabulary exercises for JNVST language section." onclick="ndvPlay(this);return false;" href="#">
+            <div class="ndv-thumb" style="background:linear-gradient(135deg,#7a3000,#3d1800)">
+              <div class="ndv-play-icon">
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="#fb923c"><polygon points="0,0 10,6 0,12"/></svg>
+              </div>
+            </div>
+            <div class="ndv-item-info">
+              <p class="ndv-item-title">English class: Phonics &amp; Grammar</p>
+              <span class="ndv-item-dur">Demo · Subject 3</span>
+            </div>
+            <span class="ndv-coming">Soon</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    function ndvPlay(el){
+      document.querySelectorAll('#navodaya-demo-videos .ndv-item').forEach(function(i){ i.classList.remove('active'); });
+      el.classList.add('active');
+      var vid = el.dataset.video;
+      var title = el.dataset.title;
+      var desc = el.dataset.desc;
+      document.getElementById('ndv-now-title').innerHTML = title;
+      document.getElementById('ndv-now-desc').textContent = desc;
+      // Only load real embed if a real YouTube ID is set
+      if(vid && vid.indexOf('_VIDEO_ID') === -1){
+        document.getElementById('ndv-player').src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+        el.querySelector('.ndv-coming') && (el.querySelector('.ndv-coming').style.display='none');
+      }
+    }
+    </script>
+    </div><!-- /z-index wrapper -->
   </section>
 
   <!-- 3. COURSE DURATION & SCHEDULE -->
-  <section id="duration-section" style="background:#0d1009;padding:80px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07)">
+  <div id="duration-top-divider" style="line-height:0;overflow:hidden;display:none;"></div>
+  <section id="duration-section" style="background:#faf8f0;padding:80px clamp(18px,4vw,56px)">
     <div style="max-width:1180px;margin:0 auto">
       <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
         <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Program Specs</span>
@@ -861,7 +1204,7 @@
       
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
         <!-- Specs 1: Duration -->
-        <div class="schedule-card reveal-node">
+        <div class="schedule-card reveal-node" data-delay="0">
           <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -869,7 +1212,7 @@
           <p data-course-duration style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">12 Months Program</p>
         </div>
         <!-- Specs 2: Classes -->
-        <div class="schedule-card reveal-node" data-delay="60">
+        <div class="schedule-card reveal-node" data-delay="100">
           <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
@@ -877,7 +1220,7 @@
           <p style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">5 Days a Week (Mon-Fri)</p>
         </div>
         <!-- Specs 3: Tests -->
-        <div class="schedule-card reveal-node" data-delay="120">
+        <div class="schedule-card reveal-node" data-delay="200">
           <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           </div>
@@ -885,7 +1228,7 @@
           <p style="color:#cbdcc5;font-size:15px;margin:0;font-weight:600">Weekly Full-Length Mock Exams</p>
         </div>
         <!-- Specs 4: Doubts -->
-        <div class="schedule-card reveal-node" data-delay="180">
+        <div class="schedule-card reveal-node" data-delay="300">
           <div style="width:48px;height:48px;border-radius:12px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke-linejoin="round"/></svg>
           </div>
@@ -895,28 +1238,51 @@
       </div>
     </div>
   </section>
+  <div id="duration-bottom-divider" style="line-height:0;overflow:hidden;display:none;"></div>
 
-  <!-- 4. BOOKS WE FOLLOW -->
-  <section id="books-section" style="background:#040c02;padding:80px clamp(18px,4vw,56px)">
-    <div style="max-width:1180px;margin:0 auto">
-      <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
-        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Study Material</span>
-        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:34px;color:#f0f6e8;margin:8px 0 0">Books We Follow</h2>
-        <p style="color:#cbdcc5;font-size:15px;margin:10px 0 0">Guided textbook integration for robust, standard-aligned training.</p>
+  <!-- 4. BOOKS FOR THIS COURSE -->
+  <section id="books-section" style="background:#f2fbf5;padding:80px clamp(18px,4vw,56px)">
+    <style>
+      .bfc-wrap{max-width:1180px;margin:0 auto}
+      .bfc-head{margin:0 0 52px}
+      .bfc-label{color:#C9920A;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:10px}
+      .bfc-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,3.5vw,38px);color:#0f2b0a;margin:0 0 12px;line-height:1.2}
+      .bfc-sub{color:#4a6b3c;font-size:15px;line-height:1.65;margin:0;max-width:560px}
+      .bfc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:28px}
+      .bfc-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(15,43,10,0.08);border:1px solid #dff0e4;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+      .bfc-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(15,43,10,0.13)}
+      .bfc-img-wrap{position:relative;background:#e8f5ec;overflow:hidden}
+      .bfc-img-wrap img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .3s}
+      .bfc-card:hover .bfc-img-wrap img{transform:scale(1.04)}
+      .bfc-img-placeholder{width:100%;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(145deg,#daf0e1,#c5e8cf);gap:10px}
+      .bfc-img-placeholder svg{opacity:.35}
+      .bfc-img-placeholder span{font-size:11px;font-weight:700;letter-spacing:.08em;color:#3a6e44;text-transform:uppercase;opacity:.6}
+      .bfc-cat{position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.92);color:#1B4D0E;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid rgba(27,77,14,0.15)}
+      .bfc-body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
+      .bfc-title{font-family:'Playfair Display',serif;font-weight:700;font-size:15.5px;color:#0f2b0a;margin:0 0 5px;line-height:1.35}
+      .bfc-author{font-size:12.5px;font-weight:700;color:#c05a00;margin:0 0 10px}
+      .bfc-desc{color:#557a4a;font-size:13px;line-height:1.6;margin:0 0 16px;flex:1}
+      .bfc-btn{display:block;text-align:center;border:1.5px solid #1B4D0E;color:#1B4D0E;font-size:13px;font-weight:700;padding:9px 16px;border-radius:100px;text-decoration:none;transition:background .18s,color .18s;cursor:pointer;background:transparent}
+      .bfc-btn:hover{background:#1B4D0E;color:#fff}
+      .bfc-footer{text-align:center;margin-top:36px;padding-top:28px;border-top:1px solid #dff0e4;color:#3a6e44;font-weight:700;font-size:14px;letter-spacing:.04em}
+    </style>
+    <div class="bfc-wrap">
+      <div class="bfc-head">
+        <span class="bfc-label">Books for this Course</span>
+        <h2 class="bfc-h2">Enriching Literature &amp; Activity Books</h2>
+        <p class="bfc-sub">We supply curriculum-curated textbook packages and workbooks. These books help cement topics discussed in classes.</p>
       </div>
-
-      <div data-books-grid style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;justify-items:center;margin-bottom:44px">
-        <!-- Populated dynamically with 6 3D book cover elements -->
+      <div data-books-grid class="bfc-grid">
+        <!-- Populated dynamically -->
       </div>
-      
-      <div class="reveal-node" style="text-align:center;color:#1B4D0E;font-weight:800;font-size:18px;letter-spacing:0.02em;margin-top:20px;border-top:1px solid #e0ecd8;padding-top:28px">
+      <div class="bfc-footer" data-books-footer>
         NCERT &bull; Arihant &bull; RS Aggarwal &bull; Institute Study Material
       </div>
     </div>
   </section>
 
   <!-- 5. WHAT MAKES THIS COURSE SPECIAL -->
-  <section id="special-section" style="background:#0d1009;padding:80px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07)">
+  <section id="special-section" style="background:#0e1f09;padding:80px clamp(18px,4vw,56px);border-top:2px solid rgba(212,160,23,0.18);border-bottom:2px solid rgba(212,160,23,0.18)">
     <div style="max-width:1180px;margin:0 auto">
       <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 48px">
         <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Core Advantages</span>
@@ -976,27 +1342,6 @@
     </div>
   </section>
 
-  <!-- 6. SUCCESS STATISTICS -->
-  <section id="stats-section" style="background:linear-gradient(135deg,#1B4D0E,#0A1F05);padding:80px clamp(18px,4vw,56px);color:#fff">
-    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;text-align:center">
-      <div class="reveal-node">
-        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">5000+</div>
-        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Students Trained</div>
-      </div>
-      <div class="reveal-node" data-delay="100">
-        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">1500+</div>
-        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Selections</div>
-      </div>
-      <div class="reveal-node" data-delay="200">
-        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">10+ Years</div>
-        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Experience</div>
-      </div>
-      <div class="reveal-node" data-delay="300">
-        <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,4vw,52px);color:#F5B800;line-height:1">95%</div>
-        <div style="color:#cfe0c4;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Success Rate</div>
-      </div>
-    </div>
-  </section>
 
   <!-- 6.5. LEARNING JOURNEY TIMELINE SECTION -->
   <section id="journey-timeline-section" style="background:#090c0a;padding:90px clamp(18px,4vw,56px);border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);position:relative;overflow:hidden">
@@ -1029,7 +1374,7 @@
   </section>
 
   <!-- 7. TESTIMONIALS SECTION -->
-  <section id="testimonials-section" style="background:#040c02;padding:80px clamp(18px,4vw,56px)">
+  <section id="testimonials-section" style="background:#faf8f0;padding:80px clamp(18px,4vw,56px)">
     <div style="max-width:1080px;margin:0 auto">
       <div class="reveal-node" style="text-align:center;max-width:640px;margin:0 auto 40px">
         <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Voices of Success</span>
@@ -1201,7 +1546,7 @@
             <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:50px;color:#F5B800;line-height:1">₹<span data-course-fee>9,999</span></div>
             <div style="font-size:19px;color:rgba(255,255,255,0.28);text-decoration:line-through">₹<span data-course-fee-strike>12,999</span></div>
           </div>
-          <p style="color:rgba(255,255,255,0.38);font-size:13px;margin:0 0 30px">or 12 months no-cost EMI · ₹<span data-course-emi>833</span>/mo</p>
+          <p style="color:rgba(255,255,255,0.38);font-size:13px;margin:0 0 30px">One-time payment · No hidden charges</p>
 
           <!-- Feature list -->
           <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:34px">
@@ -1214,100 +1559,108 @@
 
           <!-- Pay Button -->
           <button id="pay-btn" type="button" style="width:100%;background:#F5B800;color:#0A1F05;font-weight:800;font-size:16px;padding:16px;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:all 0.22s;box-shadow:0 8px 24px rgba(245,184,0,0.3)" onmouseover="this.style.background='#e5ab00';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#F5B800';this.style.transform='translateY(0)'">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Pay Securely &middot; ₹<span data-course-fee>9,999</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            Pay via UPI &middot; ₹<span data-course-fee>9,999</span>
           </button>
           <p style="text-align:center;color:rgba(255,255,255,0.28);font-size:12px;margin:12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            256-bit encryption &middot; Razorpay secured
+            UPI · Instant confirmation · Zero extra charges
           </p>
         </div>
 
-        <!-- RIGHT: Payment Methods -->
-        <div style="flex:1 1 400px;min-width:300px;display:flex;flex-direction:column;gap:16px">
+        <!-- RIGHT: Payment Method — UPI only -->
+        <div style="flex:1 1 400px;min-width:300px;display:flex;flex-direction:column;justify-content:center">
 
-          <!-- UPI / QR Code -->
-          <div style="background:#111614;border:1.5px solid rgba(201,169,122,0.2);border-radius:20px;padding:26px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
-            <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
-              <div style="width:40px;height:40px;border-radius:10px;background:rgba(27,77,14,0.2);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4D0E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <div style="background:#111614;border:1.5px solid rgba(212,160,23,0.25);border-radius:20px;padding:32px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
+            <!-- Header -->
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:24px">
+              <div style="width:44px;height:44px;border-radius:12px;background:rgba(30,96,16,0.22);border:1.5px solid rgba(30,96,16,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
               </div>
               <div>
-                <div style="font-weight:700;font-size:16px;color:#f0f6e8">UPI / QR Code</div>
-                <div style="font-size:12.5px;color:#7a8a6f">GPay, PhonePe, Paytm, BHIM accepted</div>
+                <div style="font-weight:800;font-size:17px;color:#f8f2e0">Pay via UPI / QR Code</div>
+                <div style="font-size:12.5px;color:#7a9c6e;margin-top:2px">GPay · PhonePe · Paytm · BHIM · any UPI app</div>
               </div>
             </div>
-            <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=116x116&data=upi://pay?pa=taxilaacademy@hdfcbank%26pn=TaxilaAcademy%26cu=INR" alt="UPI QR Code" style="width:116px;height:116px;border-radius:12px;border:1.5px solid rgba(201,169,122,0.3);flex-shrink:0;background:#fff;padding:4px;">
-              <div style="flex:1;min-width:180px">
-                <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">UPI ID</div>
-                <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 14px">
-                  <span style="font-size:14px;font-weight:600;color:#f0f6e8;flex:1">taxilaacademy@hdfcbank</span>
-                  <button onclick="navigator.clipboard.writeText('taxilaacademy@hdfcbank');this.textContent='✓ Copied';this.style.color='#1B4D0E';setTimeout(()=>{this.textContent='Copy';this.style.color='#7a8a6f'},2000)" style="background:transparent;border:none;color:#7a8a6f;font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap;padding:0">Copy</button>
+
+            <!-- QR + UPI ID row -->
+            <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+              <div style="flex-shrink:0;text-align:center">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=taxilaacademy@hdfcbank%26pn=TaxilaAcademy%26cu=INR" alt="UPI QR Code" style="width:130px;height:130px;border-radius:14px;border:2px solid rgba(212,160,23,0.3);background:#fff;padding:5px;display:block">
+                <div style="font-size:11px;color:#5a7a50;margin-top:8px;font-weight:600;letter-spacing:.04em">Scan to pay</div>
+              </div>
+              <div style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:16px">
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:rgba(248,242,224,0.42);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">UPI ID</div>
+                  <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(212,160,23,0.18);border-radius:10px;padding:12px 14px">
+                    <span style="font-size:14px;font-weight:600;color:#f8f2e0;flex:1">taxilaacademy@hdfcbank</span>
+                    <button onclick="navigator.clipboard.writeText('taxilaacademy@hdfcbank');this.textContent='✓ Copied';this.style.color='#4ade80';setTimeout(()=>{this.textContent='Copy';this.style.color='#7a9c6e'},2000)" style="background:transparent;border:none;color:#7a9c6e;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;padding:0;transition:color .2s">Copy</button>
+                  </div>
+                </div>
+                <div style="background:rgba(212,160,23,0.06);border:1px solid rgba(212,160,23,0.14);border-radius:10px;padding:12px 14px">
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span style="font-size:12.5px;color:rgba(248,242,224,0.55)">After payment, share screenshot on WhatsApp for instant confirmation</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Bank Transfer -->
-          <div style="background:#111614;border:1.5px solid rgba(201,169,122,0.2);border-radius:20px;padding:26px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
-            <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
-              <div style="width:40px;height:40px;border-radius:10px;background:rgba(27,77,14,0.2);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4D0E" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              </div>
-              <div>
-                <div style="font-weight:700;font-size:16px;color:#f0f6e8">Bank Transfer (NEFT / IMPS)</div>
-                <div style="font-size:12.5px;color:#7a8a6f">Direct transfer to our account</div>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
-              <div>
-                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Account Name</div>
-                <div style="font-weight:700;font-size:15px;color:#f0f6e8">Taxila Academy</div>
-              </div>
-              <div>
-                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Bank</div>
-                <div style="font-weight:700;font-size:15px;color:#f0f6e8">HDFC Bank</div>
-              </div>
-              <div>
-                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Account No.</div>
-                <div style="display:flex;align-items:center;gap:8px">
-                  <span style="font-weight:700;font-size:15px;color:#f0f6e8">XXXX XXXX XXXX</span>
-                  <button onclick="navigator.clipboard.writeText('XXXXXXXXXXXXX');this.textContent='✓';setTimeout(()=>this.textContent='⎘',1800)" style="background:transparent;border:none;color:#aaa;font-size:14px;cursor:pointer;line-height:1;padding:0">⎘</button>
-                </div>
-              </div>
-              <div>
-                <div style="font-size:11px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">IFSC</div>
-                <div style="display:flex;align-items:center;gap:8px">
-                  <span style="font-weight:700;font-size:15px;color:#f0f6e8">HDFC0001234</span>
-                  <button onclick="navigator.clipboard.writeText('HDFC0001234');this.textContent='✓';setTimeout(()=>this.textContent='⎘',1800)" style="background:transparent;border:none;color:#aaa;font-size:14px;cursor:pointer;line-height:1;padding:0">⎘</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card / Net Banking -->
-          <div style="background:#111614;border:1.5px solid rgba(201,169,122,0.2);border-radius:20px;padding:26px;box-shadow:0 16px 50px rgba(0,0,0,0.5)">
-            <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px">
-              <div style="width:40px;height:40px;border-radius:10px;background:rgba(27,77,14,0.2);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4D0E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>
-              </div>
-              <div>
-                <div style="font-weight:700;font-size:16px;color:#f0f6e8">Card / Net Banking</div>
-                <div style="font-size:12.5px;color:#7a8a6f">Visa, Mastercard, RuPay, <span style="color:#1B4D0E;font-weight:600">all major banks</span></div>
-              </div>
-            </div>
-            <p style="color:#cbdcc5;font-size:13.5px;margin:0 0 14px;line-height:1.55">Click <strong>"Pay Securely"</strong> on the left to complete your enrollment via our Razorpay-secured checkout. All card types and net banking options are available at checkout.</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">VISA</span>
-              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">Mastercard</span>
-              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">RuPay</span>
-              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">Net Banking</span>
-              <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,122,0.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(232,213,176,0.7)">EMI</span>
             </div>
           </div>
 
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       ENROLLMENT CONFIRMATION — shown after payment
+  ══════════════════════════════════════════ -->
+  <section id="enrollment-confirmed" style="display:none;background:#060d03;padding:80px clamp(18px,4vw,56px) 100px;border-top:2px solid rgba(212,160,23,0.2)">
+    <style>
+      .ec-wrap{max-width:720px;margin:0 auto;text-align:center}
+      .ec-icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#1e6010,#0d3408);border:2px solid rgba(212,160,23,0.4);display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;box-shadow:0 0 0 10px rgba(30,96,16,0.1),0 12px 36px rgba(0,0,0,0.45);animation:ecPop .5s cubic-bezier(.175,.885,.32,1.275) both}
+      @keyframes ecPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+      .ec-h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(26px,4vw,38px);color:#F5C12E;margin:0 0 12px;line-height:1.2}
+      .ec-sub{color:rgba(248,242,224,0.65);font-size:16px;line-height:1.65;margin:0 0 48px}
+      .ec-card{background:#0e1f09;border:1.5px solid rgba(212,160,23,0.2);border-radius:20px;padding:28px 32px;margin-bottom:16px;text-align:left}
+      .ec-step-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(212,160,23,0.1);border:1px solid rgba(212,160,23,0.25);color:#F5C12E;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:16px}
+      .ec-step-badge.required{background:rgba(30,96,16,0.18);border-color:rgba(74,222,128,0.3);color:#4ade80}
+      .ec-card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:19px;color:#f8f2e0;margin:0 0 8px}
+      .ec-card-desc{color:rgba(248,242,224,0.58);font-size:14px;line-height:1.65;margin:0 0 20px}
+      .ec-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 28px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;text-decoration:none;border:none;transition:transform .18s,box-shadow .18s;width:100%}
+      .ec-btn:hover{transform:translateY(-2px)}
+      .ec-btn-wa{background:#25D366;color:#fff;box-shadow:0 6px 20px rgba(37,211,102,0.28)}
+      .ec-btn-wa:hover{box-shadow:0 10px 28px rgba(37,211,102,0.38)}
+      .ec-btn-group{background:linear-gradient(135deg,#1e6010,#0d5008);color:#fff;box-shadow:0 6px 20px rgba(30,96,16,0.32)}
+      .ec-btn-group:hover{box-shadow:0 10px 28px rgba(30,96,16,0.45)}
+      .ec-warning{background:rgba(180,50,10,0.12);border:1.5px solid rgba(220,80,30,0.28);border-radius:14px;padding:18px 22px;display:flex;align-items:flex-start;gap:12px;text-align:left;margin-top:8px}
+      .ec-warning-icon{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(220,80,30,0.15);display:flex;align-items:center;justify-content:center}
+      .ec-warning-text strong{color:#f87a50;font-size:13.5px;display:block;margin-bottom:4px}
+      .ec-warning-text span{color:rgba(248,242,224,0.52);font-size:13px;line-height:1.55}
+      .ec-divider{display:flex;align-items:center;gap:14px;margin:8px 0}
+      .ec-divider::before,.ec-divider::after{content:'';flex:1;height:1px;background:rgba(212,160,23,0.1)}
+      .ec-divider span{color:rgba(248,242,224,0.3);font-size:12px;font-weight:600;letter-spacing:.06em;white-space:nowrap}
+    </style>
+    <div class="ec-wrap">
+      <div class="ec-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h1 class="ec-h1">&#127881; Congratulations! Your Enrollment is Confirmed</h1>
+      <p class="ec-sub">Welcome to Taxila Academy. Complete the two steps below to activate your course access and stay connected with your batch.</p>
+      <div class="ec-card">
+        <span class="ec-step-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.13 2 2 0 012 .82h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Step 1</span>
+        <h3 class="ec-card-title">Share Your Payment Screenshot</h3>
+        <p class="ec-card-desc">Send your payment screenshot on WhatsApp to confirm your enrollment. Our team will verify and activate your course access within a few hours.</p>
+        <a id="ec-wa-screenshot-btn" href="https://wa.me/917989770033?text=Hi%20Taxila%20Academy%2C%20I%20have%20completed%20my%20payment.%20Please%20find%20my%20payment%20screenshot%20attached." target="_blank" rel="noopener" class="ec-btn ec-btn-wa"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Share Screenshot on WhatsApp</a>
+      </div>
+      <div class="ec-divider"><span>then</span></div>
+      <div class="ec-card" style="border-color:rgba(74,222,128,0.25)">
+        <span class="ec-step-badge required"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Step 2 &mdash; Compulsory</span>
+        <h3 class="ec-card-title">Join Your Batch WhatsApp Group</h3>
+        <p class="ec-card-desc">You <strong style="color:#f8f2e0">must</strong> join the WhatsApp group to receive your class schedule, study materials, and all important updates. This is required to access your course.</p>
+        <a href="https://chat.whatsapp.com/Khyav9KkOXSKFSRVPhishq" target="_blank" rel="noopener" class="ec-btn ec-btn-group"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Join WhatsApp Group Now</a>
+      </div>
+      <div class="ec-warning">
+        <div class="ec-warning-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87a50" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="ec-warning-text"><strong>&#9888;&#65039; No Refund Policy</strong><span>Once payment is made, it is strictly non-refundable. Please ensure you have read all course details before enrolling. For queries, contact us on WhatsApp before making payment.</span></div>
       </div>
     </div>
   </section>
@@ -1567,20 +1920,19 @@ class Component extends DCLogic {
       navodaya: {
         title: "Navodaya Selection Coaching",
         tagline: "Jawahar Navodaya Vidyalaya Selection Test (JNVST)",
-        bannerColor: "linear-gradient(135deg, #023E8A 0%, #0077B6 100%)",
-        duration: "12 Months Regular Program",
-        fee: "8,999",
+        bannerColor: "linear-gradient(135deg, #0d2a06 0%, #1e5a0e 45%, #0a1e05 100%)",
+        duration: "4 - 5 Months Program",
+        fee: "1",
         subjects: [
-          { name: "Mental Ability Test", desc: "Pattern completion, figure matching, spatial visualization." },
-          { name: "Arithmetic Section", desc: "Number system, LCM/HCF, speed-distance-time, decimals." },
-          { name: "Language Test", desc: "Reading comprehension passages, grammar, word definitions." },
-          { name: "Geometrical Figures", desc: "Triangle, square and circle completion exercises." },
-          { name: "Punch Hold Pattern", desc: "Paper folding, cutting, unfold reconstruction logic." },
-          { name: "Speed Mock Sessions", desc: "Weekly full-length practice under real exam timelines." }
+          { name: "Maths", desc: "Number system, arithmetic operations, decimals, fractions and speed calculations." },
+          { name: "Reasoning", desc: "Pattern completion, figure matching, spatial visualization and logical thinking." },
+          { name: "English", desc: "Reading comprehension, grammar, vocabulary and language proficiency exercises." }
         ],
         books: [
-          "JNVST Mental Ability Kit", "JNVST Arithmetic Booster", "Arihant JNVST Guide",
-          "Vidhya Sagar JNVST", "Taxila Figure Practice", "Class 5 Arithmetic Guides"
+          { title: "JNVST Mental Ability Trainer", author: "Taxila Academy", category: "Mental Ability", desc: "Pattern-based reasoning and figure logic workbook designed for JNVST mental ability section.", img: "BOOK_IMG_1" },
+          { title: "JNVST Arithmetic Booster", author: "Taxila Academy", category: "Maths", desc: "Number system, fractions, LCM/HCF and speed-distance-time with chapter-wise practice sets.", img: "BOOK_IMG_2" },
+          { title: "Arihant JNVST Guide", author: "Arihant Publications", category: "Comprehensive", desc: "Complete JNVST preparation guide covering all sections with fully solved previous papers.", img: "BOOK_IMG_3" },
+          { title: "Class 5 Language Booster", author: "Vidhya Sagar", category: "English", desc: "Reading comprehension and language proficiency workbook tuned for JNVST language section.", img: "BOOK_IMG_4" }
         ],
         studentTestimonials: [
           { name: "Sri Priya", text: "The figure reasoning questions in JNVST were exactly like what we practiced at Taxila.", sub: "Selected Class 6 JNV" },
@@ -1838,6 +2190,64 @@ class Component extends DCLogic {
       // Reset payment premium display back to locked on course hash change
       document.getElementById('premium-content').style.display = 'none';
 
+      // Hide or show demo section and demo button for Navodaya course
+      const demoSection = document.getElementById('demo-section');
+      if (demoSection) {
+        demoSection.style.display = (hash === 'navodaya') ? 'none' : 'block';
+      }
+      const demoBtns = root.querySelectorAll('a[href="#demo-section"]');
+      demoBtns.forEach(btn => {
+        btn.style.display = (hash === 'navodaya') ? 'none' : 'inline-flex';
+      });
+
+      // Hide or show journey timeline section for Navodaya course
+      const journeySection = document.getElementById('journey-timeline-section');
+      if (journeySection) {
+        journeySection.style.display = (hash === 'navodaya') ? 'none' : 'block';
+      }
+
+      // Hide or show navodaya demo videos section
+      const demoVideosSection = document.getElementById('navodaya-demo-videos');
+      if (demoVideosSection) {
+        demoVideosSection.style.display = (hash === 'navodaya') ? 'block' : 'none';
+      }
+
+      // Populate top divider of duration section on Navodaya
+      const durationDivider = document.getElementById('duration-top-divider');
+      if (durationDivider) {
+        if (hash === 'navodaya') {
+          durationDivider.style.display = 'block';
+          durationDivider.innerHTML = `
+            <div style="line-height:0; overflow:hidden; background:#faf8f0;">
+              <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
+                <path d="M0,0 Q720,60 1440,0 L1440,0 L0,0 Z" fill="#0c1e07"/>
+              </svg>
+            </div>
+          `;
+        } else {
+          durationDivider.style.display = 'none';
+          durationDivider.innerHTML = '';
+        }
+      }
+
+      // Populate bottom divider of duration section on Navodaya
+      const durationBottomDivider = document.getElementById('duration-bottom-divider');
+      if (durationBottomDivider) {
+        if (hash === 'navodaya') {
+          durationBottomDivider.style.display = 'block';
+          durationBottomDivider.innerHTML = `
+            <div style="line-height:0; overflow:hidden; background:#faf8f0;">
+              <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
+                <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="#f4fbee"/>
+              </svg>
+            </div>
+          `;
+        } else {
+          durationBottomDivider.style.display = 'none';
+          durationBottomDivider.innerHTML = '';
+        }
+      }
+
       // Update Hero Banner
       const banner = root.querySelector('[data-banner]');
       if (banner) banner.style.background = c.bannerColor;
@@ -1945,14 +2355,25 @@ class Component extends DCLogic {
       const subjectsContainer = root.querySelector('[data-subjects-container]');
       if (subjectsContainer) {
         subjectsContainer.innerHTML = '';
-        c.subjects.forEach(subject => {
-          const card = document.createElement('div');
-          card.className = 'subject-card reveal-node active';
-          card.innerHTML = `
-            <h4 style="font-family:'Playfair Display',serif;font-weight:800;font-size:20px;color:#1B4D0E;margin:0">${subject.name}</h4>
-            <p style="color:#cbdcc5;font-size:14.5px;line-height:1.5;margin:0">${subject.desc}</p>
+        const icons = [
+          `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+          `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+          `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`,
+          `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+          `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M12 2v2M12 20v2"/></svg>`,
+          `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`
+        ];
+        c.subjects.forEach((subject, idx) => {
+          const wrap = document.createElement('div');
+          wrap.className = 'tilt-card-wrap reveal-node active';
+          wrap.innerHTML = `
+            <div class="tilt-card">
+              <div class="tilt-icon-wrap">${icons[idx % icons.length]}</div>
+              <h4 class="tilt-card-title">${subject.name}</h4>
+              <p class="tilt-card-desc">${subject.desc}</p>
+            </div>
           `;
-          subjectsContainer.appendChild(card);
+          subjectsContainer.appendChild(wrap);
         });
       }
 
@@ -1960,19 +2381,35 @@ class Component extends DCLogic {
       const booksGrid = root.querySelector('[data-books-grid]');
       if (booksGrid) {
         booksGrid.innerHTML = '';
-        c.books.forEach((bookName) => {
-          const bookCol = document.createElement('div');
-          bookCol.className = 'book-3d-wrapper reveal-node active';
-          
-          bookCol.innerHTML = `
-            <div class="book-3d-card" style="background: ${c.bannerColor}">
-              <div class="book-spine-glow"></div>
-              <span style="font-size:10px;font-weight:800;letter-spacing:.08em;color:#F5B800;text-transform:uppercase">${c.title.split(' ')[0]}</span>
-              <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:14px;line-height:1.2;margin:10px 0">${bookName}</span>
-              <span style="font-size:9px;color:#cfe0c4">Taxila Academy</span>
+        c.books.forEach((book) => {
+          const isObj = typeof book === 'object';
+          const title = isObj ? book.title : book;
+          const author = isObj ? (book.author || 'Taxila Academy') : 'Taxila Academy';
+          const category = isObj ? (book.category || '') : '';
+          const desc = isObj ? (book.desc || '') : '';
+          const img = isObj ? book.img : null;
+          const hasRealImg = img && img.indexOf('BOOK_IMG') === -1;
+
+          const card = document.createElement('div');
+          card.className = 'bfc-card reveal-node active';
+          card.innerHTML = `
+            <div class="bfc-img-wrap">
+              ${hasRealImg
+                ? `<img src="${img}" alt="${title}" loading="lazy">`
+                : `<div class="bfc-img-placeholder">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3a6e44" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>Cover coming soon</span>
+                  </div>`}
+              ${category ? `<span class="bfc-cat">${category}</span>` : ''}
+            </div>
+            <div class="bfc-body">
+              <h4 class="bfc-title">${title}</h4>
+              <p class="bfc-author">By ${author}</p>
+              ${desc ? `<p class="bfc-desc">${desc}</p>` : ''}
+              <a href="#" class="bfc-btn" onclick="return false">Read Preview</a>
             </div>
           `;
-          booksGrid.appendChild(bookCol);
+          booksGrid.appendChild(card);
         });
       }
 
@@ -2072,26 +2509,25 @@ class Component extends DCLogic {
     const premiumSection = document.getElementById('premium-content');
 
     function showPaymentSuccess(paymentId) {
-      // Show success screen in the existing modal overlay
+      // Close modal immediately
       const modal = document.getElementById('razorpay-modal');
-      const gatewayBody = document.getElementById('modal-gateway-body');
-      const loadingOverlay = document.getElementById('modal-loading-overlay');
-      const successScreen = document.getElementById('modal-success-screen');
-      if (modal && gatewayBody && loadingOverlay && successScreen) {
-        gatewayBody.style.display = 'none';
-        loadingOverlay.style.display = 'none';
-        successScreen.style.display = 'block';
-        modal.style.display = 'flex';
-        // Inject payment ID into success screen
-        const pidEl = document.getElementById('rzp-payment-id-display');
-        if (pidEl) pidEl.textContent = 'Payment ID: ' + paymentId;
+      if (modal) modal.style.display = 'none';
+
+      // Show confirmation section
+      const confirmed = document.getElementById('enrollment-confirmed');
+      if (confirmed) {
+        confirmed.style.display = 'block';
+        setTimeout(() => confirmed.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
       }
-      // Unlock premium content after 1.8s
+
+      // Hide the fee section so it doesn't show below confirmation
+      const feeSection = document.getElementById('fee-section');
+      if (feeSection) feeSection.style.display = 'none';
+
+      // Also unlock premium content (kept for completeness)
       setTimeout(() => {
-        if (modal) modal.style.display = 'none';
         if (premiumSection) {
           premiumSection.style.display = 'block';
-          premiumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }, 1800);
     }
@@ -2167,7 +2603,14 @@ class Component extends DCLogic {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          e.target.classList.add('active');
+          const delay = parseInt(e.target.getAttribute('data-delay') || 0, 10);
+          if (delay) {
+            setTimeout(() => {
+              e.target.classList.add('active');
+            }, delay);
+          } else {
+            e.target.classList.add('active');
+          }
           io.unobserve(e.target);
         }
       });

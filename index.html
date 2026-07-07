@@ -231,7 +231,7 @@
   .bento-headline {
     grid-column: 1;
     grid-row: 1 / 3;
-    background: linear-gradient(145deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.015) 100%);
+    background: #0d2b08;
     border: 1px solid rgba(245,184,0,0.2);
     border-radius: 24px;
     padding: clamp(28px,4vw,44px);
@@ -239,8 +239,6 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
   .bento-headline::before {
     content: '';
@@ -323,7 +321,7 @@
     box-shadow: 0 10px 30px rgba(245,184,0,0.38);
   }
   .bento-stat-card {
-    background: rgba(255,255,255,0.04);
+    background: #0d2b08;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 20px;
     padding: clamp(20px,2.8vw,32px);
@@ -348,7 +346,7 @@
   }
   .bento-stat-card:hover {
     border-color: rgba(245,184,0,0.28);
-    background: rgba(255,255,255,0.07);
+    background: #0f3209;
     transform: translateY(-4px);
   }
   .bento-stat-card:hover::after { opacity: 1; }
@@ -1015,8 +1013,6 @@
   #taxila-about-root,
   #taxila-details-root,
   #comparison,
-  #exams,
-  #events,
   #overview,
   #values,
   #faculty,
@@ -1158,11 +1154,11 @@
 
   /* Glassmorphism upgrade for bento cards */
   .bento-stat-card {
-    background: rgba(255,255,255,0.03) !important;
+    background: #0d2b08 !important;
     border-color: rgba(201,169,122,0.1) !important;
   }
   .bento-stat-card:hover {
-    background: rgba(255,255,255,0.06) !important;
+    background: #0f3209 !important;
     border-color: rgba(201,169,122,0.28) !important;
   }
 </style>
@@ -1271,7 +1267,14 @@
   <div id="main-content">
 
   <section id="home" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:space-between;overflow:hidden;background:#040c02;padding:72px 0 0">
-    
+
+    <!-- Hero Background Image -->
+    <div style="position:absolute;inset:0;z-index:0;overflow:hidden">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1782484172/Copilot_20260626_195745_aft2ml.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block" fetchpriority="high">
+      <!-- Dark gradient overlay to keep text readable -->
+      <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(4,12,2,0.82) 0%,rgba(4,12,2,0.55) 50%,rgba(4,12,2,0.72) 100%)"></div>
+    </div>
+
     <!-- Cinematic VFX Canvas Background -->
     <canvas id="hero-canvas" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
     <!-- 3-Column Hero Layout: Left Text | Centre Map | Right Stats -->
@@ -1536,11 +1539,17 @@
   </div>
 
   <!-- STATS -->
-  <section id="stats" style="background:linear-gradient(160deg,#122908 0%,#0A1F05 100%);padding:0 0 80px;position:relative;overflow:hidden">
+  <section id="stats" style="background:#0A1F05;padding:0 0 80px;position:relative;overflow:hidden">
+
+    <!-- Background image -->
+    <div style="position:absolute;inset:0;z-index:0">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1782488779/Copilot_20260626_211541_fozjwx.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block" fetchpriority="high">
+      <div style="position:absolute;inset:0;background:rgba(10,40,5,0.72)"></div>
+    </div>
 
     <!-- Ambient glow blobs -->
-    <div style="position:absolute;top:20%;left:5%;width:360px;height:360px;background:radial-gradient(circle,rgba(27,77,14,0.55) 0%,transparent 70%);pointer-events:none;filter:blur(40px)"></div>
-    <div style="position:absolute;bottom:10%;right:8%;width:280px;height:280px;background:radial-gradient(circle,rgba(245,184,0,0.06) 0%,transparent 70%);pointer-events:none;filter:blur(30px)"></div>
+    <div style="position:absolute;top:20%;left:5%;width:360px;height:360px;background:radial-gradient(circle,rgba(27,77,14,0.55) 0%,transparent 70%);pointer-events:none;filter:blur(40px);z-index:1"></div>
+    <div style="position:absolute;bottom:10%;right:8%;width:280px;height:280px;background:radial-gradient(circle,rgba(245,184,0,0.06) 0%,transparent 70%);pointer-events:none;filter:blur(30px);z-index:1"></div>
 
     <!-- TICKER -->
     <div style="position:relative;width:100%;background:rgba(245,184,0,0.06);border-bottom:1px solid rgba(245,184,0,0.12);padding:13px 0;overflow:hidden;z-index:2">
@@ -1618,256 +1627,378 @@
     </div>
   </section>
 
-  <!-- ── wave: stats → defence-pathways ── -->
-  <div style="line-height:0;overflow:hidden;background:#0A1F05;margin-top:-2px">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="width:100%;height:64px;display:block">
-      <path d="M0,32 C480,0 960,64 1440,32 L1440,64 L0,64 Z" fill="#040c02"/>
-    </svg>
-  </div>
 
   <!-- ═══════════════════════════════════════════════════
-       DEFENCE EDUCATION PATHWAYS EXPLORER
+       COURSES SLIDER — Know Everything
   ════════════════════════════════════════════════════ -->
-  <section id="defence-pathways" style="background:#040c02;padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);overflow:hidden;position:relative">
-    <div style="position:absolute;top:10%;left:-8%;width:600px;height:600px;background:radial-gradient(circle,rgba(27,77,14,0.12) 0%,transparent 70%);pointer-events:none;filter:blur(60px)"></div>
-    <div style="position:absolute;bottom:5%;right:-5%;width:450px;height:450px;background:radial-gradient(circle,rgba(201,169,122,0.05) 0%,transparent 70%);pointer-events:none;filter:blur(50px)"></div>
-
+  <section id="courses-slider" style="background:#b8f2d2;padding:0;overflow:hidden;position:relative">
     <style>
-      .dp-wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
-      .dp-head{text-align:center;margin-bottom:52px}
-      .dp-label{display:inline-flex;align-items:center;gap:7px;background:rgba(245,184,0,0.08);border:1px solid rgba(245,184,0,0.2);color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:18px}
-      .dp-divider{display:flex;align-items:center;gap:16px;margin:16px auto 22px;max-width:340px}
-      .dp-divider::before,.dp-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,122,0.5))}
-      .dp-divider::after{background:linear-gradient(90deg,rgba(201,169,122,0.5),transparent)}
-      .dp-divider-icon{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.32);display:flex;align-items:center;justify-content:center}
-      .dp-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4.5vw,48px);color:#F5EDD8;margin:0 0 14px;line-height:1.15;letter-spacing:-0.02em}
-      .dp-sub{color:rgba(232,213,176,0.55);font-size:15.5px;line-height:1.65;max-width:520px;margin:0 auto;font-weight:500}
-      .dp-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:36px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
-      .dp-tabs::-webkit-scrollbar{display:none}
-      .dp-tab{flex:none;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,0.035);border:1.5px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px 24px;cursor:pointer;transition:all 0.26s cubic-bezier(0.22,1,0.36,1);min-width:130px;color:rgba(232,213,176,0.5);font-size:14px;font-weight:700;line-height:1.3;text-align:center;outline:none;font-family:inherit;position:relative}
-      .dp-tab:hover{background:rgba(255,255,255,0.07);border-color:rgba(201,169,122,0.3);color:rgba(232,213,176,0.85);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.35)}
-      .dp-tab.dp-active{border-color:rgba(201,169,122,0.55);color:#F5EDD8;transform:translateY(-4px)}
-      .dp-tab.dp-active::after{content:'';position:absolute;bottom:-3px;left:22%;width:56%;height:3px;background:linear-gradient(90deg,transparent,#F5B800,transparent);border-radius:2px}
-      .dp-tab-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:background 0.25s,transform 0.25s}
-      .dp-tab:hover .dp-tab-icon{transform:scale(1.08)}
-      .dp-tab-since{font-size:10.5px;font-weight:600;letter-spacing:.04em;opacity:.6;display:block}
-      .dp-body{display:flex;flex-wrap:wrap;gap:22px;align-items:stretch}
-      .dp-card{flex:0 0 300px;border-radius:22px;overflow:hidden;box-shadow:0 22px 64px rgba(0,0,0,0.55);transition:transform 0.3s cubic-bezier(0.22,1,0.36,1);display:flex;flex-direction:column}
-      .dp-card:hover{transform:translateY(-4px)}
-      .dp-card-hero{padding:30px 26px 26px;position:relative;overflow:hidden;min-height:155px}
-      .dp-hero-watermark{position:absolute;right:-12px;bottom:-18px;font-family:'Playfair Display',serif;font-weight:900;font-size:110px;color:rgba(255,255,255,0.07);line-height:1;user-select:none;pointer-events:none;letter-spacing:-4px}
-      .dp-card-icon-wrap{width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-      .dp-card-since{font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px}
-      .dp-card-name{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,3vw,30px);color:#fff;margin:0 0 7px;line-height:1.2}
-      .dp-card-tagline{font-size:13px;color:rgba(255,255,255,0.6);font-weight:500;line-height:1.5}
-      .dp-card-body{background:#0e1510;padding:22px 26px;flex:1;display:flex;flex-direction:column}
-      .dp-facts-ttl{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,213,176,0.38);margin-bottom:14px}
-      .dp-fact-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.045)}
-      .dp-fact-row:last-of-type{border-bottom:none}
-      .dp-fact-k{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(232,213,176,0.38);flex-shrink:0;padding-right:10px}
-      .dp-fact-v{font-size:13px;font-weight:700;color:#F5EDD8;text-align:right}
-      .dp-presence-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;margin-top:16px}
-      .dp-presence-k{font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,213,176,0.32);margin-bottom:4px}
-      .dp-presence-v{font-size:14px;font-weight:700;color:#F5EDD8}
-      .dp-pathway{display:flex;align-items:center;margin-top:18px;padding:13px 14px;background:rgba(245,184,0,0.05);border:1px solid rgba(245,184,0,0.18);border-radius:12px}
-      .dp-pathway-step{font-size:10.5px;font-weight:800;color:rgba(232,213,176,0.8);text-align:center;white-space:nowrap;letter-spacing:.02em;line-height:1.3;flex:1}
-      .dp-pathway-arr{color:#F5B800;font-size:14px;font-weight:900;opacity:0.6;flex-shrink:0;padding:0 2px}
-      .dp-right-col{flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:10px}
-      .dp-acc{background:rgba(255,255,255,0.025);border:1.5px solid rgba(255,255,255,0.07);border-left-width:3px;border-radius:16px;overflow:hidden;transition:border-color 0.25s,box-shadow 0.25s}
-      .dp-acc.dp-open{border-color:rgba(201,169,122,0.3);box-shadow:0 6px 24px rgba(0,0,0,0.25)}
-      .dp-acc-head{display:flex;align-items:center;gap:13px;padding:16px 20px;cursor:pointer;user-select:none;transition:background 0.2s;outline:none}
-      .dp-acc-head:hover{background:rgba(255,255,255,0.04)}
-      .dp-acc-num{font-size:16px;font-weight:900;color:#C9A97A;min-width:28px;font-family:'Playfair Display',serif;font-style:italic;line-height:1}
-      .dp-acc-title{flex:1;font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#F5EDD8;line-height:1.3}
-      .dp-acc-arr{width:24px;height:24px;flex-shrink:0;border-radius:7px;background:rgba(201,169,122,0.1);border:1px solid rgba(201,169,122,0.2);display:flex;align-items:center;justify-content:center;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),background 0.2s}
-      .dp-acc.dp-open .dp-acc-arr{transform:rotate(180deg);background:rgba(201,169,122,0.22)}
-      .dp-acc-body{max-height:0;overflow:hidden;transition:max-height 0.38s cubic-bezier(0.22,1,0.36,1)}
-      .dp-acc-inner{padding:0 20px 18px 53px;color:rgba(232,213,176,0.65);font-size:14px;line-height:1.78}
-      .dp-faq-wrap{background:rgba(255,255,255,0.02);border:1.5px solid rgba(255,255,255,0.06);border-radius:16px;padding:22px 22px 10px;margin-top:2px}
-      .dp-faq-lbl{display:flex;align-items:center;gap:8px;color:#C9A97A;font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px}
-      .dp-faq-item{border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:10px;margin-bottom:10px}
-      .dp-faq-item:last-child{border-bottom:none;margin-bottom:2px;padding-bottom:4px}
-      .dp-faq-q{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer;padding:3px 0;color:#F5EDD8;font-size:14px;font-weight:600;outline:none;line-height:1.4}
-      .dp-faq-arr{flex-shrink:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center;transition:transform 0.28s cubic-bezier(0.22,1,0.36,1);margin-top:2px}
-      .dp-faq-item.dp-open .dp-faq-arr{transform:rotate(180deg)}
-      .dp-faq-a{max-height:0;overflow:hidden;transition:max-height 0.32s ease}
-      .dp-faq-a-inner{padding:9px 0 5px;color:rgba(232,213,176,0.6);font-size:13.5px;line-height:1.72}
-      .dp-statsbar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
-      .dp-stat-box{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px 16px;text-align:center;transition:border-color 0.25s,background 0.25s,transform 0.28s cubic-bezier(0.22,1,0.36,1)}
-      .dp-stat-box:hover{border-color:rgba(201,169,122,0.45);background:rgba(201,169,122,0.08);transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.4)}
-      .dp-stat-val{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.8vw,32px);color:#C9A97A;line-height:1;margin-bottom:8px}
-      .dp-stat-lbl{font-size:11.5px;font-weight:700;color:rgba(232,213,176,0.5);letter-spacing:.04em;text-transform:uppercase}
-      @keyframes dpIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-      .dp-anim{animation:dpIn 0.3s cubic-bezier(0.22,1,0.36,1) both}
-      @media(max-width:920px){.dp-card{flex:1 1 100%}.dp-right-col{flex:1 1 100%}}
-      @media(max-width:600px){.dp-tabs{gap:8px}.dp-tab{min-width:100px;padding:14px 14px;font-size:12px}.dp-tab-icon{width:36px;height:36px}.dp-statsbar{grid-template-columns:repeat(2,1fr)}.dp-acc-inner{padding-left:20px}}
-      @media(max-width:360px){.dp-tab{min-width:80px;padding:10px 8px;font-size:11px}}
+      .cs-btn{width:44px;height:44px;border-radius:50%;background:transparent;border:2px solid #F5B800;color:#F5B800;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;flex-shrink:0}
+      .cs-btn:hover{background:#F5B800;color:#0a1a05}
     </style>
+    <div style="width:100%;position:relative">
+      <div id="cslider-track" style="position:relative">
 
-    <div class="dp-wrap">
-      <div class="dp-head" data-reveal>
-        <span class="dp-label">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/></svg>
-          Explore Each Pathway
-        </span>
-        <div class="dp-divider">
-          <div class="dp-divider-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/></svg></div>
+        <!-- Slide 1: NDA -->
+        <div class="cslide" data-index="0" style="display:flex;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
+          <div style="position:absolute;inset:-30px;z-index:0">
+            <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_42_PM_ahtme7.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
+          </div>
+          <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
+            <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
+              <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_42_PM_ahtme7.png" alt="NDA Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+            </div>
+            <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
+              <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
+              <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">NDA Coaching</h2>
+              <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">The National Defence Academy is India's premier tri-services institution. At Taxila Academy we provide comprehensive coaching to help students crack the NDA entrance exam with confidence.</p>
+              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <div style="display:flex;gap:12px;margin-top:28px">
+                <button class="cs-btn cs-prev">&#8592;</button>
+                <button class="cs-btn cs-next">&#8594;</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 class="dp-h2">Defence Education &amp; Career Pathways</h2>
-        <p class="dp-sub">Discover India's leading defence-oriented educational institutions and understand your complete journey to a commission.</p>
+
+        <!-- Slide 2: RMS -->
+        <div class="cslide" data-index="1" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
+          <div style="position:absolute;inset:-30px;z-index:0">
+            <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_51_PM_j243wz.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
+          </div>
+          <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
+            <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
+              <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_51_PM_j243wz.png" alt="RMS Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+            </div>
+            <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
+              <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
+              <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">RMS Coaching</h2>
+              <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">Rashtriya Military Schools are elite residential schools with a disciplined military environment. Taxila Academy's specialised RMS coaching gives your child the edge to clear the entrance.</p>
+              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <div style="display:flex;gap:12px;margin-top:28px">
+                <button class="cs-btn cs-prev">&#8592;</button>
+                <button class="cs-btn cs-next">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: RIMC -->
+        <div class="cslide" data-index="2" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
+          <div style="position:absolute;inset:-30px;z-index:0">
+            <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
+          </div>
+          <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
+            <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
+              <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="RIMC Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+            </div>
+            <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
+              <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
+              <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">RIMC Coaching</h2>
+              <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">Rashtriya Indian Military College, Dehradun is one of the most prestigious military schools in India. Our RIMC coaching programme is designed to help students excel in the written exam and interview.</p>
+              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <div style="display:flex;gap:12px;margin-top:28px">
+                <button class="cs-btn cs-prev">&#8592;</button>
+                <button class="cs-btn cs-next">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Navodaya -->
+        <div class="cslide" data-index="3" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
+          <div style="position:absolute;inset:-30px;z-index:0">
+            <img src="https://res.cloudinary.com/diancfp03/image/upload/parade_nyz4ux.jpg" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
+          </div>
+          <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
+            <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
+              <img src="https://res.cloudinary.com/diancfp03/image/upload/parade_nyz4ux.jpg" alt="Navodaya Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+            </div>
+            <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
+              <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
+              <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">Navodaya Coaching</h2>
+              <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">Jawahar Navodaya Vidyalayas are premium government residential schools offering quality education. Our Navodaya coaching prepares students thoroughly for the Class VI and Class IX selection tests.</p>
+              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <div style="display:flex;gap:12px;margin-top:28px">
+                <button class="cs-btn cs-prev">&#8592;</button>
+                <button class="cs-btn cs-next">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="dp-tabs" id="dp-tabs" role="tablist" aria-label="Defence Pathways"></div>
-      <div class="dp-body">
-        <div id="dp-left"></div>
-        <div class="dp-right-col" id="dp-right"></div>
-      </div>
-      <div class="dp-statsbar" id="dp-statsbar"></div>
     </div>
+    <script>
+    (function(){
+      var slides = document.querySelectorAll('#cslider-track .cslide');
+      var cur = 0;
+      function show(n){
+        slides[cur].style.display='none';
+        cur=(n+slides.length)%slides.length;
+        slides[cur].style.display='flex';
+      }
+      document.getElementById('courses-slider').addEventListener('click',function(e){
+        if(e.target.closest('.cs-prev')) show(cur-1);
+        if(e.target.closest('.cs-next')) show(cur+1);
+      });
+      var timer=setInterval(function(){ show(cur+1); },6000);
+      document.getElementById('courses-slider').addEventListener('mouseenter',function(){ clearInterval(timer); });
+      document.getElementById('courses-slider').addEventListener('mouseleave',function(){ timer=setInterval(function(){ show(cur+1); },6000); });
+    })();
+    </script>
   </section>
 
+  <!-- SCROLL JOURNEY — 400vh spacer, inner panel fixed via JS (works despite overflow:hidden parents) -->
+  <div id="journey-scroll" style="position:relative;height:400vh;background:#4a0e0e;"></div>
+
+  <!-- Fixed overlay — shown/hidden by JS, never inside overflow:hidden container -->
+  <div id="journey-fixed" style="display:none;position:fixed;inset:0;z-index:200;overflow:hidden;">
+
+    <!-- Halftone dot BG -->
+    <div id="journey-bg" style="position:absolute;inset:0;transition:background-color 0.5s ease;background:#4a0e0e;"></div>
+    <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.07) 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none;z-index:1;"></div>
+
+    <!-- Progress dots -->
+    <div style="position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:10;">
+      <div class="jdot active" data-i="0"></div>
+      <div class="jdot" data-i="1"></div>
+      <div class="jdot" data-i="2"></div>
+      <div class="jdot" data-i="3"></div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div id="journey-hint" style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.6;">
+      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;">Scroll to explore</span>
+      <svg width="16" height="22" viewBox="0 0 16 22" fill="none"><rect x="1" y="1" width="14" height="20" rx="7" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><circle id="jscroll-dot" cx="8" cy="6" r="2.5" fill="#F5B800"><animateTransform attributeName="transform" type="translate" values="0 0;0 8;0 0" dur="1.6s" repeatCount="indefinite"/></circle></svg>
+    </div>
+
+    <!-- Main layout — card centre, text + image swap diagonal corners each step -->
+    <div style="position:relative;z-index:2;width:100%;height:100%;">
+
+      <!-- ══ CENTER: Rotating playing card ══ -->
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div id="journey-card-scene" style="width:230px;height:322px;perspective:900px;">
+          <div id="journey-coin" style="width:100%;height:100%;position:relative;transform-style:preserve-3d;will-change:transform;">
+            <!-- FRONT: Taxila Academy logo -->
+            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;background:linear-gradient(148deg,#1B4D0E 0%,#0d2806 100%);box-shadow:0 24px 72px rgba(0,0,0,0.7),inset 0 0 0 2.5px rgba(245,184,0,0.45);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px;">
+              <div style="position:absolute;inset:12px;border:1.5px solid rgba(245,184,0,0.28);border-radius:14px;pointer-events:none;"></div>
+              <div style="position:absolute;top:16px;left:16px;font-family:Inter,sans-serif;font-size:13px;font-weight:800;color:rgba(245,184,0,0.7);letter-spacing:0.06em;line-height:1;">TA</div>
+              <div style="position:absolute;bottom:16px;right:16px;font-family:Inter,sans-serif;font-size:13px;font-weight:800;color:rgba(245,184,0,0.7);letter-spacing:0.06em;line-height:1;transform:rotate(180deg);">TA</div>
+              <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" style="width:82%;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5));" alt="Taxila Academy">
+            </div>
+            <!-- BACK: step icon -->
+            <div id="journey-card-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border-radius:22px;background:radial-gradient(circle at 40% 36%,#ffd166,#e8a020 58%,#c87800);box-shadow:0 24px 72px rgba(200,120,0,0.65),inset 0 -8px 24px rgba(0,0,0,0.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
+              <div style="position:absolute;inset:12px;border:1.5px solid rgba(255,255,255,0.28);border-radius:14px;pointer-events:none;"></div>
+              <div id="journey-card-corner" style="position:absolute;top:16px;left:16px;font-family:Inter,sans-serif;font-size:15px;font-weight:800;color:rgba(255,255,255,0.8);line-height:1;">01</div>
+              <div id="journey-card-corner2" style="position:absolute;bottom:16px;right:16px;font-family:Inter,sans-serif;font-size:15px;font-weight:800;color:rgba(255,255,255,0.8);line-height:1;transform:rotate(180deg);">01</div>
+              <div id="journey-icon" style="font-size:96px;line-height:1;transition:opacity 0.22s ease;user-select:none;">📋</div>
+            </div>
+          </div>
+        </div>
+        <div id="journey-step-label" style="font-family:Inter,sans-serif;font-weight:700;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);">Apply</div>
+      </div>
+
+      <!-- ══ STEP 0: Text BOTTOM-LEFT · Image TOP-RIGHT ══ -->
+      <div class="jpanel" id="jp-0" style="position:absolute;bottom:110px;left:64px;max-width:340px;">
+        <div class="jpanel-tag">Step 01</div>
+        <h2 class="jpanel-h">Apply &amp;<br>Register</h2>
+        <p class="jpanel-p">Submit your application online. Our counsellors review your child's class, stream preference and learning profile — no entrance test required to apply.</p>
+      </div>
+      <div class="jpanel jtop" id="ji-0" style="position:absolute;top:64px;right:80px;">
+        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
+      </div>
+
+      <!-- ══ STEP 1: Image BOTTOM-LEFT · Text TOP-RIGHT ══ -->
+      <div class="jpanel" id="ji-1" style="display:none;position:absolute;bottom:110px;left:64px;">
+        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
+      </div>
+      <div class="jpanel jtop" id="jp-1" style="display:none;position:absolute;top:64px;right:80px;max-width:340px;text-align:right;">
+        <div class="jpanel-tag" style="text-align:right;">Step 02</div>
+        <h2 class="jpanel-h">Train Hard.<br>Train Smart.</h2>
+        <p class="jpanel-p">Residential batches with military discipline and expert coaching. Daily schedules, doubt sessions, and peer competition sharpen every student into a top performer.</p>
+      </div>
+
+      <!-- ══ STEP 2: Text BOTTOM-LEFT · Image TOP-RIGHT ══ -->
+      <div class="jpanel" id="jp-2" style="display:none;position:absolute;bottom:110px;left:64px;max-width:340px;">
+        <div class="jpanel-tag">Step 03</div>
+        <h2 class="jpanel-h">Crack the<br>Entrance Exam</h2>
+        <p class="jpanel-p">Mock tests every week. Real exam papers. Our students walk into the exam hall with 95% of the syllabus already mastered — confidence is the final weapon.</p>
+      </div>
+      <div class="jpanel jtop" id="ji-2" style="display:none;position:absolute;top:64px;right:80px;">
+        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
+      </div>
+
+      <!-- ══ STEP 3: Image BOTTOM-LEFT · Text TOP-RIGHT ══ -->
+      <div class="jpanel" id="ji-3" style="display:none;position:absolute;bottom:110px;left:64px;">
+        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
+      </div>
+      <div class="jpanel jtop" id="jp-3" style="display:none;position:absolute;top:64px;right:80px;max-width:340px;text-align:right;">
+        <div class="jpanel-tag" style="text-align:right;">Step 04</div>
+        <h2 class="jpanel-h">Wear the<br>Uniform 🎖️</h2>
+        <p class="jpanel-p">Selection letter. School uniform. The moment every Taxila family lives for. Join the hundreds of students who walked this exact path — and won their residential seat.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    .jdot { width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.28);transition:background 0.3s,transform 0.3s;cursor:pointer; }
+    .jdot.active { background:#F5B800;transform:scale(1.4); }
+    /* Bottom-corner elements slide UP into place */
+    .jpanel { opacity:0;transform:translateY(48px);transition:opacity 0.44s cubic-bezier(0.22,1,0.36,1),transform 0.44s cubic-bezier(0.22,1,0.36,1); }
+    .jpanel.panel-active { opacity:1;transform:translateY(0); }
+    /* Top-corner elements slide DOWN into place */
+    .jtop { transform:translateY(-44px); }
+    .jtop.panel-active { transform:translateY(0); }
+    .jpanel-tag { font-family:Inter,sans-serif;font-weight:700;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#F5B800;margin-bottom:12px; }
+    .jpanel-h { font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.8vw,38px);color:#fff;line-height:1.12;margin:0 0 14px; }
+    .jpanel-p { font-family:Inter,sans-serif;font-size:14.5px;color:rgba(255,255,255,0.72);line-height:1.7;margin:0; }
+    /* Image placeholder boxes */
+    .jimg-box { width:280px;height:210px;border-radius:18px;border:2px dashed rgba(245,184,0,0.32);background:rgba(255,255,255,0.03);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px; }
+    .jimg-icon { width:64px;height:64px;border-radius:50%;background:rgba(245,184,0,0.09);border:1.5px solid rgba(245,184,0,0.22);display:flex;align-items:center;justify-content:center; }
+    .jimg-lbl { font-family:Inter,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,184,0,0.42); }
+  </style>
+
   <script>
-  (function(){
-    var TABS=[
-      {id:'sainik',name:'Sainik',since:'Since 1961',color:'#1d4a6b',icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/>'},
-      {id:'nda',name:'NDA',since:'Since 1954',color:'#8B4500',icon:'<path d="M2 4l10-2 10 2v7c0 7-4 11-10 13C6 22 2 18 2 11V4z" stroke-linejoin="round"/><path d="M8 11l2.5 2.5L16 8" stroke-linecap="round" stroke-linejoin="round"/>'},
-      {id:'jnv',name:'JNV',since:'Since 1986',color:'#1e6b2e',icon:'<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke-linecap="round" stroke-linejoin="round"/>'},
-      {id:'rms',name:'RMS',since:'Since 1925',color:'#7a2020',icon:'<path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" stroke-linejoin="round"/><path d="M9.2 12l2 2 3.6-4" stroke-linecap="round" stroke-linejoin="round"/>'},
-      {id:'rimc',name:'RIMC',since:'Since 1922',color:'#1e2d6b',icon:'<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/>'},
-    ];
+  (function() {
+    var BG     = [[0x4a,0x0e,0x0e],[0x5a,0x30,0x10],[0x2e,0x3a,0x10],[0x3a,0x0e,0x1e]];
+    var ICONS  = ['📋','⚔️','📝','🎖️'];
+    var LABELS = ['Apply','Train','Crack Exam','Wear Uniform'];
 
-    var DATA={
-      sainik:{name:'Sainik Schools',since:'1961',tagline:'Building officers from Class VI onwards',gradient:'linear-gradient(145deg,#1d4a6b 0%,#0e2f47 100%)',icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/>',facts:[['Founded','1961'],['Entry Class','VI &amp; IX'],['Entrance','AISSEE'],['Governing Body','Sainik Schools Society, MoD']],presence:'33 + 100 new approved',sections:[['What are Sainik Schools?','Sainik Schools are English-medium residential schools established by the Ministry of Defence to academically, physically and mentally prepare students for entry into the National Defence Academy. They combine rigorous academics with military discipline and character building from an early age.'],['History &amp; Purpose','Established in 1961, the first Sainik School was set up at Satara, Maharashtra. The concept was introduced by V.K. Krishna Menon to bridge regional and class imbalances in the officer cadre. Today there are 33 operational schools across India with 100 more approved by the government.'],['Objectives','Primary objective is preparing students for the NDA entrance. Secondary goals include removing regional imbalances in the officer cadre, bringing quality education to all sections of society through merit-based admission, and instilling national spirit and values from an early age.'],['Eligibility Criteria','Class VI entry: Age 10–12 years as on 31 March of admission year. Class IX: Age 13–15 years. Students must be from a recognized school. Both boys and girls are eligible — girls admitted to pilot schools since 2021 with government plans to expand to all schools.'],['Admission Process &amp; AISSEE','The All India Sainik School Entrance Exam (AISSEE) is conducted by NTA annually. Written test covers Mathematics, Language, Intelligence, and General Knowledge. Shortlisted candidates undergo Medical Examination. Final selection is purely merit-based with no interview required.'],['Reservation Categories','Defence ward candidates: 25% priority seats. SC/ST: Government-mandated concessions. Girls: Seats in pilot project schools. Hostellers from the same state get preference. Each Sainik School reserves additional seats for local state candidates.'],['Fee Structure &amp; Scholarships','Annual fees range ₹80,000–₹1,20,000 covering boarding, lodging, academics, and activities. Government scholarships available for economically weaker sections. State governments provide additional financial support. Defence ward fee concessions also applicable.'],['Student Life &amp; Activities','Fully residential campus with modern sports facilities. Students participate in NCC, annual sports meets, cultural festivals. Rigorous physical training is mandatory. CBSE curriculum with defence-focused extracurriculars. Regular interactions with serving military officers inspire cadets daily.'],['Career Pathway','Direct preparation: Sainik School → AISSEE → NDA → INA/IMA/AFA → Commissioned Officer. Alumni serve in all three wings of Armed Forces. Many senior generals, admirals, and air marshals are Sainik School graduates. Strong all-India alumni network.']],faqs:[['Are girls admitted to Sainik Schools?','Yes, girls have been admitted to select Sainik Schools as part of a pilot project since 2021, with the government planning to extend admission to all Sainik Schools in the coming years, marking a new chapter in inclusive defence education.'],['Does Sainik School guarantee entry to NDA?','No, but it provides the best preparation possible. Students still need to clear the UPSC NDA exam. However, the success rate of Sainik School students at NDA is significantly higher than the national average of regular school students.'],['What is the medium of instruction?','English is the primary medium of instruction in all Sainik Schools, helping students prepare for the English-medium NDA written examination and for eventual military training where English proficiency is essential.']],stats:[['33+','Schools'],['15,000+','Students'],['100','New Approved'],['60+','Yrs Legacy']]},
-      nda:{name:'National Defence Academy',since:'1954',tagline:'The cradle of military leadership',gradient:'linear-gradient(145deg,#A05200 0%,#6B3200 100%)',icon:'<path d="M2 4l10-2 10 2v7c0 7-4 11-10 13C6 22 2 18 2 11V4z" stroke-linejoin="round"/><path d="M8 11l2.5 2.5L16 8" stroke-linecap="round" stroke-linejoin="round"/>',facts:[['Location','Khadakwasla, Pune'],['Conducted By','UPSC'],['Frequency','Twice a year'],['Training Duration','3 years']],presence:'Khadakwasla, Pune',sections:[['What is the NDA?','The National Defence Academy is the joint services academy of the Indian Armed Forces where cadets of the Army, Navy, and Air Force train together before commissioning. It is one of the world\'s most prestigious military academies, producing India\'s finest defence officers since 1954.'],['History &amp; Importance','Established on 7 December 1954 at Khadakwasla near Pune, NDA has trained generations of India\'s military leadership. The Academy is affiliated with Jawaharlal Nehru University for degree programmes. Alumni include war heroes, Chiefs of Service, and Param Vir Chakra recipients.'],['Eligibility','Age: 16.5–19.5 years. 10+2 with Physics &amp; Mathematics for Navy and Air Force wings. Any stream for Army wing. Unmarried candidates required. Indian citizens only. Girls eligible since 2022 following Supreme Court order. Medical fitness standards must be met.'],['NDA Written Examination','Conducted by UPSC twice yearly (NDA I: April, NDA II: September). Two papers: Mathematics (300 marks) and General Ability Test (600 marks). Total 900 marks. Candidates shortlisted for SSB based on written merit. Minimum qualifying marks per paper required.'],['SSB Interview','5-day Services Selection Board process assessing Officer Like Qualities. Tests include Intelligence Test, Psychological Assessment, Group Tasks (GTO), and Personal Interview. Board evaluates intelligence, leadership, communication, team spirit, and social adaptability across 5 days.'],['Medical &amp; Physical Standards','Height: minimum 157 cm (Army/Navy), 162.5 cm (Air Force). Weight proportionate to height and age. Eyesight: 6/6 or correctable to 6/6 for Army, stricter for Navy/Air Force. No significant medical conditions. Physical fitness assessed at SSB itself.'],['Training at the Academy','3-year integrated programme leading to B.Sc./B.A./B.C.A. degree from JNU. Military drill, weapon training, physical conditioning, adventure activities. Swimming, equestrian training, rock climbing are mandatory. Wing-specific training in final year prepares cadets for their service academies.'],['Wings &amp; Post-NDA Training','Army Wing → IMA Dehradun (1 year) → Lieutenant. Naval Wing → INA Ezhimala (1 year) → Sub-Lieutenant. Air Force Wing → AFA Hyderabad (1.5 years) → Flying Officer. Total training 4.5–5 years from NDA joining to commission.'],['Salary, Benefits &amp; Career Growth','Starting salary ₹56,100/month as Lieutenant/Pilot Officer. Full pension after qualifying service. Free accommodation, medical, children\'s education. Annual increments and promotion-based pay hikes. Canteen, leave travel concessions, adventure sports, and rich social life.']],faqs:[['Can women appear for NDA?','Yes, following the Supreme Court order in 2021, women are now eligible to appear for the NDA examination. The first batch of women cadets joined the NDA in 2022, marking a historic milestone in Indian military history.'],['Is coaching mandatory for NDA?','Coaching is not mandatory, but it significantly improves your chances. At Taxila Academy, we provide specialized NDA preparation covering both the written examination and SSB interview simulation.'],['What is the overall NDA selection rate?','Only about 0.1% of total applicants are finally selected. The process is highly competitive with elimination at written exam, SSB, and medical stages. Quality coaching at institutes like Taxila significantly improves success chances.']],stats:[['3','Wings'],['2×/Year','Exam'],['3 Years','Training'],['70+','Yrs Legacy']]},
-      jnv:{name:'Jawahar Navodaya Vidyalaya',since:'1986',tagline:'Talented rural India, fully funded',gradient:'linear-gradient(145deg,#1e6b2e 0%,#0d4018 100%)',icon:'<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke-linecap="round" stroke-linejoin="round"/>',facts:[['Founded','1986'],['Schools','661 across India'],['Board','CBSE'],['Entry','Class VI via JNVST']],presence:'661 schools across India',sections:[['What is Jawahar Navodaya Vidyalaya?','JNVs are fully residential, co-educational CBSE schools run by the Navodaya Vidyalaya Samiti under the Ministry of Education. They provide quality modern education completely free of cost to talented children predominantly from rural areas — ensuring talent is never held back by finances.'],['Vision &amp; Objectives','To provide quality education including cultural values, environmental awareness, and physical development to talented rural children. To ensure a standard of education comparable to urban schools. One JNV in every district of India. Students get free boarding, lodging, meals, books, and uniforms.'],['Eligibility &amp; JNVST','The JNVST for Class VI: Age 9–13 years. Must be in Class V in a Government/Government-aided school. Must be a resident of the district where the JNV is located. Rural area candidates get priority. Test covers Mental Ability (nonverbal), Arithmetic, and Language sections.'],['Reservation Policy','Minimum 75% seats reserved for rural area candidates. One-third seats reserved for girls. SC/ST reservations as per State/UT population ratios. 3% horizontal reservation for students with disabilities. Local area reservations ensure community representation across districts.'],['Free Education &amp; Hostel','Completely free — boarding, lodging, uniform, textbooks, stationery, and meals all provided. A nominal fee of ₹600/month is charged to non-SC/ST/BPL students from Class IX only. This makes JNV one of the most affordable and highest-quality residential education options in India.'],['Academics &amp; Activities','CBSE syllabus with strong emphasis on Science and Mathematics. Special coaching for JEE, NEET, and NDA from senior classes. NCC training from Class VI. Sports, cultural activities, literary clubs. Three-language formula followed. Annual migration scheme for national exposure and integration.'],['Defence &amp; Career Pathways','Many JNV graduates join the NDA and other defence services. NCC training from an early age creates defence-ready candidates. Annual migration scheme builds national integration. Many graduates have made it to IITs, NITs, AIIMS, and top civil services. Strong alumni network supports current students.']],faqs:[['Is JNV free of cost?','Yes, JNV education is completely free for all students — accommodation, meals, textbooks, uniforms, and stationery are all included. Only a nominal monthly fee is collected from non-SC/ST/BPL students from Class IX onwards.'],['Are JNVs only for rural students?','Minimum 75% seats are reserved for rural candidates. However, urban students can apply for the remaining 25% seats, subject to merit in the JNVST examination.'],['What is the migration scheme?','The lateral entry migration scheme allows students to spend Classes IX–XI in a school of another linguistic zone, building national integration and exposing students to different cultures, languages, and educational environments across India.']],stats:[['661','Schools'],['Free','Education'],['CBSE','Board'],['40+','Yrs Legacy']]},
-      rms:{name:'Rashtriya Military Schools',since:'1925',tagline:'Discipline forged through tradition',gradient:'linear-gradient(145deg,#8b2a2a 0%,#5a1a1a 100%)',icon:'<path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" stroke-linejoin="round"/><path d="M9.2 12l2 2 3.6-4" stroke-linecap="round" stroke-linejoin="round"/>',facts:[['Founded','1925'],['Run By','Indian Army'],['Schools','5 across India'],['Board','CBSE']],presence:'5 schools',sections:[['What are Rashtriya Military Schools?','RMS are English-medium, fully residential schools run by the Indian Army. They primarily cater to wards of defence personnel and civilians, preparing them for entry to the NDA and other walks of life. With 5 schools across India, they have a century-old tradition of military education and excellence.'],['History &amp; Purpose','Originally established as King George\'s Royal Indian Military Colleges in 1925, they were renamed Rashtriya Military Schools post-independence. Locations: Belgaum, Ajmer, Bangalore, Chail (highest altitude), and Dholpur. They blend academic excellence with the highest traditions of military values.'],['Eligibility &amp; RMS CET','Common Entrance Test (CET) for Class VI (age 10–12) and Class IX. Conducted by Board of Management of RMS, New Delhi. Children of serving/retired defence personnel get priority. Civilian students can also apply. Boys and girls both admitted. Annual merit-based competitive selection.'],['Locations','RMS Belgaum (Karnataka) — since 1925, oldest. RMS Chail (Himachal Pradesh) — since 1925, highest altitude. RMS Ajmer (Rajasthan) — since 1930. RMS Bangalore (Karnataka) — since 1946. RMS Dholpur (Rajasthan) — since 1962. Each school has unique heritage and world-class facilities.'],['Fees &amp; Scholarships','Defence ward annual fees: ~₹48,000. Civilian category: ~₹90,000. All fees include boarding, lodging, tuition. Central Government scholarships available. State government and service welfare fund scholarships. Ex-servicemen concessions provided through respective Sainik Welfare Boards.'],['Training &amp; NDA Advantage','Structured military routine from Class VI with daily physical training, drill, and discipline. NCC training from early years. Regular visits and interactions with Army units. One of the highest NDA success rates nationally. Strong alumni network across all three wings of the Indian Armed Forces.']],faqs:[['Are RMS open to civilians?','Yes, RMS schools admit civilian students in addition to wards of defence personnel. However, seats are limited and preference is given to children of serving and retired defence personnel. Civilian candidates compete separately.'],['How is RMS different from Sainik School?','RMS is run by the Indian Army (only 5 schools) while Sainik Schools have 33+ schools under the Ministry of Defence. RMS has a stronger Army-oriented training culture and more intensive military training from an earlier age. Both prepare for NDA with excellent success rates.'],['Are girls admitted to RMS?','RMS schools have traditionally admitted boys. Discussions are ongoing about expanding admissions to girls in line with the evolving policy changes happening across all defence education institutions in India.']],stats:[['5','Schools'],['Army','Run'],['NDA','Feeder'],['100+','Years']]},
-      rimc:{name:'Rashtriya Indian Military College',since:'1922',tagline:"India's premier feeder to the NDA",gradient:'linear-gradient(145deg,#2a3d8b 0%,#131f52 100%)',icon:'<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/>',facts:[['Founded','1922'],['Location','Dehradun, Uttarakhand'],['Intake','~25 cadets / term'],['Entry Class','Class VIII']],presence:'1 — Dehradun',sections:[['What is RIMC?','The Rashtriya Indian Military College, Dehradun, is the oldest and most prestigious feeder institution for the NDA and the Indian Naval Academy. Only 25 cadets are selected nationally every six months, making it one of the most competitive and elite schools in India with a century of military excellence.'],['History &amp; Legacy','Established on 13 March 1922 as the Prince of Wales Royal Indian Military College, RIMC has a 100-year legacy of producing India\'s finest military officers. Many Chiefs of Army Staff, Naval Staff, and Air Staff are proud RIMC alumni. Officers trained here served in World War II and every major Indian conflict since.'],['Admission Process','Entrance exam conducted twice yearly (June and December). Only 25 cadets selected per term from across India. Written examination followed by medical examination only — no separate interview. Candidates must be aged 11.5–13 years for Class VIII entry. Competition is extremely intense nationally.'],['Written Exam','The exam tests English, Mathematics, General Knowledge, and Intelligence at a high standard. Only candidates scoring above cut-off are called for medical examination. The exam is conducted at authorized centres across India. Thorough preparation of Class VI/VII academics plus strong reasoning aptitude is required.'],['Life at RIMC','Fully residential with strong military traditions dating back 100 years. Cadets belong to one of four houses: Ranjit, Pratap, Shivaji, and Chetwode. Daily military drill, physical training, academics, equestrian training, swimming, and extracurriculars. Cadets wear uniform from Day 1 and follow military discipline from the start.'],['NDA Success &amp; Alumni','RIMC has one of the highest NDA entry success rates in India. Most graduates directly proceed to NDA. Distinguished alumni include former Army Chiefs, Vice Chiefs, Sena Bhooshan awardees, Param Vir Chakra recipients, and hundreds of decorated officers who have served with distinction.']],faqs:[['How competitive is RIMC?','Extremely competitive — only 25 cadets per term from across India. The selection rate is less than 1% of applicants. You need to be in the top academic, physical, and medical percentile nationally to secure a place at RIMC.'],['Are girls admitted to RIMC?','Currently RIMC is an all-boys institution. It has maintained this tradition for over a century. However, national policies on women in defence education continue to evolve across all institutions.'],['What is the fee at RIMC?','Annual fee is approximately ₹1.5 lakh covering tuition, boarding, lodging, uniform, and books. Scholarships are available for meritorious and economically weaker students. Central government support is also available.']],stats:[['Elite','Institution'],['25','Cadets/Term'],['Class VIII','Entry'],['102+','Years']]},
-    };
+    // Move overlay to document.body so position:fixed is truly viewport-relative
+    var overlay = document.getElementById('journey-fixed');
+    document.body.appendChild(overlay);
 
-    var PATHWAYS={
-      sainik:['Class VI','Sainik School','NDA Exam','Officer'],
-      nda:['Class X','10+2 School','NDA Exam','Officer'],
-      jnv:['Class VI','JNV (Free)','NDA / JEE','Career'],
-      rms:['Class VI','RMS','NDA Exam','Officer'],
-      rimc:['Class VIII','RIMC','NDA Exam','Officer'],
-    };
+    var spacer = document.getElementById('journey-scroll');
+    var bg     = document.getElementById('journey-bg');
+    var coin   = document.getElementById('journey-coin');
+    var icon   = document.getElementById('journey-icon');
+    var lbl    = document.getElementById('journey-step-label');
+    var dots   = document.querySelectorAll('.jdot');
+    // Text panels — jp-0..3 (positions alternate by step)
+    var panels = [0,1,2,3].map(function(i){ return document.getElementById('jp-'+i); });
+    // Image placeholders — ji-0..3 (positions alternate by step)
+    var imgs   = [0,1,2,3].map(function(i){ return document.getElementById('ji-'+i); });
 
-    var cur='sainik';
-    var tabsEl=document.getElementById('dp-tabs');
-    var leftEl=document.getElementById('dp-left');
-    var rightEl=document.getElementById('dp-right');
-    var statsEl=document.getElementById('dp-statsbar');
-    if(!tabsEl||!leftEl||!rightEl||!statsEl)return;
+    var lastPanel   = -1;
+    var rawProgress = 0;
+    var visProgress = 0;
+    var rafId       = null;
 
-    function svgIcon(path,size){
-      return '<svg width="'+(size||20)+'" height="'+(size||20)+'" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9">'+path+'</svg>';
+    function lerp(a,b,t){ return a+(b-a)*t; }
+    function lc(c0,c1,t){
+      return 'rgb('+Math.round(lerp(c0[0],c1[0],t))+','+
+                    Math.round(lerp(c0[1],c1[1],t))+','+
+                    Math.round(lerp(c0[2],c1[2],t))+')';
     }
 
-    function renderTabs(){
-      tabsEl.innerHTML=TABS.map(function(t){
-        var isActive=t.id===cur;
-        var glow=isActive?'background:rgba(255,255,255,0.06);box-shadow:0 0 0 3px '+t.color+'44,0 14px 40px rgba(0,0,0,0.5)':'';
-        return '<button class="dp-tab'+(isActive?' dp-active':'')+'" role="tab" aria-selected="'+isActive+'" data-id="'+t.id+'" style="'+glow+'">'
-          +'<div class="dp-tab-icon" style="background:'+t.color+'">'+svgIcon(t.icon,18)+'</div>'
-          +'<span>'+t.name+'</span>'
-          +'<span class="dp-tab-since">'+t.since+'</span>'
-          +'</button>';
-      }).join('');
-      tabsEl.querySelectorAll('.dp-tab').forEach(function(btn){
-        btn.addEventListener('click',function(){setActive(this.dataset.id);});
-        btn.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(this.dataset.id);}});
-      });
-    }
-
-    function renderLeft(d){
-      var pw=PATHWAYS[cur]||['School','Exam','NDA','Officer'];
-      var pwHTML='<div class="dp-pathway">'
-        +pw.map(function(s,i){return (i>0?'<span class="dp-pathway-arr">›</span>':'')+'<span class="dp-pathway-step">'+s+'</span>';}).join('')
-        +'</div>';
-      leftEl.className='dp-card dp-anim';
-      leftEl.innerHTML=
-        '<div class="dp-card-hero" style="background:'+d.gradient+'">'
-          +'<div class="dp-hero-watermark">'+d.since+'</div>'
-          +'<div class="dp-card-icon-wrap">'+svgIcon(d.icon,22)+'</div>'
-          +'<div class="dp-card-since">Since '+d.since+'</div>'
-          +'<h3 class="dp-card-name">'+d.name+'</h3>'
-          +'<p class="dp-card-tagline">'+d.tagline+'</p>'
-        +'</div>'
-        +'<div class="dp-card-body">'
-          +'<div class="dp-facts-ttl">Quick Facts</div>'
-          +d.facts.map(function(f){return '<div class="dp-fact-row"><span class="dp-fact-k">'+f[0]+'</span><span class="dp-fact-v">'+f[1]+'</span></div>';}).join('')
-          +'<div class="dp-presence-spacer" style="flex:1;min-height:16px"></div>'
-          +'<div class="dp-presence-box"><div class="dp-presence-k">Presence</div><div class="dp-presence-v">'+d.presence+'</div></div>'
-          +pwHTML
-        +'</div>';
-    }
-
-    function renderRight(d){
-      var tabColor=TABS.find(function(t){return t.id===cur;}).color;
-      rightEl.className='dp-right-col dp-anim';
-      var accHTML=d.sections.map(function(s,i){
-        var num=i<9?'0'+(i+1):''+( i+1);
-        return '<div class="dp-acc" tabindex="0" style="border-left-color:'+tabColor+'">'
-          +'<div class="dp-acc-head" role="button" aria-expanded="false">'
-            +'<span class="dp-acc-num">'+num+'</span>'
-            +'<span class="dp-acc-title">'+s[0]+'</span>'
-            +'<span class="dp-acc-arr"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
-          +'</div>'
-          +'<div class="dp-acc-body"><div class="dp-acc-inner">'+s[1]+'</div></div>'
-          +'</div>';
-      }).join('');
-      var faqHTML='<div class="dp-faq-wrap">'
-        +'<div class="dp-faq-lbl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-linecap="round" stroke-linejoin="round"/></svg>Frequently Asked Questions</div>'
-        +d.faqs.map(function(f){
-          return '<div class="dp-faq-item">'
-            +'<div class="dp-faq-q" role="button" tabindex="0"><span>'+f[0]+'</span><span class="dp-faq-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,122,0.7)" stroke-width="2.2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>'
-            +'<div class="dp-faq-a"><div class="dp-faq-a-inner">'+f[1]+'</div></div>'
-            +'</div>';
-        }).join('')
-        +'</div>';
-      rightEl.innerHTML=accHTML+faqHTML;
-      rightEl.querySelectorAll('.dp-acc').forEach(function(acc){
-        var head=acc.querySelector('.dp-acc-head');
-        var body=acc.querySelector('.dp-acc-body');
-        var inner=acc.querySelector('.dp-acc-inner');
-        function tog(){
-          var o=acc.classList.contains('dp-open');
-          acc.classList.toggle('dp-open',!o);
-          head.setAttribute('aria-expanded',!o);
-          body.style.maxHeight=o?'0':(inner.scrollHeight+24)+'px';
+    function showPanel(idx){
+      // Toggle text panels
+      panels.forEach(function(p,i){
+        if(i===idx){
+          p.style.display='block';
+          requestAnimationFrame(function(){ p.classList.add('panel-active'); });
+        } else {
+          p.classList.remove('panel-active');
+          setTimeout(function(){
+            if(!p.classList.contains('panel-active')) p.style.display='none';
+          }, 450);
         }
-        head.addEventListener('click',tog);
-        acc.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});
       });
-      rightEl.querySelectorAll('.dp-faq-item').forEach(function(item){
-        var q=item.querySelector('.dp-faq-q');
-        var a=item.querySelector('.dp-faq-a');
-        var ai=item.querySelector('.dp-faq-a-inner');
-        function tog(){
-          var o=item.classList.contains('dp-open');
-          item.classList.toggle('dp-open',!o);
-          a.style.maxHeight=o?'0':(ai.scrollHeight+16)+'px';
+      // Toggle image placeholders (mirror of text panels, opposite column)
+      imgs.forEach(function(im,i){
+        if(i===idx){
+          im.style.display='block';
+          requestAnimationFrame(function(){ im.classList.add('panel-active'); });
+        } else {
+          im.classList.remove('panel-active');
+          setTimeout(function(){
+            if(!im.classList.contains('panel-active')) im.style.display='none';
+          }, 450);
         }
-        q.addEventListener('click',tog);
-        q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});
       });
     }
 
-    function renderStats(d){
-      statsEl.innerHTML=d.stats.map(function(s){
-        return '<div class="dp-stat-box dp-anim"><div class="dp-stat-val">'+s[0]+'</div><div class="dp-stat-lbl">'+s[1]+'</div></div>';
-      }).join('');
+    function applyProgress(progress){
+      var raw  = progress * 4;
+      var pidx = Math.min(Math.floor(raw), 3);
+      var pt   = raw - pidx;
+      var nidx = Math.min(pidx+1, 3);
+
+      // Card flip — rotates continuously, wobbles on Z like a hand-flipped card
+      var rotY = progress * 2 * 360;
+      var wobble = Math.sin((rotY % 360) * Math.PI / 180) * 6;
+      coin.style.transform = 'rotateY('+rotY+'deg) rotateZ('+wobble+'deg)';
+
+      // BG colour lerp
+      bg.style.backgroundColor = lc(BG[pidx], BG[nidx], pt);
+
+      // Dots
+      dots.forEach(function(d,i){ d.classList.toggle('active', i===pidx); });
+
+      // Panel swap — corner positions alternate each step
+      if(pidx !== lastPanel){
+        lastPanel = pidx;
+        icon.style.opacity = '0';
+        setTimeout(function(){
+          icon.textContent = ICONS[pidx];
+          lbl.textContent  = LABELS[pidx];
+          icon.style.opacity = '1';
+          var stepNums = ['01','02','03','04'];
+          var c1 = document.getElementById('journey-card-corner');
+          var c2 = document.getElementById('journey-card-corner2');
+          if(c1) c1.textContent = stepNums[pidx];
+          if(c2) c2.textContent = stepNums[pidx];
+        }, 130);
+        showPanel(pidx);
+      }
     }
 
-    function setActive(id){
-      cur=id;
-      var d=DATA[id];
-      renderTabs();
-      renderLeft(d);
-      renderRight(d);
-      renderStats(d);
+    function animFrame(){
+      // Ease visProgress toward rawProgress
+      visProgress += (rawProgress - visProgress) * 0.07;
+      applyProgress(visProgress);
+      rafId = requestAnimationFrame(animFrame);
     }
 
-    setActive('sainik');
+    function onScroll(){
+      var rect     = spacer.getBoundingClientRect();
+      var total    = spacer.offsetHeight - window.innerHeight;
+      var scrolled = Math.max(0, -rect.top);
+      rawProgress  = Math.min(scrolled / total, 1);
+
+      var inZone = rect.top <= 1 && rect.bottom > window.innerHeight - 1;
+      if(inZone){
+        overlay.style.display = 'block';
+        if(!rafId) rafId = requestAnimationFrame(animFrame);
+      } else {
+        overlay.style.display = 'none';
+        if(!inZone && rect.bottom <= window.innerHeight){
+          // Past the section — ensure progress=1 visually
+          rawProgress = 1;
+        }
+        if(!inZone && rect.top >= 0){
+          // Before the section — reset
+          rawProgress  = 0;
+          visProgress  = 0;
+          lastPanel    = -1;
+          showPanel(0);
+        }
+        if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive:true });
+    // Init after a short delay to ensure DC component has mounted
+    setTimeout(function(){
+      showPanel(0);
+      onScroll();
+    }, 100);
   })();
   </script>
 
@@ -2097,250 +2228,13 @@
 
 
   <!-- RECENT SELECTIONS REMOVED -->
-  <section id="recent-selections" style="display:none">
-
-    <!-- Ambient blob -->
-    <div style="position:absolute;bottom:-40px;left:10%;width:320px;height:320px;background:radial-gradient(circle,rgba(27,77,14,0.5) 0%,transparent 70%);pointer-events:none;filter:blur(50px)"></div>
-
-    <div style="max-width:1180px;margin:0 auto">
-
-      <!-- Header -->
-      <div data-reveal style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
-        <div>
-          <span style="color:#F5B800;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:14px">Hall of Fame</span>
-          <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4vw,44px);color:#fff;margin:0;line-height:1.2;letter-spacing:-0.02em">Recent Selections</h2>
-        </div>
-        <a href="#toppers" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(245,184,0,0.4);color:#F5B800;font-weight:700;font-size:13.5px;padding:11px 22px;border-radius:100px;text-decoration:none;transition:background 0.2s,border-color 0.2s;white-space:nowrap" onmouseover="this.style.background='rgba(245,184,0,0.08)'" onmouseout="this.style.background='transparent'">
-          View All Toppers
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-
-      <!-- Selections Grid -->
-      <div class="sel-grid">
-
-        <div class="sel-card" data-reveal data-delay="40">
-          <span class="sel-badge sel-badge-sainik">Sainik School</span>
-          <div class="sel-name">Arjun Reddy</div>
-          <div class="sel-detail">All India Rank 12 · Class VI</div>
-          <div class="sel-year">2024</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="80">
-          <span class="sel-badge sel-badge-navodaya">Navodaya</span>
-          <div class="sel-name">Priya Sharma</div>
-          <div class="sel-detail">District Topper · Guntur</div>
-          <div class="sel-year">2024</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="120">
-          <span class="sel-badge sel-badge-rms">RMS</span>
-          <div class="sel-name">Kiran Babu</div>
-          <div class="sel-detail">All India Rank 8 · Merit List</div>
-          <div class="sel-year">2024</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="160">
-          <span class="sel-badge sel-badge-gurukulam">AP Gurukulam</span>
-          <div class="sel-name">Lakshmi Devi</div>
-          <div class="sel-detail">State Rank 3 · SC Category</div>
-          <div class="sel-year">2024</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="200">
-          <span class="sel-badge sel-badge-sainik">Sainik School</span>
-          <div class="sel-name">Venkat Sai</div>
-          <div class="sel-detail">All India Rank 29 · Class IX</div>
-          <div class="sel-year">2023</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="240">
-          <span class="sel-badge sel-badge-nda">NDA</span>
-          <div class="sel-name">Rohit Kumar</div>
-          <div class="sel-detail">NDA Merit List · Army Wing</div>
-          <div class="sel-year">2023</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="280">
-          <span class="sel-badge sel-badge-navodaya">Navodaya</span>
-          <div class="sel-name">Meena Kumari</div>
-          <div class="sel-detail">District Rank 1 · Krishna</div>
-          <div class="sel-year">2023</div>
-        </div>
-
-        <div class="sel-card" data-reveal data-delay="320">
-          <span class="sel-badge sel-badge-rms">RMS</span>
-          <div class="sel-name">Suresh Varma</div>
-          <div class="sel-detail">All India Rank 15 · Class VI</div>
-          <div class="sel-year">2023</div>
-        </div>
-
-      </div>
-
-      <!-- Bottom note -->
-      <p data-reveal data-delay="100" style="text-align:center;color:#5a7a50;font-size:13px;font-weight:500;margin:36px 0 0">Names shown with guardian consent. Full topper board available on campus and in the Toppers section below.</p>
-
-    </div>
-  </section>
 
 
   <!-- EXAM STREAMS -->
-  <section id="exams" data-screen-label="Exam Streams" style="background:#040c02;padding:clamp(64px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px">
-    <div style="max-width:1180px;margin:0 auto">
-      <div data-reveal style="opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;text-align:center;max-width:640px;margin:0 auto 14px">
-        <span style="color:#C9920A;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Our Coaching</span>
-        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(32px,5vw,50px);color:#f0f6e8;margin:10px 0 0;line-height:1.1">Five Streams to a Residential Seat</h2>
-        <div data-reveal style="opacity:1;transform:scaleX(0);transform-origin:center;transition:transform .9s ease .2s;height:4px;width:90px;background:linear-gradient(90deg,#C9920A,#F5B800);border-radius:4px;margin:20px auto 0"></div>
-      </div>
-
-      <!-- FILTER PILLS -->
-      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:34px 0 40px">
-        <button data-filter="all" style="background:#1B4D0E;color:#fff;border:1.5px solid #1B4D0E;font-size:13.5px;font-weight:600;padding:9px 20px;border-radius:100px;cursor:pointer;animation:pillIn .5s ease-out both;transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease">All Streams</button>
-        <button data-filter="sainik" style="background:transparent;color:#1B4D0E;border:1.5px solid rgba(27,77,14,.3);font-size:13.5px;font-weight:600;padding:9px 20px;border-radius:100px;cursor:pointer;animation:pillIn .5s ease-out .08s both;transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease">Sainik School</button>
-        <button data-filter="navodaya" style="background:transparent;color:#1B4D0E;border:1.5px solid rgba(27,77,14,.3);font-size:13.5px;font-weight:600;padding:9px 20px;border-radius:100px;cursor:pointer;animation:pillIn .5s ease-out .16s both;transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease">Navodaya</button>
-        <button data-filter="rms" style="background:transparent;color:#1B4D0E;border:1.5px solid rgba(27,77,14,.3);font-size:13.5px;font-weight:600;padding:9px 20px;border-radius:100px;cursor:pointer;animation:pillIn .5s ease-out .24s both;transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease">RMS</button>
-        <button data-filter="gurukulam" style="background:transparent;color:#1B4D0E;border:1.5px solid rgba(27,77,14,.3);font-size:13.5px;font-weight:600;padding:9px 20px;border-radius:100px;cursor:pointer;animation:pillIn .5s ease-out .32s both;transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease">AP Gurukulam</button>
-        <button data-filter="nda" style="background:transparent;color:#1B4D0E;border:1.5px solid rgba(27,77,14,.3);font-size:13.5px;font-weight:600;padding:9px 20px;border-radius:100px;cursor:pointer;animation:pillIn .5s ease-out .4s both;transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease">NDA</button>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px">
-        <!-- card template repeated -->
-        <div data-stream="sainik" data-tilt data-reveal style="opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .35s cubic-bezier(.2,.7,.2,1);background:#111614;border:1px solid rgba(201,169,122,0.15);border-radius:18px;padding:30px;will-change:transform;display:flex;flex-direction:column;height:100%">
-          <div style="width:56px;height:56px;border-radius:14px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.7"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" stroke-linejoin="round"/><path d="M12 8v4M12 15.5v.5" stroke-linecap="round"/></svg>
-          </div>
-          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:#f0f6e8;margin:0 0 4px">Sainik School</h3>
-          <div style="display:inline-block;background:rgba(201,146,10,.14);color:#9c7108;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:6px;margin-bottom:14px">AISSEE · Class 6 &amp; 9</div>
-          <p style="color:#cbdcc5;font-size:14.5px;line-height:1.6;margin:0 0 16px;flex:1">All-India Sainik Schools Entrance for disciplined, residential military-school education with structured maths &amp; reasoning prep.</p>
-          <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;color:#1B4D0E;font-weight:700;font-size:14px">Learn More <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div data-stream="navodaya" data-tilt data-reveal data-delay="80" style="opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .35s cubic-bezier(.2,.7,.2,1);background:#111614;border:1px solid rgba(201,169,122,0.15);border-radius:18px;padding:30px;will-change:transform;display:flex;flex-direction:column;height:100%">
-          <div style="width:56px;height:56px;border-radius:14px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.7"><path d="M3 10l9-5 9 5-9 5-9-5z" stroke-linejoin="round"/><path d="M6 12v4c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:#f0f6e8;margin:0 0 4px">Navodaya</h3>
-          <div style="display:inline-block;background:rgba(201,146,10,.14);color:#9c7108;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:6px;margin-bottom:14px">JNVST · Class 6</div>
-          <p style="color:#cbdcc5;font-size:14.5px;line-height:1.6;margin:0 0 16px;flex:1">Jawahar Navodaya Vidyalaya Selection Test prep with mental ability, arithmetic and language modules tuned for rural toppers.</p>
-          <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;color:#1B4D0E;font-weight:700;font-size:14px">Learn More <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div data-stream="rms" data-tilt data-reveal data-delay="160" style="opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .35s cubic-bezier(.2,.7,.2,1);background:#111614;border:1px solid rgba(201,169,122,0.15);border-radius:18px;padding:30px;will-change:transform;display:flex;flex-direction:column;height:100%">
-          <div style="width:56px;height:56px;border-radius:14px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.6"><path d="M12 3l2.3 4.6 5.1.7-3.7 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1L4.6 8.3l5.1-.7L12 3z" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:#f0f6e8;margin:0 0 4px">RMS</h3>
-          <div style="display:inline-block;background:rgba(201,146,10,.14);color:#9c7108;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:6px;margin-bottom:14px">Rashtriya Military School · Class 6 &amp; 9</div>
-          <p style="color:#cbdcc5;font-size:14.5px;line-height:1.6;margin:0 0 16px;flex:1">Common Entrance Test coaching for Rashtriya Military Schools — focused training in maths, English, GK and intelligence.</p>
-          <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;color:#1B4D0E;font-weight:700;font-size:14px">Learn More <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div data-stream="gurukulam" data-tilt data-reveal data-delay="80" style="opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .35s cubic-bezier(.2,.7,.2,1);background:#111614;border:1px solid rgba(201,169,122,0.15);border-radius:18px;padding:30px;will-change:transform;display:flex;flex-direction:column;height:100%">
-          <div style="width:56px;height:56px;border-radius:14px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.7"><path d="M4 19V7l8-3 8 3v12" stroke-linejoin="round"/><path d="M4 19h16M9 19v-5h6v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:#f0f6e8;margin:0 0 4px">AP Gurukulam</h3>
-          <div style="display:inline-block;background:rgba(201,146,10,.14);color:#9c7108;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:6px;margin-bottom:14px">APGPCET · Residential · Class 5</div>
-          <p style="color:#cbdcc5;font-size:14.5px;line-height:1.6;margin:0 0 16px;flex:1">AP Gurukulam Common Entrance prep for free residential schooling in state Gurukula societies — structured, exam-aligned drills.</p>
-          <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;color:#1B4D0E;font-weight:700;font-size:14px">Learn More <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div data-stream="nda" data-tilt data-reveal data-delay="160" style="opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .35s cubic-bezier(.2,.7,.2,1);background:#111614;border:1px solid rgba(201,169,122,0.15);border-radius:18px;padding:30px;will-change:transform;display:flex;flex-direction:column;height:100%">
-          <div style="width:56px;height:56px;border-radius:14px;background:#1B4D0E;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.7"><path d="M5 21V11l7-6 7 6v10" stroke-linejoin="round"/><path d="M3 11h18M10 21v-6h4v6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:#f0f6e8;margin:0 0 4px">NDA</h3>
-          <div style="display:inline-block;background:rgba(201,146,10,.14);color:#9c7108;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:6px;margin-bottom:14px">National Defence Academy · After 12th</div>
-          <p style="color:#cbdcc5;font-size:14.5px;line-height:1.6;margin:0 0 16px;flex:1">Foundation guidance towards the National Defence Academy written exam &amp; SSB — building the discipline that begins in primary school.</p>
-          <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;color:#1B4D0E;font-weight:700;font-size:14px">Learn More <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- ABOUT SECTION REMOVED (Moved to separate About Us page) -->
 
   <!-- TOPPERS -->
-  <section id="toppers" data-screen-label="Toppers" style="display:none">
-    <div style="max-width:1180px;margin:0 auto">
-      <div data-reveal style="text-align:center;max-width:580px;margin:0 auto 56px">
-        <span style="color:#C9920A;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:14px">Hall of Fame</span>
-        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(30px,4.5vw,48px);color:#0A1F05;margin:0 0 14px;line-height:1.15;letter-spacing:-0.02em">Our Champions</h2>
-        <p style="color:#cbdcc5;font-size:15.5px;line-height:1.65;margin:0;font-weight:500">Students who trusted the process — and earned their place on the merit list. Tap each card to see their story.</p>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
-        <div data-flip data-reveal style="perspective:1200px;height:320px;cursor:pointer">
-          <div data-flipinner style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1)">
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.3)">
-              <div style="width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#1B4D0E,#0A1F05);color:#F5B800;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:28px;margin-bottom:18px;box-shadow:0 6px 18px rgba(10,31,5,.22)">AK</div>
-              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:19px;color:#0A1F05;margin-bottom:4px">Ananya K.</div>
-              <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11.5px;font-weight:800;padding:5px 14px;border-radius:100px;border:1px solid rgba(245,184,0,0.5);margin-top:10px">Sainik School</div>
-              <div style="color:#a8c498;font-size:11.5px;font-weight:600;margin-top:14px;display:flex;align-items:center;gap:4px">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a8c498" stroke-width="2.2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Flip to see result</div>
-            </div>
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;box-shadow:0 8px 32px rgba(10,31,5,.3)">
-              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:40px;color:#F5B800;line-height:1;letter-spacing:-0.02em">Rank 12</div>
-              <div style="font-size:13px;color:#cfe0c4;margin-top:4px;letter-spacing:.1em">AISSEE 2024</div>
-              <p style="font-size:13.5px;line-height:1.6;color:#e6f0de;margin:16px 0 0;font-style:italic">"The mock tests made the real exam feel easy."</p>
-              <div style="display:inline-block;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.4);color:#F5B800;font-size:11px;font-weight:800;padding:5px 14px;border-radius:100px;margin-top:18px;letter-spacing:0.05em">Sainik School</div>
-            </div>
-          </div>
-        </div>
-        <div data-flip data-reveal data-delay="100" style="perspective:1200px;height:320px;cursor:pointer">
-          <div data-flipinner style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1)">
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.3)">
-              <div style="width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#1B4D0E,#0A1F05);color:#F5B800;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:28px;margin-bottom:18px;box-shadow:0 6px 18px rgba(10,31,5,.22)">RV</div>
-              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:19px;color:#0A1F05;margin-bottom:4px">Rohit V.</div>
-              <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11.5px;font-weight:800;padding:5px 14px;border-radius:100px;border:1px solid rgba(245,184,0,0.5);margin-top:10px">Navodaya</div>
-              <div style="color:#a8c498;font-size:11.5px;font-weight:600;margin-top:14px;display:flex;align-items:center;gap:4px">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a8c498" stroke-width="2.2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Flip to see result</div>
-            </div>
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;box-shadow:0 8px 32px rgba(10,31,5,.3)">
-              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:40px;color:#F5B800;line-height:1;letter-spacing:-0.02em">Selected</div>
-              <div style="font-size:13px;color:#cfe0c4;margin-top:4px;letter-spacing:.1em">JNVST 2024</div>
-              <p style="font-size:13.5px;line-height:1.6;color:#e6f0de;margin:16px 0 0;font-style:italic">"Teachers believed in me before I did."</p>
-              <div style="display:inline-block;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.4);color:#F5B800;font-size:11px;font-weight:800;padding:5px 14px;border-radius:100px;margin-top:18px;letter-spacing:0.05em">Navodaya</div>
-            </div>
-          </div>
-        </div>
-        <div data-flip data-reveal data-delay="200" style="perspective:1200px;height:320px;cursor:pointer">
-          <div data-flipinner style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1)">
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.3)">
-              <div style="width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#1B4D0E,#0A1F05);color:#F5B800;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:28px;margin-bottom:18px;box-shadow:0 6px 18px rgba(10,31,5,.22)">SP</div>
-              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:19px;color:#0A1F05;margin-bottom:4px">Sai Priya</div>
-              <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11.5px;font-weight:800;padding:5px 14px;border-radius:100px;border:1px solid rgba(245,184,0,0.5);margin-top:10px">AP Gurukulam</div>
-              <div style="color:#a8c498;font-size:11.5px;font-weight:600;margin-top:14px;display:flex;align-items:center;gap:4px">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a8c498" stroke-width="2.2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Flip to see result</div>
-            </div>
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;box-shadow:0 8px 32px rgba(10,31,5,.3)">
-              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:40px;color:#F5B800;line-height:1;letter-spacing:-0.02em">State 1st</div>
-              <div style="font-size:13px;color:#cfe0c4;margin-top:4px;letter-spacing:.1em">APGPCET 2023</div>
-              <p style="font-size:13.5px;line-height:1.6;color:#e6f0de;margin:16px 0 0;font-style:italic">"A free residential seat changed my family's future."</p>
-              <div style="display:inline-block;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.4);color:#F5B800;font-size:11px;font-weight:800;padding:5px 14px;border-radius:100px;margin-top:18px;letter-spacing:0.05em">AP Gurukulam</div>
-            </div>
-          </div>
-        </div>
-        <div data-flip data-reveal data-delay="300" style="perspective:1200px;height:320px;cursor:pointer">
-          <div data-flipinner style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1)">
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.3)">
-              <div style="width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#1B4D0E,#0A1F05);color:#F5B800;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:28px;margin-bottom:18px;box-shadow:0 6px 18px rgba(10,31,5,.22)">MT</div>
-              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:19px;color:#0A1F05;margin-bottom:4px">Manoj T.</div>
-              <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11.5px;font-weight:800;padding:5px 14px;border-radius:100px;border:1px solid rgba(245,184,0,0.5);margin-top:10px">RMS</div>
-              <div style="color:#a8c498;font-size:11.5px;font-weight:600;margin-top:14px;display:flex;align-items:center;gap:4px">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a8c498" stroke-width="2.2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Flip to see result</div>
-            </div>
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:22px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;box-shadow:0 8px 32px rgba(10,31,5,.3)">
-              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:40px;color:#F5B800;line-height:1;letter-spacing:-0.02em">Rank 7</div>
-              <div style="font-size:13px;color:#cfe0c4;margin-top:4px;letter-spacing:.1em">RMS CET 2024</div>
-              <p style="font-size:13.5px;line-height:1.6;color:#e6f0de;margin:16px 0 0;font-style:italic">"Discipline from day one got me through SSB."</p>
-              <div style="display:inline-block;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.4);color:#F5B800;font-size:11px;font-weight:800;padding:5px 14px;border-radius:100px;margin-top:18px;letter-spacing:0.05em">RMS</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ── wave: exams → testimonials ── -->
   <div style="line-height:0;overflow:hidden;background:#040c02;margin-top:-2px">
@@ -2448,91 +2342,6 @@
   </div>
 
   <!-- EVENTS -->
-  <section id="events" data-screen-label="Events" style="background:#040c02;padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px">
-    <div style="max-width:1180px;margin:0 auto">
-
-      <!-- Header -->
-      <div data-reveal style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;margin-bottom:48px">
-        <div>
-          <span style="color:#C9920A;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:12px">What's Happening</span>
-          <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4vw,44px);color:#0A1F05;margin:0;line-height:1.15;letter-spacing:-0.02em">Events &amp; Announcements</h2>
-        </div>
-        <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid #1B4D0E;color:#1B4D0E;font-weight:700;font-size:13.5px;padding:10px 22px;border-radius:100px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#1B4D0E';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#1B4D0E'">
-          View All Events
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-
-      <!-- Event Cards Grid -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-
-        <!-- Event 1 -->
-        <div data-reveal style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
-          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
-            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">12</span>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">JUL</span>
-          </div>
-          <div style="flex:1;min-width:0">
-            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;letter-spacing:0.04em">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="#1B4D0E"><circle cx="12" cy="12" r="10"/></svg>
-              Admissions
-            </span>
-            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">New Batch Orientation</h3>
-            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">Welcome session for Class 3–5 &amp; coaching parents — meet the faculty and get the schedule.</p>
-          </div>
-        </div>
-
-        <!-- Event 2 -->
-        <div data-reveal data-delay="80" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
-          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
-            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">20</span>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">JUL</span>
-          </div>
-          <div style="flex:1;min-width:0">
-            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;border:1px solid rgba(245,184,0,0.3);letter-spacing:0.04em">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="#F5B800"><circle cx="12" cy="12" r="10"/></svg>
-              Mock Test
-            </span>
-            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">All-Stream Grand Mock</h3>
-            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">Full-length AISSEE &amp; JNVST pattern test with same-day analysis and rank report.</p>
-          </div>
-        </div>
-
-        <!-- Event 3 -->
-        <div data-reveal data-delay="160" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
-          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
-            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">03</span>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">AUG</span>
-          </div>
-          <div style="flex:1;min-width:0">
-            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;letter-spacing:0.04em">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="#1B4D0E"><circle cx="12" cy="12" r="10"/></svg>
-              Parents
-            </span>
-            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">Parental Awareness Session</h3>
-            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">How to choose the right residential exam &amp; best support your child at home.</p>
-          </div>
-        </div>
-
-        <!-- Event 4 -->
-        <div data-reveal data-delay="240" style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;padding:24px;display:flex;gap:18px;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
-          <div style="flex:none;width:64px;min-height:72px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(10,31,5,.2)">
-            <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:26px;line-height:1;color:#F5B800">15</span>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.14em;margin-top:2px;color:#a3c98a">AUG</span>
-          </div>
-          <div style="flex:1;min-width:0">
-            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,122,0.12);color:#C9A97A;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;border:1px solid rgba(245,184,0,0.3);letter-spacing:0.04em">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="#F5B800"><circle cx="12" cy="12" r="10"/></svg>
-              Free Entry
-            </span>
-            <h3 style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#0A1F05;margin:0 0 6px;line-height:1.3">Free Aptitude Camp</h3>
-            <p style="font-size:13.5px;color:#cbdcc5;line-height:1.55;margin:0">Open scholarship-cum-aptitude test for Class 4 &amp; 5 aspirants. Scholarships up to 50%.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- COURSES & FEES -->
   <section id="courses" data-screen-label="Courses & Fees" style="background:#040c02;padding:clamp(64px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px">
@@ -3275,255 +3084,6 @@
   </section>
 
 
-  <!-- SCROLL JOURNEY — 400vh spacer, inner panel fixed via JS (works despite overflow:hidden parents) -->
-  <div id="journey-scroll" style="position:relative;height:400vh;background:#4a0e0e;"></div>
-
-  <!-- Fixed overlay — shown/hidden by JS, never inside overflow:hidden container -->
-  <div id="journey-fixed" style="display:none;position:fixed;inset:0;z-index:200;overflow:hidden;">
-
-    <!-- Halftone dot BG -->
-    <div id="journey-bg" style="position:absolute;inset:0;transition:background-color 0.5s ease;background:#4a0e0e;"></div>
-    <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.07) 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none;z-index:1;"></div>
-
-    <!-- Progress dots -->
-    <div style="position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:10;">
-      <div class="jdot active" data-i="0"></div>
-      <div class="jdot" data-i="1"></div>
-      <div class="jdot" data-i="2"></div>
-      <div class="jdot" data-i="3"></div>
-    </div>
-
-    <!-- Scroll hint -->
-    <div id="journey-hint" style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.6;">
-      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;">Scroll to explore</span>
-      <svg width="16" height="22" viewBox="0 0 16 22" fill="none"><rect x="1" y="1" width="14" height="20" rx="7" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><circle id="jscroll-dot" cx="8" cy="6" r="2.5" fill="#F5B800"><animateTransform attributeName="transform" type="translate" values="0 0;0 8;0 0" dur="1.6s" repeatCount="indefinite"/></circle></svg>
-    </div>
-
-    <!-- Main layout — card centre, text + image swap diagonal corners each step -->
-    <div style="position:relative;z-index:2;width:100%;height:100%;">
-
-      <!-- ══ CENTER: Rotating playing card ══ -->
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div id="journey-card-scene" style="width:230px;height:322px;perspective:900px;">
-          <div id="journey-coin" style="width:100%;height:100%;position:relative;transform-style:preserve-3d;will-change:transform;">
-            <!-- FRONT: Taxila Academy logo -->
-            <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;background:linear-gradient(148deg,#1B4D0E 0%,#0d2806 100%);box-shadow:0 24px 72px rgba(0,0,0,0.7),inset 0 0 0 2.5px rgba(245,184,0,0.45);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px;">
-              <div style="position:absolute;inset:12px;border:1.5px solid rgba(245,184,0,0.28);border-radius:14px;pointer-events:none;"></div>
-              <div style="position:absolute;top:16px;left:16px;font-family:Inter,sans-serif;font-size:13px;font-weight:800;color:rgba(245,184,0,0.7);letter-spacing:0.06em;line-height:1;">TA</div>
-              <div style="position:absolute;bottom:16px;right:16px;font-family:Inter,sans-serif;font-size:13px;font-weight:800;color:rgba(245,184,0,0.7);letter-spacing:0.06em;line-height:1;transform:rotate(180deg);">TA</div>
-              <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" style="width:82%;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5));" alt="Taxila Academy">
-            </div>
-            <!-- BACK: step icon -->
-            <div id="journey-card-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border-radius:22px;background:radial-gradient(circle at 40% 36%,#ffd166,#e8a020 58%,#c87800);box-shadow:0 24px 72px rgba(200,120,0,0.65),inset 0 -8px 24px rgba(0,0,0,0.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
-              <div style="position:absolute;inset:12px;border:1.5px solid rgba(255,255,255,0.28);border-radius:14px;pointer-events:none;"></div>
-              <div id="journey-card-corner" style="position:absolute;top:16px;left:16px;font-family:Inter,sans-serif;font-size:15px;font-weight:800;color:rgba(255,255,255,0.8);line-height:1;">01</div>
-              <div id="journey-card-corner2" style="position:absolute;bottom:16px;right:16px;font-family:Inter,sans-serif;font-size:15px;font-weight:800;color:rgba(255,255,255,0.8);line-height:1;transform:rotate(180deg);">01</div>
-              <div id="journey-icon" style="font-size:96px;line-height:1;transition:opacity 0.22s ease;user-select:none;">📋</div>
-            </div>
-          </div>
-        </div>
-        <div id="journey-step-label" style="font-family:Inter,sans-serif;font-weight:700;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);">Apply</div>
-      </div>
-
-      <!-- ══ STEP 0: Text BOTTOM-LEFT · Image TOP-RIGHT ══ -->
-      <div class="jpanel" id="jp-0" style="position:absolute;bottom:110px;left:64px;max-width:340px;">
-        <div class="jpanel-tag">Step 01</div>
-        <h2 class="jpanel-h">Apply &amp;<br>Register</h2>
-        <p class="jpanel-p">Submit your application online. Our counsellors review your child's class, stream preference and learning profile — no entrance test required to apply.</p>
-      </div>
-      <div class="jpanel jtop" id="ji-0" style="position:absolute;top:64px;right:80px;">
-        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
-      </div>
-
-      <!-- ══ STEP 1: Image BOTTOM-LEFT · Text TOP-RIGHT ══ -->
-      <div class="jpanel" id="ji-1" style="display:none;position:absolute;bottom:110px;left:64px;">
-        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
-      </div>
-      <div class="jpanel jtop" id="jp-1" style="display:none;position:absolute;top:64px;right:80px;max-width:340px;text-align:right;">
-        <div class="jpanel-tag" style="text-align:right;">Step 02</div>
-        <h2 class="jpanel-h">Train Hard.<br>Train Smart.</h2>
-        <p class="jpanel-p">Residential batches with military discipline and expert coaching. Daily schedules, doubt sessions, and peer competition sharpen every student into a top performer.</p>
-      </div>
-
-      <!-- ══ STEP 2: Text BOTTOM-LEFT · Image TOP-RIGHT ══ -->
-      <div class="jpanel" id="jp-2" style="display:none;position:absolute;bottom:110px;left:64px;max-width:340px;">
-        <div class="jpanel-tag">Step 03</div>
-        <h2 class="jpanel-h">Crack the<br>Entrance Exam</h2>
-        <p class="jpanel-p">Mock tests every week. Real exam papers. Our students walk into the exam hall with 95% of the syllabus already mastered — confidence is the final weapon.</p>
-      </div>
-      <div class="jpanel jtop" id="ji-2" style="display:none;position:absolute;top:64px;right:80px;">
-        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
-      </div>
-
-      <!-- ══ STEP 3: Image BOTTOM-LEFT · Text TOP-RIGHT ══ -->
-      <div class="jpanel" id="ji-3" style="display:none;position:absolute;bottom:110px;left:64px;">
-        <div class="jimg-box"><div class="jimg-icon"><svg width="32" height="32" fill="none" stroke="rgba(245,184,0,0.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><span class="jimg-lbl">Image coming soon</span></div>
-      </div>
-      <div class="jpanel jtop" id="jp-3" style="display:none;position:absolute;top:64px;right:80px;max-width:340px;text-align:right;">
-        <div class="jpanel-tag" style="text-align:right;">Step 04</div>
-        <h2 class="jpanel-h">Wear the<br>Uniform 🎖️</h2>
-        <p class="jpanel-p">Selection letter. School uniform. The moment every Taxila family lives for. Join the hundreds of students who walked this exact path — and won their residential seat.</p>
-      </div>
-
-    </div>
-  </div>
-
-  <style>
-    .jdot { width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.28);transition:background 0.3s,transform 0.3s;cursor:pointer; }
-    .jdot.active { background:#F5B800;transform:scale(1.4); }
-    /* Bottom-corner elements slide UP into place */
-    .jpanel { opacity:0;transform:translateY(48px);transition:opacity 0.44s cubic-bezier(0.22,1,0.36,1),transform 0.44s cubic-bezier(0.22,1,0.36,1); }
-    .jpanel.panel-active { opacity:1;transform:translateY(0); }
-    /* Top-corner elements slide DOWN into place */
-    .jtop { transform:translateY(-44px); }
-    .jtop.panel-active { transform:translateY(0); }
-    .jpanel-tag { font-family:Inter,sans-serif;font-weight:700;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#F5B800;margin-bottom:12px; }
-    .jpanel-h { font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.8vw,38px);color:#fff;line-height:1.12;margin:0 0 14px; }
-    .jpanel-p { font-family:Inter,sans-serif;font-size:14.5px;color:rgba(255,255,255,0.72);line-height:1.7;margin:0; }
-    /* Image placeholder boxes */
-    .jimg-box { width:280px;height:210px;border-radius:18px;border:2px dashed rgba(245,184,0,0.32);background:rgba(255,255,255,0.03);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px; }
-    .jimg-icon { width:64px;height:64px;border-radius:50%;background:rgba(245,184,0,0.09);border:1.5px solid rgba(245,184,0,0.22);display:flex;align-items:center;justify-content:center; }
-    .jimg-lbl { font-family:Inter,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,184,0,0.42); }
-  </style>
-
-  <script>
-  (function() {
-    var BG     = [[0x4a,0x0e,0x0e],[0x5a,0x30,0x10],[0x2e,0x3a,0x10],[0x3a,0x0e,0x1e]];
-    var ICONS  = ['📋','⚔️','📝','🎖️'];
-    var LABELS = ['Apply','Train','Crack Exam','Wear Uniform'];
-
-    // Move overlay to document.body so position:fixed is truly viewport-relative
-    var overlay = document.getElementById('journey-fixed');
-    document.body.appendChild(overlay);
-
-    var spacer = document.getElementById('journey-scroll');
-    var bg     = document.getElementById('journey-bg');
-    var coin   = document.getElementById('journey-coin');
-    var icon   = document.getElementById('journey-icon');
-    var lbl    = document.getElementById('journey-step-label');
-    var dots   = document.querySelectorAll('.jdot');
-    // Text panels — jp-0..3 (positions alternate by step)
-    var panels = [0,1,2,3].map(function(i){ return document.getElementById('jp-'+i); });
-    // Image placeholders — ji-0..3 (positions alternate by step)
-    var imgs   = [0,1,2,3].map(function(i){ return document.getElementById('ji-'+i); });
-
-    var lastPanel   = -1;
-    var rawProgress = 0;
-    var visProgress = 0;
-    var rafId       = null;
-
-    function lerp(a,b,t){ return a+(b-a)*t; }
-    function lc(c0,c1,t){
-      return 'rgb('+Math.round(lerp(c0[0],c1[0],t))+','+
-                    Math.round(lerp(c0[1],c1[1],t))+','+
-                    Math.round(lerp(c0[2],c1[2],t))+')';
-    }
-
-    function showPanel(idx){
-      // Toggle text panels
-      panels.forEach(function(p,i){
-        if(i===idx){
-          p.style.display='block';
-          requestAnimationFrame(function(){ p.classList.add('panel-active'); });
-        } else {
-          p.classList.remove('panel-active');
-          setTimeout(function(){
-            if(!p.classList.contains('panel-active')) p.style.display='none';
-          }, 450);
-        }
-      });
-      // Toggle image placeholders (mirror of text panels, opposite column)
-      imgs.forEach(function(im,i){
-        if(i===idx){
-          im.style.display='block';
-          requestAnimationFrame(function(){ im.classList.add('panel-active'); });
-        } else {
-          im.classList.remove('panel-active');
-          setTimeout(function(){
-            if(!im.classList.contains('panel-active')) im.style.display='none';
-          }, 450);
-        }
-      });
-    }
-
-    function applyProgress(progress){
-      var raw  = progress * 4;
-      var pidx = Math.min(Math.floor(raw), 3);
-      var pt   = raw - pidx;
-      var nidx = Math.min(pidx+1, 3);
-
-      // Card flip — rotates continuously, wobbles on Z like a hand-flipped card
-      var rotY = progress * 2 * 360;
-      var wobble = Math.sin((rotY % 360) * Math.PI / 180) * 6;
-      coin.style.transform = 'rotateY('+rotY+'deg) rotateZ('+wobble+'deg)';
-
-      // BG colour lerp
-      bg.style.backgroundColor = lc(BG[pidx], BG[nidx], pt);
-
-      // Dots
-      dots.forEach(function(d,i){ d.classList.toggle('active', i===pidx); });
-
-      // Panel swap — corner positions alternate each step
-      if(pidx !== lastPanel){
-        lastPanel = pidx;
-        icon.style.opacity = '0';
-        setTimeout(function(){
-          icon.textContent = ICONS[pidx];
-          lbl.textContent  = LABELS[pidx];
-          icon.style.opacity = '1';
-          var stepNums = ['01','02','03','04'];
-          var c1 = document.getElementById('journey-card-corner');
-          var c2 = document.getElementById('journey-card-corner2');
-          if(c1) c1.textContent = stepNums[pidx];
-          if(c2) c2.textContent = stepNums[pidx];
-        }, 130);
-        showPanel(pidx);
-      }
-    }
-
-    function animFrame(){
-      // Ease visProgress toward rawProgress
-      visProgress += (rawProgress - visProgress) * 0.07;
-      applyProgress(visProgress);
-      rafId = requestAnimationFrame(animFrame);
-    }
-
-    function onScroll(){
-      var rect     = spacer.getBoundingClientRect();
-      var total    = spacer.offsetHeight - window.innerHeight;
-      var scrolled = Math.max(0, -rect.top);
-      rawProgress  = Math.min(scrolled / total, 1);
-
-      var inZone = rect.top <= 1 && rect.bottom > window.innerHeight - 1;
-      if(inZone){
-        overlay.style.display = 'block';
-        if(!rafId) rafId = requestAnimationFrame(animFrame);
-      } else {
-        overlay.style.display = 'none';
-        if(!inZone && rect.bottom <= window.innerHeight){
-          // Past the section — ensure progress=1 visually
-          rawProgress = 1;
-        }
-        if(!inZone && rect.top >= 0){
-          // Before the section — reset
-          rawProgress  = 0;
-          visProgress  = 0;
-          lastPanel    = -1;
-          showPanel(0);
-        }
-        if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
-      }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive:true });
-    // Init after a short delay to ensure DC component has mounted
-    setTimeout(function(){
-      showPanel(0);
-      onScroll();
-    }, 100);
-  })();
-  </script>
-
   </div><!-- /#main-content -->
 
   <!-- CONTACT -->
@@ -3779,13 +3339,13 @@
       <div>
         <h4 style="color:#fff;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px">Quick Links</h4>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="#home" style="color:#a9bb9e;font-size:14px">Home</a><a href="./about.html" style="color:#a9bb9e;font-size:14px">About Us</a><a href="#toppers" style="color:#a9bb9e;font-size:14px">Toppers</a><a href="#events" style="color:#a9bb9e;font-size:14px">Events</a><a href="#faq" style="color:#a9bb9e;font-size:14px">FAQ</a><a href="#contact" style="color:#a9bb9e;font-size:14px">Contact</a>
+          <a href="#home" style="color:#a9bb9e;font-size:14px">Home</a><a href="./about.html" style="color:#a9bb9e;font-size:14px">About Us</a><a href="#faq" style="color:#a9bb9e;font-size:14px">FAQ</a><a href="#contact" style="color:#a9bb9e;font-size:14px">Contact</a>
         </div>
       </div>
       <div>
         <h4 style="color:#fff;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px">Exam Streams</h4>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="#exams" style="color:#a9bb9e;font-size:14px">Sainik School</a><a href="#exams" style="color:#a9bb9e;font-size:14px">Navodaya</a><a href="#exams" style="color:#a9bb9e;font-size:14px">RMS</a><a href="#exams" style="color:#a9bb9e;font-size:14px">AP Gurukulam</a><a href="#exams" style="color:#a9bb9e;font-size:14px">NDA</a>
+          <a href="#home" style="color:#a9bb9e;font-size:14px">Sainik School</a><a href="#home" style="color:#a9bb9e;font-size:14px">Navodaya</a><a href="#home" style="color:#a9bb9e;font-size:14px">RMS</a><a href="#home" style="color:#a9bb9e;font-size:14px">AP Gurukulam</a><a href="#home" style="color:#a9bb9e;font-size:14px">NDA</a>
         </div>
       </div>
       <div>
@@ -4564,17 +4124,17 @@ class Component extends DCLogic {
                <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="rgba(0,0,0,0.6)"/>
              </filter>`);
 
-          // State fill — transparent with thin state-divider lines
+          // State fill — light green base with gold hover
           svg.append('g').attr('class', 'states-fill')
             .selectAll('path').data(features).enter().append('path')
             .attr('class', 'i-state')
             .attr('d', path)
-            .attr('fill', 'rgba(201,169,122,0.04)')
-            .attr('stroke', 'rgba(201,169,122,0.22)')
-            .attr('stroke-width', 0.6)
+            .attr('fill', 'rgba(34,120,40,0.28)')
+            .attr('stroke', 'rgba(0,0,0,0.7)')
+            .attr('stroke-width', 0.8)
             .style('cursor', 'pointer')
             .on('mouseover', function(event, d) {
-              d3.select(this).attr('fill', 'rgba(245,184,0,0.18)').attr('stroke', '#F5B800').attr('stroke-width', 1.2);
+              d3.select(this).attr('fill', 'rgba(245,184,0,0.52)').attr('stroke', '#F5B800').attr('stroke-width', 1.4);
               tip.transition().duration(80).style('opacity', 1);
               tip.html(`<strong style="color:#F5B800;font-size:13px">${d.properties.ST_NM}</strong><br><span style="color:#a3c98a;font-size:10px">Hover pins to see schools</span>`);
             })
@@ -4582,7 +4142,7 @@ class Component extends DCLogic {
               tip.style('left', (event.pageX + 15) + 'px').style('top', (event.pageY - 15) + 'px');
             })
             .on('mouseout', function() {
-              d3.select(this).attr('fill', 'rgba(201,169,122,0.04)').attr('stroke', 'rgba(201,169,122,0.22)').attr('stroke-width', 0.6);
+              d3.select(this).attr('fill', 'rgba(34,120,40,0.28)').attr('stroke', 'rgba(0,0,0,0.7)').attr('stroke-width', 0.8);
               tip.transition().duration(120).style('opacity', 0);
             });
 
@@ -5128,7 +4688,7 @@ class Component extends DCLogic {
 
     function routeHash() {
       const hash = window.location.hash || '#home';
-      const homeSections = ['#home', '#stats', '#why-choose-us', '#journey', '#comparison', '#recent-selections', '#exams', '#toppers', '#testimonials', '#events', '#faq', '#journey-scroll', '#defence-pathways'];
+      const homeSections = ['#home', '#stats', '#courses-slider', '#why-choose-us', '#journey', '#comparison', '#testimonials', '#faq', '#journey-scroll'];
       const specificSections = ['#courses', '#books', '#parental-sessions', '#contact'];
       
       if (mobileMenu) mobileMenu.style.display = 'none';
