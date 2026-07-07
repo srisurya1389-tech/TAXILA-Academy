@@ -1463,59 +1463,67 @@
       .pay-body{display:flex;flex-wrap:wrap;align-items:stretch}
 
       /* LEFT panel */
-      .pay-left{flex:0 0 42%;min-width:280px;padding:40px 36px;border-right:1px solid rgba(212,160,23,0.12);display:flex;flex-direction:column;justify-content:space-between}
+      .pay-left{flex:0 0 45%;min-width:260px;padding:clamp(24px,4vw,40px) clamp(20px,3.5vw,36px);border-right:1px solid rgba(212,160,23,0.12);display:flex;flex-direction:column;justify-content:space-between;gap:24px}
       .pay-course-tag{display:inline-block;background:rgba(30,96,16,0.2);border:1px solid rgba(30,96,16,0.5);color:#7dd56f;font-size:11px;font-weight:700;padding:4px 14px;border-radius:100px;letter-spacing:.06em;margin-bottom:14px}
-      .pay-course-name{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(16px,2vw,20px);color:#f8f2e0;margin:0 0 6px;line-height:1.3}
-      .pay-course-sub{color:rgba(248,242,224,0.4);font-size:13px;margin:0 0 28px}
+      .pay-course-name{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(15px,2.2vw,20px);color:#f8f2e0;margin:0 0 6px;line-height:1.3}
+      .pay-course-sub{color:rgba(248,242,224,0.4);font-size:clamp(12px,1.3vw,13px);margin:0 0 20px}
 
-      .pay-price-block{margin-bottom:28px}
-      .pay-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
-      .pay-price{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(44px,6vw,64px);color:#F5B800;line-height:1;letter-spacing:-1px}
-      .pay-price-strike{font-size:18px;color:rgba(255,255,255,0.22);text-decoration:line-through;font-weight:600}
-      .pay-price-note{color:rgba(255,255,255,0.32);font-size:12.5px}
-      .pay-save-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#4ade80;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:100px;margin-top:8px}
+      .pay-price-block{margin-bottom:20px}
+      .pay-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+      .pay-price{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(38px,7vw,64px);color:#F5B800;line-height:1;letter-spacing:-1px}
+      .pay-price-strike{font-size:clamp(14px,1.8vw,18px);color:rgba(255,255,255,0.22);text-decoration:line-through;font-weight:600}
+      .pay-price-note{color:rgba(255,255,255,0.32);font-size:12px}
+      .pay-save-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#4ade80;font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;margin-top:8px}
 
-      .pay-features{display:flex;flex-direction:column;gap:10px}
-      .pay-feat{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.72);font-size:13.5px}
-      .pay-feat-icon{width:22px;height:22px;border-radius:6px;background:rgba(30,96,16,0.3);border:1px solid rgba(74,222,128,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+      .pay-features{display:flex;flex-direction:column;gap:9px}
+      .pay-feat{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.72);font-size:clamp(12px,1.4vw,13.5px)}
+      .pay-feat-icon{width:20px;height:20px;border-radius:6px;background:rgba(30,96,16,0.3);border:1px solid rgba(74,222,128,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
       /* RIGHT panel */
-      .pay-right{flex:1 1 300px;padding:40px 36px;display:flex;flex-direction:column;gap:24px}
-
-      /* UPI header row */
-      .pay-upi-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px}
-      .pay-upi-title{font-weight:800;font-size:17px;color:#f8f2e0}
-      .pay-upi-apps{display:flex;align-items:center;gap:6px}
-      .pay-upi-app{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;color:rgba(248,242,224,0.55)}
-
-      /* QR + ID row */
-      .pay-qr-row{display:flex;gap:22px;align-items:center;flex-wrap:wrap;background:rgba(255,255,255,0.03);border:1.5px solid rgba(212,160,23,0.14);border-radius:16px;padding:20px}
-      .pay-qr-wrap{flex-shrink:0;text-align:center}
-      .pay-qr-img{width:180px;height:180px;border-radius:12px;background:#fff;padding:4px;border:2px solid rgba(212,160,23,0.35);display:block;object-fit:contain}
-      .pay-qr-label{font-size:10.5px;color:#5a7a50;font-weight:700;letter-spacing:.06em;margin-top:7px;text-transform:uppercase}
-      .pay-id-block{flex:1;min-width:160px}
-      .pay-id-label{font-size:10.5px;font-weight:800;color:rgba(248,242,224,0.35);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
-      .pay-id-row{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.3);border:1.5px solid rgba(212,160,23,0.22);border-radius:10px;padding:11px 14px;margin-bottom:12px}
-      .pay-id-text{font-size:13.5px;font-weight:700;color:#f8f2e0;flex:1;letter-spacing:.01em}
-      .pay-copy-btn{background:rgba(212,160,23,0.1);border:1px solid rgba(212,160,23,0.3);color:#F5B800;font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:7px;cursor:pointer;transition:background .18s;white-space:nowrap}
-      .pay-copy-btn:hover{background:rgba(212,160,23,0.2)}
-      .pay-hint{display:flex;align-items:flex-start;gap:7px;background:rgba(212,160,23,0.05);border:1px solid rgba(212,160,23,0.12);border-radius:9px;padding:10px 13px}
-      .pay-hint span{font-size:12px;color:rgba(248,242,224,0.48);line-height:1.55}
+      .pay-right{flex:1 1 280px;padding:clamp(24px,4vw,40px) clamp(20px,3.5vw,36px);display:flex;flex-direction:column;gap:20px}
 
       /* CTA */
-      #pay-btn{width:100%;background:linear-gradient(135deg,#F5B800 0%,#e8a800 100%);color:#0A1F05;font-weight:900;font-size:17px;padding:18px 24px;border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.22s;box-shadow:0 10px 32px rgba(245,184,0,0.32),0 0 0 0 rgba(245,184,0,0.4);letter-spacing:.01em;position:relative;overflow:hidden}
+      #pay-btn{width:100%;background:linear-gradient(135deg,#F5B800 0%,#e8a800 100%);color:#0A1F05;font-weight:900;font-size:clamp(15px,2vw,17px);padding:clamp(14px,2.5vw,18px) 24px;border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.22s;box-shadow:0 10px 32px rgba(245,184,0,0.32);letter-spacing:.01em;position:relative;overflow:hidden}
       #pay-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.12) 0%,transparent 60%);pointer-events:none}
       #pay-btn:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(245,184,0,0.45)}
       #pay-btn:active{transform:translateY(0)}
 
       /* Trust bar */
-      .pay-trust{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:36px;padding-top:28px;border-top:1px solid rgba(212,160,23,0.1)}
-      .pay-trust-item{display:flex;align-items:center;gap:7px;color:rgba(248,242,224,0.38);font-size:12.5px;font-weight:600}
+      .pay-trust{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,28px);flex-wrap:wrap;margin-top:32px;padding-top:24px;border-top:1px solid rgba(212,160,23,0.1)}
+      .pay-trust-item{display:flex;align-items:center;gap:7px;color:rgba(248,242,224,0.38);font-size:clamp(11px,1.3vw,12.5px);font-weight:600}
       .pay-trust-item svg{flex-shrink:0}
 
-      @media(max-width:720px){
-        .pay-left{border-right:none;border-bottom:1px solid rgba(212,160,23,0.12)}
-        .pay-left,.pay-right{padding:28px 22px}
+      /* ── Tablet: 768px ── */
+      @media(max-width:900px){
+        .pay-left{flex:0 0 100%;border-right:none;border-bottom:1px solid rgba(212,160,23,0.12)}
+        .pay-right{flex:0 0 100%}
+        .pay-body{flex-direction:column}
+      }
+
+      /* ── Mobile: 600px ── */
+      @media(max-width:600px){
+        #fee-section{padding:60px clamp(14px,4vw,24px) 60px}
+        .pay-outer{max-width:100%}
+        .pay-header{margin-bottom:36px}
+        .pay-title{font-size:clamp(22px,7vw,32px)}
+        .pay-subtitle{font-size:13px}
+        .pay-ribbon{padding:10px 16px;gap:6px}
+        .pay-ribbon-left,.pay-ribbon-right{font-size:11px}
+        .pay-left,.pay-right{padding:22px 18px}
+        .pay-price{font-size:clamp(36px,11vw,52px)}
+        .pay-feat{font-size:12.5px}
+        .pay-trust{gap:14px;margin-top:24px;padding-top:20px}
+        .pay-trust-item{font-size:11px}
+      }
+
+      /* ── Small phones: 380px ── */
+      @media(max-width:380px){
+        .pay-left,.pay-right{padding:18px 14px}
+        .pay-price{font-size:34px}
+        .pay-course-name{font-size:14px}
+        #pay-btn{font-size:14px;padding:14px 16px;gap:7px}
+        .pay-trust-item span{display:none}
+        .pay-trust-item svg{width:16px;height:16px}
       }
     </style>
 
