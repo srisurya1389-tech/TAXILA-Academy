@@ -523,7 +523,7 @@
   #subjects-section   { background: #f4fbee !important; }
   #navodaya-demo-videos { background: #0c1e07 !important; border-top: 2px solid rgba(212,160,23,0.2) !important; }
   #duration-section   { background: #faf8f0 !important; border-top: none !important; border-bottom: none !important; }
-  #books-section      { background: #f4fbee !important; }
+  #books-section      { background: transparent !important; }
   #special-section    { background: var(--bg-section) !important; border-top: 2px solid rgba(212,160,23,0.15) !important; border-bottom: 2px solid rgba(212,160,23,0.15) !important; }
   #journey-timeline-section { background: #081403 !important; }
   #testimonials-section { background: #faf8f0 !important; border-top: none !important; border-bottom: none !important; }
@@ -1241,7 +1241,12 @@
   <div id="duration-bottom-divider" style="line-height:0;overflow:hidden;display:none;"></div>
 
   <!-- 4. BOOKS FOR THIS COURSE -->
-  <section id="books-section" style="background:#f2fbf5;padding:80px clamp(18px,4vw,56px)">
+  <section id="books-section" style="position:relative;padding:80px clamp(18px,4vw,56px);overflow:hidden">
+    <div style="position:absolute;inset:0;z-index:0">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783406242/Copilot_20260707_120529_ovdqjf.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,251,238,0.92) 0%,rgba(230,248,220,0.88) 50%,rgba(240,250,234,0.93) 100%)"></div>
+    </div>
+    <div style="position:relative;z-index:1">
     <style>
       .bfc-wrap{max-width:1180px;margin:0 auto}
       .bfc-head{margin:0 0 52px}
@@ -1279,6 +1284,7 @@
         NCERT &bull; Arihant &bull; RS Aggarwal &bull; Institute Study Material
       </div>
     </div>
+    </div><!-- /z-index wrapper -->
   </section>
 
   <!-- 5. WHAT MAKES THIS COURSE SPECIAL -->
@@ -2379,6 +2385,19 @@ class Component extends DCLogic {
       const booksGrid = root.querySelector('[data-books-grid]');
       if (booksGrid) {
         booksGrid.innerHTML = '';
+        
+        const isSingleBook = c.books && c.books.length === 1;
+        
+        if (isSingleBook) {
+          booksGrid.style.display = 'block';
+          booksGrid.style.maxWidth = '860px';
+          booksGrid.style.margin = '0 auto';
+        } else {
+          booksGrid.style.display = 'grid';
+          booksGrid.style.maxWidth = '';
+          booksGrid.style.margin = '';
+        }
+
         c.books.forEach((book) => {
           const isObj = typeof book === 'object';
           const title = isObj ? book.title : book;
@@ -2388,26 +2407,113 @@ class Component extends DCLogic {
           const img = isObj ? book.img : null;
           const hasRealImg = img && img.indexOf('BOOK_IMG') === -1;
 
-          const card = document.createElement('div');
-          card.className = 'bfc-card reveal-node active';
-          card.innerHTML = `
-            <div class="bfc-img-wrap">
-              ${hasRealImg
-                ? `<img src="${img}" alt="${title}" loading="lazy">`
-                : `<div class="bfc-img-placeholder">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3a6e44" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    <span>Cover coming soon</span>
-                  </div>`}
-              ${category ? `<span class="bfc-cat">${category}</span>` : ''}
-            </div>
-            <div class="bfc-body">
-              <h4 class="bfc-title">${title}</h4>
-              <p class="bfc-author">By ${author}</p>
-              ${desc ? `<p class="bfc-desc">${desc}</p>` : ''}
-              <a href="#" class="bfc-btn" onclick="return false">Read Preview</a>
-            </div>
-          `;
-          booksGrid.appendChild(card);
+          if (isSingleBook) {
+            const card = document.createElement('div');
+            card.className = 'bfc-single-card reveal-node active';
+            card.style.cssText = `
+              background: #ffffff;
+              border-radius: 24px;
+              border: 1.5px solid #dff0e4;
+              box-shadow: 0 12px 40px rgba(15,43,10,0.06);
+              padding: clamp(24px, 4vw, 44px);
+              display: flex;
+              gap: clamp(24px, 5vw, 48px);
+              align-items: center;
+              transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            `;
+            
+            card.onmouseover = () => {
+              card.style.transform = 'translateY(-5px)';
+              card.style.boxShadow = '0 20px 48px rgba(15,43,10,0.12)';
+              card.style.borderColor = '#C9920A';
+            };
+            card.onmouseout = () => {
+              card.style.transform = 'none';
+              card.style.boxShadow = '0 12px 40px rgba(15,43,10,0.06)';
+              card.style.borderColor = '#dff0e4';
+            };
+
+            card.innerHTML = `
+              <div class="bfc-single-img-wrap" style="flex: 0 0 240px; max-width: 240px; border-radius: 14px; overflow: hidden; box-shadow: 8px 12px 28px rgba(0,0,0,0.15); background: #e8f5ec; transition: transform 0.3s ease;">
+                ${hasRealImg
+                  ? `<img src="${img}" alt="${title}" style="width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; display:block;" loading="lazy">`
+                  : `<div style="width:100%; aspect-ratio:3/4; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(145deg,#daf0e1,#c5e8cf); gap:10px;">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3a6e44" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      <span style="font-size:11px; font-weight:700; color:#3a6e44; text-transform:uppercase; opacity:0.6;">Cover coming soon</span>
+                    </div>`}
+              </div>
+              <div class="bfc-single-body" style="flex: 1; display:flex; flex-direction:column; gap:14px; text-align:left;">
+                ${category ? `<span style="align-self:flex-start; background:rgba(27,77,14,0.08); color:#1B4D0E; font-size:11px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; padding:6px 14px; border-radius:100px; border:1px solid rgba(27,77,14,0.12);">${category}</span>` : ''}
+                <h4 style="font-family:'Playfair Display',serif; font-weight:800; font-size:clamp(20px, 3vw, 26px); color:#0f2b0a; margin:0; line-height:1.3;">${title}</h4>
+                <p style="font-size:14.5px; font-weight:700; color:#c05a00; margin:0;">Published by ${author}</p>
+                ${desc ? `<p style="color:#557a4a; font-size:14.5px; line-height:1.65; margin:0;">${desc}</p>` : ''}
+                <div style="margin-top:8px;">
+                  <a href="#" class="bfc-btn" onclick="return false" style="display:inline-block; border:2px solid #1B4D0E; color:#1B4D0E; font-size:14px; font-weight:700; padding:10px 28px; border-radius:100px; text-decoration:none; transition:all 0.2s; background:transparent;">Read Preview</a>
+                </div>
+              </div>
+            `;
+            
+            // Mouseover image zoom effect
+            card.addEventListener('mouseenter', () => {
+              const imgEl = card.querySelector('.bfc-single-img-wrap');
+              if (imgEl) imgEl.style.transform = 'scale(1.02) rotate(-1deg)';
+            });
+            card.addEventListener('mouseleave', () => {
+              const imgEl = card.querySelector('.bfc-single-img-wrap');
+              if (imgEl) imgEl.style.transform = 'none';
+            });
+
+            if (!document.getElementById('bfc-single-responsive-style')) {
+              const style = document.createElement('style');
+              style.id = 'bfc-single-responsive-style';
+              style.textContent = `
+                @media (max-width: 640px) {
+                  .bfc-single-card {
+                    flex-direction: column !important;
+                    align-items: stretch !important;
+                    text-align: center !important;
+                    padding: 24px !important;
+                  }
+                  .bfc-single-img-wrap {
+                    margin: 0 auto 16px !important;
+                    flex: none !important;
+                    max-width: 180px !important;
+                  }
+                  .bfc-single-body {
+                    align-items: center !important;
+                    text-align: center !important;
+                  }
+                  .bfc-single-body span {
+                    align-self: center !important;
+                  }
+                }
+              `;
+              document.head.appendChild(style);
+            }
+
+            booksGrid.appendChild(card);
+          } else {
+            const card = document.createElement('div');
+            card.className = 'bfc-card reveal-node active';
+            card.innerHTML = `
+              <div class="bfc-img-wrap">
+                ${hasRealImg
+                  ? `<img src="${img}" alt="${title}" loading="lazy">`
+                  : `<div class="bfc-img-placeholder">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3a6e44" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      <span>Cover coming soon</span>
+                    </div>`}
+                ${category ? `<span class="bfc-cat">${category}</span>` : ''}
+              </div>
+              <div class="bfc-body">
+                <h4 class="bfc-title">${title}</h4>
+                <p class="bfc-author">By ${author}</p>
+                ${desc ? `<p class="bfc-desc">${desc}</p>` : ''}
+                <a href="#" class="bfc-btn" onclick="return false">Read Preview</a>
+              </div>
+            `;
+            booksGrid.appendChild(card);
+          }
         });
       }
 
