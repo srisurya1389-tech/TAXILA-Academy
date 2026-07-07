@@ -1595,9 +1595,17 @@
 
             <!-- QR + UPI ID -->
             <div class="pay-qr-row">
+              <!-- QR Lightbox Overlay -->
+              <div id="qr-lightbox" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;cursor:zoom-out">
+                <div style="position:relative;text-align:center">
+                  <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783409950/WhatsApp_Image_2026-06-17_at_11.06.14_AM_roxsgt.jpg" alt="UPI QR Code" style="width:min(85vw,420px);height:min(85vw,420px);object-fit:contain;border-radius:16px;background:#fff;padding:12px;border:2px solid rgba(212,160,23,0.5);box-shadow:0 24px 80px rgba(0,0,0,0.7)">
+                  <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-top:14px;font-weight:600">Tap anywhere to close</div>
+                </div>
+              </div>
+
               <div class="pay-qr-wrap">
-                <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783409950/WhatsApp_Image_2026-06-17_at_11.06.14_AM_roxsgt.jpg" alt="UPI QR Code" class="pay-qr-img">
-                <div class="pay-qr-label">Scan to pay</div>
+                <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783409950/WhatsApp_Image_2026-06-17_at_11.06.14_AM_roxsgt.jpg" alt="UPI QR Code" class="pay-qr-img" onclick="var lb=document.getElementById('qr-lightbox');lb.style.display='flex'" style="cursor:zoom-in">
+                <div class="pay-qr-label">Tap to enlarge</div>
               </div>
               <div class="pay-id-block">
                 <div class="pay-id-label">UPI ID</div>
