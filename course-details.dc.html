@@ -908,9 +908,9 @@
 
         <!-- Buttons -->
         <div style="display:flex;gap:14px;flex-wrap:wrap">
-          <a href="#fee-section" style="display:inline-flex;align-items:center;gap:8px;background:#F5B800;color:#0A1F05;font-weight:800;font-size:14.5px;padding:12px 28px;border-radius:10px;box-shadow:0 6px 20px rgba(245,184,0,0.25);transition:all 0.2s;text-decoration:none" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <a href="#fee-section" onclick="event.preventDefault();document.getElementById('fee-section').scrollIntoView({behavior:'smooth',block:'start'})" style="display:inline-flex;align-items:center;gap:10px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:17px;padding:16px 38px;border-radius:12px;box-shadow:0 8px 28px rgba(245,184,0,0.35);transition:all 0.2s;text-decoration:none;letter-spacing:0.01em" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(245,184,0,0.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(245,184,0,0.35)'">
             Enroll Now
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
           <a href="#demo-section" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:14.5px;padding:11px 28px;border-radius:10px;transition:all 0.2s;text-decoration:none" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -925,10 +925,10 @@
           <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:12px;gap:10px">
             <div>
               <span style="color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;display:block">THE CURRICULUM</span>
-              <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin:4px 0 0;font-weight:800">Six pillars of mastery</h3>
+              <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin:4px 0 0;font-weight:800">Four pillars of mastery</h3>
             </div>
             <div style="margin-left:auto;text-align:right;flex-shrink:0">
-              <span style="background:rgba(255,255,255,0.08);color:#cfe0c4;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.02em">6 Subjects · 1 Year</span>
+              <span style="background:rgba(255,255,255,0.08);color:#cfe0c4;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.02em">4 Subjects · 4-5 Months</span>
             </div>
           </div>
 
@@ -1930,10 +1930,7 @@ class Component extends DCLogic {
           { name: "Environmental Studies", desc: "Basic ecology, natural resources, environmental awareness and conservation concepts for JNVST." }
         ],
         books: [
-          { title: "JNVST Mental Ability Trainer", author: "Taxila Academy", category: "Mental Ability", desc: "Pattern-based reasoning and figure logic workbook designed for JNVST mental ability section.", img: "BOOK_IMG_1" },
-          { title: "JNVST Arithmetic Booster", author: "Taxila Academy", category: "Maths", desc: "Number system, fractions, LCM/HCF and speed-distance-time with chapter-wise practice sets.", img: "BOOK_IMG_2" },
-          { title: "Arihant JNVST Guide", author: "Arihant Publications", category: "Comprehensive", desc: "Complete JNVST preparation guide covering all sections with fully solved previous papers.", img: "BOOK_IMG_3" },
-          { title: "Class 5 Language Booster", author: "Vidhya Sagar", category: "English", desc: "Reading comprehension and language proficiency workbook tuned for JNVST language section.", img: "BOOK_IMG_4" }
+          { title: "Jawahar Navodaya Vidyalaya Class VI Entrance Exam 2025 Study Guide", author: "Arihant Experts", category: "Study Guide", desc: "A comprehensive preparation guide for JNVST Class 6 admission. Includes detailed coverage of Mental Ability, Arithmetic, and Language Tests based on the latest syllabus, alongside Solved Papers and practice sets.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783405377/WhatsApp_Image_2026-07-07_at_11.52.16_AM_uurhjx.jpg" }
         ],
         studentTestimonials: [
           { name: "Sri Priya", text: "The figure reasoning questions in JNVST were exactly like what we practiced at Taxila.", sub: "Selected Class 6 JNV" },
