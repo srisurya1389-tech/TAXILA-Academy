@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="./firebase-config.js"></script>
 </head>
 <body>
 <x-dc id="taxila-details-root">
@@ -175,28 +178,6 @@
     background: #0b1a07;
   }
 
-  /* Payment Modal classes */
-  .payment-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(10,31,5,0.7);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.3s ease;
-  }
-  .payment-modal-content {
-    background: #040c02;
-    width: 90%;
-    max-width: 440px;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-    animation: scaleIn 0.3s cubic-bezier(0.2,0.8,0.2,1);
-  }
-  
   /* Premium dashboard card */
   .premium-dash-card {
     background: #040c02;
@@ -772,16 +753,6 @@
   .ndv-item.active { background: rgba(212,160,23,0.1) !important; border-left-color: var(--gold-bright) !important; }
 
   /* ══════════════════════════════════════════
-     PAYMENT MODAL
-  ══════════════════════════════════════════ */
-  .payment-modal-backdrop { background: rgba(4,8,2,0.88) !important; }
-  .payment-modal-content  {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border-gold) !important;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.75) !important;
-  }
-
-  /* ══════════════════════════════════════════
      DEMO / BOOKING FORM INPUTS
   ══════════════════════════════════════════ */
   .demo-input {
@@ -818,21 +789,6 @@
   /* Progress bar track */
   [style*="background:#e0ecd8;border-radius"] { background: rgba(212,160,23,0.1) !important; }
 
-  /* Modal gateway */
-  #modal-gateway-body input {
-    background: rgba(255,255,255,0.06) !important;
-    border-color: rgba(212,160,23,0.18) !important;
-    color: var(--text-primary) !important;
-    border-radius: 8px !important;
-  }
-  #modal-gateway-body [style*="color:#7a8a6f"],
-  #modal-gateway-body [style*="color:#516147"] { color: var(--text-muted) !important; }
-  #modal-gateway-body [style*="border-bottom:1px solid #f0f0f0"] { border-bottom-color: var(--border) !important; }
-  #modal-loading-overlay [style*="border:4.5px solid #e0ecd8"] {
-    border-color: rgba(212,160,23,0.12) !important;
-    border-top-color: var(--gold-bright) !important;
-  }
-
   /* Hide premium emoji placeholder */
   #premium-content [style*="font-size:62px"] { display: none; }
 
@@ -860,7 +816,7 @@
       <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:75px;width:auto;object-fit:contain">
       <span style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:25px;color:#fff;letter-spacing:-0.03em">TAXILA ACADEMY</span>
     </a>
-    <a href="./index.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:14px;padding:9px 18px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.3)';this.style.color='#fff'">
+    <a href="./index.html#courses" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:14px;padding:9px 18px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.3)';this.style.color='#fff'">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back to Courses
     </a>
@@ -916,11 +872,6 @@
           <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2.5 3 6 3s6-1 6-3v-5"/></svg>
             <span style="font-weight:600">Expert Academy Faculty</span>
-          </div>
-          <!-- Stat 3: Rating -->
-          <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="#F5B800"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <span style="font-weight:600">100+ Selections</span>
           </div>
         </div>
 
@@ -1264,7 +1215,7 @@
     <div class="bfc-wrap">
       <div class="bfc-head">
         <span class="bfc-label">Books for this Course</span>
-        <h2 class="bfc-h2">The Books We Use Here</h2>
+        <h2 class="bfc-h2">The Books We Use</h2>
         <p class="bfc-sub">We supply curriculum-curated textbook packages and workbooks. These books help cement topics discussed in classes.</p>
       </div>
       <div data-books-grid class="bfc-grid">
@@ -1550,8 +1501,37 @@
         <p class="pay-subtitle">No hidden charges · Instant confirmation · Bank-grade security</p>
       </div>
 
+      <!-- STUDENT DETAILS CARD (shown first — fill in before payment) -->
+      <div class="pay-card" id="enroll-details-card">
+        <div style="padding:clamp(24px,4vw,40px)">
+          <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#f8f2e0;margin:0 0 6px">Student Details</h3>
+          <p style="color:rgba(248,242,224,0.45);font-size:13.5px;margin:0 0 26px">Fill in the student's details below, then continue to payment to confirm enrollment.</p>
+          <div style="display:flex;flex-direction:column;gap:16px;max-width:520px">
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Student's Full Name</label>
+              <input id="enroll-input-name" type="text" placeholder="Enter student's full name" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:rgba(0,0,0,0.25);color:#fff;outline:none;font-size:14px;box-sizing:border-box">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div>
+                <label style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Parent / Guardian Name</label>
+                <input id="enroll-input-parent" type="text" placeholder="Father or Mother name" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:rgba(0,0,0,0.25);color:#fff;outline:none;font-size:14px;box-sizing:border-box">
+              </div>
+              <div>
+                <label style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Phone Number</label>
+                <input id="enroll-input-phone" type="tel" placeholder="10-digit mobile number" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:rgba(0,0,0,0.25);color:#fff;outline:none;font-size:14px;box-sizing:border-box">
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Email Address</label>
+              <input id="enroll-input-email" type="email" placeholder="parent@email.com" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:rgba(0,0,0,0.25);color:#fff;outline:none;font-size:14px;box-sizing:border-box">
+            </div>
+            <button id="enroll-continue-btn" type="button" style="width:100%;background:linear-gradient(135deg,#F5B800 0%,#e8a800 100%);color:#0A1F05;font-weight:900;font-size:16px;padding:16px 24px;border:none;border-radius:14px;cursor:pointer;margin-top:6px">Continue to Payment</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Main Card -->
-      <div class="pay-card">
+      <div class="pay-card" id="enroll-payment-card" style="display:none">
 
         <!-- Urgency Ribbon -->
         <div class="pay-ribbon">
@@ -1721,65 +1701,6 @@
     </div>
   </section>
 
-  <!-- RAZORPAY SIMULATED CHECKOUT MODAL -->
-  <div id="razorpay-modal" class="payment-modal-backdrop">
-    <div class="payment-modal-content">
-      <!-- Modal Header -->
-      <div style="background:#1B4D0E;padding:24px;color:#fff;display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Logo" style="height:38px;width:auto">
-          <div>
-            <div style="font-weight:800;font-size:16px">Taxila Academy</div>
-            <div style="font-size:11.5px;color:#cfe0c4">Course Enrollment Payment</div>
-          </div>
-        </div>
-        <button id="close-payment-btn" style="background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1;transition:color .2s" onmouseover="this.style.color='#F5B800'" onmouseout="this.style.color='#fff'">&times;</button>
-      </div>
-
-      <!-- Modal Body -->
-      <div id="modal-gateway-body" style="padding:28px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;border-bottom:1px solid #f0f0f0;padding-bottom:14px">
-          <span style="font-weight:600;color:#cbdcc5;font-size:14.5px">Amount to Pay</span>
-          <strong style="font-size:20px;color:#1B4D0E">₹ <span id="modal-price">9,999</span></strong>
-        </div>
-
-        <div style="font-size:13px;font-weight:700;color:#7a8a6f;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px">Card Payment Details</div>
-
-        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
-          <div>
-            <input type="text" id="card-number" placeholder="Card Number (4000 1234 5678 9010)" style="width:100%;padding:12px;border:1px solid #e0ecd8;border-radius:8px;outline:none;font-size:14px">
-          </div>
-          <div style="display:flex;gap:12px">
-            <input type="text" id="card-expiry" placeholder="MM/YY" style="width:50%;padding:12px;border:1px solid #e0ecd8;border-radius:8px;outline:none;font-size:14px">
-            <input type="password" id="card-cvv" placeholder="CVV" style="width:50%;padding:12px;border:1px solid #e0ecd8;border-radius:8px;outline:none;font-size:14px">
-          </div>
-        </div>
-
-        <button id="modal-pay-submit" style="width:100%;background:#F5B800;color:#0A1F05;font-weight:800;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='#e5ab00'" onmouseout="this.style.background='#F5B800'">Simulate Payment</button>
-
-        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;color:#9fb594;font-size:11.5px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Secured by Razorpay checkout
-        </div>
-      </div>
-
-      <!-- Simulated Loading Overlay -->
-      <div id="modal-loading-overlay" style="display:none;padding:50px 24px;text-align:center">
-        <div style="width:54px;height:54px;border:4.5px solid #e0ecd8;border-top-color:#1B4D0E;border-radius:50%;animation:cardMarquee 1s linear infinite;margin:0 auto 20px"></div>
-        <div style="font-weight:700;font-size:16px;color:#f0f6e8" id="modal-loading-txt">Connecting to bank server...</div>
-        <div style="font-size:13px;color:#7a8a6f;margin-top:6px">Please do not refresh or hit the back button.</div>
-      </div>
-
-      <!-- Simulated Success Screen -->
-      <div id="modal-success-screen" style="display:none;padding:50px 24px;text-align:center">
-        <div style="width:68px;height:68px;border-radius:50%;background:rgba(27,77,14,0.25);border:2px solid rgba(201,169,122,0.4);color:#C9A97A;display:inline-flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;margin-bottom:20px;box-shadow:0 6px 24px rgba(0,0,0,0.5);animation:checkAnimation 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both">&checkmark;</div>
-        <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:24px;color:#C9A97A;margin:0 0 8px">Payment Successful!</h3>
-        <p style="color:#cbdcc5;font-size:15px;margin:0 0 10px">Cadet admission processed. Course content unlocked.</p>
-        <p id="rzp-payment-id-display" style="color:rgba(232,213,176,0.4);font-size:12px;font-family:monospace;word-break:break-all"></p>
-      </div>
-    </div>
-  </div>
-
   <!-- 10. PREMIUM CONTENT ACCESS (Locked by default, shown after payment) -->
   <section id="premium-content" style="display:none;background:#090c0a;padding:90px clamp(18px,4vw,56px);border-top:3px solid #C9A97A;scroll-margin-top:80px">
     <div style="max-width:1180px;margin:0 auto">
@@ -1933,10 +1854,30 @@
 </x-dc>
 
 <script type="text/x-dc" data-dc-script>
+// Saves a course enrollment lead to Firestore so it shows up in the admin
+// panel. Silently does nothing if Firebase hasn't been configured yet (see
+// ./firebase-config.js) — the payment flow continues regardless.
+function saveRegistrationToFirestore(data) {
+  var cfg = window.TAXILA_FIREBASE_CONFIG;
+  if (!cfg || !cfg.apiKey || cfg.apiKey === 'YOUR_API_KEY') return Promise.resolve(null);
+  try {
+    var app;
+    try { app = firebase.app('teereg'); } catch (e) { app = firebase.initializeApp(cfg, 'teereg'); }
+    return firebase.firestore(app).collection('registrations').add(Object.assign({}, data, {
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })).catch(function() { return null; });
+  } catch (e) { return Promise.resolve(null); }
+}
+
 class Component extends DCLogic {
   componentDidMount() {
     const root = document.getElementById('taxila-details-root');
     if (!root) return;
+
+    // Set by the Student Details step, read by the Razorpay success handler
+    // so the same registration doc flips from "pending" to "paid" instead of
+    // creating a second record.
+    let pendingEnrollDocRef = null;
 
     // Detailed Course Data Map covering all 9 academy streams
     const courseData = {
@@ -1944,7 +1885,7 @@ class Component extends DCLogic {
         title: "Sainik School Entrance Coaching",
         tagline: "All-India Sainik Schools Entrance Examination (AISSEE)",
         bannerColor: "linear-gradient(135deg, #1B4D0E 0%, #0A1F05 100%)",
-        duration: "12 Months Regular Program",
+        duration: "10 Months (Up to Exam)",
         fee: "9,999",
         subjects: [
           { name: "Mathematics", desc: "Fractions, decimals, unitary method, ratio, algebra." },
@@ -2157,25 +2098,22 @@ class Component extends DCLogic {
       },
       foundation23: {
         title: "2nd & 3rd Class Foundation",
-        tagline: "Cognitive Skill & English Foundation Course",
+        tagline: "Foundation Course",
         bannerColor: "linear-gradient(135deg, #25441b 0%, #0f210a 100%)",
-        duration: "12 Months School Foundation",
-        fee: "5,999",
+        duration: "6 Months School Foundation (Up to Exams)",
+        fee: "12,000",
         subjects: [
           { name: "Mental Arithmetic", desc: "Tables, quick addition-subtraction, arithmetic puzzles." },
           { name: "Phonics & Pronunciation", desc: "Correct reading habits, spelling rules, phonetics." },
           { name: "Basic Analytical Aptitude", desc: "Odd-one-out, simple pattern series, grouping figures." },
           { name: "Spoken English Skills", desc: "Constructing small sentences, conversational vocabulary." },
-          { name: "General Awareness", desc: "Our environment, national symbols, basic plants/animals." },
-          { name: "Writing Practice", desc: "Cursive writing, clean presentation, correct punctuation." }
+          { name: "General Awareness", desc: "Our environment, national symbols, basic plants/animals." }
         ],
         books: [
-          { title: "Taxila Kid's Math Book", author: "Taxila Academy", category: "Foundation", desc: "Tables, quick addition-subtraction and arithmetic puzzles paced for young learners." },
-          { title: "Phonics Reader Vol 1", author: "Taxila Academy", category: "Foundation", desc: "Correct reading habits, spelling rules and phonetics built through guided practice pages." },
-          { title: "Junior Logic Puzzles", author: "Taxila Academy", category: "Foundation", desc: "Odd-one-out, pattern series and figure-grouping puzzles that build early analytical skill." },
-          { title: "Spoken English Guide", author: "Taxila Academy", category: "Foundation", desc: "Simple sentence construction and conversational vocabulary for everyday spoken practice." },
-          { title: "Environmental Awareness", author: "Taxila Academy", category: "Foundation", desc: "Our environment, national symbols and basic plant and animal life explained simply." },
-          { title: "Junior Handwriting Book", author: "Taxila Academy", category: "Foundation", desc: "Cursive writing practice pages focused on clean presentation and correct punctuation." }
+          { title: "Taxila Kid's Math Book", author: "Taxila Academy", category: "Foundation", desc: "Tables, quick addition-subtraction and arithmetic puzzles paced for young learners.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781143860/WhatsApp_Image_2026-06-10_at_7.37.16_PM_2_utukpp.jpg" },
+          { title: "Phonics Reader Vol 1", author: "Taxila Academy", category: "Foundation", desc: "Correct reading habits, spelling rules and phonetics built through guided practice pages.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781143862/WhatsApp_Image_2026-06-10_at_7.19.01_PM_wjtp3y.jpg" },
+          { title: "Junior Logic Puzzles", author: "Taxila Academy", category: "Foundation", desc: "Odd-one-out, pattern series and figure-grouping puzzles that build early analytical skill.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781187739/WhatsApp_Image_2026-06-11_at_7.50.54_PM_wuaoev.jpg" },
+          { title: "Spoken English Guide", author: "Taxila Academy", category: "Foundation", desc: "Simple sentence construction and conversational vocabulary for everyday spoken practice.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673574/WhatsApp_Image_2026-07-10_at_2.22.34_PM_n1kw3r.jpg" }
         ],
         studentTestimonials: [
           { name: "Aaradhya G.", text: "I love the GK quizzes and color puzzle games we play in our class.", sub: "Class 3 Student" },
@@ -2184,20 +2122,14 @@ class Component extends DCLogic {
         parentTestimonials: [
           { name: "Prasanna", text: "My daughter's cursive writing and spelling habits improved within a few months of joining.", sub: "Mother of Aaradhya" },
           { name: "Koteswara Rao", text: "Strong cognitive base. Helps the child transition to competitive classes easily.", sub: "Father of Karthik" }
-        ],
-        journeyTimeline: [
-          { month: "Month 1–2", title: "Cognitive Sprint", desc: "Practice basic mental arithmetic (tables up to 10), phonics reading, and simple drawing puzzles." },
-          { month: "Month 3–5", title: "Language & Logic", desc: "Build spoken English confidence, sentence construction, and odd-one-out pattern recognition." },
-          { month: "Month 6–8", title: "General Awareness", desc: "Learn environmental science basics, plant/animal life cycles, and cursive writing practice." },
-          { month: "Month 9–10", title: "Creative Review", desc: "Fun GK quizzes, logical games, and interactive assessments to celebrate learning progress." }
         ]
       },
       foundation45: {
         title: "4th & 5th Class Foundation",
-        tagline: "Primary Math & Reasoning Bridge Course",
+        tagline: "Foundation Course",
         bannerColor: "linear-gradient(135deg, #1b3e15 0%, #0a1b08 100%)",
-        duration: "12 Months School Foundation",
-        fee: "6,999",
+        duration: "10 Months School Foundation",
+        fee: "12,000",
         subjects: [
           { name: "Quantitative Basics", desc: "Fractions, calendar math, simple unit conversions." },
           { name: "Logical Reasoning Intro", desc: "Figure matrices, blood relations, coding series." },
@@ -2207,12 +2139,10 @@ class Component extends DCLogic {
           { name: "Spoken & Writing Skill", desc: "Paragraph writing, story summary, spoken dialogues." }
         ],
         books: [
-          { title: "Aptitude Junior Part 1", author: "Taxila Academy", category: "Foundation", desc: "Figure matrices, blood relations and coding series introduced through simple logical exercises." },
-          { title: "Science Concepts Junior", author: "Taxila Academy", category: "Foundation", desc: "States of matter, the water cycle and plant classification explained with everyday examples." },
-          { title: "Primary Grammatika", author: "Taxila Academy", category: "Foundation", desc: "Nouns, pronouns, tenses and sentence-correction drills for growing grammar confidence." },
-          { title: "Arithmetic Bridge Book", author: "Taxila Academy", category: "Foundation", desc: "Fractions, calendar math and simple unit conversions bridging primary to competitive-level math." },
-          { title: "GK Digest Primary", author: "Taxila Academy", category: "Foundation", desc: "Indian rivers, state capitals and historical leaders summarised for quick recall." },
-          { title: "Taxila Workbook Kit", author: "Taxila Academy", category: "Foundation", desc: "Paragraph writing, story summaries and spoken-dialogue practice in one combined workbook." }
+          { title: "Aptitude Junior Part 1", author: "Taxila Academy", category: "Foundation", desc: "Figure matrices, blood relations and coding series introduced through simple logical exercises.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781143616/WhatsApp_Image_2026-06-10_at_7.00.27_PM_nskcuj.jpg" },
+          { title: "Science Concepts Junior", author: "Taxila Academy", category: "Foundation", desc: "States of matter, the water cycle and plant classification explained with everyday examples.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.56_PM_1_nxczcp.jpg" },
+          { title: "Primary Grammatika", author: "Taxila Academy", category: "Foundation", desc: "Nouns, pronouns, tenses and sentence-correction drills for growing grammar confidence.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.56_PM_babwwo.jpg" },
+          { title: "Arithmetic Bridge Book", author: "Taxila Academy", category: "Foundation", desc: "Fractions, calendar math and simple unit conversions bridging primary to competitive-level math.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.57_PM_r5a5s8.jpg" }
         ],
         studentTestimonials: [
           { name: "Varun P.", text: "Solving puzzles and math sums is like a game now. I enjoy my studies.", sub: "Class 5 Student" },
@@ -2221,49 +2151,6 @@ class Component extends DCLogic {
         parentTestimonials: [
           { name: "Narayana K.", text: "Perfect bridge program. Clears JNVST and Sainik school entrance basics beforehand.", sub: "Father of Varun" },
           { name: "Lata Rani", text: "My daughter became very independent with homework after joining Taxila's daily sessions.", sub: "Mother of Deepa" }
-        ],
-        journeyTimeline: [
-          { month: "Month 1–2", title: "Bridge Sprint", desc: "Learn quantitative basics (fractions, calendar math) and primary grammatical tenses." },
-          { month: "Month 3–5", title: "Reasoning Intro", desc: "Study figure matrices, blood relations, tenses, and general science classification." },
-          { month: "Month 6–8", title: "Advanced Writing", desc: "Practice paragraph composition, reading comprehension, and basic general knowledge drills." },
-          { month: "Month 9–10", title: "Prep Readiness", desc: "Mock tests tailored for school exams and future competitive selection test baselines." }
-        ]
-      },
-      foundation6: {
-        title: "6th Class Foundation",
-        tagline: "IIT-JEE / NEET & Olympiad Bridge Program",
-        bannerColor: "linear-gradient(135deg, #13320c 0%, #071703 100%)",
-        duration: "12 Months Bridge Program",
-        fee: "7,999",
-        subjects: [
-          { name: "Algebra & Number Theory", desc: "Integers, exponents, basic linear equations, divisibility." },
-          { name: "Basic Geometry", desc: "Angles, triangles, perimeter & area formulas." },
-          { name: "Physics Fundamentals", desc: "Force, motion, friction, light reflection basics." },
-          { name: "Chemistry Concepts", desc: "Elements, compounds, physical-chemical changes." },
-          { name: "Biology Core", desc: "Cell structure basics, classification of organisms." },
-          { name: "Olympiad Aptitude", desc: "High-level logical reasoning, data sufficiency." }
-        ],
-        books: [
-          { title: "Class 6 Olympiad Math", author: "Taxila Academy", category: "Olympiad", desc: "Integers, exponents and divisibility problems pitched at Olympiad difficulty." },
-          { title: "Bridge Physics & Chem", author: "Taxila Academy", category: "Foundation", desc: "Force, motion, light reflection and basic chemical changes explained through simple experiments." },
-          { title: "Biology Concept Book", author: "Taxila Academy", category: "Foundation", desc: "Cell structure basics and classification of organisms introduced with labeled diagrams." },
-          { title: "Linear Algebra Junior", author: "Taxila Academy", category: "Foundation", desc: "Basic linear equations and number theory building toward high-school algebra." },
-          { title: "Logical Reasoning Guide", author: "Taxila Academy", category: "Olympiad", desc: "High-level pattern recognition and data-sufficiency questions for competitive aptitude." },
-          { title: "Taxila Bridge Papers", author: "Taxila Academy", category: "Foundation", desc: "Simulated Olympiad-style papers with personal speed-building feedback." }
-        ],
-        studentTestimonials: [
-          { name: "Deepika R.", text: "The math Olympiad booklets helped me secure state level Rank 3 in Olympiad.", sub: "Class 6 Scholar" },
-          { name: "T. Aditya", text: "Science topics are explained with drawings which makes them very simple.", sub: "Class 6 Student" }
-        ],
-        parentTestimonials: [
-          { name: "V. Satyanarayana", text: "An excellent bridge. It prepares children for high school IIT streams without burden.", sub: "Father of Deepika" },
-          { name: "Meenakshi K.", text: "My son's analytic skills became very sharp. He is performing top in standard school too.", sub: "Mother of T. Aditya" }
-        ],
-        journeyTimeline: [
-          { month: "Month 1–2", title: "Olympiad Sprint", desc: "Cover basic algebra (exponents, linear equations) and fundamental physics/chemistry laws." },
-          { month: "Month 3–5", title: "JEE/NEET Bridge", desc: "Learn basic cell structure, chemical compounds, geometry formulas, and advanced reasoning." },
-          { month: "Month 6–8", title: "Advanced Science", desc: "Practice Olympiad level math, light reflection, force/motion, and data sufficiency exercises." },
-          { month: "Month 9–10", title: "Mock Challenge", desc: "Simulated Olympiad exams, feedback reports, and personal speed-building mentorship." }
         ]
       }
     };
@@ -2275,6 +2162,19 @@ class Component extends DCLogic {
 
       // Reset payment premium display back to locked on course hash change
       document.getElementById('premium-content').style.display = 'none';
+
+      // Reset the enrollment flow back to "Student Details" step whenever the
+      // course changes — otherwise switching courses after a completed
+      // payment would leave the fee section hidden or stuck on the pay card.
+      const feeSectionReset = document.getElementById('fee-section');
+      if (feeSectionReset) feeSectionReset.style.display = '';
+      const enrollConfirmedReset = document.getElementById('enrollment-confirmed');
+      if (enrollConfirmedReset) enrollConfirmedReset.style.display = 'none';
+      const detailsCardReset = document.getElementById('enroll-details-card');
+      if (detailsCardReset) detailsCardReset.style.display = '';
+      const paymentCardReset = document.getElementById('enroll-payment-card');
+      if (paymentCardReset) paymentCardReset.style.display = 'none';
+      pendingEnrollDocRef = null;
 
       // Every course now renders with the same section layout as Navodaya:
       // demo videos shown, journey timeline and the demo-booking form hidden.
@@ -2728,15 +2628,46 @@ class Component extends DCLogic {
       };
     }
 
+    // ---- Student Details -> Continue to Payment ----
+    const enrollContinueBtn = document.getElementById('enroll-continue-btn');
+    if (enrollContinueBtn) {
+      enrollContinueBtn.onclick = function() {
+        const nameVal = document.getElementById('enroll-input-name').value.trim();
+        const parentVal = document.getElementById('enroll-input-parent').value.trim();
+        const phoneVal = document.getElementById('enroll-input-phone').value.trim();
+        const emailVal = document.getElementById('enroll-input-email').value.trim();
+
+        if (!nameVal || !parentVal || !phoneVal || !emailVal) {
+          alert('Please fill out all the mandatory fields.');
+          return;
+        }
+
+        const hash = window.location.hash.substring(1) || 'sainik';
+        const c = courseData[hash] || courseData.sainik;
+
+        saveRegistrationToFirestore({
+          name: nameVal,
+          parentName: parentVal,
+          phone: phoneVal,
+          email: emailVal,
+          exam: c.title || 'Course Enrollment',
+          stream: c.title || 'Course Enrollment',
+          paymentStatus: 'pending',
+          source: 'Course Enrollment'
+        }).then(function(docRef) { pendingEnrollDocRef = docRef; });
+
+        const detailsCard = document.getElementById('enroll-details-card');
+        const paymentCard = document.getElementById('enroll-payment-card');
+        if (detailsCard) detailsCard.style.display = 'none';
+        if (paymentCard) { paymentCard.style.display = ''; paymentCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+    }
+
     // ---- RAZORPAY STANDARD CHECKOUT ----
     const payBtn = document.getElementById('pay-btn');
     const premiumSection = document.getElementById('premium-content');
 
     function showPaymentSuccess(paymentId) {
-      // Close modal immediately
-      const modal = document.getElementById('razorpay-modal');
-      if (modal) modal.style.display = 'none';
-
       // Show confirmation section
       const confirmed = document.getElementById('enrollment-confirmed');
       if (confirmed) {
@@ -2782,6 +2713,9 @@ class Component extends DCLogic {
           handler: function(response) {
             // Payment captured — response contains:
             // razorpay_payment_id, razorpay_order_id (blank without backend), razorpay_signature
+            if (pendingEnrollDocRef) {
+              pendingEnrollDocRef.update({ paymentStatus: 'paid', txRef: response.razorpay_payment_id || '' }).catch(function(){});
+            }
             showPaymentSuccess(response.razorpay_payment_id);
           }
         };
@@ -2796,15 +2730,6 @@ class Component extends DCLogic {
           alert('Payment failed: ' + (response.error.description || 'Unknown error') + '. Please try again.');
         });
         rzp.open();
-      };
-    }
-
-    // Close success overlay if user clicks outside
-    const closeBtn = document.getElementById('close-payment-btn');
-    if (closeBtn) {
-      closeBtn.onclick = function() {
-        const modal = document.getElementById('razorpay-modal');
-        if (modal) modal.style.display = 'none';
       };
     }
 

@@ -688,7 +688,6 @@ const STUB_SECTIONS = [
   {id:'course-rimc',         nav:'courses',    title:'RIMC',                     file:'course-details.dc.html', hash:'rimc',         desc:'Subjects, books, testimonials and the timeline for this course.'},
   {id:'course-foundation23', nav:'courses',    title:'Foundation (2nd & 3rd)',   file:'course-details.dc.html', hash:'foundation23', desc:'Subjects, books, testimonials and the timeline for this course.'},
   {id:'course-foundation45', nav:'courses',    title:'Foundation (4th & 5th)',   file:'course-details.dc.html', hash:'foundation45', desc:'Subjects, books, testimonials and the timeline for this course.'},
-  {id:'course-foundation6',  nav:'courses',    title:'Foundation (6th)',         file:'course-details.dc.html', hash:'foundation6',  desc:'Subjects, books, testimonials and the timeline for this course.'},
   {id:'exam-sainik',    nav:'examstream', title:'Sainik (AISSEE)',    file:'entrance-exam.dc.html', hash:'sainik', desc:'Exam highlights, syllabus and important dates.'},
   {id:'exam-navodaya',  nav:'examstream', title:'Navodaya (JNVST)',   file:'entrance-exam.dc.html', hash:'navodaya', desc:'Exam highlights, syllabus and important dates.'},
   {id:'exam-rms',       nav:'examstream', title:'RMS',                file:'entrance-exam.dc.html', hash:'rms', desc:'Exam highlights, syllabus and important dates.'},
@@ -1485,7 +1484,51 @@ function editCourse(id){const r=DATA.courses.find(c=>c.id===id);if(!r)return;doc
 function saveCourse(){const id=document.getElementById('course-id').value,name=document.getElementById('c-name').value.trim(),exam=document.getElementById('c-exam').value.trim();if(!name||!exam){showToast('Name and exam required','error');return;}const features=document.getElementById('c-features').value.split('\n').map(l=>l.trim()).filter(Boolean);const data={name,exam,target:document.getElementById('c-target').value.trim(),badge:document.getElementById('c-badge').value.trim(),price:document.getElementById('c-price').value.trim(),duration:document.getElementById('c-duration').value.trim(),batch:document.getElementById('c-batch').value.trim(),mode:document.getElementById('c-mode').value.trim(),tests:document.getElementById('c-tests').value.trim(),type:document.getElementById('c-type').value,desc:document.getElementById('c-desc').value.trim(),features,selections:document.getElementById('c-selections').value.trim(),order:parseInt(document.getElementById('c-order').value)||0,updatedAt:CFG?firebase.firestore.FieldValue.serverTimestamp():new Date().toISOString()};if(!CFG){showToast('Demo mode');closeModal('course');return;}(id?db.collection('courses').doc(id).update(data):db.collection('courses').add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()})).then(()=>{showToast(id?'Course updated':'Course added — live on website');closeModal('course');});}
 
 // ── PRICING ───────────────────────────────────────────────────────
-const PRICE_DEFAULTS = {'day-scholar':{title:'Day Scholar',badge:'Most Flexible',price:'Contact for Fee',priceNote:'/ year',emi:'EMI options available · Scholarship up to 50%',features:['Daily classroom sessions','All study materials included','Weekly mock tests + reports','Doubt sessions & mentoring','Parent WhatsApp updates']},residential:{title:'Residential',badge:'⭐ Recommended',price:'Contact for Fee',priceNote:'/ year',emi:'EMI options · Scholarship available',features:['Everything in Day Scholar','Hostel + 3 meals/day','Supervised study hours (6–9 PM)','Daily PT & physical discipline','24/7 security · medical room','Weekly parent video calls']},online:{title:'Online',badge:'Study Anywhere',price:'Contact for Fee',priceNote:'/ year',emi:'Scholarships available',features:['Live interactive classes','Recorded session access','All study materials (digital)','Weekly doubt sessions','Progress reports']}};
+const PRICE_DEFAULTS = {
+  'day-scholar': {
+    title: 'Navodaya Online',
+    badge: 'Study Online',
+    price: 'Contact for Fee',
+    priceNote: '/ year',
+    emi: 'Scholarship up to 50% available',
+    features: [
+      'Live online mental ability sessions',
+      'Arithmetic competency worksheets',
+      'Language competency exercises',
+      'Standard timed JNVST mock series',
+      'Monthly parent progress report sheets'
+    ]
+  },
+  'residential': {
+    title: 'Sainik Offline',
+    badge: '⭐ Recommended',
+    price: 'Contact for Fee',
+    priceNote: '/ year',
+    emi: 'Scholarship up to 50% available',
+    features: [
+      'Physical classroom coaching sessions',
+      'Full boarding & hostel facility available',
+      'Supervised daily evening study hours',
+      'Daily physical training (PT) & drills',
+      'Strict competitive study environment',
+      'Weekly progress & feedback reports'
+    ]
+  },
+  'online': {
+    title: 'Sainik Online',
+    badge: 'Study Online',
+    price: 'Contact for Fee',
+    priceNote: '/ year',
+    emi: 'Scholarship up to 50% available',
+    features: [
+      'Daily live interactive classes',
+      'Recorded session video access',
+      'Proprietary digital study materials',
+      'Weekly mock tests on online platform',
+      'Doubt-clearing WhatsApp support'
+    ]
+  }
+};
 function loadPricing(){
   if(!CFG){renderPricingCards(PRICE_DEFAULTS);return;}
   const ids=['day-scholar','residential','online'];
