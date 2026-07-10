@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'srisurya1389@gmail.com';
+    }
+
+    // CMS content — the public site reads these directly (no login), only
+    // the admin panel (signed in as ADMIN_EMAIL) can edit them.
+    match /content/{docId}          { allow read: if true; allow write: if isAdmin(); }
+    match /courses/{docId}          { allow read: if true; allow write: if isAdmin(); }
+    match /pricing/{docId}          { allow read: if true; allow write: if isAdmin(); }
+    match /testimonials/{docId}     { allow read: if true; allow write: if isAdmin(); }
+    match /why_choose_cards/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /journey_steps/{docId}    { allow read: if true; allow write: if isAdmin(); }
+    match /comparison_rows/{docId}  { allow read: if true; allow write: if isAdmin(); }
+    match /books/{docId}            { allow read: if true; allow write: if isAdmin(); }
+    match /faqs/{docId}             { allow read: if true; allow write: if isAdmin(); }
+    match /courses_details/{docId}  { allow read: if true; allow write: if isAdmin(); }
+    match /exams_details/{docId}    { allow read: if true; allow write: if isAdmin(); }
+
+    // Visitor-submitted leads — anyone can create a registration/enquiry and
+    // update it (the pending -> paid flip after Razorpay success); only the
+    // admin can read the full list, edit other fields, or delete.
+    match /registrations/{docId} {
+      allow create: if true;
+      allow update: if true;
+      allow read, delete: if isAdmin();
+    }
+    match /enquiries/{docId} {
+      allow create: if true;
+      allow update: if true;
+      allow read, delete: if isAdmin();
+    }
+
+    // Everything else (selections, events, future collections) — admin only.
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

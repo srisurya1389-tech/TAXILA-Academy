@@ -15,6 +15,7 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="./firebase-config.js"></script>
 <style>
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -753,6 +754,65 @@
     color: #F5B800 !important;
   }
 
+  /* Nav links — gold hover with a soft underline sweep */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: #F5B800;
+    border-radius: 2px;
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover {
+    color: #F5B800 !important;
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* ── Gold-shaded hover for every button/CTA on the site ── */
+  .gold-hover {
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .gold-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(245,184,0,0.4);
+  }
+  .gold-hover:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(245,184,0,0.3);
+  }
+  /* full-width row buttons (accordions, tab lists) — no lift, just a gold tint */
+  .gold-hover-row {
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .gold-hover-row:hover {
+    background: rgba(245,184,0,0.06);
+  }
+  /* small icon/circular buttons — gold border + gentle scale, no shadow lift */
+  .gold-hover-icon {
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  }
+  .gold-hover-icon:hover {
+    background: rgba(245,184,0,0.12);
+    border-color: #F5B800;
+    color: #F5B800;
+    transform: scale(1.06);
+  }
+  /* mobile menu row links — gold text on hover (skip the two boxed CTA buttons) */
+  [data-mlink]:not(.gold-hover):hover {
+    color: #F5B800 !important;
+  }
+  footer a.gold-hover-row:hover {
+    color: #F5B800 !important;
+  }
+
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE — every screen, every ratio, every device
    Breakpoints: 1600 | 1024 | 768 | 600 | 480 | 380 | 320
@@ -936,66 +996,6 @@
 
 .parental-step-panel.active {
   display: block;
-}
-
-.parental-tab-btn {
-  background: transparent;
-  border: none;
-  color: #a8b4a2;
-  font-size: 13.5px;
-  font-weight: 600;
-  padding: 11px 18px;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: all 0.25s ease;
-  flex: 1;
-  text-align: center;
-}
-
-.parental-tab-btn.active {
-  background: #D9A05B;
-  color: #030A02;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(217, 160, 91, 0.25);
-}
-
-.parental-tab-pane {
-  display: none;
-}
-
-.parental-tab-pane.active {
-  display: block;
-  animation: fadeIn 0.4s ease;
-}
-
-.parental-card-mock {
-  background: linear-gradient(135deg, #1B4D0E 0%, #030A02 100%);
-  color: #fff;
-  border-radius: 20px;
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-  border: 1px solid rgba(217,160,91,0.25);
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto 24px;
-  aspect-ratio: 1.58/1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 2;
-}
-
-.parental-card-mock::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -20%;
-  width: 140%;
-  height: 140%;
-  background: radial-gradient(circle, rgba(217,160,91,0.08) 0%, transparent 70%);
-  transform: rotate(30deg);
 }
 
 @keyframes pulseGlowParental {
@@ -1197,9 +1197,9 @@
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
-      <a data-navcta href="./entrance-exam.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:800;font-size:14px;padding:11px 22px;border-radius:100px;box-shadow:0 4px 18px rgba(201,169,122,0.28);transition:background 0.18s ease,transform 0.18s ease,box-shadow 0.18s ease;white-space:nowrap" onmouseover="this.style.background='#F5D68A';this.style.boxShadow='0 8px 28px rgba(201,169,122,0.45)'" onmouseout="this.style.background='#C9A97A';this.style.boxShadow='0 4px 18px rgba(201,169,122,0.28)'">Register T-EE</a>
+      <a data-navcta href="./entrance-exam.dc.html" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:800;font-size:14px;padding:11px 22px;border-radius:100px;box-shadow:0 4px 18px rgba(201,169,122,0.28);transition:background 0.18s ease,transform 0.18s ease,box-shadow 0.18s ease;white-space:nowrap" onmouseover="this.style.background='#F5D68A'" onmouseout="this.style.background='#C9A97A'">Register T-EE</a>
       <!-- Burger: 3 lines → biscuit-themed on mobile -->
-      <button data-burger style="display:none;flex-direction:column;justify-content:center;gap:5px;background:rgba(27,77,14,0.08);border:1.5px solid rgba(27,77,14,0.15);border-radius:10px;cursor:pointer;padding:10px 12px;min-width:44px;min-height:44px">
+      <button data-burger class="gold-hover-icon" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:rgba(27,77,14,0.08);border:1.5px solid rgba(27,77,14,0.15);border-radius:10px;cursor:pointer;padding:10px 12px;min-width:44px;min-height:44px">
         <span style="width:22px;height:2px;background:#C9A97A;border-radius:2px;transition:background 0.25s,transform 0.25s;display:block"></span>
         <span style="width:16px;height:2px;background:#C9A97A;border-radius:2px;transition:background 0.25s,transform 0.25s;display:block"></span>
         <span style="width:22px;height:2px;background:#C9A97A;border-radius:2px;transition:background 0.25s,transform 0.25s;display:block"></span>
@@ -1216,7 +1216,7 @@
         <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:44px;width:auto;object-fit:contain">
         <span style="font-family:Inter,sans-serif;font-weight:900;font-size:17px;color:#F5EDD8;letter-spacing:-0.02em">TAXILA<br><span style="color:#C9A97A;font-size:11px;letter-spacing:.18em;font-weight:700">ACADEMY</span></span>
       </a>
-      <button data-menuclose style="width:40px;height:40px;border-radius:10px;background:rgba(232,213,176,0.07);border:1.5px solid rgba(232,213,176,0.14);color:#C9A97A;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+      <button data-menuclose class="gold-hover-icon" style="width:40px;height:40px;border-radius:10px;background:rgba(232,213,176,0.07);border:1.5px solid rgba(232,213,176,0.14);color:#C9A97A;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
     </div>
 
     <!-- Nav links -->
@@ -1245,11 +1245,11 @@
 
       <!-- CTA buttons at bottom -->
       <div style="margin-top:auto;padding-top:28px;display:flex;flex-direction:column;gap:12px">
-        <a href="#contact" data-mlink data-contact-mlink style="display:flex;align-items:center;justify-content:center;gap:8px;background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:16px;padding:15px;border-radius:12px;text-decoration:none">
+        <a href="#contact" data-mlink data-contact-mlink class="gold-hover" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:16px;padding:15px;border-radius:12px;text-decoration:none">
           Contact Us
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="./entrance-exam.dc.html" data-mlink style="display:flex;align-items:center;justify-content:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:800;font-size:16px;padding:15px;border-radius:12px;text-decoration:none">
+        <a href="./entrance-exam.dc.html" data-mlink class="gold-hover" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:800;font-size:16px;padding:15px;border-radius:12px;text-decoration:none">
           Register T-EE
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a1f05" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1270,7 +1270,7 @@
 
     <!-- Hero Background Image -->
     <div style="position:absolute;inset:0;z-index:0;overflow:hidden">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1782484172/Copilot_20260626_195745_aft2ml.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block" fetchpriority="high">
+      <img id="cms-hero-bg" src="https://res.cloudinary.com/diancfp03/image/upload/v1782484172/Copilot_20260626_195745_aft2ml.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block" fetchpriority="high">
       <!-- Dark gradient overlay to keep text readable -->
       <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(4,12,2,0.82) 0%,rgba(4,12,2,0.55) 50%,rgba(4,12,2,0.72) 100%)"></div>
     </div>
@@ -1312,11 +1312,11 @@
 
         <!-- Buttons -->
         <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-start;margin-top:28px;animation:slideUp .5s cubic-bezier(0.22,1,0.36,1) 0.18s both">
-          <a href="./entrance-exam.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#0A1F05;color:#fff;font-weight:700;font-size:14px;padding:13px 24px;border-radius:100px;box-shadow:0 6px 20px rgba(10,31,5,.15);transition:transform 0.2s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+          <a href="./entrance-exam.dc.html" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#0A1F05;color:#fff;font-weight:700;font-size:14px;padding:13px 24px;border-radius:100px;box-shadow:0 6px 20px rgba(10,31,5,.15);transition:transform 0.2s,box-shadow 0.2s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
             Take Entrance Exam
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a href="#courses" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(201,169,122,0.35);color:#F5EDD8;font-weight:700;font-size:14px;padding:13px 24px;border-radius:100px;transition:background 0.18s ease,border-color 0.18s ease,transform 0.18s ease" onmouseover="this.style.background='rgba(201,169,122,0.08)';this.style.borderColor='rgba(201,169,122,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(201,169,122,0.35)'">
+          <a href="#courses" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(201,169,122,0.35);color:#F5EDD8;font-weight:700;font-size:14px;padding:13px 24px;border-radius:100px;transition:background 0.18s ease,border-color 0.18s ease" onmouseover="this.style.background='rgba(201,169,122,0.08)';this.style.borderColor='rgba(245,184,0,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(201,169,122,0.35)'">
             Explore Courses
           </a>
         </div>
@@ -1364,7 +1364,7 @@
               NDA
             </div>
           </div>
-          <a href="#courses" style="display:inline-flex;align-items:center;gap:7px;margin-top:20px;background:#0A1F05;color:#fff;font-weight:700;font-size:13px;padding:11px 18px;border-radius:100px;text-decoration:none;transition:transform 0.2s;width:100%;justify-content:center;box-sizing:border-box" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
+          <a href="#courses" class="gold-hover" style="display:inline-flex;align-items:center;gap:7px;margin-top:20px;background:#0A1F05;color:#fff;font-weight:700;font-size:13px;padding:11px 18px;border-radius:100px;text-decoration:none;transition:background 0.2s;width:100%;justify-content:center;box-sizing:border-box" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
             Explore All Courses
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -1531,13 +1531,6 @@
 
   </section>
 
-  <!-- ── wave: hero → stats ── -->
-  <div style="line-height:0;overflow:hidden;background:#040c02;margin-top:-2px">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="width:100%;height:64px;display:block">
-      <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#122908"/>
-    </svg>
-  </div>
-
   <!-- STATS -->
   <section id="stats" style="background:#0A1F05;padding:0 0 80px;position:relative;overflow:hidden">
 
@@ -1570,7 +1563,7 @@
       <div class="bento-headline" data-reveal>
         <span class="stats-badge">
           <svg width="9" height="9" viewBox="0 0 24 24" fill="#F5B800"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Est. 2020
+          Est. 2014
         </span>
         <h2 class="bento-headline-title">India's Most Trusted<br>Defence Prep Academy</h2>
         <p class="bento-headline-sub">Andhra Pradesh's #1 residential coaching — Sainik School, RMS, Navodaya, AP Gurukulam &amp; NDA, all under one roof with a proven selection system.</p>
@@ -1619,9 +1612,9 @@
         <div class="bento-stat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div class="bento-stat-num"><span data-count="6">0</span></div>
+        <div class="bento-stat-num"><span data-count="10" data-suffix="+">0</span></div>
         <div class="bento-stat-label">Years Experience</div>
-        <div class="bento-stat-sub">building champions since 2020</div>
+        <div class="bento-stat-sub">building champions since 2014</div>
       </div>
 
     </div>
@@ -1633,7 +1626,8 @@
   ════════════════════════════════════════════════════ -->
   <section id="courses-slider" style="background:#b8f2d2;padding:0;overflow:hidden;position:relative">
     <style>
-      .cs-btn{width:44px;height:44px;border-radius:50%;background:transparent;border:2px solid #F5B800;color:#F5B800;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;flex-shrink:0}
+      .cs-btn{width:44px;height:44px;border-radius:50%;background:transparent;border:2px solid #F5B800;color:#F5B800;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s,transform .2s,box-shadow .2s;flex-shrink:0}
+      .cs-btn:hover{background:#F5B800;color:#0A1F05;transform:scale(1.08);box-shadow:0 6px 18px rgba(245,184,0,.4)}
       .cs-btn:hover{background:#F5B800;color:#0a1a05}
     </style>
     <div style="width:100%;position:relative">
@@ -1653,7 +1647,7 @@
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
               <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">NDA Coaching</h2>
               <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">The National Defence Academy is India's premier tri-services institution. At Taxila Academy we provide comprehensive coaching to help students crack the NDA entrance exam with confidence.</p>
-              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <a href="#" class="gold-hover" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
               <div style="display:flex;gap:12px;margin-top:28px">
                 <button class="cs-btn cs-prev">&#8592;</button>
                 <button class="cs-btn cs-next">&#8594;</button>
@@ -1676,7 +1670,7 @@
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
               <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">RMS Coaching</h2>
               <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">Rashtriya Military Schools are elite residential schools with a disciplined military environment. Taxila Academy's specialised RMS coaching gives your child the edge to clear the entrance.</p>
-              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <a href="#" class="gold-hover" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
               <div style="display:flex;gap:12px;margin-top:28px">
                 <button class="cs-btn cs-prev">&#8592;</button>
                 <button class="cs-btn cs-next">&#8594;</button>
@@ -1699,7 +1693,7 @@
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
               <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">RIMC Coaching</h2>
               <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">Rashtriya Indian Military College, Dehradun is one of the most prestigious military schools in India. Our RIMC coaching programme is designed to help students excel in the written exam and interview.</p>
-              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <a href="#" class="gold-hover" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
               <div style="display:flex;gap:12px;margin-top:28px">
                 <button class="cs-btn cs-prev">&#8592;</button>
                 <button class="cs-btn cs-next">&#8594;</button>
@@ -1722,7 +1716,7 @@
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
               <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#F5EDD8;margin:0 0 18px;line-height:1.15">Navodaya Coaching</h2>
               <p style="color:rgba(232,213,176,0.75);font-size:15px;line-height:1.7;margin:0 0 28px;max-width:480px">Jawahar Navodaya Vidyalayas are premium government residential schools offering quality education. Our Navodaya coaching prepares students thoroughly for the Class VI and Class IX selection tests.</p>
-              <a href="#" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
+              <a href="#" class="gold-hover" style="display:inline-block;background:#F5B800;color:#0a1a05;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;align-self:flex-start">Join Now</a>
               <div style="display:flex;gap:12px;margin-top:28px">
                 <button class="cs-btn cs-prev">&#8592;</button>
                 <button class="cs-btn cs-next">&#8594;</button>
@@ -2016,7 +2010,7 @@
       </div>
 
       <!-- 3-Column Feature Grid -->
-      <div class="why-grid">
+      <div class="why-grid" id="cms-why-grid">
 
         <!-- Card 1 -->
         <div class="why-card" data-reveal data-delay="60">
@@ -2099,7 +2093,7 @@
       </div>
 
       <!-- Timeline Steps -->
-      <div class="timeline-steps" data-reveal data-delay="100">
+      <div class="timeline-steps" id="cms-journey-steps" data-reveal data-delay="100">
 
         <div class="timeline-step active-line">
           <div class="timeline-node">
@@ -2185,6 +2179,7 @@
           <div class="compare-head-cell">Regular Coaching</div>
         </div>
         <!-- Rows -->
+        <div id="cms-compare-rows" style="display:contents">
         <div class="compare-row">
           <div class="compare-cell feature">Residential Campus</div>
           <div class="compare-cell yes"><span class="chk chk-yes"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="3"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Full boarding, meals &amp; supervision</div>
@@ -2220,6 +2215,7 @@
           <div class="compare-cell yes"><span class="chk chk-yes"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="3"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg></span>500+ selections since 2014</div>
           <div class="compare-cell no"><span class="chk chk-no"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/></svg></span>Unverified claims</div>
         </div>
+        </div>
       </div>
 
     </div>
@@ -2235,13 +2231,6 @@
   <!-- ABOUT SECTION REMOVED (Moved to separate About Us page) -->
 
   <!-- TOPPERS -->
-
-  <!-- ── wave: exams → testimonials ── -->
-  <div style="line-height:0;overflow:hidden;background:#040c02;margin-top:-2px">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="width:100%;height:64px;display:block">
-      <path d="M0,0 C360,64 1080,0 1440,48 L1440,64 L0,64 Z" fill="#0A1F05"/>
-    </svg>
-  </div>
 
   <!-- TESTIMONIALS -->
   <section id="testimonials" style="position:relative;background:linear-gradient(160deg,#0A1F05 0%,#122908 100%);padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);overflow:hidden">
@@ -2334,13 +2323,6 @@
     </div>
   </section>
 
-  <!-- ── wave: testimonials → events ── -->
-  <div style="line-height:0;overflow:hidden;background:#122908;margin-top:-2px">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="width:100%;height:64px;display:block">
-      <path d="M0,48 C480,0 960,64 1440,16 L1440,64 L0,64 Z" fill="#040c02"/>
-    </svg>
-  </div>
-
   <!-- EVENTS -->
 
   <!-- COURSES & FEES -->
@@ -2425,7 +2407,7 @@
               <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#C9A97A">Contact for Fees<span style="font-size:13px;font-weight:500;color:rgba(232,213,176,0.35)"> / year</span></div>
               <div style="color:rgba(201,169,122,0.65);font-size:12px;font-weight:600;margin-top:4px">EMI options available · Scholarship up to 50%</div>
             </div>
-            <a href="#contact" data-contact-nav style="display:block;text-align:center;background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:14px;padding:13px;border-radius:10px;text-decoration:none">Get Fee Details →</a>
+            <a href="#contact" data-contact-nav class="gold-hover" style="display:block;text-align:center;background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:14px;padding:13px;border-radius:10px;text-decoration:none">Get Fee Details →</a>
           </div>
 
           <!-- Residential — Featured -->
@@ -2450,7 +2432,7 @@
               <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#C9A97A">Contact for Fees<span style="font-size:13px;font-weight:500;color:rgba(232,213,176,0.35)"> / year</span></div>
               <div style="color:rgba(201,169,122,0.65);font-size:12px;font-weight:600;margin-top:4px">EMI options · Scholarship available</div>
             </div>
-            <a href="#contact" data-contact-nav style="display:block;text-align:center;background:#C9A97A;color:#0d2806;font-weight:700;font-size:14px;padding:13px;border-radius:10px;text-decoration:none">Get Fee Details →</a>
+            <a href="#contact" data-contact-nav class="gold-hover" style="display:block;text-align:center;background:#C9A97A;color:#0d2806;font-weight:700;font-size:14px;padding:13px;border-radius:10px;text-decoration:none">Get Fee Details →</a>
           </div>
 
           <!-- Online -->
@@ -2473,7 +2455,7 @@
               <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#C9A97A">Contact for Fees<span style="font-size:13px;font-weight:500;color:rgba(232,213,176,0.35)"> / year</span></div>
               <div style="color:rgba(201,169,122,0.65);font-size:12px;font-weight:600;margin-top:4px">Most affordable mode · EMI available</div>
             </div>
-            <a href="#contact" data-contact-nav style="display:block;text-align:center;background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:14px;padding:13px;border-radius:10px;text-decoration:none">Get Fee Details →</a>
+            <a href="#contact" data-contact-nav class="gold-hover" style="display:block;text-align:center;background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:14px;padding:13px;border-radius:10px;text-decoration:none">Get Fee Details →</a>
           </div>
         </div>
 
@@ -2505,7 +2487,7 @@
 
       <!-- Brochure CTA -->
       <div data-reveal style="opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;text-align:center;margin-top:36px">
-        <a href="#contact" data-contact-nav style="display:inline-flex;align-items:center;gap:8px;color:#C9A97A;font-weight:700;font-size:14.5px;border-bottom:2px solid rgba(201,169,122,.28);padding-bottom:3px;text-decoration:none">
+        <a href="#contact" data-contact-nav style="display:inline-flex;align-items:center;gap:8px;color:#C9A97A;font-weight:700;font-size:14.5px;border-bottom:2px solid rgba(201,169,122,.28);padding-bottom:3px;text-decoration:none;transition:color .2s,border-color .2s" onmouseover="this.style.color='#F5B800';this.style.borderColor='#F5B800'" onmouseout="this.style.color='#C9A97A';this.style.borderColor='rgba(201,169,122,.28)'">
           Download Complete Fee Brochure (PDF)
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.2"><path d="M12 3v12M7 11l5 5 5-5M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -2527,7 +2509,7 @@
       </div>
 
       <!-- Books Grid -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+      <div id="cms-books-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
 
         <!-- Book 1 -->
         <div data-reveal data-tilt style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:22px;padding:32px;display:flex;gap:24px;align-items:flex-start;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 20px 48px rgba(10,31,5,.1)';this.style.borderColor='rgba(245,184,0,.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#e4eed9'">
@@ -2540,7 +2522,7 @@
             <div style="display:inline-block;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;letter-spacing:0.04em">SAINIK SCHOOL</div>
             <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#0A1F05;margin:0 0 8px;line-height:1.2">AISSEE Maths Masterclass</h3>
             <p style="color:#cbdcc5;font-size:13.5px;line-height:1.6;margin:0 0 18px">Topic-wise theory, practice questions, and shortcuts for the Sainik School Entrance exam.</p>
-            <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
+            <a href="#contact" class="gold-hover" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
               Request Copy
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -2558,7 +2540,7 @@
             <div style="display:inline-block;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;letter-spacing:0.04em">NAVODAYA</div>
             <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#0A1F05;margin:0 0 8px;line-height:1.2">JNVST Mental Ability Kit</h3>
             <p style="color:#cbdcc5;font-size:13.5px;line-height:1.6;margin:0 0 18px">500+ figure series, pattern completion exercises, and spatial visualization drills.</p>
-            <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
+            <a href="#contact" class="gold-hover" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
               Request Copy
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -2576,7 +2558,7 @@
             <div style="display:inline-block;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;letter-spacing:0.04em">RMS CET</div>
             <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#0A1F05;margin:0 0 8px;line-height:1.2">RMS CET General Knowledge</h3>
             <p style="color:#cbdcc5;font-size:13.5px;line-height:1.6;margin:0 0 18px">Comprehensive static GK notes, current affairs capsule, and intelligence test question banks.</p>
-            <a href="#contact" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
+            <a href="#contact" class="gold-hover" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1B4D0E'" onmouseout="this.style.background='#0A1F05'">
               Request Copy
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -2586,13 +2568,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ── wave: books → parental sessions ── -->
-  <div style="line-height:0;overflow:hidden;background:#040c02;margin-top:-2px">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="width:100%;height:64px;display:block">
-      <path d="M0,32 C240,0 480,64 720,32 C960,0 1200,64 1440,32 L1440,64 L0,64 Z" fill="#030A02"/>
-    </svg>
-  </div>
 
   <!-- PARENTAL SESSIONS SECTION -->
   <section id="parental-sessions" data-screen-label="Parental Sessions" style="background:linear-gradient(135deg, #030A02 0%, #071804 50%, #030A02 100%);padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px;color:#ffffff;position:relative;overflow:hidden">
@@ -2610,11 +2585,11 @@
             Live Online Session · Limited Seats
           </div>
           
-          <h1 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(32px,3.8vw,48px);margin:0;line-height:1.2;color:#ffffff">
+          <h1 id="cms-parental-headline" style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(32px,3.8vw,48px);margin:0;line-height:1.2;color:#ffffff">
             Parent Success &amp; <br><span style="color:#D9A05B">Student Growth</span> Guidance Session
           </h1>
-          
-          <p style="color:#cfe0c4;font-size:15.5px;line-height:1.6;margin:0 0 10px;max-width:580px">
+
+          <p id="cms-parental-sub" style="color:#cfe0c4;font-size:15.5px;line-height:1.6;margin:0 0 10px;max-width:580px">
             A proven 2-hour live session helping parents understand, support, and guide their children through academic pressure, exams, and life decisions — with clarity and confidence.
           </p>
 
@@ -2718,10 +2693,10 @@
 
             <!-- Booking triggers -->
             <div style="display:flex;flex-direction:column;gap:10px">
-              <button onclick="document.getElementById('parental-booking-modal').style.display='flex'" class="parental-biscuit-btn" style="width:100%;justify-content:center;padding:14px;border-radius:10px">
+              <button onclick="document.getElementById('parental-booking-modal').style.display='flex'" class="parental-biscuit-btn gold-hover" style="width:100%;justify-content:center;padding:14px;border-radius:10px">
                 Pay Now &amp; Reserve Seat →
               </button>
-              <button onclick="document.getElementById('parental-booking-modal').style.display='flex'" style="width:100%;background:transparent;border:1px solid #cbd5c5;color:#f0f6e8;font-weight:700;font-size:13.5px;padding:12px;border-radius:100px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='rgba(0,0,0,0.03)'" onmouseout="this.style.background='transparent'">
+              <button onclick="document.getElementById('parental-booking-modal').style.display='flex'" class="gold-hover" style="width:100%;background:transparent;border:1px solid #cbd5c5;color:#f0f6e8;font-weight:700;font-size:13.5px;padding:12px;border-radius:100px;cursor:pointer;transition:background 0.2s,border-color .2s" onmouseover="this.style.background='rgba(245,184,0,0.06)';this.style.borderColor='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='#cbd5c5'">
                 Register Now
               </button>
             </div>
@@ -2971,13 +2946,6 @@
     </div>
   </section>
 
-  <!-- ── wave: parental → faq ── -->
-  <div style="line-height:0;overflow:hidden;background:#030A02;margin-top:-2px">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="width:100%;height:64px;display:block">
-      <path d="M0,16 C360,64 1080,0 1440,48 L1440,64 L0,64 Z" fill="#040c02"/>
-    </svg>
-  </div>
-
   <!-- FAQ SECTION -->
   <section id="faq" data-screen-label="FAQ" style="background:#040c02;padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px">
     <div style="max-width:820px;margin:0 auto">
@@ -2987,11 +2955,11 @@
         <p style="color:#cbdcc5;font-size:15.5px;line-height:1.65;margin:0;font-weight:500">Everything parents ask before enrolling. If your question isn't here, reach our team directly.</p>
       </div>
 
-      <div id="faq-list" style="display:flex;flex-direction:column;gap:0;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,0.3)"
+      <div id="faq-list" style="display:flex;flex-direction:column;gap:0;background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:20px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,0.3)">
 
         <!-- FAQ Item 1 -->
         <div data-faq data-reveal style="border-bottom:1px solid rgba(228,238,217,0.12)">
-          <button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
             <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">What is the minimum age/class to join Taxila Academy?</span>
             <span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3004,7 +2972,7 @@
 
         <!-- FAQ Item 2 -->
         <div data-faq data-reveal data-delay="60" style="border-bottom:1px solid rgba(228,238,217,0.12)">
-          <button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
             <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">Is the medium of instruction English?</span>
             <span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3017,7 +2985,7 @@
 
         <!-- FAQ Item 3 -->
         <div data-faq data-reveal data-delay="120" style="border-bottom:1px solid rgba(228,238,217,0.12)">
-          <button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
             <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">Is it a residential (hostel) facility?</span>
             <span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3030,7 +2998,7 @@
 
         <!-- FAQ Item 4 -->
         <div data-faq data-reveal data-delay="180" style="border-bottom:1px solid rgba(228,238,217,0.12)">
-          <button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
             <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">How do mock tests work? How often are they conducted?</span>
             <span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3043,7 +3011,7 @@
 
         <!-- FAQ Item 5 -->
         <div data-faq data-reveal data-delay="240" style="border-bottom:1px solid rgba(228,238,217,0.12)">
-          <button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
             <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">Can I apply for multiple exam streams simultaneously?</span>
             <span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3056,7 +3024,7 @@
 
         <!-- FAQ Item 6 -->
         <div data-faq data-reveal data-delay="300" style="opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease">
-          <button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">
             <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">How do I get a free counselling session?</span>
             <span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3100,9 +3068,9 @@
           <p style="color:rgba(255,255,255,0.72);font-size:clamp(14px,2vw,17px);line-height:1.75;margin:0 auto 12px;max-width:620px">From Sainik School to NDA — our expert counsellors are ready to chart the perfect academic roadmap for your child. Reach out today and let us guide every step of the journey.</p>
           <p style="color:rgba(255,255,255,0.45);font-size:13px;margin:0 0 34px">Trusted by 500+ students · Expert Faculty · Free Counseling Available</p>
           <div style="display:flex;flex-wrap:wrap;gap:13px;justify-content:center">
-            <a href="tel:+910000000000" style="display:inline-flex;align-items:center;gap:9px;background:#F5B800;color:#0A1F05;font-weight:700;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke-linejoin="round"/></svg>Call Now</a>
-            <a href="#contact-form" style="display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,0.1);color:#fff;font-weight:700;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.28)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke-linecap="round"/></svg>Book Free Counseling</a>
-            <a href="https://wa.me/910000000000" style="display:inline-flex;align-items:center;gap:9px;background:#25803a;color:#fff;font-weight:700;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm4.4 12.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>WhatsApp Us</a>
+            <a href="tel:+910000000000" class="gold-hover" style="display:inline-flex;align-items:center;gap:9px;background:#F5B800;color:#0A1F05;font-weight:700;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke-linejoin="round"/></svg>Call Now</a>
+            <a href="#contact-form" class="gold-hover" style="display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,0.1);color:#fff;font-weight:700;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.28);transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(245,184,0,0.1)';this.style.borderColor='#F5B800'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.28)'"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke-linecap="round"/></svg>Book Free Counseling</a>
+            <a href="https://wa.me/910000000000" class="gold-hover" style="display:inline-flex;align-items:center;gap:9px;background:#25803a;color:#fff;font-weight:700;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm4.4 12.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>WhatsApp Us</a>
           </div>
         </div>
       </div>
@@ -3164,7 +3132,7 @@
             </div>
             <input type="text" placeholder="City / District" style="font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none">
             <textarea placeholder="Additional Message (optional)" rows="3" style="font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none;resize:vertical"></textarea>
-            <button data-contact-submit type="button" style="background:linear-gradient(135deg,#1B4D0E,#2a6e14);color:#fff;font-weight:700;font-size:15px;padding:16px;border:none;border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>Get Admission Guidance</button>
+            <button data-contact-submit type="button" class="gold-hover" style="background:linear-gradient(135deg,#1B4D0E,#2a6e14);color:#fff;font-weight:700;font-size:15px;padding:16px;border:none;border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>Get Admission Guidance</button>
             <div data-contact-msg style="display:none;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:14px;font-weight:600;text-align:center;padding:13px;border-radius:10px;border:1px solid rgba(27,77,14,0.5)">✓ Thank you! Our counsellor will contact you within 24 hours.</div>
           </div>
         </div>
@@ -3289,17 +3257,17 @@
           <span style="color:#C9920A;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Admission FAQs</span>
           <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,4.5vw,40px);color:#f0f6e8;margin:10px 0 0;line-height:1.1">Questions Parents Ask Before Enrolling</h2>
         </div>
-        <div style="display:flex;flex-direction:column">
-          <div data-faq data-reveal style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What are the course fees and payment options?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our fees are transparent and competitive. We offer term-wise and annual payment options. Scholarships up to 50% are available for merit and financially deserving students. Contact us for a detailed fee structure specific to your course.</p></div></div>
-          <div data-faq data-reveal data-delay="40" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What hostel facilities are available?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our residential campus offers clean dormitories, nutritious meals (3 times daily), 24/7 security, supervised study hours, PT grounds, and a dedicated medical room. Parents receive weekly progress reports via WhatsApp.</p></div></div>
-          <div data-faq data-reveal data-delay="80" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Do you offer online coaching classes?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Yes — live online classes via Zoom/Google Meet for students who can't relocate immediately. Online students get the same study material, recorded lectures, mock tests, and WhatsApp doubt-support as residential students.</p></div></div>
-          <div data-faq data-reveal data-delay="120" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What study material is provided?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Proprietary printed modules developed exclusively for Sainik, Navodaya, RMS and Gurukulam exams — concept books, 10+ years of previous papers, practice sets, and monthly mock booklets — all included in the course fee.</p></div></div>
-          <div data-faq data-reveal data-delay="160" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How often are mock tests conducted?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Full-length mock tests every weekend plus chapter tests on weekdays. In the final 3 months, we increase to 3 tests per week. Detailed subject-wise analytics are shared after every test.</p></div></div>
-          <div data-faq data-reveal data-delay="200" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Are there scholarship opportunities?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Yes — merit-based scholarships up to 50% fee reduction for students who excel in our internal entrance test. Special financial assistance is available for SC/ST/OBC students and wards of armed forces personnel.</p></div></div>
-          <div data-faq data-reveal data-delay="240" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What is the admission process to join Taxila Academy?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Step 1: Submit an enquiry or call. Step 2: Free counseling session. Step 3: Attend a demo class (optional). Step 4: Confirm with documents &amp; fee payment. Entire process takes 3–5 working days — we assist with all paperwork.</p></div></div>
-          <div data-faq data-reveal data-delay="280" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Can my child attend a demo class before enrolling?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Absolutely. We encourage every prospective student to attend at least one free demo class — experience our teaching, interact with faculty, and assess the pace with zero obligation to enrol. Just WhatsApp us to book a slot.</p></div></div>
-          <div data-faq data-reveal data-delay="320" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How experienced is the faculty?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">All faculty have a minimum 5 years of experience specifically in Sainik, Navodaya and defence entrance coaching. Several are ex-Sainik School alumni or ex-defence personnel — bringing first-hand knowledge of what these institutions expect.</p></div></div>
-          <div data-faq data-reveal data-delay="360" style="opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease"><button data-faq-btn style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How does Taxila Academy support preparation year-round?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our 12-month calendar covers concept building (first 6–8 months), intensive revision &amp; mock testing (next 3 months), and exam-strategy booster sessions (final 4–6 weeks). RIMC and NDA candidates also receive personality development and interview preparation.</p></div></div>
+        <div id="admission-faq-list" style="display:flex;flex-direction:column">
+          <div data-faq data-reveal style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What are the course fees and payment options?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our fees are transparent and competitive. We offer term-wise and annual payment options. Scholarships up to 50% are available for merit and financially deserving students. Contact us for a detailed fee structure specific to your course.</p></div></div>
+          <div data-faq data-reveal data-delay="40" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What hostel facilities are available?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our residential campus offers clean dormitories, nutritious meals (3 times daily), 24/7 security, supervised study hours, PT grounds, and a dedicated medical room. Parents receive weekly progress reports via WhatsApp.</p></div></div>
+          <div data-faq data-reveal data-delay="80" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Do you offer online coaching classes?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Yes — live online classes via Zoom/Google Meet for students who can't relocate immediately. Online students get the same study material, recorded lectures, mock tests, and WhatsApp doubt-support as residential students.</p></div></div>
+          <div data-faq data-reveal data-delay="120" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What study material is provided?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Proprietary printed modules developed exclusively for Sainik, Navodaya, RMS and Gurukulam exams — concept books, 10+ years of previous papers, practice sets, and monthly mock booklets — all included in the course fee.</p></div></div>
+          <div data-faq data-reveal data-delay="160" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How often are mock tests conducted?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Full-length mock tests every weekend plus chapter tests on weekdays. In the final 3 months, we increase to 3 tests per week. Detailed subject-wise analytics are shared after every test.</p></div></div>
+          <div data-faq data-reveal data-delay="200" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Are there scholarship opportunities?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Yes — merit-based scholarships up to 50% fee reduction for students who excel in our internal entrance test. Special financial assistance is available for SC/ST/OBC students and wards of armed forces personnel.</p></div></div>
+          <div data-faq data-reveal data-delay="240" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What is the admission process to join Taxila Academy?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Step 1: Submit an enquiry or call. Step 2: Free counseling session. Step 3: Attend a demo class (optional). Step 4: Confirm with documents &amp; fee payment. Entire process takes 3–5 working days — we assist with all paperwork.</p></div></div>
+          <div data-faq data-reveal data-delay="280" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Can my child attend a demo class before enrolling?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Absolutely. We encourage every prospective student to attend at least one free demo class — experience our teaching, interact with faculty, and assess the pace with zero obligation to enrol. Just WhatsApp us to book a slot.</p></div></div>
+          <div data-faq data-reveal data-delay="320" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How experienced is the faculty?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">All faculty have a minimum 5 years of experience specifically in Sainik, Navodaya and defence entrance coaching. Several are ex-Sainik School alumni or ex-defence personnel — bringing first-hand knowledge of what these institutions expect.</p></div></div>
+          <div data-faq data-reveal data-delay="360" style="opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How does Taxila Academy support preparation year-round?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our 12-month calendar covers concept building (first 6–8 months), intensive revision &amp; mock testing (next 3 months), and exam-strategy booster sessions (final 4–6 weeks). RIMC and NDA candidates also receive personality development and interview preparation.</p></div></div>
         </div>
       </div>
     </div>
@@ -3314,9 +3282,9 @@
           <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,5vw,50px);color:#fff;margin:0 0 16px;line-height:1.1">Your Future Starts<br><span style="color:#F5B800">Right Here</span></h2>
           <p style="color:rgba(255,255,255,0.68);font-size:clamp(14px,2vw,17px);line-height:1.8;margin:0 auto 34px;max-width:560px">Hundreds of students who once sat where your child sits today now wear the uniform of India's finest residential schools. One conversation with our team could change everything.</p>
           <div style="display:flex;flex-wrap:wrap;gap:13px;justify-content:center">
-            <a href="#contact-form" style="display:inline-flex;align-items:center;gap:8px;background:#F5B800;color:#0A1F05;font-weight:700;font-size:15px;padding:16px 30px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round"/></svg>Enroll Now</a>
-            <a href="tel:+910000000000" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:12px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.26)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke-linejoin="round"/></svg>Contact Admissions</a>
-            <a href="https://wa.me/910000000000" style="display:inline-flex;align-items:center;gap:8px;background:#25803a;color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm4.4 12.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>Book Free Counseling</a>
+            <a href="#contact-form" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#F5B800;color:#0A1F05;font-weight:700;font-size:15px;padding:16px 30px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round"/></svg>Enroll Now</a>
+            <a href="tel:+910000000000" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:12px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.26);transition:background .2s,border-color .2s" onmouseover="this.style.background='rgba(245,184,0,0.1)';this.style.borderColor='#F5B800'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.26)'"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke-linejoin="round"/></svg>Contact Admissions</a>
+            <a href="https://wa.me/910000000000" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#25803a;color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:12px;text-decoration:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm4.4 12.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>Book Free Counseling</a>
           </div>
         </div>
       </div>
@@ -3339,23 +3307,23 @@
       <div>
         <h4 style="color:#fff;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px">Quick Links</h4>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="#home" style="color:#a9bb9e;font-size:14px">Home</a><a href="./about.html" style="color:#a9bb9e;font-size:14px">About Us</a><a href="#faq" style="color:#a9bb9e;font-size:14px">FAQ</a><a href="#contact" style="color:#a9bb9e;font-size:14px">Contact</a>
+          <a href="#home" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">Home</a><a href="./about.html" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">About Us</a><a href="#faq" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">FAQ</a><a href="#contact" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">Contact</a>
         </div>
       </div>
       <div>
         <h4 style="color:#fff;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px">Exam Streams</h4>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="#home" style="color:#a9bb9e;font-size:14px">Sainik School</a><a href="#home" style="color:#a9bb9e;font-size:14px">Navodaya</a><a href="#home" style="color:#a9bb9e;font-size:14px">RMS</a><a href="#home" style="color:#a9bb9e;font-size:14px">AP Gurukulam</a><a href="#home" style="color:#a9bb9e;font-size:14px">NDA</a>
+          <a href="#home" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">Sainik School</a><a href="#home" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">Navodaya</a><a href="#home" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">RMS</a><a href="#home" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">AP Gurukulam</a><a href="#home" class="gold-hover-row" style="color:#a9bb9e;font-size:14px;display:inline-block;padding:2px 4px;margin:-2px -4px;border-radius:6px;text-decoration:none">NDA</a>
         </div>
       </div>
       <div>
         <h4 style="color:#fff;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px">Connect</h4>
         <p style="color:#a9bb9e;font-size:14px;line-height:1.6;margin:0 0 16px">Ravulapalem, East Godavari, AP<br><span style="font-family:monospace;font-size:13px">+91 XXXXX XXXXX</span></p>
         <div style="display:flex;gap:10px">
-          <a href="#" aria-label="Facebook" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="#F5B800"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg></a>
-          <a href="#" aria-label="Instagram" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#F5B800" stroke="none"/></svg></a>
-          <a href="#" aria-label="YouTube" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#F5B800"><path d="M22 12s0-3.3-.4-4.9a2.5 2.5 0 00-1.8-1.8C18 5 12 5 12 5s-6 0-7.8.3A2.5 2.5 0 002.4 7C2 8.7 2 12 2 12s0 3.3.4 4.9a2.5 2.5 0 001.8 1.8C6 19 12 19 12 19s6 0 7.8-.3a2.5 2.5 0 001.8-1.8C22 15.3 22 12 22 12zm-12 3V9l5 3-5 3z"/></svg></a>
-          <a href="#" aria-label="WhatsApp" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="#F5B800"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm4.4 12.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.3-.2z"/></svg></a>
+          <a href="#" aria-label="Facebook" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s" class="gold-hover-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="#F5B800"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg></a>
+          <a href="#" aria-label="Instagram" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s" class="gold-hover-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#F5B800" stroke="none"/></svg></a>
+          <a href="#" aria-label="YouTube" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s" class="gold-hover-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#F5B800"><path d="M22 12s0-3.3-.4-4.9a2.5 2.5 0 00-1.8-1.8C18 5 12 5 12 5s-6 0-7.8.3A2.5 2.5 0 002.4 7C2 8.7 2 12 2 12s0 3.3.4 4.9a2.5 2.5 0 001.8 1.8C6 19 12 19 12 19s6 0 7.8-.3a2.5 2.5 0 001.8-1.8C22 15.3 22 12 22 12zm-12 3V9l5 3-5 3z"/></svg></a>
+          <a href="#" aria-label="WhatsApp" style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s" class="gold-hover-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="#F5B800"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm4.4 12.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.3-.2z"/></svg></a>
         </div>
       </div>
     </div>
@@ -3367,12 +3335,12 @@
   </div><!-- /#main-footer -->
 
   <!-- FLOATING BUTTONS -->
-  <a href="tel:+910000000000" aria-label="Call us" style="position:fixed;right:22px;bottom:88px;z-index:120;width:54px;height:54px;border-radius:50%;background:#1B4D0E;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(27,77,14,.4)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.9"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke-linejoin="round"/></svg></a>
-  <a href="https://wa.me/910000000000" aria-label="Chat with us" style="position:fixed;right:22px;bottom:22px;z-index:120;width:58px;height:58px;border-radius:50%;background:#25803a;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(37,128,58,.45)">
+  <a href="tel:+910000000000" aria-label="Call us" style="position:fixed;right:22px;bottom:88px;z-index:120;width:54px;height:54px;border-radius:50%;background:#1B4D0E;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(27,77,14,.4);transition:transform .22s ease,box-shadow .22s ease" onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 10px 28px rgba(245,184,0,.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 22px rgba(27,77,14,.4)'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="1.9"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke-linejoin="round"/></svg></a>
+  <a href="https://wa.me/910000000000" aria-label="Chat with us" style="position:fixed;right:22px;bottom:22px;z-index:120;width:58px;height:58px;border-radius:50%;background:#25803a;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(37,128,58,.45);transition:transform .22s ease,box-shadow .22s ease" onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 10px 28px rgba(245,184,0,.5)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 22px rgba(37,128,58,.45)'">
     <span style="position:absolute;inset:0;border-radius:50%;border:2px solid #25803a;animation:pulseRing 2s ease-out infinite"></span>
     <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1112 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-1 2.3c0 1.3 1 2.6 1.1 2.8.2.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>
   </a>
-  <button data-totop aria-label="Scroll to top" style="position:fixed;right:24px;bottom:154px;z-index:120;width:46px;height:46px;border-radius:50%;background:#111614;border:1.5px solid rgba(201,169,122,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s,transform .3s;box-shadow:0 6px 18px rgba(0,0,0,.45)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M6 15l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button data-totop aria-label="Scroll to top" class="gold-hover-icon" style="position:fixed;right:24px;bottom:154px;z-index:120;width:46px;height:46px;border-radius:50%;background:#111614;border:1.5px solid rgba(201,169,122,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s,transform .3s,background .2s,border-color .2s;box-shadow:0 6px 18px rgba(0,0,0,.45)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M6 15l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
   <!-- ==================== PARENTAL BOOKING & CHECKOUT MODAL ==================== -->
   <div id="parental-booking-modal" class="parental-modal-backdrop">
@@ -3382,123 +3350,47 @@
       <div style="background:rgba(3,10,2,0.9);padding:24px 32px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(217,160,91,.2)">
         <div style="display:flex;align-items:center;gap:12px">
           <div id="p-step-indicator-1" style="width:32px;height:32px;border-radius:50%;background:#D9A05B;color:#030A02;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;transition:all 0.4s ease;box-shadow:0 0 10px rgba(217,160,91,0.3)">1</div>
-          <span style="color:#fff;font-weight:700;font-size:12.5px;letter-spacing:0.04em;text-transform:uppercase">Secure Payment</span>
+          <span style="color:#fff;font-weight:700;font-size:12.5px;letter-spacing:0.04em;text-transform:uppercase">Parent Info</span>
         </div>
-        
+
         <div style="flex:1;height:2px;background:rgba(255,255,255,0.1);margin:0 16px;position:relative;border-radius:4px">
           <div id="p-progress-line" style="position:absolute;left:0;top:0;height:100%;width:0%;background:#D9A05B;box-shadow:0 0 6px #D9A05B;transition:width 0.4s ease"></div>
         </div>
-        
+
         <div style="display:flex;align-items:center;gap:12px">
           <div id="p-step-indicator-2" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;transition:all 0.4s ease">2</div>
-          <span id="p-step-text-2" style="color:rgba(255,255,255,0.4);font-weight:700;font-size:12.5px;letter-spacing:0.04em;text-transform:uppercase">Parent Info</span>
+          <span id="p-step-text-2" style="color:rgba(255,255,255,0.4);font-weight:700;font-size:12.5px;letter-spacing:0.04em;text-transform:uppercase">Secure Payment</span>
         </div>
         
         <!-- Close Button -->
-        <button onclick="document.getElementById('parental-booking-modal').style.display='none'" style="background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer;margin-left:20px;line-height:1;opacity:0.6" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">&times;</button>
+        <button onclick="document.getElementById('parental-booking-modal').style.display='none'" style="background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer;margin-left:20px;line-height:1;opacity:0.6;transition:opacity .2s,color .2s" onmouseover="this.style.opacity=1;this.style.color='#F5B800'" onmouseout="this.style.opacity=0.6;this.style.color='#fff'">&times;</button>
       </div>
 
       <!-- FORM BODY CONTAINER -->
       <div style="padding:32px clamp(18px, 5vw, 36px);max-height:80vh;overflow-y:auto">
         
-        <!-- STEP 1: PAYMENT CHANNELS -->
-        <div id="p-step-panel-1" class="parental-step-panel active">
+        <!-- STEP 2: PAYMENT CHANNELS -->
+        <div id="p-step-panel-2" class="parental-step-panel">
           <div style="text-align:center;margin-bottom:24px">
             <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#fff;margin:0">Parent Session Booking</h3>
             <p style="color:#cfe0c4;font-size:14px;margin:8px 0 0;line-height:1.45">Reserve your seat in the live mentoring session. Complete the mock registration fee payment below.</p>
           </div>
 
-          <!-- Payment Tabs -->
-          <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:4px;display:flex;gap:4px;margin-bottom:28px;border:1px solid rgba(255,255,255,0.05)">
-            <button id="p-pay-tab-upi" class="parental-tab-btn active">UPI QR Code</button>
-            <button id="p-pay-tab-card" class="parental-tab-btn">Credit / Debit Card</button>
-            <button id="p-pay-tab-bank" class="parental-tab-btn">Bank Details</button>
-          </div>
-
-          <!-- UPI QR Pane -->
-          <div id="p-pay-content-upi" class="parental-tab-pane active">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:18px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:26px">
-              <div class="scanner-window" style="position:relative;width:150px;height:150px;border:2.5px solid #D9A05B;border-radius:20px;overflow:hidden;box-shadow:0 0 20px rgba(217,160,91,0.2);background:#0b1a07;display:flex;align-items:center;justify-content:center">
-                <div class="scanner-laser" style="position:absolute;left:0;width:100%;height:3px;background:#D9A05B;box-shadow:0 0 10px #D9A05B;animation:scanline 2.2s linear infinite"></div>
-                <div style="width:110px;height:110px;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22><path d=%22M5,5 h20 v20 h-20 z M5,30 h10 v10 h-10 z M5,55 h20 v20 h-20 z M30,5 h10 v10 h-10 z M30,25 h20 v20 h-20 z M30,55 h10 v10 h-10 z M55,5 h20 v20 h-20 z M55,30 h10 v10 h-10 z M55,55 h20 v20 h-20 z M80,80 h15 v15 h-15 z M5,80 h15 v15 h-15 z%22 fill=%22%230A1F05%22/><path d=%22M80,5 h15 v15 h-15 z M80,30 h15 v15 h-15 z M80,55 h15 v15 h-15 z M30,80 h15 v15 h-15 z M55,80 h15 v15 h-15 z%22 fill=%22%231B4D0E%22/></svg>'); background-size: contain; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center">
-                  <div style="width:30px;height:30px;background:#030A02;border-radius:6px;border:2px solid #fff;display:flex;align-items:center;justify-content:center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9A05B" stroke-width="2.5"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" stroke-linejoin="round"/></svg>
-                  </div>
-                </div>
+          <!-- Order Summary -->
+          <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:18px;margin-bottom:28px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:1px dashed rgba(255,255,255,0.12);padding-bottom:18px">
+              <div>
+                <div style="font-weight:800;font-size:16px;color:#fff">Parent Guidance Session</div>
+                <div id="p-order-summary" style="font-size:13px;color:#cfe0c4;margin-top:5px">One-time session fee</div>
               </div>
-              
-              <div style="text-align:center">
-                <div style="font-weight:800;font-size:16px;color:#D9A05B;letter-spacing:0.02em">UPI ID: taxilaparents@upi</div>
-                <div style="font-size:13px;color:#cfe0c4;margin-top:6px;max-width:280px;line-height:1.4">Scan QR using GPay, PhonePe, Paytm, or any UPI app to pay ₹499.</div>
-              </div>
+              <div style="font-weight:800;font-size:24px;color:#D9A05B;white-space:nowrap">₹499</div>
             </div>
-          </div>
-
-          <!-- Credit Card Pane -->
-          <div id="p-pay-content-card" class="parental-tab-pane">
-            <div style="display:flex;flex-direction:column;align-items:center">
-              <div class="parental-card-mock">
-                <div style="display:flex;justify-content:space-between;align-items:start">
-                  <span style="font-size:12px;font-weight:800;letter-spacing:0.08em;color:#D9A05B">TAXILA PARENT SESSION PASS</span>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                </div>
-                
-                <div id="p-card-num-text" style="font-family:monospace;font-size:18px;letter-spacing:0.12em;text-shadow:0 2px 4px rgba(0,0,0,0.3);margin:14px 0">•••• •••• •••• ••••</div>
-                
-                <div style="display:flex;justify-content:space-between;align-items:end">
-                  <div>
-                    <span style="font-size:7px;color:#cfe0c4;text-transform:uppercase;letter-spacing:0.08em;display:block">Cardholder Name</span>
-                    <strong id="p-card-name-text" style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase">Your Name</strong>
-                  </div>
-                  <div style="text-align:right">
-                    <span style="font-size:7px;color:#cfe0c4;text-transform:uppercase;letter-spacing:0.08em;display:block">Expires</span>
-                    <strong id="p-card-expiry-text" style="font-size:12px;font-family:monospace">MM/YY</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div style="display:flex;flex-direction:column;gap:14px;background:rgba(0, 0, 0, 0.2);border:1.5px solid rgba(255,255,255,0.06);border-radius:20px;padding:22px;width:100%">
-                <div class="form-group" style="margin-bottom: 0; text-align: left;">
-                  <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Card Number</label>
-                  <input id="p-card-input-number" type="text" placeholder="4111 2222 3333 4444" maxlength="19" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
-                </div>
-                <div style="display:flex;gap:12px">
-                  <div class="form-group" style="margin-bottom: 0; flex:1; text-align: left;">
-                    <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Expiry Date</label>
-                    <input id="p-card-input-expiry" type="text" placeholder="MM/YY" maxlength="5" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
-                  </div>
-                  <div class="form-group" style="margin-bottom: 0; flex:1; text-align: left;">
-                    <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">CVV</label>
-                    <input type="password" placeholder="•••" maxlength="3" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
-                  </div>
-                </div>
-                <div class="form-group" style="margin-bottom: 0; text-align: left;">
-                  <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Cardholder Name</label>
-                  <input id="p-card-input-name" type="text" placeholder="Full Name on Card" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bank Details Pane -->
-          <div id="p-pay-content-bank" class="parental-tab-pane">
-            <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;text-align:left">
-              <div style="display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:12px">
-                <span style="color:#cfe0c4;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Bank Name</span>
-                <strong style="color:#fff;font-size:14px;margin-left:auto">State Bank of India (SBI)</strong>
-              </div>
-              <div style="display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:12px">
-                <span style="color:#cfe0c4;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Account Name</span>
-                <strong style="color:#fff;font-size:14px;margin-left:auto">Taxila Educational Society</strong>
-              </div>
-              <div style="display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:12px">
-                <span style="color:#cfe0c4;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Account Number</span>
-                <strong style="color:#fff;font-size:14px;margin-left:auto;font-family:monospace;letter-spacing:0.04em">48928490284</strong>
-              </div>
-              <div style="display:flex;align-items:center;padding-bottom:6px">
-                <span style="color:#cfe0c4;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">IFSC Code</span>
-                <strong style="color:#fff;font-size:14px;margin-left:auto;font-family:monospace;letter-spacing:0.04em">SBIN0001049</strong>
-              </div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#e6f0de"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3" style="flex:none"><polyline points="20 6 9 17 4 12"/></svg>Live 2-hour interactive session</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#e6f0de"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3" style="flex:none"><polyline points="20 6 9 17 4 12"/></svg>Live Q&amp;A access with mentor</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#e6f0de"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3" style="flex:none"><polyline points="20 6 9 17 4 12"/></svg>Lifetime session recording</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#e6f0de"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3" style="flex:none"><polyline points="20 6 9 17 4 12"/></svg>Parent guidance resource pack</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#e6f0de"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3" style="flex:none"><polyline points="20 6 9 17 4 12"/></svg>Digital notes &amp; action workbook</div>
             </div>
           </div>
 
@@ -3509,19 +3401,25 @@
           </div>
         </div>
 
-        <!-- STEP 2: CANDIDATE INFO FORM -->
-        <div id="p-step-panel-2" class="parental-step-panel">
+        <!-- STEP 1: CANDIDATE INFO FORM -->
+        <div id="p-step-panel-1" class="parental-step-panel active">
           <div style="text-align:center;margin-bottom:24px">
             <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#fff;margin:0">Parent &amp; Candidate Info</h3>
-            <p style="color:#4CAF50;font-size:14px;margin:8px 0 0;font-weight:600">✓ Payment Successful! Please fill in your details to secure slot.</p>
+            <p style="color:#cfe0c4;font-size:14px;margin:8px 0 0;line-height:1.45">Fill in your details below, then continue to payment to secure your slot.</p>
           </div>
 
           <div style="display:flex;flex-direction:column;gap:16px;text-align:left">
-            <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Parent's Full Name</label>
-              <input id="p-input-parentName" type="text" placeholder="Enter parent's full name" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Parent's Full Name</label>
+                <input id="p-input-parentName" type="text" placeholder="Enter parent's full name" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Parent's Email</label>
+                <input id="p-input-email" type="email" placeholder="parent@email.com" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
+              </div>
             </div>
-            
+
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
               <div class="form-group" style="margin-bottom: 0;">
                 <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Child's Name</label>
@@ -3553,12 +3451,7 @@
               </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label" style="display:block;font-size:11px;font-weight:700;color:#cfe0c4;margin-bottom:8px;text-transform:uppercase">Payment Reference / Transaction ID</label>
-              <input id="p-input-txRef" type="text" placeholder="TXN938204928" class="form-input" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);color:#fff;outline:none">
-            </div>
-
-            <button id="p-btn-register" class="parental-biscuit-btn" style="width:100%;justify-content:center;padding:15px;margin-top:10px">Generate Entry Pass</button>
+            <button id="p-btn-register" class="parental-biscuit-btn" style="width:100%;justify-content:center;padding:15px;margin-top:10px">Continue to Payment</button>
           </div>
         </div>
 
@@ -3646,7 +3539,7 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right:4px"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" stroke-linecap="round"/><path d="M6 14h12v8H6z" stroke-linecap="round"/></svg>
               Print Pass
             </button>
-            <button onclick="document.getElementById('parental-booking-modal').style.display='none'" class="parental-biscuit-btn" style="flex:1;justify-content:center">Close Modal</button>
+            <button onclick="document.getElementById('parental-booking-modal').style.display='none'" class="parental-biscuit-btn gold-hover" style="flex:1;justify-content:center">Close Modal</button>
           </div>
         </div>
 
@@ -3657,6 +3550,21 @@
 </div>
 </x-dc>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script>
+// Saves a completed Parental Session booking to Firestore so it shows up in
+// the admin panel. Silently does nothing if Firebase hasn't been configured
+// yet (see ./firebase-config.js) — the entry pass still generates either way.
+function saveRegistrationToFirestore(data) {
+  var cfg = window.TAXILA_FIREBASE_CONFIG;
+  if (!cfg || !cfg.apiKey || cfg.apiKey === 'YOUR_API_KEY') return Promise.resolve(null);
+  try {
+    var app;
+    try { app = firebase.app('teereg'); } catch (e) { app = firebase.initializeApp(cfg, 'teereg'); }
+    return firebase.firestore(app).collection('registrations').add(Object.assign({}, data, {
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })).catch(function() { return null; });
+  } catch (e) { return Promise.resolve(null); /* non-fatal — booking flow continues regardless */ }
+}
+
 class Component extends DCLogic {
   componentDidMount() {
     const root = document.getElementById('taxila-root');
@@ -3667,63 +3575,6 @@ class Component extends DCLogic {
     let parentalStep = 1;
     const parentalModal = root.querySelector('#parental-booking-modal');
     if (parentalModal) {
-      // Payment Tabs
-      const pTabBtns = parentalModal.querySelectorAll('.parental-tab-btn');
-      const pTabPanes = parentalModal.querySelectorAll('.parental-tab-pane');
-      pTabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          pTabBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const target = btn.id.replace('p-pay-tab-', '');
-          pTabPanes.forEach(pane => {
-            if (pane.id === `p-pay-content-${target}`) {
-              pane.classList.add('active');
-            } else {
-              pane.classList.remove('active');
-            }
-          });
-        });
-      });
-
-      // Virtual Card Binding
-      const pCardNumInput = parentalModal.querySelector('#p-card-input-number');
-      const pCardExpiryInput = parentalModal.querySelector('#p-card-input-expiry');
-      const pCardNameInput = parentalModal.querySelector('#p-card-input-name');
-      const pCardNumVisual = parentalModal.querySelector('#p-card-num-text');
-      const pCardExpiryVisual = parentalModal.querySelector('#p-card-expiry-text');
-      const pCardNameVisual = parentalModal.querySelector('#p-card-name-text');
-
-      if (pCardNumInput && pCardNumVisual) {
-        pCardNumInput.addEventListener('input', (e) => {
-          let val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-          let formatted = '';
-          for (let i = 0; i < val.length; i++) {
-            if (i > 0 && i % 4 === 0) formatted += ' ';
-            formatted += val[i];
-          }
-          e.target.value = formatted;
-          pCardNumVisual.textContent = formatted || '•••• •••• •••• ••••';
-        });
-      }
-
-      if (pCardExpiryInput && pCardExpiryVisual) {
-        pCardExpiryInput.addEventListener('input', (e) => {
-          let val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-          if (val.length >= 2) {
-            e.target.value = val.substring(0, 2) + '/' + val.substring(2, 4);
-          } else {
-            e.target.value = val;
-          }
-          pCardExpiryVisual.textContent = e.target.value || 'MM/YY';
-        });
-      }
-
-      if (pCardNameInput && pCardNameVisual) {
-        pCardNameInput.addEventListener('input', (e) => {
-          pCardNameVisual.textContent = e.target.value.toUpperCase() || 'YOUR NAME';
-        });
-      }
-
       // Step transition helper
       const setParentalStep = (step) => {
         parentalStep = step;
@@ -3771,6 +3622,52 @@ class Component extends DCLogic {
         }
       };
 
+      // Filled in by the Parent & Candidate Info step, read by the Payment
+      // step — lets us save the lead as "pending" before payment, then flip
+      // it to "paid" on the same doc once Razorpay confirms, instead of
+      // losing the lead entirely if the visitor abandons payment.
+      let pendingParentalDocRef = null;
+      let pendingParentalSummary = null;
+
+      // Parent & Candidate Info -> Continue to Payment
+      const pBtnRegister = parentalModal.querySelector('#p-btn-register');
+      if (pBtnRegister) {
+        pBtnRegister.addEventListener('click', () => {
+          const parentName = parentalModal.querySelector('#p-input-parentName').value.trim();
+          const email = parentalModal.querySelector('#p-input-email').value.trim();
+          const childName = parentalModal.querySelector('#p-input-childName').value.trim();
+          const phone = parentalModal.querySelector('#p-input-phone').value.trim();
+          const classLvl = parentalModal.querySelector('#p-input-classLevel').value;
+          const sessionDate = parentalModal.querySelector('#p-input-sessionDate').value;
+
+          if (!parentName || !email || !childName || !phone) {
+            alert('Please fill out all the mandatory fields.');
+            return;
+          }
+
+          const mockPassId = 'PASS-2026-' + Math.floor(1000 + Math.random() * 9000);
+          pendingParentalSummary = { parentName: parentName, childName: childName, classLvl: classLvl, sessionDate: sessionDate, mockPassId: mockPassId };
+          const orderSummaryEl = parentalModal.querySelector('#p-order-summary');
+          if (orderSummaryEl) orderSummaryEl.textContent = `${classLvl} · ${sessionDate}`;
+
+          saveRegistrationToFirestore({
+            name: childName,
+            parentName: parentName,
+            phone: phone,
+            email: email,
+            class: classLvl,
+            exam: 'Parental Session',
+            stream: 'Parental Session',
+            sessionDate: sessionDate,
+            admitCardId: mockPassId,
+            paymentStatus: 'pending',
+            source: 'Parental Session'
+          }).then(function(docRef) { pendingParentalDocRef = docRef; });
+
+          setParentalStep(2);
+        });
+      }
+
       // Pay button click
       const pBtnPay = parentalModal.querySelector('#p-btn-pay');
       if (pBtnPay) {
@@ -3785,7 +3682,17 @@ class Component extends DCLogic {
             theme: { color: '#1B4D0E' },
             prefill: {},
             handler: function(response) {
-              setParentalStep(2);
+              if (pendingParentalDocRef) {
+                pendingParentalDocRef.update({ paymentStatus: 'paid', txRef: response.razorpay_payment_id || '' }).catch(function(){});
+              }
+              if (pendingParentalSummary) {
+                const s = pendingParentalSummary;
+                parentalModal.querySelector('#p-pass-val-id').textContent = s.mockPassId;
+                parentalModal.querySelector('#p-pass-val-parent').textContent = s.parentName;
+                parentalModal.querySelector('#p-pass-val-details').textContent = `Child: ${s.childName} (${s.classLvl})`;
+                parentalModal.querySelector('#p-pass-val-time').textContent = s.sessionDate;
+              }
+              setParentalStep(3);
             }
           };
 
@@ -3799,31 +3706,6 @@ class Component extends DCLogic {
             alert('Payment failed: ' + (response.error.description || 'Unknown error'));
           });
           rzp.open();
-        });
-      }
-
-      // Register / Generate Ticket button click
-      const pBtnRegister = parentalModal.querySelector('#p-btn-register');
-      if (pBtnRegister) {
-        pBtnRegister.addEventListener('click', () => {
-          const parentName = parentalModal.querySelector('#p-input-parentName').value.trim();
-          const childName = parentalModal.querySelector('#p-input-childName').value.trim();
-          const phone = parentalModal.querySelector('#p-input-phone').value.trim();
-          const classLvl = parentalModal.querySelector('#p-input-classLevel').value;
-          const sessionDate = parentalModal.querySelector('#p-input-sessionDate').value;
-
-          if (!parentName || !childName || !phone) {
-            alert('Please fill out all the mandatory fields.');
-            return;
-          }
-
-          const mockPassId = 'PASS-2026-' + Math.floor(1000 + Math.random() * 9000);
-          parentalModal.querySelector('#p-pass-val-id').textContent = mockPassId;
-          parentalModal.querySelector('#p-pass-val-parent').textContent = parentName;
-          parentalModal.querySelector('#p-pass-val-details').textContent = `Child: ${childName} (${classLvl})`;
-          parentalModal.querySelector('#p-pass-val-time').textContent = sessionDate;
-
-          setParentalStep(3);
         });
       }
 
@@ -4129,7 +4011,7 @@ class Component extends DCLogic {
             .selectAll('path').data(features).enter().append('path')
             .attr('class', 'i-state')
             .attr('d', path)
-            .attr('fill', 'rgba(34,120,40,0.28)')
+            .attr('fill', 'rgba(134, 239, 172, 0.45)')
             .attr('stroke', 'rgba(0,0,0,0.7)')
             .attr('stroke-width', 0.8)
             .style('cursor', 'pointer')
@@ -4142,7 +4024,7 @@ class Component extends DCLogic {
               tip.style('left', (event.pageX + 15) + 'px').style('top', (event.pageY - 15) + 'px');
             })
             .on('mouseout', function() {
-              d3.select(this).attr('fill', 'rgba(34,120,40,0.28)').attr('stroke', 'rgba(0,0,0,0.7)').attr('stroke-width', 0.8);
+              d3.select(this).attr('fill', 'rgba(134, 239, 172, 0.45)').attr('stroke', 'rgba(0,0,0,0.7)').attr('stroke-width', 0.8);
               tip.transition().duration(120).style('opacity', 0);
             });
 
@@ -4206,7 +4088,7 @@ class Component extends DCLogic {
           const outline = border.map((c,i)=>(i?'L':'M')+fpx(c[1]).toFixed(1)+','+fpy(c[0]).toFixed(1)).join(' ')+' Z';
 
           svg.append('path').attr('d', outline)
-            .attr('fill', '#1a4d10').attr('stroke', 'rgba(201,169,122,0.8)')
+            .attr('fill', 'rgba(134, 239, 172, 0.45)').attr('stroke', 'rgba(201,169,122,0.8)')
             .attr('stroke-width', 2.2).attr('stroke-linejoin', 'round');
 
           const fbProj = ([lon, lat]) => [fpx(lon), fpy(lat)];
@@ -4443,41 +4325,47 @@ class Component extends DCLogic {
     }
 
     // ---- FAQ Accordion ----
-    root.querySelectorAll('[data-faq]').forEach(item => {
-      const btn  = item.querySelector('[data-faq-btn]');
-      const body = item.querySelector('[data-faq-body]');
-      const icon = item.querySelector('[data-faq-icon]');
-      if (!btn || !body) return;
-      btn.addEventListener('click', () => {
-        const open = body.style.maxHeight && body.style.maxHeight !== '0px';
-        // Close all others
-        root.querySelectorAll('[data-faq]').forEach(other => {
-          const ob = other.querySelector('[data-faq-body]');
-          const oi = other.querySelector('[data-faq-icon]');
-          if (ob && ob !== body) {
-            ob.style.maxHeight = '0px';
-            if (oi) {
-              oi.style.background = '';
-              oi.style.borderColor = '#e0ecd8';
-              const oSvg = oi.querySelector('svg');
-              if (oSvg) { oSvg.style.transform = ''; oSvg.setAttribute('stroke', '#1B4D0E'); }
+    // Exposed globally so the CMS loader can re-bind after swapping in
+    // Firestore-driven FAQ items (innerHTML replacement destroys old listeners).
+    function bindFaqAccordion() {
+      root.querySelectorAll('[data-faq]').forEach(item => {
+        const btn  = item.querySelector('[data-faq-btn]');
+        const body = item.querySelector('[data-faq-body]');
+        const icon = item.querySelector('[data-faq-icon]');
+        if (!btn || !body) return;
+        btn.addEventListener('click', () => {
+          const open = body.style.maxHeight && body.style.maxHeight !== '0px';
+          // Close all others
+          root.querySelectorAll('[data-faq]').forEach(other => {
+            const ob = other.querySelector('[data-faq-body]');
+            const oi = other.querySelector('[data-faq-icon]');
+            if (ob && ob !== body) {
+              ob.style.maxHeight = '0px';
+              if (oi) {
+                oi.style.background = '';
+                oi.style.borderColor = '#e0ecd8';
+                const oSvg = oi.querySelector('svg');
+                if (oSvg) { oSvg.style.transform = ''; oSvg.setAttribute('stroke', '#1B4D0E'); }
+              }
             }
+          });
+          const svg = icon.querySelector('svg');
+          if (open) {
+            body.style.maxHeight = '0px';
+            icon.style.background = '';
+            icon.style.borderColor = '#e0ecd8';
+            if (svg) { svg.style.transform = ''; svg.setAttribute('stroke', '#1B4D0E'); }
+          } else {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            icon.style.background = '#1B4D0E';
+            icon.style.borderColor = '#1B4D0E';
+            if (svg) { svg.style.transform = 'rotate(180deg)'; svg.setAttribute('stroke', '#F5B800'); }
           }
         });
-        const svg = icon.querySelector('svg');
-        if (open) {
-          body.style.maxHeight = '0px';
-          icon.style.background = '';
-          icon.style.borderColor = '#e0ecd8';
-          if (svg) { svg.style.transform = ''; svg.setAttribute('stroke', '#1B4D0E'); }
-        } else {
-          body.style.maxHeight = body.scrollHeight + 'px';
-          icon.style.background = '#1B4D0E';
-          icon.style.borderColor = '#1B4D0E';
-          if (svg) { svg.style.transform = 'rotate(180deg)'; svg.setAttribute('stroke', '#F5B800'); }
-        }
       });
-    });
+    }
+    bindFaqAccordion();
+    window.reinitFaqAccordion = bindFaqAccordion;
 
     // ---- Form submit (demo) ----
     const submit = root.querySelector('[data-submit]');
@@ -4606,7 +4494,7 @@ class Component extends DCLogic {
           + '</div>'
           + '<div style="border-top:1px solid rgba(232,213,176,0.07);padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:8px">'
           + '<div style="color:rgba(232,213,176,0.32);font-size:11.5px;font-weight:600;line-height:1.4">'+c.duration+'<br>'+c.batch+' students</div>'
-          + '<button style="background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:12px;padding:9px 14px;border:none;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:.02em">Explore Course</button>'
+          + '<button class="gold-hover" style="background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:12px;padding:9px 14px;border:none;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:.02em">Explore Course</button>'
           + '</div>'
           + '</div>'
           + '</div>';
@@ -4634,8 +4522,8 @@ class Component extends DCLogic {
           + ['Mathematics Mastery','Logical Reasoning','English Grammar','GK &amp; Current Affairs','Weekly Mock Tests','Interview Prep'].map(function(f){ return '<div style="display:flex;align-items:center;gap:8px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(232,213,176,0.7);font-size:13px">'+f+'</span></div>'; }).join('')
           + '</div>'
           + '<div class="sainik-ctas" style="display:flex;gap:12px;flex-wrap:wrap">'
-          + '<a href="./course-details.dc.html#sainik" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;text-decoration:none" onclick="event.stopPropagation()">Explore Course <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a1f05" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'
-          + '<a href="#contact" data-contact-nav style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,213,176,0.07);color:#E8D5B0;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;border:1.5px solid rgba(232,213,176,0.18);text-decoration:none" onclick="event.stopPropagation()">Get Fee Details</a>'
+          + '<a href="./course-details.dc.html#sainik" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;text-decoration:none" onclick="event.stopPropagation()">Explore Course <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a1f05" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'
+          + '<a href="#contact" data-contact-nav class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,213,176,0.07);color:#E8D5B0;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;border:1.5px solid rgba(232,213,176,0.18);text-decoration:none" onclick="event.stopPropagation()">Get Fee Details</a>'
           + '</div>'
           + '</div>'
           + '<div class="sainik-panel" style="flex:0 1 240px;display:flex;flex-direction:column;gap:14px;min-width:0">'
@@ -5036,19 +4924,11 @@ class Component extends DCLogic {
 <!-- CMS Content Loader — reads from Firestore and updates page content -->
 <script>
 (function() {
-  // ── Same Firebase config as admin/index.html ──────────────────────
-  // Copy your config here after setting up Firebase in the admin panel
-  var CMS_CONFIG = {
-    apiKey:            "YOUR_API_KEY",
-    authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId:         "YOUR_PROJECT_ID",
-    storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId:             "YOUR_APP_ID"
-  };
-  // ─────────────────────────────────────────────────────────────────
+  // Shared config lives in ./firebase-config.js — same credentials used by
+  // admin/index.html and entrance-exam.dc.html. Edit that one file.
+  var CMS_CONFIG = window.TAXILA_FIREBASE_CONFIG || {};
 
-  if (CMS_CONFIG.apiKey === 'YOUR_API_KEY') return; // not configured yet
+  if (CMS_CONFIG.apiKey === 'YOUR_API_KEY' || !CMS_CONFIG.apiKey) return; // not configured yet
 
   // Avoid double-init if Firebase already loaded
   var cmsApp;
@@ -5067,6 +4947,11 @@ class Component extends DCLogic {
         if (d.line2) setText('cms-hero-line2', d.line2);
         if (d.subtitle) { var sub = document.getElementById('cms-hero-sub'); if (sub) sub.innerHTML = d.subtitle; }
         if (d.cta1) { var a = document.querySelector('a[href="./entrance-exam.dc.html"]'); if (a) { var txt = a.childNodes[0]; if (txt && txt.nodeType === 3) txt.textContent = d.cta1 + ' '; } }
+        if (d.heroImage) { var bg = document.getElementById('cms-hero-bg'); if (bg) bg.src = d.heroImage; }
+      }
+      if (id === 'parental') {
+        if (d.headline) { var ph = document.getElementById('cms-parental-headline'); if (ph) ph.innerHTML = d.headline; }
+        if (d.subtitle) setText('cms-parental-sub', d.subtitle);
       }
       if (id === 'stats') {
         setText('cms-stat1-num',   d.stat1num);   setText('cms-stat1-label', d.stat1label);
@@ -5100,6 +4985,84 @@ class Component extends DCLogic {
         if (d.address) setText('cms-address', d.address);
       }
     });
+  }).catch(function(){});
+
+  // ── Load Why Choose Us cards ───────────────────────────────────────
+  cmsDb.collection('why_choose_cards').orderBy('order', 'asc').get().then(function(snap) {
+    if (snap.empty) return; // keep hardcoded fallback
+    var el = document.getElementById('cms-why-grid'); if (!el) return;
+    var genericIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linejoin="round"/></svg>';
+    el.innerHTML = snap.docs.map(function(d) {
+      var c = d.data();
+      return '<div class="why-card" data-reveal><div class="why-icon-wrap">' + genericIcon + '</div>'
+        + '<h3 class="why-card-title">' + escHtml(c.title||'') + '</h3>'
+        + '<p class="why-card-desc">' + escHtml(c.desc||'') + '</p>'
+        + '<span class="why-card-tag">' + escHtml(c.tag||'') + '</span></div>';
+    }).join('');
+  }).catch(function(){});
+
+  // ── Load Journey Timeline steps ────────────────────────────────────
+  cmsDb.collection('journey_steps').orderBy('order', 'asc').get().then(function(snap) {
+    if (snap.empty) return;
+    var el = document.getElementById('cms-journey-steps'); if (!el) return;
+    var genericIcon = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var rows = snap.docs.map(function(d){ return d.data(); });
+    el.innerHTML = rows.map(function(s, i) {
+      return '<div class="timeline-step' + (i < rows.length - 1 ? ' active-line' : '') + '"><div class="timeline-node"><span class="timeline-num">' + (i+1) + '</span>' + genericIcon + '</div>'
+        + '<div><div class="timeline-label">' + escHtml(s.label||'') + '</div><div class="timeline-sub">' + escHtml(s.desc||'') + '</div></div></div>';
+    }).join('');
+  }).catch(function(){});
+
+  // ── Load Comparison table rows ─────────────────────────────────────
+  cmsDb.collection('comparison_rows').orderBy('order', 'asc').get().then(function(snap) {
+    if (snap.empty) return;
+    var el = document.getElementById('cms-compare-rows'); if (!el) return;
+    var chkYes = '<span class="chk chk-yes"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="3"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    var chkNo = '<span class="chk chk-no"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/></svg></span>';
+    el.innerHTML = snap.docs.map(function(d) {
+      var r = d.data();
+      return '<div class="compare-row"><div class="compare-cell feature">' + escHtml(r.feature||'') + '</div>'
+        + '<div class="compare-cell yes">' + chkYes + escHtml(r.yesDetail||'') + '</div>'
+        + '<div class="compare-cell no">' + chkNo + escHtml(r.noDetail||'') + '</div></div>';
+    }).join('');
+  }).catch(function(){});
+
+  // ── Load Books ──────────────────────────────────────────────────────
+  cmsDb.collection('books').orderBy('order', 'asc').get().then(function(snap) {
+    if (snap.empty) return;
+    var el = document.getElementById('cms-books-grid'); if (!el) return;
+    el.innerHTML = snap.docs.map(function(d) {
+      var b = d.data();
+      return '<div data-reveal data-tilt style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:22px;padding:32px;display:flex;gap:24px;align-items:flex-start;transition:transform .28s cubic-bezier(0.22,1,0.36,1),box-shadow .28s,border-color .28s" onmouseover="this.style.transform=\'translateY(-5px)\';this.style.boxShadow=\'0 20px 48px rgba(10,31,5,.1)\';this.style.borderColor=\'rgba(245,184,0,.4)\'" onmouseout="this.style.transform=\'none\';this.style.boxShadow=\'none\';this.style.borderColor=\'#e4eed9\'">'
+        + '<div style="flex:none;width:100px;height:136px;background:linear-gradient(145deg,#1B4D0E,#0A1F05);border-radius:8px;box-shadow:0 8px 24px rgba(10,31,5,.3);display:flex;flex-direction:column;justify-content:space-between;padding:14px 12px;color:#fff;border-left:3px solid #F5B800;flex-shrink:0">'
+        + '<span style="font-size:9px;font-weight:800;letter-spacing:.12em;color:#F5B800;text-transform:uppercase">' + escHtml(b.category||'') + '</span>'
+        + '<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:13px;line-height:1.25">' + escHtml(b.title||'') + '</span>'
+        + '<span style="font-size:8px;color:#8ab87e;font-weight:600">Taxila Academy</span></div>'
+        + '<div style="flex:1;min-width:0"><div style="display:inline-block;background:rgba(27,77,14,0.25);color:#a3c98a;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;letter-spacing:0.04em">' + escHtml(b.category||'') + '</div>'
+        + '<h3 style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:18px;color:#0A1F05;margin:0 0 8px;line-height:1.2">' + escHtml(b.title||'') + '</h3>'
+        + '<p style="color:#cbdcc5;font-size:13.5px;line-height:1.6;margin:0 0 18px">' + escHtml(b.desc||'') + '</p>'
+        + '<a href="#contact" style="display:inline-flex;align-items:center;gap:6px;background:#0A1F05;color:#F5B800;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none" class="gold-hover">Request Copy'
+        + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>';
+    }).join('');
+  }).catch(function(){});
+
+  // ── Load FAQ items (general + admission groups) ────────────────────
+  cmsDb.collection('faqs').orderBy('order', 'asc').get().then(function(snap) {
+    if (snap.empty) return;
+    var items = snap.docs.map(function(d) { return d.data(); });
+    var general = items.filter(function(f) { return (f.group||'general') === 'general'; });
+    var admission = items.filter(function(f) { return f.group === 'admission'; });
+    function faqItemHtml(f) {
+      return '<div data-faq><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px">'
+        + '<span style="font-family:\'Inter\',sans-serif;font-weight:700;font-size:15.5px;color:#0A1F05;line-height:1.4">' + escHtml(f.question||'') + '</span>'
+        + '<span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s">'
+        + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>'
+        + '<div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.75;margin:0;padding:0 28px 24px">' + escHtml(f.answer||'') + '</p></div></div>';
+    }
+    var changed = false;
+    if (general.length) { var gEl = document.getElementById('faq-list'); if (gEl) { gEl.innerHTML = general.map(faqItemHtml).join(''); changed = true; } }
+    if (admission.length) { var aEl = document.getElementById('admission-faq-list'); if (aEl) { aEl.innerHTML = admission.map(faqItemHtml).join(''); changed = true; } }
+    if (changed && window.reinitFaqAccordion) window.reinitFaqAccordion();
   }).catch(function(){});
 
   // ── Load courses and re-render grids ──────────────────────────────
@@ -5144,7 +5107,7 @@ class Component extends DCLogic {
       + (feats ? '<div style="display:flex;flex-direction:column;gap:7px">'+feats+'</div>' : '')
       + '<div style="border-top:1px solid rgba(232,213,176,0.07);padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:8px">'
       + '<div style="color:rgba(232,213,176,0.32);font-size:11.5px;font-weight:600;line-height:1.4">'+(c.duration||'')+'<br>'+(c.batch||'')+' students</div>'
-      + '<button style="background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:12px;padding:9px 14px;border:none;border-radius:9px;cursor:pointer;white-space:nowrap">Explore Course</button>'
+      + '<button class="gold-hover" style="background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:12px;padding:9px 14px;border:none;border-radius:9px;cursor:pointer;white-space:nowrap">Explore Course</button>'
       + '</div></div></div>';
   }
 
@@ -5158,8 +5121,8 @@ class Component extends DCLogic {
       + '<h3 style="font-family:\'Playfair Display\',serif;font-weight:800;font-size:clamp(24px,3.5vw,36px);color:#F5EDD8;margin:0 0 8px;line-height:1.15">'+escHtml(s.name||'Sainik School Coaching')+'</h3>'
       + '<div style="color:rgba(201,169,122,0.65);font-size:13px;font-weight:600;margin-bottom:22px">'+escHtml(s.exam||'AISSEE')+(s.target?' · Target: '+escHtml(s.target):'')+'</div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:28px">'+feats.map(function(f){return '<div style="display:flex;align-items:center;gap:8px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(232,213,176,0.7);font-size:13px">'+escHtml(f)+'</span></div>';}).join('')+'</div>'
-      + '<div style="display:flex;gap:12px;flex-wrap:wrap"><a href="./course-details.dc.html#sainik" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;text-decoration:none">Explore Course →</a>'
-      + '<a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,213,176,0.07);color:#E8D5B0;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;border:1.5px solid rgba(232,213,176,0.18);text-decoration:none">Get Fee Details</a></div>'
+      + '<div style="display:flex;gap:12px;flex-wrap:wrap"><a href="./course-details.dc.html#sainik" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;text-decoration:none">Explore Course →</a>'
+      + '<a href="#contact" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,213,176,0.07);color:#E8D5B0;font-weight:700;font-size:14px;padding:13px 26px;border-radius:10px;border:1.5px solid rgba(232,213,176,0.18);text-decoration:none">Get Fee Details</a></div>'
       + '</div>'
       + '<div style="flex:0 1 240px;display:flex;flex-direction:column;gap:14px;min-width:0">'
       + '<div style="background:rgba(232,213,176,0.05);border:1px solid rgba(232,213,176,0.09);border-radius:16px;padding:22px">'

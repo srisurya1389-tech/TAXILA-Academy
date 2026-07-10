@@ -18,6 +18,24 @@
   body{margin:0;font-family:Inter,system-ui,sans-serif;background:#060d03;color:#F8F2E0;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{text-decoration:none;color:inherit}
   ::selection{background:#F5B800;color:#0A1F05}
+
+  /* ── Gold-shaded hover for every button/CTA on this page ── */
+  .gold-hover{transition:transform 0.22s ease,box-shadow 0.22s ease,border-color 0.22s ease}
+  .gold-hover:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(245,184,0,0.4)}
+  .gold-hover:active{transform:translateY(0);box-shadow:0 4px 14px rgba(245,184,0,0.3)}
+  .gold-hover-row{transition:background 0.2s ease,color 0.2s ease}
+  .gold-hover-row:hover{background:rgba(245,184,0,0.06)}
+  .gold-hover-icon{transition:background 0.2s ease,border-color 0.2s ease,transform 0.2s ease,color 0.2s ease}
+  .gold-hover-icon:hover{background:rgba(245,184,0,0.12);border-color:#F5B800;color:#F5B800;transform:scale(1.06)}
+  .nav-link{position:relative}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:#F5B800;border-radius:2px;transition:width 0.25s ease}
+  .nav-link:hover{color:#F5B800 !important}
+  .nav-link:hover::after{width:100%}
+  .t-tabactive{background:#F5B800;color:#0A1F05 !important}
+  .t-tabinactive{background:rgba(255,255,255,0.06);color:#cbdcc5 !important}
+  .t-tabinactive:hover{background:rgba(245,184,0,0.14);color:#F5B800 !important}
+  .pdf-btn{transition:background 0.2s ease,transform 0.2s ease,box-shadow 0.2s ease}
+  .pdf-btn:hover{background:#0A1F05 !important;transform:translateY(-2px);box-shadow:0 8px 20px rgba(245,184,0,0.3)}
   
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -842,7 +860,7 @@
       <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:75px;width:auto;object-fit:contain">
       <span style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:25px;color:#fff;letter-spacing:-0.03em">TAXILA ACADEMY</span>
     </a>
-    <a href="./index.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:14px;padding:9px 18px;border-radius:8px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='transparent'">
+    <a href="./index.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:14px;padding:9px 18px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.3)';this.style.color='#fff'">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back to Courses
     </a>
@@ -1126,22 +1144,10 @@
         <div class="ndv-playlist">
           <div class="ndv-pl-head">
             <p class="ndv-pl-title">Course Lessons</p>
-            <span class="ndv-pl-count">1 Demo</span>
+            <span class="ndv-pl-count" id="ndv-pl-count">0 Demos</span>
           </div>
 
-          <!-- Lesson 1: Maths -->
-          <a class="ndv-item active" data-video="jnj7kvss9Ys" data-title="EVS (Environmental Studies) Demo Class" data-desc="Demo class for EVS" onclick="ndvPlay(this);return false;" href="#">
-            <div class="ndv-thumb" style="background:linear-gradient(135deg,#1B4D0E,#0f2c08)">
-              <div class="ndv-play-icon">
-                <svg width="10" height="12" viewBox="0 0 10 12" fill="#F5B800"><polygon points="0,0 10,6 0,12"/></svg>
-              </div>
-            </div>
-            <div class="ndv-item-info">
-              <p class="ndv-item-title">EVS (Environmental Studies) Demo Class</p>
-              <span class="ndv-item-dur">Demo · Subject 1</span>
-            </div>
-            <span class="ndv-coming">Soon</span>
-          </a>
+          <div data-ndv-list></div>
 
           <!-- More Demos Button -->
           <a id="more-demos-btn" href="DRIVE_LINK_HERE" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:14px;padding:13px 18px;background:rgba(245,184,0,0.1);border:1.5px solid rgba(245,184,0,0.35);border-radius:12px;color:#F5B800;font-weight:800;font-size:13.5px;text-decoration:none;transition:all 0.2s;letter-spacing:0.02em" onmouseover="this.style.background='rgba(245,184,0,0.18)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(245,184,0,0.1)';this.style.transform='none'">
@@ -1162,12 +1168,17 @@
       var desc = el.dataset.desc;
       document.getElementById('ndv-now-title').innerHTML = title;
       document.getElementById('ndv-now-desc').textContent = desc;
-      // Only load real embed if a real YouTube ID is set
+      var player = document.getElementById('ndv-player');
+      // Only load a real embed if a real YouTube ID is set
       if(vid && vid.indexOf('_VIDEO_ID') === -1){
-        document.getElementById('ndv-player').src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+        player.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
         el.querySelector('.ndv-coming') && (el.querySelector('.ndv-coming').style.display='none');
+      } else {
+        player.src = 'about:blank';
       }
     }
+    var moreDemosBtn = document.getElementById('more-demos-btn');
+    if (moreDemosBtn && moreDemosBtn.getAttribute('href') === 'DRIVE_LINK_HERE') moreDemosBtn.style.display = 'none';
     </script>
     </div><!-- /z-index wrapper -->
   </section>
@@ -1722,7 +1733,7 @@
             <div style="font-size:11.5px;color:#cfe0c4">Course Enrollment Payment</div>
           </div>
         </div>
-        <button id="close-payment-btn" style="background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1">&times;</button>
+        <button id="close-payment-btn" style="background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1;transition:color .2s" onmouseover="this.style.color='#F5B800'" onmouseout="this.style.color='#fff'">&times;</button>
       </div>
 
       <!-- Modal Body -->
@@ -1885,14 +1896,14 @@
                 <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Mock Test 01 (Grand Syllabus)</div>
                 <div style="font-size:11.5px;color:#7a8a6f">Time: 180 mins &bull; 150 questions</div>
               </div>
-              <button style="background:#F5B800;color:#0A1F05;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:pointer">Start Now</button>
+              <button class="gold-hover" style="background:#F5B800;color:#0A1F05;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:pointer">Start Now</button>
             </div>
             <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between">
               <div>
                 <div style="font-weight:700;font-size:14.5px;color:#f0f6e8">Verbal Ability Quiz 01</div>
                 <div style="font-size:11.5px;color:#7a8a6f">Time: 30 mins &bull; 25 questions</div>
               </div>
-              <button style="background:#F5B800;color:#0A1F05;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:pointer">Start Now</button>
+              <button class="gold-hover" style="background:#F5B800;color:#0A1F05;border:none;border-radius:6px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:pointer">Start Now</button>
             </div>
             <div style="background:#0b1a07;border:1px solid rgba(228,238,217,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between;opacity:0.6">
               <div>
@@ -1944,8 +1955,12 @@ class Component extends DCLogic {
           { name: "Interview Preparation", desc: "Viva-voce practice, personality building, physical drills." }
         ],
         books: [
-          "AISSEE Math Master", "Sainik GK Manual", "Arihant AISSEE Guide",
-          "RS Aggarwal Arithmetic", "Taxila Practice Sheets", "Verbal Reasoning Workbook"
+          { title: "AISSEE Math Master", author: "Taxila Academy", category: "AISSEE", desc: "Fractions, decimals, unitary method and ratio problems drilled to match the exact AISSEE paper pattern." },
+          { title: "Sainik GK Manual", author: "Taxila Academy", category: "AISSEE", desc: "Basic science, geography and the freedom-struggle timeline condensed into a fast pre-exam revision guide." },
+          { title: "Arihant AISSEE Guide", author: "Arihant Publications", category: "AISSEE", desc: "Full-syllabus reference with solved previous-year papers and chapter-wise practice sets." },
+          { title: "RS Aggarwal Arithmetic", author: "R.S. Aggarwal", category: "AISSEE", desc: "The standard arithmetic and mental-ability workbook used for foundational speed and accuracy." },
+          { title: "Taxila Practice Sheets", author: "Taxila Academy", category: "AISSEE", desc: "Weekly topic-wise worksheets covering Mathematics, GK and Intelligence Test sections." },
+          { title: "Verbal Reasoning Workbook", author: "Taxila Academy", category: "AISSEE", desc: "Analogies, classification and pattern-based reasoning drills for the Intelligence Test section." }
         ],
         studentTestimonials: [
           { name: "Ananya K.", text: "The daily mock tests made the real AISSEE paper feel easy. I secured state Rank 12!", sub: "JNVST & AISSEE Selected" },
@@ -1972,7 +1987,7 @@ class Component extends DCLogic {
           { name: "Maths", desc: "Number system, arithmetic operations, decimals, fractions and speed calculations." },
           { name: "Reasoning", desc: "Pattern completion, figure matching, spatial visualization and logical thinking." },
           { name: "English", desc: "Reading comprehension, grammar, vocabulary and language proficiency exercises." },
-          { name: "Environmental Studies", desc: "Basic ecology, natural resources, environmental awareness and conservation concepts for JNVST." }
+          { name: "Environmental Studies", desc: "Basic ecology, natural resources, environmental awareness and conservation concepts for JNVST.", videoId: "jnj7kvss9Ys" }
         ],
         books: [
           { title: "Jawahar Navodaya Vidyalaya Class VI Entrance Exam 2025 Study Guide", author: "VGS", category: "Study Guide", desc: "A comprehensive preparation guide for JNVST Class 6 admission. Includes detailed coverage of Mental Ability, Arithmetic, and Language Tests based on the latest syllabus, alongside Solved Papers and practice sets.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783405377/WhatsApp_Image_2026-07-07_at_11.52.16_AM_uurhjx.jpg" }
@@ -2007,8 +2022,12 @@ class Component extends DCLogic {
           { name: "SSB Interview Prep", desc: "Psychology tests, group tasks, lecturette, physical fitness." }
         ],
         books: [
-          "Taxila NDA Math Guide", "Defence General Studies", "Pathfinder NDA/NA",
-          "SSB OIR Masterclass", "Wren & Martin English", "Objective Physics Cadet"
+          { title: "Taxila NDA Math Guide", author: "Taxila Academy", category: "NDA", desc: "Algebra, calculus and trigonometry worked through NDA-pattern problem sets with timed practice." },
+          { title: "Defence General Studies", author: "Taxila Academy", category: "NDA", desc: "History, polity and geography condensed for the General Ability Test's static-GK component." },
+          { title: "Pathfinder NDA/NA", author: "Pathfinder Publication", category: "NDA", desc: "The widely-used NDA/NA reference with full-length mock papers and detailed solutions." },
+          { title: "SSB OIR Masterclass", author: "Taxila Academy", category: "SSB", desc: "Officer Intelligence Rating practice sets covering verbal and non-verbal reasoning for the SSB screening round." },
+          { title: "Wren & Martin English", author: "Wren & Martin", category: "NDA", desc: "The classic grammar and composition reference for spotting errors and comprehension." },
+          { title: "Objective Physics Cadet", author: "Taxila Academy", category: "NDA", desc: "Mechanics, thermodynamics and electrostatics distilled into objective-format practice questions." }
         ],
         studentTestimonials: [
           { name: "Manoj T.", text: "The mathematics integration sheets and physics concepts built a very solid base.", sub: "NDA Written Qualifier" },
@@ -2040,8 +2059,12 @@ class Component extends DCLogic {
           { name: "Doubt Practicing", desc: "Individual attention to improve slow-reading students." }
         ],
         books: [
-          "APGPCET Master Guide", "Gurukulam Math Practice", "EVS Primary Textbook",
-          "Telugu Bhasha Workbook", "Taxila Language Sheets", "Basic GK Cards"
+          { title: "APGPCET Master Guide", author: "Taxila Academy", category: "APGPCET", desc: "Complete APGPCET syllabus reference with solved previous papers and mock test keys." },
+          { title: "Gurukulam Math Practice", author: "Taxila Academy", category: "APGPCET", desc: "Four basic operations, simple fractions and calendar-based problems built for the entrance level." },
+          { title: "EVS Primary Textbook", author: "Taxila Academy", category: "APGPCET", desc: "Human body systems, local geography and environmental awareness explained with visual examples." },
+          { title: "Telugu Bhasha Workbook", author: "Taxila Academy", category: "APGPCET", desc: "Sandhulu, samasalu and synonym drills drawn from traditional Telugu literature." },
+          { title: "Taxila Language Sheets", author: "Taxila Academy", category: "APGPCET", desc: "Parts of speech, opposites and vocabulary-building worksheets for the English section." },
+          { title: "Basic GK Cards", author: "Taxila Academy", category: "APGPCET", desc: "Flashcard-style civic duties, national festivals and history facts for quick daily revision." }
         ],
         studentTestimonials: [
           { name: "Satish Kumar", text: "Daily tests and language worksheets helped me secure a high score in APGPCET.", sub: "AP Gurukulam Selected" },
@@ -2073,8 +2096,12 @@ class Component extends DCLogic {
           { name: "Physical Conditioning", desc: "Basic running, exercises, and military protocol." }
         ],
         books: [
-          "RMS CET Master Guide", "Reasoning & Logic Master", "Arihant Military School",
-          "GK Capsule 2025", "Taxila Mock Paper Book", "SSB Interview Guide"
+          { title: "RMS CET Master Guide", author: "Taxila Academy", category: "RMS CET", desc: "Percentage, average, profit-loss and geometry formulas mapped directly to the RMS CET pattern." },
+          { title: "Reasoning & Logic Master", author: "Taxila Academy", category: "RMS CET", desc: "Logical series, coding-decoding and direction-sense practice for the Intelligence Test section." },
+          { title: "Arihant Military School", author: "Arihant Publications", category: "RMS CET", desc: "Full-syllabus reference with previous-year RMS papers and detailed solved solutions." },
+          { title: "GK Capsule 2025", author: "Taxila Academy", category: "RMS CET", desc: "Static GK, global capitals and current sports awards condensed for last-mile revision." },
+          { title: "Taxila Mock Paper Book", author: "Taxila Academy", category: "RMS CET", desc: "Full-length timed mock papers modeled on the real RMS CET exam pattern with negative marking." },
+          { title: "SSB Interview Guide", author: "Taxila Academy", category: "SSB", desc: "Mock panel questions, speaking exercises and confidence-building drills for the viva round." }
         ],
         studentTestimonials: [
           { name: "Nikhil V.", text: "The English mock vocabulary matches the real RMS CET exam paper exactly.", sub: "RMS Belgaum Selected" },
@@ -2106,8 +2133,12 @@ class Component extends DCLogic {
           { name: "Syllabus Revision", desc: "Comprehensive testing of previous 20 years subjective papers." }
         ],
         books: [
-          "RIMC English Composition", "RIMC Advanced Mathematics", "General Knowledge Cadet",
-          "Viva Preparation Guide", "Taxila Past Papers", "SSB OIR Cadet Pack"
+          { title: "RIMC English Composition", author: "Taxila Academy", category: "RIMC", desc: "Essay writing, letter writing and story drafting practice built for the subjective English paper." },
+          { title: "RIMC Advanced Mathematics", author: "Taxila Academy", category: "RIMC", desc: "Step-by-step arithmetic, geometry proofs and algebra written out in full subjective format." },
+          { title: "General Knowledge Cadet", author: "Taxila Academy", category: "RIMC", desc: "History, defence sciences and world conventions covering the RIMC General Knowledge paper." },
+          { title: "Viva Preparation Guide", author: "Taxila Academy", category: "RIMC", desc: "Panel mock-interview questions and current-events talking points for the Viva-Voce round." },
+          { title: "Taxila Past Papers", author: "Taxila Academy", category: "RIMC", desc: "20 years of previous subjective papers compiled for full-length timed practice." },
+          { title: "SSB OIR Cadet Pack", author: "Taxila Academy", category: "SSB", desc: "Officer Intelligence Rating verbal and non-verbal reasoning sets for the SSB screening stage." }
         ],
         studentTestimonials: [
           { name: "Vikram S.", text: "Subjective math was difficult, but teachers guided me on how to write steps for full marks.", sub: "Selected RIMC Dehradun" },
@@ -2139,8 +2170,12 @@ class Component extends DCLogic {
           { name: "Writing Practice", desc: "Cursive writing, clean presentation, correct punctuation." }
         ],
         books: [
-          "Taxila Kid's Math Book", "Phonics Reader Vol 1", "Junior Logic Puzzles",
-          "Spoken English Guide", "Environmental Awareness", "Junior Handwriting Book"
+          { title: "Taxila Kid's Math Book", author: "Taxila Academy", category: "Foundation", desc: "Tables, quick addition-subtraction and arithmetic puzzles paced for young learners." },
+          { title: "Phonics Reader Vol 1", author: "Taxila Academy", category: "Foundation", desc: "Correct reading habits, spelling rules and phonetics built through guided practice pages." },
+          { title: "Junior Logic Puzzles", author: "Taxila Academy", category: "Foundation", desc: "Odd-one-out, pattern series and figure-grouping puzzles that build early analytical skill." },
+          { title: "Spoken English Guide", author: "Taxila Academy", category: "Foundation", desc: "Simple sentence construction and conversational vocabulary for everyday spoken practice." },
+          { title: "Environmental Awareness", author: "Taxila Academy", category: "Foundation", desc: "Our environment, national symbols and basic plant and animal life explained simply." },
+          { title: "Junior Handwriting Book", author: "Taxila Academy", category: "Foundation", desc: "Cursive writing practice pages focused on clean presentation and correct punctuation." }
         ],
         studentTestimonials: [
           { name: "Aaradhya G.", text: "I love the GK quizzes and color puzzle games we play in our class.", sub: "Class 3 Student" },
@@ -2172,8 +2207,12 @@ class Component extends DCLogic {
           { name: "Spoken & Writing Skill", desc: "Paragraph writing, story summary, spoken dialogues." }
         ],
         books: [
-          "Aptitude Junior Part 1", "Science Concepts Junior", "Primary Grammatika",
-          "Arithmetic Bridge Book", "GK Digest Primary", "Taxila Workbook Kit"
+          { title: "Aptitude Junior Part 1", author: "Taxila Academy", category: "Foundation", desc: "Figure matrices, blood relations and coding series introduced through simple logical exercises." },
+          { title: "Science Concepts Junior", author: "Taxila Academy", category: "Foundation", desc: "States of matter, the water cycle and plant classification explained with everyday examples." },
+          { title: "Primary Grammatika", author: "Taxila Academy", category: "Foundation", desc: "Nouns, pronouns, tenses and sentence-correction drills for growing grammar confidence." },
+          { title: "Arithmetic Bridge Book", author: "Taxila Academy", category: "Foundation", desc: "Fractions, calendar math and simple unit conversions bridging primary to competitive-level math." },
+          { title: "GK Digest Primary", author: "Taxila Academy", category: "Foundation", desc: "Indian rivers, state capitals and historical leaders summarised for quick recall." },
+          { title: "Taxila Workbook Kit", author: "Taxila Academy", category: "Foundation", desc: "Paragraph writing, story summaries and spoken-dialogue practice in one combined workbook." }
         ],
         studentTestimonials: [
           { name: "Varun P.", text: "Solving puzzles and math sums is like a game now. I enjoy my studies.", sub: "Class 5 Student" },
@@ -2205,8 +2244,12 @@ class Component extends DCLogic {
           { name: "Olympiad Aptitude", desc: "High-level logical reasoning, data sufficiency." }
         ],
         books: [
-          "Class 6 Olympiad Math", "Bridge Physics & Chem", "Biology Concept Book",
-          "Linear Algebra Junior", "Logical Reasoning Guide", "Taxila Bridge Papers"
+          { title: "Class 6 Olympiad Math", author: "Taxila Academy", category: "Olympiad", desc: "Integers, exponents and divisibility problems pitched at Olympiad difficulty." },
+          { title: "Bridge Physics & Chem", author: "Taxila Academy", category: "Foundation", desc: "Force, motion, light reflection and basic chemical changes explained through simple experiments." },
+          { title: "Biology Concept Book", author: "Taxila Academy", category: "Foundation", desc: "Cell structure basics and classification of organisms introduced with labeled diagrams." },
+          { title: "Linear Algebra Junior", author: "Taxila Academy", category: "Foundation", desc: "Basic linear equations and number theory building toward high-school algebra." },
+          { title: "Logical Reasoning Guide", author: "Taxila Academy", category: "Olympiad", desc: "High-level pattern recognition and data-sufficiency questions for competitive aptitude." },
+          { title: "Taxila Bridge Papers", author: "Taxila Academy", category: "Foundation", desc: "Simulated Olympiad-style papers with personal speed-building feedback." }
         ],
         studentTestimonials: [
           { name: "Deepika R.", text: "The math Olympiad booklets helped me secure state level Rank 3 in Olympiad.", sub: "Class 6 Scholar" },
@@ -2233,62 +2276,79 @@ class Component extends DCLogic {
       // Reset payment premium display back to locked on course hash change
       document.getElementById('premium-content').style.display = 'none';
 
-      // Hide or show demo section and demo button for Navodaya course
+      // Every course now renders with the same section layout as Navodaya:
+      // demo videos shown, journey timeline and the demo-booking form hidden.
       const demoSection = document.getElementById('demo-section');
-      if (demoSection) {
-        demoSection.style.display = (hash === 'navodaya') ? 'none' : 'block';
-      }
+      if (demoSection) demoSection.style.display = 'none';
+
       const demoBtns = root.querySelectorAll('a[href="#demo-section"]');
-      demoBtns.forEach(btn => {
-        btn.style.display = (hash === 'navodaya') ? 'none' : 'inline-flex';
-      });
+      demoBtns.forEach(btn => { btn.style.display = 'none'; });
 
-      // Hide or show journey timeline section for Navodaya course
       const journeySection = document.getElementById('journey-timeline-section');
-      if (journeySection) {
-        journeySection.style.display = (hash === 'navodaya') ? 'none' : 'block';
-      }
+      if (journeySection) journeySection.style.display = 'none';
 
-      // Hide or show navodaya demo videos section
       const demoVideosSection = document.getElementById('navodaya-demo-videos');
-      if (demoVideosSection) {
-        demoVideosSection.style.display = (hash === 'navodaya') ? 'block' : 'none';
-      }
+      if (demoVideosSection) demoVideosSection.style.display = 'block';
 
-      // Populate top divider of duration section on Navodaya
       const durationDivider = document.getElementById('duration-top-divider');
       if (durationDivider) {
-        if (hash === 'navodaya') {
-          durationDivider.style.display = 'block';
-          durationDivider.innerHTML = `
-            <div style="line-height:0; overflow:hidden; background:#faf8f0;">
-              <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
-                <path d="M0,0 Q720,60 1440,0 L1440,0 L0,0 Z" fill="#0c1e07"/>
-              </svg>
-            </div>
-          `;
-        } else {
-          durationDivider.style.display = 'none';
-          durationDivider.innerHTML = '';
-        }
+        durationDivider.style.display = 'block';
+        durationDivider.innerHTML = `
+          <div style="line-height:0; overflow:hidden; background:#faf8f0;">
+            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
+              <path d="M0,0 Q720,60 1440,0 L1440,0 L0,0 Z" fill="#0c1e07"/>
+            </svg>
+          </div>
+        `;
       }
 
-      // Populate bottom divider of duration section on Navodaya
       const durationBottomDivider = document.getElementById('duration-bottom-divider');
       if (durationBottomDivider) {
-        if (hash === 'navodaya') {
-          durationBottomDivider.style.display = 'block';
-          durationBottomDivider.innerHTML = `
-            <div style="line-height:0; overflow:hidden; background:#faf8f0;">
-              <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
-                <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="#f4fbee"/>
-              </svg>
-            </div>
+        durationBottomDivider.style.display = 'block';
+        durationBottomDivider.innerHTML = `
+          <div style="line-height:0; overflow:hidden; background:#faf8f0;">
+            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
+              <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="#f4fbee"/>
+            </svg>
+          </div>
+        `;
+      }
+
+      // Populate demo videos playlist from this course's subjects (real video
+      // where set on the subject, honest "Soon" badge otherwise)
+      const ndvList = root.querySelector('[data-ndv-list]');
+      if (ndvList) {
+        const subjects = c.subjects || [];
+        const defaultIndex = Math.max(0, subjects.findIndex(s => s.videoId));
+        ndvList.innerHTML = subjects.map((s, i) => {
+          const vid = s.videoId || 'PENDING_VIDEO_ID';
+          const isReal = vid.indexOf('_VIDEO_ID') === -1;
+          return `
+            <a class="ndv-item${i === defaultIndex ? ' active' : ''}" data-video="${vid}" data-title="${s.name} Demo Class" data-desc="Demo class for ${s.name}" onclick="ndvPlay(this);return false;" href="#">
+              <div class="ndv-thumb" style="background:linear-gradient(135deg,#1B4D0E,#0f2c08)">
+                <div class="ndv-play-icon">
+                  <svg width="10" height="12" viewBox="0 0 10 12" fill="#F5B800"><polygon points="0,0 10,6 0,12"/></svg>
+                </div>
+              </div>
+              <div class="ndv-item-info">
+                <p class="ndv-item-title">${s.name} Demo Class</p>
+                <span class="ndv-item-dur">Demo · Subject ${i + 1}</span>
+              </div>
+              ${isReal ? '' : '<span class="ndv-coming">Soon</span>'}
+            </a>
           `;
-        } else {
-          durationBottomDivider.style.display = 'none';
-          durationBottomDivider.innerHTML = '';
-        }
+        }).join('');
+
+        const countEl = document.getElementById('ndv-pl-count');
+        if (countEl) countEl.textContent = subjects.length + (subjects.length === 1 ? ' Demo' : ' Demos');
+
+        const active = subjects[defaultIndex];
+        const nowTitle = document.getElementById('ndv-now-title');
+        const nowDesc = document.getElementById('ndv-now-desc');
+        if (active && nowTitle) nowTitle.textContent = active.name + ' Demo Class';
+        if (active && nowDesc) nowDesc.textContent = 'Demo class for ' + active.name;
+        const player = document.getElementById('ndv-player');
+        if (player) player.src = 'about:blank';
       }
 
       // Update Hero Banner
@@ -2571,33 +2631,29 @@ class Component extends DCLogic {
         testimonialsGrid.innerHTML = '';
 
         const list = (type === 'parents') ? c.parentTestimonials : c.studentTestimonials;
-        const unsplashMocks = [
-          "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80",
-          "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80"
-        ];
+        const initials = (name) => name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
-        list.forEach((t, index) => {
+        list.forEach((t) => {
           const tCard = document.createElement('div');
           tCard.className = 'reveal-node active';
           tCard.style.background = '#111614';
           tCard.style.border = '1px solid rgba(201,169,122,0.18)';
           tCard.style.borderRadius = '22px';
           tCard.style.boxShadow = '0 16px 50px rgba(0,0,0,0.5)';
-          tCard.style.padding = '24px';
+          tCard.style.padding = '28px';
           tCard.style.display = 'flex';
           tCard.style.flexDirection = 'column';
-          tCard.style.gap = '20px';
+          tCard.style.gap = '18px';
 
           tCard.innerHTML = `
-            <div class="video-testimonial-box" style="background-image:url('${unsplashMocks[index]}'); background-size:cover; background-position:center; cursor:pointer" onclick="this.innerHTML='<iframe width=100% height=100% src=https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1 frameborder=0 allow=autoplay allowfullscreen></iframe>'">
-              <div style="position:absolute;inset:0;background:rgba(10,31,5,0.45);z-index:1"></div>
-              <button style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:#F5B800;border:none;display:flex;align-items:center;justify-content:center;color:#0A1F05;cursor:pointer;z-index:2;box-shadow:0 4px 14px rgba(245,184,0,0.4)"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
-              <div style="position:absolute;bottom:14px;left:14px;right:14px;z-index:2;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Click to play video</div>
-            </div>
-            <div>
-              <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:rgba(255,255,255,0.85);line-height:1.5;margin:0 0 14px">"${t.text}"</p>
-              <strong style="color:#C9A97A;font-size:15px;display:block">— ${t.name}</strong>
-              <span style="color:rgba(255,255,255,0.45);font-size:12.5px;display:block;margin-top:2px">${t.sub}</span>
+            <div style="font-family:'Playfair Display',serif;font-size:40px;color:rgba(245,184,0,0.25);line-height:1;height:24px">"</div>
+            <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:rgba(255,255,255,0.85);line-height:1.5;margin:0">"${t.text}"</p>
+            <div style="display:flex;align-items:center;gap:12px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
+              <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1B4D0E,#0A1F05);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:14px;color:#F5B800;flex-shrink:0">${initials(t.name)}</div>
+              <div>
+                <strong style="color:#C9A97A;font-size:15px;display:block">${t.name}</strong>
+                <span style="color:rgba(255,255,255,0.45);font-size:12.5px;display:block;margin-top:1px">${t.sub}</span>
+              </div>
             </div>
           `;
           testimonialsGrid.appendChild(tCard);
@@ -2624,6 +2680,31 @@ class Component extends DCLogic {
       // Initial testimonial render (students)
       renderTestimonials('students');
     };
+
+    // Expose for Admin CMS Preview control
+    window.courseData = courseData;
+    window.renderCourse = renderCourse;
+
+    // Load CMS Overrides from Firestore if available
+    const cfg = window.TAXILA_FIREBASE_CONFIG;
+    if (cfg && cfg.apiKey && cfg.apiKey !== 'YOUR_API_KEY') {
+      try {
+        let app;
+        try { app = firebase.app('course_details_cms'); } catch (e) { app = firebase.initializeApp(cfg, 'course_details_cms'); }
+        const db = firebase.firestore(app);
+        db.collection('courses_details').get().then(snap => {
+          snap.forEach(doc => {
+            const courseHash = doc.id;
+            if (courseData[courseHash]) {
+              Object.assign(courseData[courseHash], doc.data());
+            }
+          });
+          renderCourse();
+        });
+      } catch (err) {
+        console.error('Firebase course details override failed:', err);
+      }
+    }
 
     // Listen to hash changes and page loads
     window.addEventListener('hashchange', renderCourse);
