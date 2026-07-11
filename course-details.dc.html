@@ -877,7 +877,7 @@
 
         <!-- Buttons -->
         <div style="display:flex;gap:14px;flex-wrap:wrap">
-          <a href="#fee-section" onclick="event.preventDefault();document.getElementById('fee-section').scrollIntoView({behavior:'smooth',block:'start'})" style="display:inline-flex;align-items:center;gap:10px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:17px;padding:16px 38px;border-radius:12px;box-shadow:0 8px 28px rgba(245,184,0,0.35);transition:all 0.2s;text-decoration:none;letter-spacing:0.01em" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(245,184,0,0.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(245,184,0,0.35)'">
+          <a href="#fee-section" onclick="event.preventDefault();openEnrollModal()" style="display:inline-flex;align-items:center;gap:10px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:17px;padding:16px 38px;border-radius:12px;box-shadow:0 8px 28px rgba(245,184,0,0.35);transition:all 0.2s;text-decoration:none;letter-spacing:0.01em" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(245,184,0,0.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(245,184,0,0.35)'">
             Enroll Now
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -1130,6 +1130,38 @@
     }
     var moreDemosBtn = document.getElementById('more-demos-btn');
     if (moreDemosBtn && moreDemosBtn.getAttribute('href') === 'DRIVE_LINK_HERE') moreDemosBtn.style.display = 'none';
+
+    // ---- Enrollment modal (Student Details -> Payment), same pattern as
+    // the T-EE / Parental Session modals: opens on click, closes on X.
+    function openEnrollModal() {
+      var modal = document.getElementById('fee-section');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      modal.scrollTop = 0;
+    }
+    function closeEnrollModal() {
+      var modal = document.getElementById('fee-section');
+      if (modal) modal.style.display = 'none';
+    }
+    function setEnrollStep(step) {
+      var ind1 = document.getElementById('enroll-step-indicator-1');
+      var ind2 = document.getElementById('enroll-step-indicator-2');
+      var text1 = document.getElementById('enroll-step-text-1');
+      var text2 = document.getElementById('enroll-step-text-2');
+      var line = document.getElementById('enroll-progress-line');
+      if (!ind1 || !ind2) return;
+      if (step === 1) {
+        ind1.className = 'enroll-step-circle active'; ind1.textContent = '1';
+        text1.className = 'enroll-step-label active';
+        ind2.className = 'enroll-step-circle'; text2.className = 'enroll-step-label';
+        line.style.width = '0%';
+      } else {
+        ind1.className = 'enroll-step-circle done'; ind1.innerHTML = '&#10003;';
+        text1.className = 'enroll-step-label';
+        ind2.className = 'enroll-step-circle active'; text2.className = 'enroll-step-label active';
+        line.style.width = '100%';
+      }
+    }
     </script>
     </div><!-- /z-index wrapper -->
   </section>
@@ -1394,7 +1426,7 @@
   </section>
 
   <!-- 9. INVESTMENT / PAYMENT SECTION -->
-  <section id="fee-section" style="position:relative;background:#030806;padding:100px clamp(18px,4vw,56px) 100px;scroll-margin-top:80px;overflow:hidden">
+  <section id="fee-section" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(4,8,2,0.88);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;overflow-y:auto;padding:clamp(20px,4vw,56px) clamp(14px,4vw,24px)">
 
     <!-- Decorative radial glows -->
     <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(27,77,14,0.18) 0%,transparent 70%);pointer-events:none"></div>
@@ -1402,6 +1434,21 @@
     <div style="position:absolute;bottom:0;left:0;width:320px;height:320px;background:radial-gradient(ellipse,rgba(27,77,14,0.1) 0%,transparent 65%);pointer-events:none"></div>
 
     <style>
+      /* ── Enrollment Modal Shell ── */
+      @keyframes enrollSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+      .enroll-modal-panel{position:relative;z-index:1;max-width:1140px;width:100%;margin:0 auto;background:#040c02;border:1px solid rgba(212,160,23,0.2);border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.7);animation:enrollSlideUp 0.35s cubic-bezier(0.16,1,0.3,1)}
+      .enroll-stage-bar{background:rgba(3,10,2,0.9);padding:22px clamp(18px,3vw,32px);display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(212,160,23,0.2);flex-wrap:wrap}
+      .enroll-step-circle{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;transition:all 0.3s ease}
+      .enroll-step-circle.active{background:#F5B800;color:#0A1F05;box-shadow:0 0 10px rgba(245,184,0,0.3)}
+      .enroll-step-circle.done{background:#1B4D0E;color:#fff}
+      .enroll-step-label{color:rgba(255,255,255,0.4);font-weight:700;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+      .enroll-step-label.active{color:#fff}
+      .enroll-stage-line{flex:1;height:2px;background:rgba(255,255,255,0.1);min-width:40px;border-radius:4px;position:relative}
+      .enroll-stage-line-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:#F5B800;box-shadow:0 0 6px #F5B800;transition:width 0.4s ease}
+      .enroll-modal-close{background:transparent;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;opacity:0.6;transition:opacity .2s,color .2s}
+      .enroll-modal-close:hover{opacity:1;color:#F5B800}
+      .enroll-modal-body{padding:clamp(28px,4vw,44px) clamp(18px,3.5vw,36px) clamp(36px,4vw,44px)}
+
       /* ── Payment Section Styles ── */
       .pay-outer{max-width:1100px;margin:0 auto;position:relative;z-index:1}
 
@@ -1489,6 +1536,23 @@
       }
     </style>
 
+    <div class="enroll-modal-panel">
+
+      <!-- STAGE PROGRESS BAR -->
+      <div class="enroll-stage-bar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div id="enroll-step-indicator-1" class="enroll-step-circle active">1</div>
+          <span id="enroll-step-text-1" class="enroll-step-label active">Student Info</span>
+        </div>
+        <div class="enroll-stage-line"><div id="enroll-progress-line" class="enroll-stage-line-fill"></div></div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div id="enroll-step-indicator-2" class="enroll-step-circle">2</div>
+          <span id="enroll-step-text-2" class="enroll-step-label">Payment</span>
+        </div>
+        <button onclick="closeEnrollModal()" class="enroll-modal-close">&times;</button>
+      </div>
+
+    <div class="enroll-modal-body">
     <div class="pay-outer">
 
       <!-- Section Header -->
@@ -1645,6 +1709,8 @@
         </div>
       </div>
 
+    </div>
+    </div>
     </div>
   </section>
 
@@ -2165,9 +2231,10 @@ class Component extends DCLogic {
 
       // Reset the enrollment flow back to "Student Details" step whenever the
       // course changes — otherwise switching courses after a completed
-      // payment would leave the fee section hidden or stuck on the pay card.
+      // payment would leave the modal closed with stale state, or stuck on
+      // the pay step.
       const feeSectionReset = document.getElementById('fee-section');
-      if (feeSectionReset) feeSectionReset.style.display = '';
+      if (feeSectionReset) feeSectionReset.style.display = 'none';
       const enrollConfirmedReset = document.getElementById('enrollment-confirmed');
       if (enrollConfirmedReset) enrollConfirmedReset.style.display = 'none';
       const detailsCardReset = document.getElementById('enroll-details-card');
@@ -2175,6 +2242,7 @@ class Component extends DCLogic {
       const paymentCardReset = document.getElementById('enroll-payment-card');
       if (paymentCardReset) paymentCardReset.style.display = 'none';
       pendingEnrollDocRef = null;
+      setEnrollStep(1);
 
       // Every course now renders with the same section layout as Navodaya:
       // demo videos shown, journey timeline and the demo-booking form hidden.
@@ -2659,7 +2727,10 @@ class Component extends DCLogic {
         const detailsCard = document.getElementById('enroll-details-card');
         const paymentCard = document.getElementById('enroll-payment-card');
         if (detailsCard) detailsCard.style.display = 'none';
-        if (paymentCard) { paymentCard.style.display = ''; paymentCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        if (paymentCard) paymentCard.style.display = '';
+        setEnrollStep(2);
+        const modal = document.getElementById('fee-section');
+        if (modal) modal.scrollTop = 0;
       };
     }
 
@@ -2675,9 +2746,10 @@ class Component extends DCLogic {
         setTimeout(() => confirmed.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
       }
 
-      // Hide the fee section so it doesn't show below confirmation
+      // Close the enrollment modal
       const feeSection = document.getElementById('fee-section');
       if (feeSection) feeSection.style.display = 'none';
+      setEnrollStep(1);
 
       // Also unlock premium content (kept for completeness)
       setTimeout(() => {
