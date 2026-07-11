@@ -22,6 +22,30 @@
   a{text-decoration:none;color:inherit}
   ::selection{background:#D9A05B;color:#030A02}
 
+  /* ── Nav Courses dropdown ── */
+  .nav-dropdown { position: relative; display: inline-block; }
+  .nav-dropdown-menu {
+    position: absolute; top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    min-width: 240px; white-space: nowrap;
+    background: #0A1F05; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid rgba(217,160,91,0.25);
+    padding: 8px 0; opacity: 0; visibility: hidden;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 200;
+  }
+  .nav-dropdown-menu::before { content:''; position:absolute; top:-24px; left:0; right:0; height:24px; background:transparent; }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu,
+  .nav-dropdown-menu.active { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(16px); }
+  .nav-dropdown-trigger { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+  .nav-dropdown-trigger svg { transition: transform 0.25s ease; }
+  .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+  .dropdown-link { display: block; padding: 10px 20px; color: #fff !important; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s ease; text-align: left; }
+  .dropdown-link:hover { background: rgba(217,160,91,0.12) !important; color: #D9A05B !important; }
+  .dropdown-divider { height: 1px; background: rgba(217,160,91,0.2); margin: 6px 12px; }
+
   /* ── Gold-shaded hover for every button/CTA on this page ── */
   .gold-hover{transition:transform 0.22s ease,box-shadow 0.22s ease,border-color 0.22s ease}
   .gold-hover:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(245,184,0,0.4)}
@@ -401,10 +425,30 @@
       <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:70px;width:auto;object-fit:contain">
       <span style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:23px;color:#fff;letter-spacing:-0.03em">TAXILA ACADEMY</span>
     </a>
-    <a href="./index.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.2);color:#fff;font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.2)';this.style.color='#fff'">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Back to Home
-    </a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="nav-dropdown">
+        <a href="javascript:void(0)" class="nav-dropdown-trigger" style="border:1.5px solid rgba(255,255,255,.2);color:#fff;font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.2)';this.style.color='#fff'">
+          Courses
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="nav-dropdown-menu">
+          <a href="./index.html#courses" class="dropdown-link">All Courses</a>
+          <div class="dropdown-divider"></div>
+          <a href="./course-details.dc.html#sainik" class="dropdown-link">Sainik School Coaching</a>
+          <a href="./course-details.dc.html#navodaya" class="dropdown-link">Navodaya Entrance</a>
+          <a href="./course-details.dc.html#gurukulam" class="dropdown-link">AP Gurukulam Admission</a>
+          <a href="./course-details.dc.html#rms" class="dropdown-link">RMS Coaching (CET)</a>
+          <a href="./course-details.dc.html#nda" class="dropdown-link">NDA Foundation</a>
+          <a href="./course-details.dc.html#rimc" class="dropdown-link">RIMC Coaching</a>
+          <a href="./course-details.dc.html#foundation23" class="dropdown-link">2nd &amp; 3rd Foundation</a>
+          <a href="./course-details.dc.html#foundation45" class="dropdown-link">4th &amp; 5th Foundation</a>
+        </div>
+      </div>
+      <a href="./index.html" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.2);color:#fff;font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.2)';this.style.color='#fff'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to Home
+      </a>
+    </div>
   </nav>
 
   <!-- 1. HERO SECTION -->
@@ -1112,6 +1156,25 @@ class Component extends DCLogic {
   componentDidMount() {
     const root = document.getElementById('taxila-exam-root');
     if (!root) return;
+
+    // ---- Nav Courses dropdown toggle ----
+    (function() {
+      const allDropdownMenus = root.querySelectorAll('.nav-dropdown-menu');
+      root.querySelectorAll('.nav-dropdown-trigger').forEach(trigger => {
+        const menu = trigger.closest('.nav-dropdown').querySelector('.nav-dropdown-menu');
+        if (!menu) return;
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const isOpen = menu.classList.contains('active');
+          allDropdownMenus.forEach(m => m.classList.remove('active'));
+          if (!isOpen) menu.classList.add('active');
+        });
+      });
+      document.addEventListener('click', () => {
+        allDropdownMenus.forEach(m => m.classList.remove('active'));
+      });
+    })();
 
     let currentStep = 1;
 
