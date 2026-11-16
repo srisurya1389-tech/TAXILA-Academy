@@ -276,6 +276,10 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span>Enquiries</span><span class="nav-badge" id="badge-enquiries">0</span>
       </div>
+      <div class="nav-item" data-section="book-deliveries" onclick="navigate('book-deliveries',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>
+        <span>Book Deliveries</span><span class="nav-badge" id="badge-book-deliveries">0</span>
+      </div>
 
 
       <!-- COLLAPSIBLE EDITS DRAWER -->
@@ -416,6 +420,24 @@
           <div class="card-header"><span class="card-title">Registrations &amp; Bookings</span><button class="btn btn-outline btn-sm" onclick="exportCSV('registrations')">↓ Export CSV</button></div>
           <div class="card-body" style="padding-bottom:0"><div class="search-bar" style="margin-bottom:16px"><input class="search-input" type="text" placeholder="Search name, parent, phone, email…" id="reg-search" oninput="filterTable('reg')"/><select class="filter-select" id="reg-filter-status" onchange="filterTable('reg')"><option value="">All Status</option><option value="paid">Paid</option><option value="pending">Pending</option><option value="failed">Failed</option></select><select class="filter-select" id="reg-filter-class" onchange="filterTable('reg')"><option value="">All Classes</option><option>Class VI</option><option>Class VII</option><option>Class VIII</option><option>Class IX</option><option>Class X</option></select></div></div>
           <div class="table-wrap"><table><thead><tr><th>#</th><th>Child's Name</th><th>Class</th><th>Parent's Name</th><th>Phone</th><th>Email</th><th>Exam / Program</th><th>Type</th><th>Date</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="reg-table"><tr class="empty-row"><td colspan="11">Loading…</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- BOOK DELIVERIES (orders from the Our Publications store) -->
+      <section class="section" id="section-book-deliveries">
+        <style>.order-chip{border:0;color:#fff;font-weight:700;font-size:12px;padding:5px 11px;border-radius:999px;cursor:pointer;white-space:nowrap}.order-chip:hover{opacity:.85}</style>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Book Deliveries</span><button class="btn btn-outline btn-sm" onclick="exportOrdersCSV()">↓ Export CSV</button></div>
+          <div class="card-body" style="padding-bottom:0">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px">
+              <div style="background:#eff6ff;border-radius:12px;padding:14px"><div style="font-size:12px;color:var(--muted)">Total Orders</div><div id="ord-stat-total" style="font-size:24px;font-weight:800">0</div></div>
+              <div style="background:#fef9e7;border-radius:12px;padding:14px"><div style="font-size:12px;color:var(--muted)">Revenue Today</div><div id="ord-stat-revenue" style="font-size:24px;font-weight:800">₹0</div></div>
+              <div style="background:#fff7ed;border-radius:12px;padding:14px"><div style="font-size:12px;color:var(--muted)">Online Course Orders</div><div id="ord-stat-pending" style="font-size:24px;font-weight:800">0</div></div>
+              <div style="background:#f0fdf4;border-radius:12px;padding:14px"><div style="font-size:12px;color:var(--muted)">Book Shop Orders</div><div id="ord-stat-delivered" style="font-size:24px;font-weight:800">0</div></div>
+            </div>
+            <div class="search-bar" style="margin-bottom:16px"><input class="search-input" type="text" placeholder="Search name, book, town, PIN or mobile…" id="ord-search" oninput="renderOrders()"/><select class="filter-select" id="ord-filter-status" onchange="renderOrders()"><option value="">All orders</option><option value="course">Online courses</option><option value="books">Book shop</option></select></div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Student</th><th>Course / Books</th><th>Delivery Address</th><th>Phone</th><th>Amount</th><th>Date</th><th>WhatsApp</th></tr></thead><tbody id="ord-table"><tr class="empty-row"><td colspan="8">Loading…</td></tr></tbody></table></div>
         </div>
       </section>
 
@@ -585,7 +607,7 @@
       <div class="form-row"><div class="form-group"><label class="form-label">Target Students</label><input class="form-input" type="text" id="c-target" placeholder="Class 6 & 9 Admissions"/></div><div class="form-group"><label class="form-label">Badge Text</label><input class="form-input" type="text" id="c-badge" placeholder="Most Popular"/></div></div>
       <div class="form-row"><div class="form-group"><label class="form-label">Price / Fee</label><input class="form-input" type="text" id="c-price" placeholder="Contact for Fee"/></div><div class="form-group"><label class="form-label">Duration</label><input class="form-input" type="text" id="c-duration" placeholder="12 Months"/></div></div>
       <div class="form-row"><div class="form-group"><label class="form-label">Batch Size</label><input class="form-input" type="text" id="c-batch" placeholder="Max 20"/></div><div class="form-group"><label class="form-label">Mode</label><input class="form-input" type="text" id="c-mode" placeholder="Day / Residential"/></div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Mock Tests</label><input class="form-input" type="text" id="c-tests" placeholder="Weekly"/></div><div class="form-group"><label class="form-label">Course Type</label><select class="form-input" id="c-type"><option value="sainik">Sainik (featured hero)</option><option value="defence">Defence</option><option value="foundation">Foundation</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Mock Tests</label><input class="form-input" type="text" id="c-tests" placeholder="Weekly"/></div><div class="form-group"><label class="form-label">Course Type</label><select class="form-input" id="c-type"><option value="sainik">Sainik (featured hero)</option><option value="defence">Defence</option><option value="foundation">Foundation</option><option value="online">Online Live Course (NEW)</option></select></div></div>
       <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input" id="c-desc" rows="3"></textarea></div>
       <div class="form-group"><label class="form-label">Key Features (one per line)</label><textarea class="form-input" id="c-features" rows="5" placeholder="Mathematics Mastery&#10;Logical Reasoning&#10;English Grammar"></textarea></div>
       <div class="form-row"><div class="form-group"><label class="form-label">Selections / Achievement</label><input class="form-input" type="text" id="c-selections" placeholder="200+ Selections"/></div><div class="form-group"><label class="form-label">Sort Order (lower = first)</label><input class="form-input" type="number" id="c-order" placeholder="0" min="0"/></div></div>
@@ -676,7 +698,7 @@ if (!CFG || localStorage.getItem('taxilaAdminSession') === '1') {
 
 function show() { document.getElementById('login-screen').style.display='none'; document.getElementById('admin-app').style.display='block'; }
 
-const TITLES = {dashboard:'Dashboard',registrations:'Registrations',enquiries:'Enquiries','courses-cms':'Courses Grid',pricing:'Pricing Cards','testimonials-cms':'Testimonials','hero-headline':'Hero Headline','hero-stats':'Hero Stats Strip','trust-ticker':'Trust Ticker','contact-info':'Contact & Footer','about-us':'About Us','parental-session':'Parental Session',whycards:'Why Choose Us',journey:'Journey Timeline',compare:'Comparison Table',books:'Books',faqs:'FAQ'};
+const TITLES = {dashboard:'Dashboard',registrations:'Registrations','book-deliveries':'Book Deliveries',enquiries:'Enquiries','courses-cms':'Courses Grid',pricing:'Pricing Cards','testimonials-cms':'Testimonials','hero-headline':'Hero Headline','hero-stats':'Hero Stats Strip','trust-ticker':'Trust Ticker','contact-info':'Contact & Footer','about-us':'About Us','parental-session':'Parental Session',whycards:'Why Choose Us',journey:'Journey Timeline',compare:'Comparison Table',books:'Books',faqs:'FAQ'};
 
 // ── Sections that get the live-preview + edit-panel workspace ───────
 const WORKSPACE_SECTIONS = new Set(['hero-headline','hero-stats','courses-cms','pricing','testimonials-cms','trust-ticker','contact-info','about-us','parental-session','whycards','journey','compare','books','faqs']);
@@ -704,9 +726,12 @@ const STUB_SECTIONS = [
   {id:'course-rms',          nav:'courses',    title:'RMS',                      file:'course-details.dc.html', hash:'rms',          desc:'Subjects, books, testimonials and the timeline for this course.'},
   {id:'course-gurukulam',    nav:'courses',    title:'AP Gurukulam',             file:'course-details.dc.html', hash:'gurukulam',    desc:'Subjects, books, testimonials and the timeline for this course.'},
   {id:'course-nda',          nav:'courses',    title:'NDA Foundation',           file:'course-details.dc.html', hash:'nda',          desc:'Subjects, books, testimonials and the timeline for this course.'},
-  {id:'course-rimc',         nav:'courses',    title:'RIMC',                     file:'course-details.dc.html', hash:'rimc',         desc:'Subjects, books, testimonials and the timeline for this course.'},
-  {id:'course-foundation23', nav:'courses',    title:'Foundation (2nd & 3rd)',   file:'course-details.dc.html', hash:'foundation23', desc:'Subjects, books, testimonials and the timeline for this course.'},
-  {id:'course-foundation45', nav:'courses',    title:'Foundation (4th & 5th)',   file:'course-details.dc.html', hash:'foundation45', desc:'Subjects, books, testimonials and the timeline for this course.'},
+  // HIDDEN {id:'course-rimc',         nav:'courses',    title:'RIMC',                     file:'course-details.dc.html', hash:'rimc',         desc:'Subjects, books, testimonials and the timeline for this course.'},
+  // HIDDEN {id:'course-foundation23', nav:'courses',    title:'Foundation (2nd & 3rd)',   file:'course-details.dc.html', hash:'foundation23', desc:'Subjects, books, testimonials and the timeline for this course.'},
+  // HIDDEN {id:'course-foundation45', nav:'courses',    title:'Foundation (4th & 5th)',   file:'course-details.dc.html', hash:'foundation45', desc:'Subjects, books, testimonials and the timeline for this course.'},
+  {id:'course-reasoning',    nav:'courses',    title:'Online Reasoning (NEW)',   file:'course-details.dc.html', hash:'reasoning',    online:true, desc:'Fee, timings, topics and what is included for this online course.'},
+  {id:'course-class3',       nav:'courses',    title:'Class 3 Foundation (NEW)', file:'course-details.dc.html', hash:'class3',       online:true, desc:'Fee, timings, topics and what is included for this online course.'},
+  {id:'course-class45',      nav:'courses',    title:'Class 4 & 5 Foundation (NEW)', file:'course-details.dc.html', hash:'class45',  online:true, desc:'Fee, timings, topics and what is included for this online course.'},
   {id:'exam-sainik',    nav:'examstream', title:'Sainik (AISSEE)',    file:'entrance-exam.dc.html', hash:'sainik', desc:'Exam highlights, syllabus and important dates.'},
   {id:'exam-navodaya',  nav:'examstream', title:'Navodaya (JNVST)',   file:'entrance-exam.dc.html', hash:'navodaya', desc:'Exam highlights, syllabus and important dates.'},
   {id:'exam-rms',       nav:'examstream', title:'RMS',                file:'entrance-exam.dc.html', hash:'rms', desc:'Exam highlights, syllabus and important dates.'},
@@ -734,11 +759,44 @@ function getCourseFormHtml(s) {
           </div>
           <div class="form-group">
             <label class="form-label">Fee / Tuition</label>
-            <input class="form-input" type="text" id="stub-fee-${s.id}" placeholder="e.g. Contact for Fee" oninput="livePatchCourse('${s.hash}', 'price', this.value)"/>
+            <input class="form-input" type="text" id="stub-fee-${s.id}" placeholder="e.g. Contact for Fee" oninput="livePatchCourse('${s.hash}', 'fee', this.value)"/>
           </div>
         </div>
       </div>
     </div>
+
+    ${s.online ? `
+    <div class="settings-card" style="margin-bottom: 20px;">
+      <div class="settings-card-header">Online Course Details</div>
+      <div class="settings-card-body">
+        <div class="form-group">
+          <label class="form-label">Timing boxes (one per line: Label | Value | Small text)</label>
+          <textarea class="form-input" rows="6" id="stub-oc-schedule-${s.id}" placeholder="Class timing | 5:30 – 6:15 AM | Morning, 45 minutes daily" oninput="livePatchOnline('${s.id}', '${s.hash}', 'schedule', this.value)"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Curriculum (subject name on its own line, then one topic per line; leave a blank line between subjects)</label>
+          <textarea class="form-input" rows="10" id="stub-oc-curriculum-${s.id}" oninput="livePatchOnline('${s.id}', '${s.hash}', 'curriculum', this.value)"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">What you get (one per line)</label>
+          <textarea class="form-input" rows="4" id="stub-oc-includes-${s.id}" oninput="livePatchOnline('${s.id}', '${s.hash}', 'includes', this.value)"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Books / material sent by courier (one per line, shown in Book Deliveries)</label>
+          <textarea class="form-input" rows="3" id="stub-oc-material-${s.id}" oninput="livePatchOnline('${s.id}', '${s.hash}', 'material', this.value)"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Fee note (under the price)</label>
+            <input class="form-input" type="text" id="stub-oc-feeNote-${s.id}" oninput="livePatchCourse('${s.hash}', 'feeNote', this.value)"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Refund note</label>
+            <input class="form-input" type="text" id="stub-oc-refundNote-${s.id}" oninput="livePatchCourse('${s.hash}', 'refundNote', this.value)"/>
+          </div>
+        </div>
+      </div>
+    </div>` : ''}
 
     <div class="settings-card" style="margin-bottom: 20px;">
       <div class="settings-card-header">Subjects Covered</div>
@@ -878,16 +936,23 @@ function loadStubDetails(s) {
   if (s.nav === 'courses') {
     if (CFG) {
       db.collection('courses_details').doc(s.hash).get().then(doc => {
-        let d;
         if (doc.exists) {
-          d = doc.data();
-        } else {
-          d = getIframeCourseStatic(s.hash) || {};
+          STUB_DATA[s.id] = doc.data();
+          populateCourseForm(s.id, s.hash);
+          resyncPreview(s.id);
+          return;
         }
-        STUB_DATA[s.id] = d;
-        populateCourseForm(s.id, s.hash);
-        resyncPreview(s.id);
-      });
+        // Nothing saved yet: start from the course's current website text.
+        // Wait for the preview to finish loading so the form is not empty.
+        let tries = 0;
+        (function fromPreview(){
+          const d = getIframeCourseStatic(s.hash);
+          if (!d && tries++ < 25) { setTimeout(fromPreview, 300); return; }
+          STUB_DATA[s.id] = d || {};
+          populateCourseForm(s.id, s.hash);
+          resyncPreview(s.id);
+        })();
+      }).catch(err => showToast('Could not load course details: ' + (err && err.message ? err.message : 'check your internet connection'), 'error'));
     } else {
       STUB_DATA[s.id] = getIframeCourseStatic(s.hash) || {};
       populateCourseForm(s.id, s.hash);
@@ -914,6 +979,36 @@ function loadStubDetails(s) {
   }
 }
 
+// ---- Online course fields (Reasoning, Class 3, Class 4 & 5) ----
+function ocLines(t){ return String(t||'').split('\n').map(x=>x.trim()).filter(Boolean); }
+function ocParse(field, text){
+  if (field === 'schedule') return ocLines(text).map(l => { const p = l.split('|').map(x=>x.trim()); return { label:p[0]||'', value:p[1]||'', sub:p[2]||'' }; });
+  if (field === 'curriculum') return String(text||'').split(/\n\s*\n/).map(b => ocLines(b)).filter(b => b.length).map(b => {
+    const head = b[0].split('|').map(x=>x.trim());
+    return { name: head[0], note: head[1] || '', topics: b.slice(1) };
+  });
+  return ocLines(text);
+}
+function ocFormat(field, val){
+  val = val || [];
+  if (field === 'schedule') return val.map(x => [x.label, x.value, x.sub].filter(v => v !== undefined && v !== '').join(' | ')).join('\n');
+  if (field === 'curriculum') return val.map(b => [b.note ? b.name + ' | ' + b.note : b.name].concat(b.topics || []).join('\n')).join('\n\n');
+  return val.join('\n');
+}
+function populateOnlineCourseForm(id){
+  const d = STUB_DATA[id] || {};
+  ['schedule','curriculum','includes','material'].forEach(f => { const el = document.getElementById('stub-oc-'+f+'-'+id); if (el) el.value = ocFormat(f, d[f]); });
+  ['feeNote','refundNote'].forEach(f => { const el = document.getElementById('stub-oc-'+f+'-'+id); if (el) el.value = d[f] || ''; });
+}
+function livePatchOnline(id, hash, field, text){ livePatchCourse(hash, field, ocParse(field, text)); }
+
+// Any save that fails (no internet, Firestore rules, quota) now shows an error
+// instead of failing silently.
+window.addEventListener('unhandledrejection', function(e){
+  const r = e.reason || {};
+  if (r && (r.code || r.name === 'FirebaseError')) showToast('Save failed: ' + (r.message || r.code), 'error');
+});
+
 function populateCourseForm(id, hash) {
   const d = STUB_DATA[id];
   if (!d) return;
@@ -923,7 +1018,8 @@ function populateCourseForm(id, hash) {
   const durationEl = document.getElementById('stub-duration-' + id);
   if (durationEl) durationEl.value = d.duration || '';
   const feeEl = document.getElementById('stub-fee-' + id);
-  if (feeEl) feeEl.value = d.price || d.fee || '';
+  if (feeEl) feeEl.value = d.fee || d.price || '';
+  if (STUB_SECTIONS.find(x => x.id === id && x.online)) populateOnlineCourseForm(id);
   
   renderStubSubjectsList(id, hash);
   renderStubTimelineList(id, hash);
@@ -1059,10 +1155,16 @@ function saveStubCourse(id, hash) {
   const d = STUB_DATA[id];
   if (!d) return;
   
+  // The website reads the fee from "fee". Older saves wrote "price"; copy it over once and remove it.
+  if (d.price !== undefined) {
+    if (!d.fee && typeof d.price === 'string') d.fee = d.price;
+    d.price = firebase.firestore.FieldValue.delete();
+  }
   d.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
   db.collection('courses_details').doc(hash).set(d, {merge: true}).then(() => {
-    showToast('Saved Course details — live on site');
-  });
+    delete d.price;
+    showToast('Saved Course details — refresh the website to see it');
+  }).catch(err => showToast('Save failed: ' + (err && err.message ? err.message : 'check your internet connection'), 'error'));
 }
 
 function populateExamForm(id, hash) {
@@ -1355,8 +1457,77 @@ let DATA = {registrations:[],enquiries:[],courses:[],testimonials:[]};
 function initAdmin() {
   document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
   if(!CFG){document.getElementById('user-name').textContent='Demo Admin';}
-  loadRegistrations(); loadEnquiries(); loadCoursesCMS(); loadPricing(); loadTestimonialsCMS(); loadSettingsForm();
+  loadRegistrations(); loadBookOrders(); loadEnquiries(); loadCoursesCMS(); loadPricing(); loadTestimonialsCMS(); loadSettingsForm();
   Object.keys(CRUD_CONFIGS).forEach(loadGenericList);
+}
+
+// ── BOOK DELIVERIES (orders placed on the Our Publications store) ──
+const ORDER_STATUSES=['New','Packed','Shipped','Delivered'];
+const ORDER_COLORS={New:'#2563eb',Packed:'#ea580c',Shipped:'#7c3aed',Delivered:'#16a34a'};
+let ORDERS=[];
+function loadBookOrders(){
+  if(!CFG){ renderOrders(); return; }
+  db.collection('orders').orderBy('createdAt','desc').onSnapshot(snap=>{
+    ORDERS=snap.docs.map(d=>({id:d.id,...d.data()})); renderOrders();
+  });
+}
+function orderDate(o){ const t=o.createdAt; return t ? (t.toDate ? t.toDate() : new Date(t)) : null; }
+function orderMoney(n){ return '₹'+Number(n||0).toLocaleString('en-IN'); }
+function orderAddress(d){
+  d = d || {};
+  const lines = [[d.door, d.street].filter(Boolean).join(', '), d.landmark ? 'Near ' + d.landmark : '', [d.city, d.district].filter(Boolean).join(', '), [d.state, d.pin].filter(Boolean).join(' – ')].filter(Boolean);
+  return lines.map(esc).join('<br>') || '—';
+}
+function orderWaMsg(o){
+  const name = (o.parent && o.parent.name) || (o.student && o.student.name) || '';
+  const what = o.course || (o.books || []).map(b => b.title).join(', ');
+  return 'Hello ' + name + ', this is Taxila Academy about your order: ' + what + '.';
+}
+function waLogoBtn(phone, msg){
+  const p = normPhone(phone); if (!p) return '—';
+  return `<a href="https://wa.me/${p}?text=${encodeURIComponent(msg||'')}" target="_blank" rel="noopener" title="Chat on WhatsApp with ${esc(phone)}" aria-label="Chat on WhatsApp" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:#25D366;color:#fff;box-shadow:0 4px 12px rgba(37,211,102,0.35)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.25.69-1.44 1.32-2 1.37-.51.05-.99.24-3.33-.69-2.82-1.11-4.6-4-4.74-4.18-.14-.19-1.13-1.5-1.13-2.86 0-1.36.71-2.03.97-2.31.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.48.23.55.78 1.9.85 2.04.07.14.11.3.02.48-.09.19-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.69-.81.88-1.09.18-.28.37-.23.62-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.32.07.12.07.67-.18 1.36z"/></svg></a>`;
+}
+function renderOrders(){
+  const q=v2('ord-search'), st=document.getElementById('ord-filter-status').value;
+  const isCourse=o=>o.type==='course';
+  const rows=ORDERS.filter(o=>(!st||(st==='course'?isCourse(o):!isCourse(o)))&&(!q||[o.id,o.course,o.student&&o.student.name,o.parent&&o.parent.name,o.parent&&o.parent.mobile,o.delivery&&o.delivery.phone,o.delivery&&o.delivery.city,o.delivery&&o.delivery.pin,(o.books||[]).map(b=>b.title).join(' ')].join(' ').toLowerCase().includes(q)));
+  const today=new Date().toDateString();
+  document.getElementById('ord-stat-total').textContent=ORDERS.length;
+  document.getElementById('ord-stat-revenue').textContent=orderMoney(ORDERS.filter(o=>{const d=orderDate(o);return d&&d.toDateString()===today;}).reduce((s,o)=>s+(o.amount||0),0));
+  document.getElementById('ord-stat-pending').textContent=ORDERS.filter(isCourse).length;
+  document.getElementById('ord-stat-delivered').textContent=ORDERS.filter(o=>!isCourse(o)).length;
+  updateBadge('book-deliveries',ORDERS.length);
+  const tb=document.getElementById('ord-table');
+  if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="8">'+(ORDERS.length?'No orders match this search.':'No orders yet.')+'</td></tr>';return;}
+  tb.innerHTML=rows.map((o,i)=>{
+    const d=o.delivery||{}, p=o.parent||{}, st=o.student||{};
+    const books=(o.books||[]).map(b=>'<div>• '+esc(b.title)+(b.qty>1?' ×'+b.qty:'')+'</div>').join('');
+    const phone=d.phone||p.mobile;
+    const course=isCourse(o)?`<span class="badge badge-gold" style="margin-bottom:6px;display:inline-block">Online Course</span><div style="font-weight:700;margin-bottom:4px">${esc(o.course)}</div>`:'<span class="badge badge-blue" style="margin-bottom:6px;display:inline-block">Book Shop</span>';
+    return `<tr style="vertical-align:top"><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(st.name)}</strong><div style="color:var(--muted);font-size:12px">${esc(st.class||'')}${p.name?' · Parent: '+esc(p.name):''}</div>${p.email?'<div style="color:var(--muted);font-size:12px">'+esc(p.email)+'</div>':''}</td><td style="font-size:13px">${course}${books||'—'}</td><td style="font-size:13px;line-height:1.5">${orderAddress(d)}</td><td style="font-size:13px">${esc(phone||'—')}${d.altPhone?'<div style="color:var(--muted);font-size:12px">Alt: '+esc(d.altPhone)+'</div>':''}</td><td><strong>${orderMoney(o.amount)}</strong><div style="color:var(--muted);font-size:11.5px">${esc((o.payment&&o.payment.id)||'')}</div></td><td style="color:var(--muted)">${fmtDate(o.createdAt)}</td><td>${waLogoBtn(phone,orderWaMsg(o))}</td></tr>`;
+  }).join('');
+}
+function toggleOrderRow(id){ const r=document.getElementById('ord-detail-'+id); r.style.display=r.style.display==='none'?'table-row':'none'; }
+function cycleOrderStatus(id){
+  const o=ORDERS.find(x=>x.id===id); if(!o||!CFG) return;
+  const next=ORDER_STATUSES[(ORDER_STATUSES.indexOf(o.status)+1)%ORDER_STATUSES.length];
+  db.collection('orders').doc(id).update({status:next}).then(()=>showToast('Order moved to '+next));
+}
+function printOrderLabel(id){
+  const o=ORDERS.find(x=>x.id===id); if(!o) return;
+  const d=o.delivery||{}, p=o.parent||{};
+  const w=window.open('','_blank','width=420,height=600');
+  if(!w){ showToast('Allow pop-ups to print the label','error'); return; }
+  w.document.write(`<html><head><title>Label ${esc(o.id)}</title><style>body{font-family:Arial,sans-serif;padding:20px;border:2px solid #000;margin:10px;width:340px}h3{margin:0 0 10px}p{margin:4px 0;font-size:14px}</style></head><body><h3>TAXILA ACADEMY — BOOK DELIVERY</h3><p><b>To:</b> ${esc(o.student&&o.student.name)}</p><p><b>Parent:</b> ${esc(p.name)} · ${esc(p.mobile)}</p><p>${esc(d.street)}</p><p>${esc(d.city)} – ${esc(d.pin)}</p><p>${esc(d.district)}</p><p><b>Order:</b> ${esc(o.id)}</p><p>${(o.books||[]).map(b=>esc(b.title)+' × '+b.qty).join('<br>')}</p><script>window.onload=function(){window.print();}<\/script></body></html>`);
+  w.document.close();
+}
+function exportOrdersCSV(){
+  if(!ORDERS.length){ showToast('No orders to export','error'); return; }
+  const cols=['order_id','type','course','student','class','parent','mobile','email','door','street','landmark','city','district','state','pin','courier_phone','alt_phone','books','amount','payment_id','date'];
+  const rowOf=o=>{ const d=orderDate(o), a=o.delivery||{}, s=o.student||{}, p=o.parent||{}; return [o.id,o.type==='course'?'Online course':'Book shop',o.course,s.name,s.class,p.name,p.mobile,p.email,a.door,a.street,a.landmark,a.city,a.district,a.state,a.pin,a.phone,a.altPhone,(o.books||[]).map(b=>b.title+' x'+b.qty).join('; '),o.amount,o.payment&&o.payment.id,d?d.toLocaleString('en-IN'):'']; };
+  const q=s=>'"'+String(s==null?'':s).replace(/"/g,'""')+'"';
+  const csv=[cols.join(','),...ORDERS.map(o=>rowOf(o).map(q).join(','))].join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='book-deliveries.csv'; a.click();
 }
 
 // ── REGISTRATIONS ─────────────────────────────────────────────────
@@ -1372,9 +1543,9 @@ function loadRegistrations() {
 function renderRegTable(rows) {
   const tb=document.getElementById('reg-table');
   if(!rows.length){tb.innerHTML='<tr class="empty-row"><td colspan="11">No registrations yet.</td></tr>';return;}
-  tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.class||'—')}</td><td>${esc(r.parentName||'—')}</td><td>${esc(r.phone||'—')}</td><td style="color:var(--muted)">${esc(r.email||'—')}</td><td>${esc(r.exam||'—')}</td><td>${sourceBadge(r.source)}</td><td style="color:var(--muted)">${fmtDate(r.createdAt)}</td><td>${payBadge(r.paymentStatus)}</td><td><div style="display:flex;gap:5px;align-items:center">${telBtn(r.phone)}${waBtn(r.phone,waMsgForRegistration(r))}${CFG?`<button class="btn btn-sm btn-outline" onclick="setPayment('${r.id}','paid')">✓ Paid</button><button class="btn btn-sm btn-danger" onclick="delDoc('registrations','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');
+  tb.innerHTML=rows.map((r,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.class||'—')}</td><td>${esc(r.parentName||'—')}</td><td>${esc(r.phone||'—')}</td><td style="color:var(--muted)">${esc(r.email||'—')}</td><td>${esc(r.exam||'—')}${r.delivery?'<div style="color:var(--muted);font-size:11.5px;margin-top:3px">Ships to: '+esc(r.delivery.city||'')+' '+esc(r.delivery.pin||'')+'</div>':''}</td><td>${sourceBadge(r.source)}</td><td style="color:var(--muted)">${fmtDate(r.createdAt)}</td><td>${payBadge(r.paymentStatus)}</td><td><div style="display:flex;gap:5px;align-items:center">${telBtn(r.phone)}${waBtn(r.phone,waMsgForRegistration(r))}${CFG?`<button class="btn btn-sm btn-outline" onclick="setPayment('${r.id}','paid')">✓ Paid</button><button class="btn btn-sm btn-danger" onclick="delDoc('registrations','${r.id}')">🗑</button>`:''}</div></td></tr>`).join('');
 }
-function sourceBadge(s){return s==='Parental Session'?'<span class="badge badge-blue">Parental</span>':'<span class="badge badge-gold">T-EE Exam</span>';}
+function sourceBadge(s){if(s==='Online Course')return '<span class="badge badge-green">Online Course</span>';if(s==='Course Enrollment')return '<span class="badge badge-gold">Course</span>';return s==='Parental Session'?'<span class="badge badge-blue">Parental</span>':'<span class="badge badge-gold">T-EE Exam</span>';}
 function payBadge(s){return s==='paid'?'<span class="badge badge-green">Paid</span>':s==='failed'?'<span class="badge badge-red">Failed</span>':'<span class="badge badge-gold">Pending</span>';}
 function setPayment(id,s){db.collection('registrations').doc(id).update({paymentStatus:s}).then(()=>showToast('Payment updated'));}
 function waMsgForRegistration(r){

@@ -827,6 +827,7 @@
 /* ── Ultra-wide: fix column counts ── */
 @media (min-width: 1600px) {
   #defence-card-grid    { grid-template-columns: repeat(5,1fr) !important; }
+  #online-card-grid     { grid-template-columns: repeat(3,1fr) !important; }
   #foundation-card-grid { grid-template-columns: repeat(3,1fr) !important; }
 }
 
@@ -865,6 +866,7 @@
   nav a[href="#home"] img   { height: 46px !important; }
   #sainik-hero > div        { padding: 22px !important; }
   #defence-card-grid        { gap: 12px !important; }
+  #online-card-grid         { gap: 12px !important; }
   #foundation-card-grid     { gap: 12px !important; }
   #course-modal-content     { padding: 18px 16px 22px !important; }
   #course-modal-overlay     { padding: 10px !important; }
@@ -1228,9 +1230,12 @@
           <a href="./course-details.dc.html#gurukulam" class="dropdown-link">AP Gurukulam Admission</a>
           <a href="./course-details.dc.html#rms" class="dropdown-link">RMS Coaching (CET)</a>
           <a href="./course-details.dc.html#nda" class="dropdown-link">NDA Foundation</a>
-          <a href="./course-details.dc.html#rimc" class="dropdown-link">RIMC Coaching</a>
-          <a href="./course-details.dc.html#foundation23" class="dropdown-link">2nd &amp; 3rd Foundation</a>
-          <a href="./course-details.dc.html#foundation45" class="dropdown-link">4th &amp; 5th Foundation</a>
+          <a href="./course-details.dc.html#reasoning" class="dropdown-link">Online Reasoning <span style="display:inline-block;margin-left:6px;background:#F5B800;color:#0A1F05;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 6px;border-radius:100px;vertical-align:middle">NEW</span></a>
+          <a href="./course-details.dc.html#class3" class="dropdown-link">Class 3 Foundation <span style="display:inline-block;margin-left:6px;background:#F5B800;color:#0A1F05;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 6px;border-radius:100px;vertical-align:middle">NEW</span></a>
+          <a href="./course-details.dc.html#class45" class="dropdown-link">Class 4 &amp; 5 Foundation <span style="display:inline-block;margin-left:6px;background:#F5B800;color:#0A1F05;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 6px;border-radius:100px;vertical-align:middle">NEW</span></a>
+          <a href="./course-details.dc.html#rimc" class="dropdown-link" style="display:none" data-hidden-section>RIMC Coaching</a>
+          <a href="./course-details.dc.html#foundation23" class="dropdown-link" style="display:none" data-hidden-section>2nd &amp; 3rd Foundation</a>
+          <a href="./course-details.dc.html#foundation45" class="dropdown-link" style="display:none" data-hidden-section>4th &amp; 5th Foundation</a>
         </div>
       </div>
       <a href="./about.html" class="nav-link" style="color:rgba(232,213,176,0.8);font-size:14.5px;font-weight:600;transition:color 0.25s">About Us</a>
@@ -1244,10 +1249,12 @@
           <a href="./entrance-exam.dc.html" class="dropdown-link">Entrance Exam</a>
           <a href="#books" class="dropdown-link">Books</a>
           <a href="#parental-sessions" class="dropdown-link">Parental Sessions</a>
+          <a href="#our-publications" class="dropdown-link">Our Publications</a>
         </div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <a href="javascript:void(0)" id="pub-cart-btn" aria-label="Cart" style="display:inline-flex;align-items:center;gap:6px;color:rgba(232,213,176,0.8);font-size:14.5px;font-weight:600;padding:8px 6px;white-space:nowrap;transition:color 0.25s">🛒 Cart <span id="pub-cart-count" style="display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:10px;background:#C9A97A;color:#0a1f05;font-size:11px;font-weight:800;padding:0 6px">0</span></a>
       <a data-navcta href="./entrance-exam.dc.html" class="gold-hover" style="display:inline-flex;align-items:center;gap:8px;background:#C9A97A;color:#0a1f05;font-weight:800;font-size:14px;padding:11px 22px;border-radius:100px;box-shadow:0 4px 18px rgba(201,169,122,0.28);transition:background 0.18s ease,transform 0.18s ease,box-shadow 0.18s ease;white-space:nowrap" onmouseover="this.style.background='#F5D68A'" onmouseout="this.style.background='#C9A97A'">Register T-EE</a>
       <!-- Burger: 3 lines → biscuit-themed on mobile -->
       <button data-burger class="gold-hover-icon" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:rgba(27,77,14,0.08);border:1.5px solid rgba(27,77,14,0.15);border-radius:10px;cursor:pointer;padding:10px 12px;min-width:44px;min-height:44px">
@@ -1655,7 +1662,7 @@
         </div>
         <div class="bento-stat-num"><span data-count="5">0</span></div>
         <div class="bento-stat-label">Exam Streams</div>
-        <div class="bento-stat-sub">Sainik · RMS · Navodaya · Gurukulam · NDA · RIMC</div>
+        <div class="bento-stat-sub">Sainik · RMS · Navodaya · Gurukulam · NDA<span style="display:none" data-hidden-section> · RIMC</span></div>
       </div>
 
       <!-- ── Stat 4: Years Experience ── -->
@@ -1730,8 +1737,8 @@
           </div>
         </div>
 
-        <!-- Slide 3: RIMC -->
-        <div class="cslide" data-index="2" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
+        <!-- Slide 3: RIMC (HIDDEN: rename class back to "cslide" to show it again) -->
+        <div class="cslide-hidden" data-index="2" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
           <div style="position:absolute;inset:-30px;z-index:0">
             <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
             <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
@@ -2415,6 +2422,23 @@
         <!-- rendered by JS -->
       </div>
 
+      <!-- ONLINE LIVE COURSES (NEW) label -->
+      <div data-reveal style="opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;margin-bottom:22px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:32px;height:2px;background:#F5B800;border-radius:2px"></div>
+          <span style="color:#C9A97A;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">Online Live Courses</span>
+          <span style="background:#F5B800;color:#0A1F05;font-size:10px;font-weight:800;letter-spacing:.12em;padding:3px 9px;border-radius:100px">NEW</span>
+          <div style="flex:1;height:1px;background:rgba(232,213,176,0.07)"></div>
+        </div>
+      </div>
+
+      <!-- Online course card grid -->
+      <div id="online-card-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:56px">
+        <!-- rendered by JS -->
+      </div>
+
+      <!-- FOUNDATION PROGRAMS (HIDDEN: remove style="display:none" below to show again) -->
+      <div id="foundation-programs-section" style="display:none" data-hidden-section>
       <!-- FOUNDATION PROGRAMS label -->
       <div data-reveal style="opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;margin-bottom:22px">
         <div style="display:flex;align-items:center;gap:14px">
@@ -2428,6 +2452,9 @@
       <div id="foundation-card-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px">
         <!-- rendered by JS -->
       </div>
+
+      </div>
+      <!-- /FOUNDATION PROGRAMS -->
 
       <!-- FEE STRUCTURE PANEL -->
       <div style="margin-top:64px">
@@ -2996,7 +3023,7 @@
             </span>
           </button>
           <div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)">
-            <p style="color:#cbdcc5;font-size:14.5px;line-height:1.75;margin:0;padding:0 28px 24px">We welcome students from Class 2 onwards. Our primary foundation program (Class 2–5) builds the academic base, while coaching streams for Sainik School, Navodaya, RMS, and AP Gurukulam start from Class 3–4 depending on the target exam.</p>
+            <p style="color:#cbdcc5;font-size:14.5px;line-height:1.75;margin:0;padding:0 28px 24px"><span style="display:none" data-hidden-section>We welcome students from Class 2 onwards. Our primary foundation program (Class 2–5) builds the academic base, while coaching streams for Sainik School, Navodaya, RMS, and AP Gurukulam start from Class 3–4 depending on the target exam.</span>Our coaching streams for Sainik School, Navodaya, RMS, and AP Gurukulam start from Class 3–4, depending on the target exam.</p>
           </div>
         </div>
 
@@ -3158,7 +3185,7 @@
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap">
               <select style="flex:1 1 140px;font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#cbdcc5;outline:none"><option value="">Class Studying *</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8+</option></select>
-              <select style="flex:1 1 140px;font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#cbdcc5;outline:none"><option value="">Course Interested *</option><option>Sainik School</option><option>Navodaya (JNVST)</option><option>AP Gurukulam</option><option>RMS</option><option>RIMC</option><option>NDA</option><option>Primary Foundation</option></select>
+              <select style="flex:1 1 140px;font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#cbdcc5;outline:none"><option value="">Course Interested *</option><option>Sainik School</option><option>Navodaya (JNVST)</option><option>AP Gurukulam</option><option>RMS</option><option hidden>RIMC</option><option>NDA</option><option>Online Reasoning</option><option>Class 3 Foundation</option><option>Class 4 &amp; 5 Foundation</option><option hidden>Primary Foundation</option></select>
             </div>
             <input type="text" placeholder="City / District" style="font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none">
             <textarea placeholder="Additional Message (optional)" rows="3" style="font-family:inherit;font-size:14px;padding:12px 14px;border:1.5px solid rgba(201,169,122,0.2);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none;resize:vertical"></textarea>
@@ -3297,7 +3324,7 @@
           <div data-faq data-reveal data-delay="240" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">What is the admission process to join Taxila Academy?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Step 1: Submit an enquiry or call. Step 2: Free counseling session. Step 3: Attend a demo class (optional). Step 4: Confirm with documents &amp; fee payment. Entire process takes 3–5 working days — we assist with all paperwork.</p></div></div>
           <div data-faq data-reveal data-delay="280" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">Can my child attend a demo class before enrolling?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Absolutely. We encourage every prospective student to attend at least one free demo class — experience our teaching, interact with faculty, and assess the pace with zero obligation to enrol. Just WhatsApp us to book a slot.</p></div></div>
           <div data-faq data-reveal data-delay="320" style="border-bottom:1px solid rgba(228,238,217,0.12)"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How experienced is the faculty?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">All faculty have a minimum 5 years of experience specifically in Sainik, Navodaya and defence entrance coaching. Several are ex-Sainik School alumni or ex-defence personnel — bringing first-hand knowledge of what these institutions expect.</p></div></div>
-          <div data-faq data-reveal data-delay="360" style="opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How does Taxila Academy support preparation year-round?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our 12-month calendar covers concept building (first 6–8 months), intensive revision &amp; mock testing (next 3 months), and exam-strategy booster sessions (final 4–6 weeks). RIMC and NDA candidates also receive personality development and interview preparation.</p></div></div>
+          <div data-faq data-reveal data-delay="360" style="opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease"><button data-faq-btn class="gold-hover-row" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px"><span style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#f0f6e8;line-height:1.3">How does Taxila Academy support preparation year-round?</span><span data-faq-icon style="flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid #d5e8c8;background:#EDF7E6;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div data-faq-body style="overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(0.22,1,0.36,1)"><p style="color:#cbdcc5;font-size:14.5px;line-height:1.7;margin:0 0 22px;max-width:700px">Our 12-month calendar covers concept building (first 6–8 months), intensive revision &amp; mock testing (next 3 months), and exam-strategy booster sessions (final 4–6 weeks). <span style="display:none" data-hidden-section>RIMC and </span>NDA candidates also receive personality development and interview preparation.</p></div></div>
         </div>
       </div>
     </div>
@@ -3322,6 +3349,359 @@
 
   </section>
 
+  <!-- OUR PUBLICATIONS — banner, book grid, cart drawer and 3-step checkout (Razorpay) -->
+  <style>
+    .pub-banner{background:#fff;padding:clamp(40px,6vw,64px) clamp(18px,4vw,56px) clamp(32px,4vw,44px)}
+    .pub-banner-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+    .pub-eyebrow{display:block;color:#1B4D0E;font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+    .pub-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(30px,4vw,46px);color:#1B4D0E;margin:0;line-height:1.15}
+    .pub-desc{color:#3d4a38;font-size:15.5px;line-height:1.6;max-width:560px;margin:12px 0 0}
+    .pub-stats{display:flex;gap:12px;flex-wrap:wrap}
+    .pub-stat{display:flex;align-items:center;gap:10px;background:#EDF7E6;border:1px solid #cfe5c4;border-radius:14px;padding:12px 16px;min-width:120px}
+    .pub-stat b{display:block;font-size:17px;color:#1B4D0E;font-weight:800;line-height:1.1}
+    .pub-stat span{font-size:12px;color:#4a5a44}
+    .pub-grid-wrap{background:#F6FAF2;border-top:1px solid #dfeed6;padding:clamp(36px,5vw,56px) clamp(18px,4vw,56px) clamp(64px,8vw,96px)}
+    .pub-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+    .pub-card{position:relative;background:#fff;border:1px solid #d5e8c8;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+    .pub-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(10,34,6,.14)}
+    .pub-cover{height:160px;display:grid;place-items:center;font-size:64px}
+    .pub-ribbon{position:absolute;top:12px;left:12px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:6px;color:#fff}
+    .pub-body{padding:18px;display:flex;flex-direction:column;flex:1}
+    .pub-name{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:#0E1A0A;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+    .pub-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 12px}
+    .pub-tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:#EEF0EC;color:#4a5a44}
+    .pub-tag.exam{background:#E9F5E3;color:#1B4D0E}
+    .pub-price{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .pub-price b{font-size:19px;color:#C8920A;font-weight:800}
+    .pub-price s{font-size:13px;color:#8a9484}
+    .pub-off{font-size:11px;font-weight:700;color:#1B4D0E;background:#E9F5E3;padding:3px 8px;border-radius:6px}
+    .pub-text{font-size:13px;color:#5B6B55;line-height:1.5;margin:10px 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .pub-card.open .pub-text{display:block;-webkit-line-clamp:unset}
+    .pub-add{width:100%;background:#1B4D0E;color:#fff;border:0;border-radius:10px;padding:12px;font:700 14px Inter,sans-serif;cursor:pointer;transition:background .2s}
+    .pub-add:hover{background:#245f12}
+    .pub-more{display:block;text-align:center;color:#1B4D0E;font-weight:700;font-size:14px;margin-top:10px;cursor:pointer}
+    /* cart drawer + checkout modal */
+    .pub-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:900}
+    .pub-overlay.open{display:block}
+    .pub-drawer{position:fixed;top:0;right:0;bottom:0;width:360px;max-width:100%;background:#fff;z-index:901;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s ease;box-shadow:-12px 0 36px rgba(0,0,0,.2);font-family:Inter,sans-serif;color:#0E1A0A}
+    .pub-drawer.open{transform:none}
+    .pub-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #e3eedb;font-size:17px}
+    .pub-x{background:none;border:0;font-size:26px;line-height:1;cursor:pointer;color:#1B4D0E}
+    .pub-body-scroll{flex:1;overflow-y:auto;padding:16px 20px}
+    .pub-line{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #eef4e8}
+    .pub-cover-sm{width:48px;height:56px;border-radius:8px;display:grid;place-items:center;font-size:24px;flex-shrink:0}
+    .pub-line-info{flex:1;font-size:14px}
+    .pub-line-info b{display:block;margin-bottom:6px;line-height:1.3}
+    .pub-stepper{display:inline-flex;align-items:center;border:1px solid #c4dcb3;border-radius:8px;overflow:hidden}
+    .pub-stepper button{background:#EDF7E6;border:0;width:28px;height:28px;cursor:pointer;color:#1B4D0E;font-weight:800}
+    .pub-stepper span{min-width:30px;text-align:center;font-weight:700}
+    .pub-line-price{text-align:right;font-weight:800;color:#C8920A;font-size:14px}
+    .pub-rm{display:block;margin-top:6px;background:none;border:0;color:#b3261e;font-size:12px;cursor:pointer;font-weight:600}
+    .pub-empty{text-align:center;padding:50px 10px;color:#5B6B55}
+    .pub-foot{padding:16px 20px 20px;border-top:1px solid #e3eedb}
+    .pub-promo{display:flex;gap:8px}
+    .pub-promo input{flex:1;padding:10px 12px;border:1.5px solid #c4dcb3;border-radius:10px;font:500 14px Inter,sans-serif}
+    .pub-promo button,.pub-ghost{background:#fff;border:1.5px solid #1B4D0E;color:#1B4D0E;border-radius:10px;padding:10px 14px;font:700 13px Inter,sans-serif;cursor:pointer}
+    .pub-note{font-size:12.5px;color:#5B6B55;margin:8px 0 0;min-height:1em}
+    .pub-subtotal{display:flex;justify-content:space-between;align-items:center;margin:14px 0;font-size:15px}
+    .pub-subtotal b{font-family:'Playfair Display',serif;font-size:20px;color:#1B4D0E}
+    .pub-gold-btn{width:100%;background:#C8920A;color:#fff;border:0;border-radius:12px;padding:14px;font:800 15px Inter,sans-serif;cursor:pointer;box-shadow:0 8px 22px rgba(200,146,10,.35)}
+    .pub-gold-btn:hover{background:#E0A92A}
+    .pub-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:950;padding:16px}
+    .pub-modal.open{display:flex}
+    .pub-modal-box{background:#fff;border-radius:18px;width:100%;max-width:520px;max-height:92vh;overflow:auto;font-family:Inter,sans-serif;color:#0E1A0A;display:flex;flex-direction:column}
+    .pub-modal-box .pub-head{position:sticky;top:0;background:#fff;z-index:1}
+    .pub-steps{display:flex;gap:6px;padding:14px 20px 0;font-size:12px;font-weight:700;color:#8a9484}
+    .pub-steps span{flex:1;text-align:center;padding:8px 4px;border-bottom:3px solid #dfeed6}
+    .pub-steps span.on{color:#1B4D0E;border-bottom-color:#C8920A}
+    .pub-co-step{display:none;padding:18px 20px 4px}
+    .pub-co-step.on{display:block}
+    .pub-co-step label{display:block;font-size:12.5px;font-weight:700;color:#1B4D0E;margin:12px 0 5px}
+    .pub-co-step label:first-child{margin-top:0}
+    .pub-co-step input,.pub-co-step select{width:100%;padding:11px 12px;border:1.5px solid #c4dcb3;border-radius:10px;font:500 14.5px Inter,sans-serif;background:#fff}
+    .pub-co-step input:focus,.pub-co-step select:focus{outline:none;border-color:#C8920A;box-shadow:0 0 0 3px rgba(200,146,10,.2)}
+    .pub-sum{width:100%;border-collapse:collapse;font-size:14px}
+    .pub-sum td{padding:9px 0;border-bottom:1px solid #eef4e8}
+    .pub-ok{width:64px;height:64px;border-radius:50%;background:#1B4D0E;color:#fff;display:grid;place-items:center;font-size:30px;margin:10px auto 14px}
+    .pub-co-step.ok-step{text-align:center}
+    .pub-co-err{color:#b3261e;font-size:13px;font-weight:600;padding:8px 20px 0;min-height:1.6em}
+    .pub-co-nav{display:flex;justify-content:space-between;gap:10px;padding:12px 20px 20px}
+    .pub-co-nav .pub-gold-btn{flex:1;width:auto}
+    @media (max-width:480px){.pub-drawer{width:100%}}
+  </style>
+  <section id="our-publications" data-screen-label="Our Publications" style="padding:0;background:#fff;scroll-margin-top:80px">
+    <div class="pub-banner">
+      <div class="pub-banner-inner">
+        <div>
+          <span class="pub-eyebrow">Taxila Academy Publications</span>
+          <h2 class="pub-title">Our Books &amp; Study Material</h2>
+          <p class="pub-desc">Expertly crafted books for Sainik School, Navodaya, RMS, AP Gurukulam and NDA entrance exams — written by our own faculty.</p>
+        </div>
+        <div class="pub-stats">
+          <div class="pub-stat"><span style="font-size:20px">📖</span><div><b>8+</b><span>Publications</span></div></div>
+          <div class="pub-stat"><span style="font-size:20px">👥</span><div><b>500+</b><span>Students</span></div></div>
+          <div class="pub-stat"><span style="font-size:20px">🚚</span><div><b>Free</b><span>Local Delivery</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="pub-grid-wrap">
+      <div class="pub-grid" id="pub-grid"></div>
+    </div>
+  </section>
+
+  <!-- Cart drawer -->
+  <div class="pub-overlay" id="pub-overlay"></div>
+  <aside class="pub-drawer" id="pub-cart" aria-label="Shopping cart">
+    <div class="pub-head"><b>Your Cart</b><button class="pub-x" id="pub-cart-close" aria-label="Close cart">×</button></div>
+    <div class="pub-body-scroll" id="pub-cart-body"></div>
+    <div class="pub-foot" id="pub-cart-foot">
+      <div class="pub-promo"><input id="pub-promo" placeholder="Promo code" autocomplete="off"><button type="button" id="pub-promo-apply">Apply</button></div>
+      <p class="pub-note" id="pub-promo-msg"></p>
+      <div class="pub-subtotal"><span>Subtotal</span><b id="pub-subtotal">₹0</b></div>
+      <button class="pub-gold-btn" id="pub-checkout">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- 3-step checkout -->
+  <div class="pub-modal" id="pub-co" role="dialog" aria-modal="true" aria-label="Checkout">
+    <div class="pub-modal-box">
+      <div class="pub-head"><b>Checkout</b><button class="pub-x" id="pub-co-close" aria-label="Close checkout">×</button></div>
+      <div class="pub-steps"><span data-ind="1">1 · Student</span><span data-ind="2">2 · Delivery</span><span data-ind="3">3 · Review &amp; Pay</span></div>
+
+      <div class="pub-co-step" data-step="1">
+        <label for="pc-name">Student name *</label><input id="pc-name" autocomplete="off">
+        <label for="pc-class">Class *</label>
+        <select id="pc-class"><option value="">Select class</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
+        <label for="pc-stream">Exam stream *</label>
+        <select id="pc-stream"><option value="">Select stream</option><option>Primary School</option><option>Sainik School</option><option>Navodaya</option><option>RMS</option><option>AP Gurukulam</option><option>NDA</option></select>
+      </div>
+
+      <div class="pub-co-step" data-step="2">
+        <label for="pc-parent">Parent name *</label><input id="pc-parent" autocomplete="name">
+        <label for="pc-mobile">Mobile *</label><input id="pc-mobile" type="tel" inputmode="numeric" placeholder="10-digit number" autocomplete="tel">
+        <label for="pc-email">Email *</label><input id="pc-email" type="email" placeholder="parent@email.com" autocomplete="email">
+        <label for="pc-street">Street *</label><input id="pc-street" autocomplete="street-address">
+        <label for="pc-city">City *</label><input id="pc-city" autocomplete="address-level2">
+        <label for="pc-pin">PIN *</label><input id="pc-pin" inputmode="numeric" placeholder="6-digit PIN" autocomplete="postal-code">
+        <label for="pc-district">District &amp; State *</label><input id="pc-district" placeholder="e.g. East Godavari, Andhra Pradesh">
+      </div>
+
+      <div class="pub-co-step" data-step="3">
+        <table class="pub-sum"><tbody id="pub-co-lines"></tbody></table>
+        <div class="pub-subtotal"><span>Total</span><b id="pub-co-total">₹0</b></div>
+        <p class="pub-note">Free local delivery. Payment secured by Razorpay.</p>
+      </div>
+
+      <div class="pub-co-step ok-step" data-step="4">
+        <div class="pub-ok">✓</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:24px;color:#1B4D0E">Order placed</h3>
+        <p style="margin-top:10px;font-size:14px">Order ID: <b id="pub-ok-order"></b><br>Payment ID: <b id="pub-ok-pay"></b></p>
+        <p class="pub-note" style="margin-top:12px">Keep these IDs. We will confirm your delivery on WhatsApp.</p>
+      </div>
+
+      <div class="pub-co-err" id="pub-co-err"></div>
+      <div class="pub-co-nav">
+        <button class="pub-ghost" id="pub-back">Back</button>
+        <button class="pub-gold-btn" id="pub-next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    const $ = id => document.getElementById(id);
+
+    // Catalogue — edit prices and copy here
+    const BOOKS = [
+      { id: 'sainik-workbook', title: 'Sainik School Complete Workbook', exam: 'Sainik School', cls: 'Class 5–6', price: 249, mrp: 299, ribbon: 'Most Popular', ribbonBg: '#C8920A', emoji: '🎖️', cover: 'linear-gradient(135deg,#2a6a16,#4f8a2e)', desc: 'Complete coverage of Maths, GK, Language and Intelligence with 1500+ practice questions.' },
+      { id: 'sainik-papers', title: 'Sainik School Practice Papers', exam: 'Sainik School', cls: 'Class 6–9', price: 199, mrp: 249, ribbon: 'New', ribbonBg: '#1B4D0E', emoji: '📝', cover: 'linear-gradient(135deg,#2a6a16,#4f8a2e)', desc: '15 full-length model papers in the latest AISSEE pattern with detailed solutions.' },
+      { id: 'navodaya-mental', title: 'Navodaya Mental Ability Book', exam: 'Navodaya', cls: 'Class 5', price: 179, mrp: 220, ribbon: 'Most Popular', ribbonBg: '#C8920A', emoji: '🧠', cover: 'linear-gradient(135deg,#0A2206,#2350b8)', desc: 'All 10 mental ability sections explained step by step with practice figures.' },
+      { id: 'navodaya-kit', title: 'Navodaya Full Preparation Kit', exam: 'Navodaya', cls: 'Class 5', price: 399, mrp: 499, ribbon: 'Combo', ribbonBg: '#6B3FA0', emoji: '📚', cover: 'linear-gradient(135deg,#1d3f9a,#2f63d6)', desc: 'Mental Ability, Arithmetic and Language books plus 10 practice papers in one kit.' }
+    ];
+    const CART_KEY = 'taxila_cart_v1';
+    const RZP_KEY = 'rzp_live_T5ptyJeQl3KoUD';
+    const RZP_IMG = 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png';
+    const money = n => '₹' + Number(n).toLocaleString('en-IN');
+    const pct = b => Math.round((b.mrp - b.price) / b.mrp * 100);
+
+    let cart = {};
+    try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch (e) { cart = {}; }
+    const persist = () => { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {} };
+    const lines = () => BOOKS.filter(b => cart[b.id] > 0).map(b => Object.assign({}, b, { qty: cart[b.id] }));
+    const count = () => lines().reduce((s, l) => s + l.qty, 0);
+    const total = () => lines().reduce((s, l) => s + l.qty * l.price, 0);
+    const v = id => $(id).value.trim();
+
+    // ── Catalogue ──
+    $('pub-grid').innerHTML = BOOKS.map(b => `
+      <div class="pub-card">
+        <div class="pub-cover" style="background:${b.cover}">${b.emoji}</div>
+        <span class="pub-ribbon" style="background:${b.ribbonBg}">${b.ribbon}</span>
+        <div class="pub-body">
+          <div class="pub-name">${b.title}</div>
+          <div class="pub-tags"><span class="pub-tag exam">${b.exam}</span><span class="pub-tag">${b.cls}</span></div>
+          <div class="pub-price"><b>${money(b.price)}</b><s>${money(b.mrp)}</s><span class="pub-off">${pct(b)}% off</span></div>
+          <p class="pub-text">${b.desc}</p>
+          <button class="pub-add" data-add="${b.id}">Add to Cart</button>
+          <a class="pub-more" data-view="${b.id}">View Details</a>
+        </div>
+      </div>`).join('');
+    $('pub-grid').addEventListener('click', e => {
+      const add = e.target.dataset.add, view = e.target.dataset.view;
+      if (add) { cart[add] = (cart[add] || 0) + 1; persist(); renderCart(); openCart(); }
+      if (view) {
+        const card = e.target.closest('.pub-card');
+        card.classList.toggle('open');
+        e.target.textContent = card.classList.contains('open') ? 'Hide Details' : 'View Details';
+      }
+    });
+
+    // ── Cart drawer ──
+    function updateCount() { $('pub-cart-count').textContent = count(); }
+    function renderCart() {
+      const l = lines(), body = $('pub-cart-body'), foot = $('pub-cart-foot');
+      updateCount();
+      if (!l.length) {
+        body.innerHTML = '<div class="pub-empty"><div style="font-size:56px">📚</div><p style="margin:10px 0 18px">Your cart is empty.</p><button class="pub-gold-btn" data-browse style="width:auto;padding:12px 24px">Browse Books</button></div>';
+        foot.style.display = 'none';
+        return;
+      }
+      foot.style.display = '';
+      body.innerHTML = l.map(b => `
+        <div class="pub-line">
+          <div class="pub-cover-sm" style="background:${b.cover}">${b.emoji}</div>
+          <div class="pub-line-info"><b>${b.title}</b>
+            <div class="pub-stepper"><button data-dec="${b.id}" aria-label="Decrease">−</button><span>${b.qty}</span><button data-inc="${b.id}" aria-label="Increase">+</button></div>
+          </div>
+          <div class="pub-line-price">${money(b.price * b.qty)}<button class="pub-rm" data-rm="${b.id}">Remove</button></div>
+        </div>`).join('');
+      $('pub-subtotal').textContent = money(total());
+    }
+    function change(id, d) {
+      cart[id] = d === null ? 0 : Math.max(0, (cart[id] || 0) + d);
+      if (!cart[id]) delete cart[id];
+      persist(); renderCart();
+    }
+    $('pub-cart-body').addEventListener('click', e => {
+      const t = e.target;
+      if (t.dataset.inc) change(t.dataset.inc, 1);
+      else if (t.dataset.dec) change(t.dataset.dec, -1);
+      else if (t.dataset.rm) change(t.dataset.rm, null);
+      else if (t.hasAttribute('data-browse')) { closeCart(); location.hash = '#our-publications'; }
+    });
+    function openCart() { renderCart(); $('pub-cart').classList.add('open'); $('pub-overlay').classList.add('open'); }
+    function closeCart() { $('pub-cart').classList.remove('open'); $('pub-overlay').classList.remove('open'); }
+    $('pub-cart-btn').addEventListener('click', e => { e.preventDefault(); openCart(); });
+    $('pub-cart-close').addEventListener('click', closeCart);
+    $('pub-overlay').addEventListener('click', closeCart);
+    $('pub-promo-apply').addEventListener('click', () => {
+      $('pub-promo-msg').textContent = v('pub-promo') ? 'Promo codes are not active yet.' : 'Enter a promo code.';
+    });
+    $('pub-checkout').addEventListener('click', () => { closeCart(); openCheckout(); });
+
+    // ── Checkout ──
+    let step = 1;
+    const isMobile = s => /^\d{10}$/.test(s);
+    const isPin = s => /^\d{6}$/.test(s);
+    const isEmail = s => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s);
+    const checks = {
+      1: [['pc-name', 'Enter the student name'], ['pc-class', 'Select a class'], ['pc-stream', 'Select an exam stream']],
+      2: [['pc-parent', 'Enter the parent name'], ['pc-mobile', 'Enter a valid 10-digit mobile number', isMobile], ['pc-email', 'Enter a valid email address', isEmail], ['pc-street', 'Enter the street address'], ['pc-city', 'Enter the city'], ['pc-pin', 'Enter a valid 6-digit PIN', isPin], ['pc-district', 'Enter the district and state']]
+    };
+    function validate(s) {
+      for (const [id, msg, test] of checks[s]) {
+        const x = v(id);
+        if (!x || (test && !test(x))) { $(id).focus(); return msg; }
+      }
+      return '';
+    }
+    const setErr = msg => { $('pub-co-err').textContent = msg || ''; };
+    function showStep(n) {
+      step = n; setErr('');
+      document.querySelectorAll('.pub-co-step').forEach(s => s.classList.toggle('on', +s.dataset.step === n));
+      document.querySelectorAll('[data-ind]').forEach(s => s.classList.toggle('on', +s.dataset.ind === Math.min(n, 3)));
+      $('pub-back').style.visibility = (n === 1 || n === 4) ? 'hidden' : 'visible';
+      $('pub-next').textContent = n === 3 ? 'Pay with Razorpay' : n === 4 ? 'Done' : 'Next';
+      if (n === 3) {
+        $('pub-co-lines').innerHTML = lines().map(l => `<tr><td>${l.title}</td><td>× ${l.qty}</td><td style="text-align:right;font-weight:700">${money(l.qty * l.price)}</td></tr>`).join('');
+        $('pub-co-total').textContent = money(total());
+      }
+    }
+    function openCheckout() {
+      if (!lines().length) { openCart(); return; }
+      showStep(1);
+      $('pub-co').classList.add('open');
+    }
+    function closeCheckout() { $('pub-co').classList.remove('open'); }
+    function finish() {
+      closeCheckout();
+      document.querySelectorAll('#pub-co input').forEach(i => i.value = '');
+      document.querySelectorAll('#pub-co select').forEach(s => s.value = '');
+      showStep(1);
+    }
+    $('pub-co-close').addEventListener('click', closeCheckout);
+    $('pub-back').addEventListener('click', () => showStep(step - 1));
+    $('pub-next').addEventListener('click', () => {
+      if (step === 4) { finish(); return; }
+      if (step === 3) { pay(); return; }
+      const m = validate(step);
+      if (m) { setErr(m); return; }
+      showStep(step + 1);
+    });
+
+    function pay() {
+      const m1 = validate(1), m2 = validate(2);
+      if (m1) { showStep(1); setErr(m1); return; }
+      if (m2) { showStep(2); setErr(m2); return; }
+      if (typeof Razorpay === 'undefined') { setErr('Payment gateway failed to load. Please check your internet connection and try again.'); return; }
+      const rzp = new Razorpay({
+        key: RZP_KEY,
+        amount: total() * 100, // paise
+        currency: 'INR',
+        name: 'Taxila Academy',
+        description: 'Book Purchase',
+        image: RZP_IMG,
+        theme: { color: '#1B4D0E' },
+        prefill: { name: v('pc-parent'), contact: v('pc-mobile'), email: v('pc-email') },
+        handler: placeOrder
+      });
+      rzp.on('payment.failed', r => setErr('Payment failed: ' + ((r.error && r.error.description) || 'Unknown error')));
+      rzp.open();
+    }
+
+    // Runs after Razorpay confirms payment. Writes the order to Firestore `orders`.
+    function placeOrder(resp) {
+      const payId = resp.razorpay_payment_id || '—';
+      const data = {
+        student: { name: v('pc-name'), class: v('pc-class'), stream: v('pc-stream') },
+        parent: { name: v('pc-parent'), mobile: v('pc-mobile'), email: v('pc-email') },
+        delivery: { street: v('pc-street'), city: v('pc-city'), pin: v('pc-pin'), district: v('pc-district') },
+        books: lines().map(l => ({ id: l.id, title: l.title, qty: l.qty, price: l.price })),
+        amount: total(),
+        payment: { id: payId, method: 'razorpay', status: 'captured' },
+        status: 'New',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      setErr('Saving your order…');
+      try {
+        let app;
+        try { app = firebase.app('teereg'); } catch (e) { app = firebase.initializeApp(window.TAXILA_FIREBASE_CONFIG, 'teereg'); }
+        firebase.firestore(app).collection('orders').add(data).then(ref => {
+          $('pub-ok-order').textContent = ref.id;
+          $('pub-ok-pay').textContent = payId;
+          cart = {}; persist(); renderCart();
+          setErr('');
+          showStep(4);
+        }).catch(saveFailed);
+      } catch (e) { saveFailed(e); }
+      function saveFailed() {
+        setErr('Payment received (ID ' + payId + ') but the order could not be saved. Please WhatsApp us this ID so we can dispatch your books.');
+      }
+    }
+
+    renderCart();
+  })();
+  </script>
   <div id="main-footer">
   <!-- FOOTER -->
   <footer style="background:linear-gradient(180deg,#060d03 0%,#040a02 100%);border-top:1px solid rgba(201,169,122,0.12);padding:clamp(48px,7vw,80px) clamp(18px,4vw,56px) 0">
@@ -4474,7 +4854,7 @@ class Component extends DCLogic {
         {
           accent:'#1B4D0E', badge:'Most Rigorous', badgeBg:'rgba(163,201,138,0.1)', badgeColor:'#a3c98a',
           icon:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-linejoin="round"/>',
-          name:'RIMC Coaching', exam:'RIMC Entrance', target:'RIMC Dehradun Admission',
+          hidden:true, /* HIDDEN: delete to show again */ name:'RIMC Coaching', exam:'RIMC Entrance', target:'RIMC Dehradun Admission',
           price:'Contact for Fee', selections:'Elite Track',
           duration:'12 Months', batch:'Max 12', mode:'Day / Residential', tests:'Weekly',
           desc:'Extremely rigorous preparation for the written and viva-voce rounds of the Rashtriya Indian Military College. Tailored English essay writing, advanced Mathematics, and personality development.',
@@ -4484,7 +4864,7 @@ class Component extends DCLogic {
         {
           accent:'#1B4D0E', badge:'Early Start', badgeBg:'rgba(201,169,122,0.1)', badgeColor:'#C9A97A',
           icon:'<path d="M12 20h9M3 20v-8c0-2.2 1.8-4 4-4h10c2.2 0 4 1.8 4 4v8M3 12h18" stroke-linecap="round" stroke-linejoin="round"/>',
-          name:'2nd &amp; 3rd Foundation', exam:'Primary', target:'Class 2 &amp; 3 Students',
+          hidden:true, /* HIDDEN: delete to show again */ name:'2nd &amp; 3rd Foundation', exam:'Primary', target:'Class 2 &amp; 3 Students',
           price:'Contact for Fee', selections:'Foundation Level',
           duration:'Annual', batch:'', mode:'Day Scholar', tests:'Monthly',
           desc:'Laying early academic roots. Development of cognitive mathematical skills, correct grammar habits, neat handwriting, and mental math tricks — building the competitive mindset from the very beginning.',
@@ -4494,19 +4874,55 @@ class Component extends DCLogic {
         {
           accent:'#1B4D0E', badge:'Transition Stage', badgeBg:'rgba(163,201,138,0.1)', badgeColor:'#a3c98a',
           icon:'<path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zM6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z" stroke-linejoin="round"/>',
-          name:'4th &amp; 5th Foundation', exam:'Primary', target:'Class 4 &amp; 5 Students',
+          hidden:true, /* HIDDEN: delete to show again */ name:'4th &amp; 5th Foundation', exam:'Primary', target:'Class 4 &amp; 5 Students',
           price:'Contact for Fee', selections:'Foundation Level',
           duration:'Annual', batch:'', mode:'Day Scholar', tests:'Monthly',
           desc:'Preparation transition stage. Rigorous logic, reasoning base, quantitative aptitude, spoken English, and science fundamentals — preparing students for the leap into competitive exam coaching.',
           features:['Logic &amp; Reasoning Base','Quantitative Aptitude','Spoken English','Science Fundamentals','Critical Thinking','Exam Awareness Sessions'],
           link:'./course-details.dc.html#foundation45'
+        },
+        // ── NEW: Online live courses (shown in the "Online Live Courses" grid) ──
+        {
+          group:'online', isNew:true,
+          accent:'#F5B800', badge:'NEW · Live on Zoom', badgeBg:'rgba(245,184,0,0.15)', badgeColor:'#F5B800',
+          icon:'<path d="M2 12h4l3-8 4 16 3-8h6" stroke-linecap="round" stroke-linejoin="round"/>',
+          name:'Online Reasoning Course', exam:'Online · Zoom', target:'5:30–6:15 AM · Mon–Fri',
+          price:'₹5,000', feeText:'₹5,000', selections:'',
+          duration:'2 Months', batch:'', mode:'Live on Zoom', tests:'',
+          desc:'Live Zoom reasoning classes with Taxila\'s own Learning Book and Objective Workbook, sent to your home by courier.',
+          features:['12 Reasoning Topics','Live Zoom Classes','Learning Book','Objective Workbook','Material by Courier','Live Doubt Solving'],
+          link:'./course-details.dc.html#reasoning'
+        },
+        {
+          group:'online', isNew:true,
+          accent:'#F5B800', badge:'NEW · Starts Dec 2026', badgeBg:'rgba(245,184,0,0.15)', badgeColor:'#F5B800',
+          icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z" stroke-linejoin="round"/>',
+          name:'Class 3 Foundation', exam:'Maths · English · Reasoning · GK', target:'6–7 PM · Mon–Fri · Zoom',
+          price:'₹11,000', feeText:'₹11,000', selections:'',
+          duration:'4 Months', batch:'', mode:'Live on Zoom', tests:'',
+          desc:'Concepts Foundation Course Level 1: live Zoom classes on a digital board in four subjects, with a Learning Book and Workbook for each.',
+          features:['Maths','English','Reasoning','GK','Digital Board Teaching','Books by Courier'],
+          link:'./course-details.dc.html#class3'
+        },
+        {
+          group:'online', isNew:true,
+          accent:'#F5B800', badge:'NEW · Starts Dec 2026', badgeBg:'rgba(245,184,0,0.15)', badgeColor:'#F5B800',
+          icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z" stroke-linejoin="round"/><path d="M9 7h7M9 11h5" stroke-linecap="round"/>',
+          name:'Class 4 &amp; 5 Foundation', exam:'Maths · English · Reasoning · GK', target:'6–7 PM · Mon–Fri · Zoom',
+          price:'₹11,000', feeText:'₹11,000', selections:'',
+          duration:'4 Months', batch:'', mode:'Live on Zoom', tests:'',
+          desc:'Concepts Foundation Course: Class 4 builds concepts in depth, Class 5 adds exam-level practice. Live Zoom classes in four subjects with study material.',
+          features:['Maths','English','Reasoning','GK','Digital Board Teaching','Books by Courier'],
+          link:'./course-details.dc.html#class45'
         }
       ];
+      // HIDDEN sections: drop courses marked hidden:true
+      COURSES = COURSES.filter(function(c){ return !c.hidden; });
  
       function renderCard(c, idx) {
         var slug = c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         return '<div id="course-sec-'+slug+'" data-course-idx="'+idx+'" style="background:#1a1a1a;border-radius:20px;overflow:hidden;border:1.5px solid rgba(232,213,176,0.08);cursor:pointer;transition:transform 0.22s cubic-bezier(0.22,1,0.36,1),box-shadow 0.22s,border-color 0.22s;display:flex;flex-direction:column;" onmouseover="this.style.transform=\'translateY(-5px)\';this.style.boxShadow=\'0 18px 50px rgba(0,0,0,0.55)\';this.style.borderColor=\'rgba(232,213,176,0.22)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\';this.style.borderColor=\'rgba(232,213,176,0.08)\'">'
-          + '<div style="height:3px;background:linear-gradient(90deg,#1B4D0E,#2d6b1a);"></div>'
+          + '<div style="height:3px;background:'+(c.isNew ? '#F5B800' : 'linear-gradient(90deg,#1B4D0E,#2d6b1a)')+';"></div>'
           + '<div style="padding:26px 22px 22px;display:flex;flex-direction:column;flex:1;gap:14px">'
           + '<div style="display:flex;align-items:center;justify-content:space-between">'
           + '<div style="width:44px;height:44px;border-radius:12px;background:rgba(27,77,14,0.3);border:1px solid rgba(27,77,14,0.5);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a3c98a" stroke-width="2">'+c.icon+'</svg></div>'
@@ -4517,7 +4933,7 @@ class Component extends DCLogic {
           + '<div style="color:rgba(232,213,176,0.38);font-size:12px;font-weight:600">'+c.exam+' · '+c.target+'</div>'
           + '</div>'
           + '<div style="border-top:1px solid rgba(232,213,176,0.07);padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:8px">'
-          + '<div style="color:rgba(232,213,176,0.32);font-size:11.5px;font-weight:600;line-height:1.4">'+c.duration+(c.batch ? '<br>'+c.batch+' students' : '')+'</div>'
+          + '<div style="color:rgba(232,213,176,0.32);font-size:11.5px;font-weight:600;line-height:1.4">'+c.duration+(c.batch ? '<br>'+c.batch+' students' : '')+(c.feeText ? '<br><span style="color:#F5B800;font-weight:800;font-size:12.5px">'+c.feeText+'</span>' : '')+'</div>'
           + '<button class="gold-hover" style="background:#1B4D0E;color:#C9A97A;font-weight:700;font-size:12px;padding:9px 14px;border:none;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:.02em">Explore Course</button>'
           + '</div>'
           + '</div>'
@@ -4559,7 +4975,7 @@ class Component extends DCLogic {
           + '</div>'
           + '<div style="background:rgba(201,169,122,0.07);border:1px solid rgba(201,169,122,0.18);border-radius:14px;padding:18px;text-align:center">'
           + '<div style="color:#C9A97A;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Seats Filling Fast</div>'
-          + '<div style="color:rgba(232,213,176,0.4);font-size:12px">August 2026 batch · Limited seats</div>'
+          + '<div id="cms-batch-date" style="color:rgba(232,213,176,0.4);font-size:12px">August 2026 batch · Limited seats</div>'
           + '</div>'
           + '</div>'
           + '</div>'
@@ -4569,17 +4985,23 @@ class Component extends DCLogic {
       // Render Defence courses (indices 1–5)
       var defenceGrid = root.querySelector('#defence-card-grid');
       if (defenceGrid) {
-        defenceGrid.innerHTML = COURSES.slice(1, 6).map(function(c, i){ return renderCard(c, i + 1); }).join('');
+        defenceGrid.innerHTML = COURSES.filter(function(c, i){ return i > 0 && !c.group; }).map(function(c){ return renderCard(c, COURSES.indexOf(c)); }).join('');
+      }
+
+      // Render Online live courses (NEW)
+      var onlineGrid = root.querySelector('#online-card-grid');
+      if (onlineGrid) {
+        onlineGrid.innerHTML = COURSES.filter(function(c){ return c.group === 'online'; }).map(function(c){ return renderCard(c, COURSES.indexOf(c)); }).join('');
       }
 
       // Render Foundation courses (indices 6–8)
       var foundationGrid = root.querySelector('#foundation-card-grid');
       if (foundationGrid) {
-        foundationGrid.innerHTML = COURSES.slice(6).map(function(c, i){ return renderCard(c, i + 6); }).join('');
+        foundationGrid.innerHTML = COURSES.filter(function(c){ return c.group === 'foundation'; }).map(function(c){ return renderCard(c, COURSES.indexOf(c)); }).join('');
       }
 
       // Direct navigation on card click
-      [defenceGrid, foundationGrid, hero].forEach(function(el){
+      [defenceGrid, onlineGrid, foundationGrid, hero].forEach(function(el){
         if (!el) return;
         el.addEventListener('click', function(e){
           var card = e.target.closest('[data-course-idx]');
@@ -4647,7 +5069,7 @@ class Component extends DCLogic {
     function routeHash() {
       const hash = window.location.hash || '#home';
       const homeSections = ['#home', '#stats', '#courses-slider', '#why-choose-us', '#journey', '#comparison', '#testimonials', '#faq', '#journey-scroll'];
-      const specificSections = ['#courses', '#books', '#parental-sessions', '#contact'];
+      const specificSections = ['#courses', '#books', '#parental-sessions', '#our-publications', '#contact'];
       
       if (mobileMenu) mobileMenu.style.display = 'none';
 
@@ -4657,7 +5079,7 @@ class Component extends DCLogic {
         if (sec) sec.style.display = 'none';
       });
 
-      if (hash === '#courses' || hash === '#books' || hash === '#parental-sessions' || hash === '#contact') {
+      if (hash === '#courses' || hash === '#books' || hash === '#parental-sessions' || hash === '#our-publications' || hash === '#contact') {
         // Hide the fixed journey overlay as well to ensure it is not visible on sub-pages
         const jFixed = document.getElementById('journey-fixed');
         if (jFixed) jFixed.style.display = 'none';
@@ -5142,6 +5564,7 @@ class Component extends DCLogic {
 
     var sainik     = courses.filter(function(c){ return c.type === 'sainik'; });
     var defence    = courses.filter(function(c){ return c.type === 'defence'; });
+    var online     = courses.filter(function(c){ return c.type === 'online'; });
     var foundation = courses.filter(function(c){ return c.type === 'foundation'; });
 
     // Re-render the sainik hero card if present
@@ -5161,6 +5584,12 @@ class Component extends DCLogic {
     var foundGrid = document.getElementById('foundation-card-grid');
     if (foundGrid && foundation.length) {
       foundGrid.innerHTML = foundation.map(buildCourseCard).join('');
+    }
+
+    // Re-render online live courses grid
+    var onGrid = document.getElementById('online-card-grid');
+    if (onGrid && online.length) {
+      onGrid.innerHTML = online.map(buildCourseCard).join('');
     }
 
     // Re-render course navigation directory with dynamic courses

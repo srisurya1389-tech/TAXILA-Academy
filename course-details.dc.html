@@ -854,9 +854,12 @@
           <a href="#gurukulam" class="dropdown-link">AP Gurukulam Admission</a>
           <a href="#rms" class="dropdown-link">RMS Coaching (CET)</a>
           <a href="#nda" class="dropdown-link">NDA Foundation</a>
-          <a href="#rimc" class="dropdown-link">RIMC Coaching</a>
-          <a href="#foundation23" class="dropdown-link">2nd &amp; 3rd Foundation</a>
-          <a href="#foundation45" class="dropdown-link">4th &amp; 5th Foundation</a>
+          <a href="#reasoning" class="dropdown-link">Online Reasoning <span style="display:inline-block;margin-left:6px;background:#F5B800;color:#0A1F05;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 6px;border-radius:100px;vertical-align:middle">NEW</span></a>
+          <a href="#class3" class="dropdown-link">Class 3 Foundation <span style="display:inline-block;margin-left:6px;background:#F5B800;color:#0A1F05;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 6px;border-radius:100px;vertical-align:middle">NEW</span></a>
+          <a href="#class45" class="dropdown-link">Class 4 &amp; 5 Foundation <span style="display:inline-block;margin-left:6px;background:#F5B800;color:#0A1F05;font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:2px 6px;border-radius:100px;vertical-align:middle">NEW</span></a>
+          <a href="#rimc" class="dropdown-link" style="display:none" data-hidden-section>RIMC Coaching</a>
+          <a href="#foundation23" class="dropdown-link" style="display:none" data-hidden-section>2nd &amp; 3rd Foundation</a>
+          <a href="#foundation45" class="dropdown-link" style="display:none" data-hidden-section>4th &amp; 5th Foundation</a>
         </div>
       </div>
       <a href="./index.html#courses" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:14px;padding:9px 18px;border-radius:8px;transition:background 0.2s,border-color 0.2s,color 0.2s" onmouseover="this.style.background='rgba(245,184,0,.1)';this.style.borderColor='#F5B800';this.style.color='#F5B800'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.3)';this.style.color='#fff'">
@@ -883,6 +886,8 @@
       <div class="hero-left-col">
         <!-- Badges row -->
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+          <!-- NEW badge (online live courses) -->
+          <div id="hero-new-badge" style="display:none;align-items:center;gap:6px;background:#F5B800;color:#0A1F05;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:100px">New · Live on Zoom</div>
           <!-- Badge 1: Admissions open -->
           <div style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(245,184,0,.4);background:rgba(245,184,0,.08);color:#F5B800;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px">
             <span style="width:7px;height:7px;border-radius:50%;background:#F5B800;display:inline-block;animation:checkAnimation 1.5s infinite alternate"></span>
@@ -938,10 +943,10 @@
           <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:12px;gap:10px">
             <div>
               <span style="color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;display:block">THE CURRICULUM</span>
-              <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin:4px 0 0;font-weight:800">Four pillars of mastery</h3>
+              <h3 id="hero-curriculum-title" style="font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin:4px 0 0;font-weight:800">Four pillars of mastery</h3>
             </div>
             <div style="margin-left:auto;text-align:right;flex-shrink:0">
-              <span style="background:rgba(255,255,255,0.08);color:#cfe0c4;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.02em">4 Subjects · 4-5 Months</span>
+              <span style="background:rgba(255,255,255,0.08);color:#cfe0c4;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.02em" id="hero-curriculum-meta">4 Subjects · 4-5 Months</span>
             </div>
           </div>
 
@@ -954,13 +959,85 @@
           <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:12px">
             <div style="display:flex;align-items:center;gap:8px">
               <span style="color:#F5B800;font-size:16px;line-height:1">⚡</span>
-              <span style="color:#a8c498;font-size:12px;font-weight:700;letter-spacing:0.02em">Early-bird offer ends in 7 days</span>
+              <span id="hero-offer-text" style="color:#a8c498;font-size:12px;font-weight:700;letter-spacing:0.02em">Early-bird offer ends in 7 days</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px">
               <span style="text-decoration:line-through;color:rgba(255,255,255,0.4);font-size:12.5px;font-weight:600" data-hero-original-fee>₹14,999</span>
               <span style="color:#ffffff;font-weight:800;font-size:18px" data-hero-discounted-fee>₹9,999</span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ONLINE LIVE COURSE DETAILS (shown only for courses with online:true) ══ -->
+  <section id="online-course-section" style="display:none;background:#06120a;padding:70px clamp(18px,4vw,56px) 80px;border-top:2px solid rgba(212,160,23,0.25)">
+    <style>
+      .oc-wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+      .oc-head{display:flex;flex-wrap:wrap;align-items:center;gap:28px}
+      .oc-head-text{flex:1 1 420px;min-width:0}
+      .oc-kicker{display:inline-flex;align-items:center;gap:8px;color:#F5B800;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+      .oc-new{background:#F5B800;color:#0A1F05;font-size:10.5px;font-weight:800;letter-spacing:.1em;padding:3px 9px;border-radius:100px}
+      .oc-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,3.4vw,38px);color:#F8F2E0;margin:10px 0 0;line-height:1.15}
+      .oc-photo{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+      .oc-photo img{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #F5B800;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
+      .oc-live{background:#F5B800;color:#0A1F05;font-size:11px;font-weight:800;letter-spacing:.12em;padding:5px 12px;border-radius:8px}
+      .oc-sched{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(232,213,176,0.14);border:1px solid rgba(232,213,176,0.14);border-radius:18px;overflow:hidden}
+      .oc-sched-item{background:#0b1a0c;padding:18px 20px}
+      .oc-sched-label{color:#C9A97A;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+      .oc-sched-value{color:#F8F2E0;font-weight:800;font-size:16.5px;margin-top:6px}
+      .oc-sched-sub{color:rgba(232,213,176,0.55);font-size:12.5px;margin-top:3px}
+      .oc-sec-title{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.6vw,30px);color:#F8F2E0;margin:0 0 18px}
+      .oc-curr{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+      .oc-subject{background:#0e1f0f;border:1px solid rgba(212,160,23,0.18);border-radius:18px;padding:22px}
+      .oc-subject-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+      .oc-subject-name{display:flex;align-items:center;gap:10px;color:#F8F2E0;font-weight:800;font-size:17px}
+      .oc-subject-num{background:rgba(245,184,0,0.15);color:#F5B800;font-size:12px;font-weight:800;border-radius:8px;padding:3px 8px}
+      .oc-subject-note{color:rgba(232,213,176,0.5);font-size:12px;font-weight:600}
+      .oc-topics{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+      .oc-topics li{position:relative;padding-left:18px;color:rgba(248,242,224,0.85);font-size:14px;line-height:1.45}
+      .oc-topics li::before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:#F5B800}
+      .oc-curr.single .oc-topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:9px 26px}
+      .oc-fee{display:flex;flex-wrap:wrap;border-radius:20px;overflow:hidden;border:1.5px solid rgba(245,184,0,0.35)}
+      .oc-fee-left{flex:1 1 280px;background:#1B4D0E;padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
+      .oc-fee-label{color:#F5B800;font-size:12px;font-weight:800;letter-spacing:.16em}
+      .oc-fee-amount{color:#fff;font-size:50px;font-weight:900;line-height:1.05}
+      .oc-fee-note{color:rgba(245,237,216,0.75);font-size:13px}
+      .oc-fee-btn{margin-top:14px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:15.5px;padding:14px 30px;border-radius:12px;text-decoration:none;border:none;cursor:pointer}
+      .oc-fee-right{flex:2 1 420px;background:#0b1a0c;padding:32px;display:flex;flex-direction:column;gap:12px}
+      .oc-get-title{color:#F5B800;font-size:13px;font-weight:800;letter-spacing:.14em}
+      .oc-get{display:flex;gap:10px;color:#F8F2E0;font-size:15px;line-height:1.45}
+      .oc-get svg{flex:none;margin-top:3px}
+      .oc-refund{margin-top:8px;color:#f0a58a;font-size:13px;font-weight:700}
+    </style>
+    <div class="oc-wrap">
+      <div class="oc-head">
+        <div class="oc-head-text">
+          <span class="oc-kicker"><span class="oc-new">NEW</span> Online Live Course</span>
+          <h2 class="oc-h2" id="oc-title">Online course</h2>
+        </div>
+        <div class="oc-photo" id="oc-photo" style="display:none">
+          <img id="oc-photo-img" src="" alt="Course teacher">
+          <span class="oc-live">● LIVE ON ZOOM</span>
+        </div>
+      </div>
+      <div class="oc-sched" id="oc-schedule"></div>
+      <div>
+        <h3 class="oc-sec-title" id="oc-curr-title">Course Curriculum</h3>
+        <div class="oc-curr" id="oc-curriculum"></div>
+      </div>
+      <div class="oc-fee">
+        <div class="oc-fee-left">
+          <div class="oc-fee-label">COURSE FEE</div>
+          <div class="oc-fee-amount">₹<span id="oc-fee">0</span></div>
+          <div class="oc-fee-note" id="oc-fee-note"></div>
+          <button type="button" class="oc-fee-btn" onclick="openEnrollModal()">Enroll &amp; Pay</button>
+        </div>
+        <div class="oc-fee-right">
+          <div class="oc-get-title">WHAT YOU GET</div>
+          <div id="oc-includes" style="display:flex;flex-direction:column;gap:10px"></div>
+          <div class="oc-refund" id="oc-refund"></div>
         </div>
       </div>
     </div>
@@ -1188,23 +1265,28 @@
       if (modal) modal.style.display = 'none';
     }
     function setEnrollStep(step) {
-      var ind1 = document.getElementById('enroll-step-indicator-1');
-      var ind2 = document.getElementById('enroll-step-indicator-2');
-      var text1 = document.getElementById('enroll-step-text-1');
-      var text2 = document.getElementById('enroll-step-text-2');
-      var line = document.getElementById('enroll-progress-line');
-      if (!ind1 || !ind2) return;
-      if (step === 1) {
-        ind1.className = 'enroll-step-circle active'; ind1.textContent = '1';
-        text1.className = 'enroll-step-label active';
-        ind2.className = 'enroll-step-circle'; text2.className = 'enroll-step-label';
-        line.style.width = '0%';
-      } else {
-        ind1.className = 'enroll-step-circle done'; ind1.innerHTML = '&#10003;';
-        text1.className = 'enroll-step-label';
-        ind2.className = 'enroll-step-circle active'; text2.className = 'enroll-step-label active';
-        line.style.width = '100%';
+      // 2 steps (Student Info -> Payment) for coaching courses,
+      // 3 steps (Student Info -> Delivery -> Payment) for online courses.
+      var three = !!window.__enrollThreeSteps;
+      var n = three ? 3 : 2;
+      var labels = three ? ['Student Info', 'Delivery', 'Payment'] : ['Student Info', 'Payment'];
+      var line2 = document.getElementById('enroll-stage-line-2');
+      var wrap3 = document.getElementById('enroll-step-3-wrap');
+      if (line2) line2.style.display = three ? '' : 'none';
+      if (wrap3) wrap3.style.display = three ? 'flex' : 'none';
+      for (var i = 1; i <= 3; i++) {
+        var ind = document.getElementById('enroll-step-indicator-' + i);
+        var txt = document.getElementById('enroll-step-text-' + i);
+        if (!ind || !txt) continue;
+        if (i <= n) txt.textContent = labels[i - 1];
+        if (i < step) { ind.className = 'enroll-step-circle done'; ind.innerHTML = '&#10003;'; txt.className = 'enroll-step-label'; }
+        else if (i === step) { ind.className = 'enroll-step-circle active'; ind.textContent = String(i); txt.className = 'enroll-step-label active'; }
+        else { ind.className = 'enroll-step-circle'; ind.textContent = String(i); txt.className = 'enroll-step-label'; }
       }
+      var l1 = document.getElementById('enroll-progress-line');
+      var l2 = document.getElementById('enroll-progress-line-2');
+      if (l1) l1.style.width = step > 1 ? '100%' : '0%';
+      if (l2) l2.style.width = step > 2 ? '100%' : '0%';
     }
     </script>
     </div><!-- /z-index wrapper -->
@@ -1593,6 +1675,11 @@
           <div id="enroll-step-indicator-2" class="enroll-step-circle">2</div>
           <span id="enroll-step-text-2" class="enroll-step-label">Payment</span>
         </div>
+        <div class="enroll-stage-line" id="enroll-stage-line-2" style="display:none"><div id="enroll-progress-line-2" class="enroll-stage-line-fill"></div></div>
+        <div id="enroll-step-3-wrap" style="display:none;align-items:center;gap:12px">
+          <div id="enroll-step-indicator-3" class="enroll-step-circle">3</div>
+          <span id="enroll-step-text-3" class="enroll-step-label">Payment</span>
+        </div>
         <button onclick="closeEnrollModal()" class="enroll-modal-close">&times;</button>
       </div>
 
@@ -1619,6 +1706,10 @@
               <label style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Student's Full Name</label>
               <input id="enroll-input-name" type="text" placeholder="Enter student's full name" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:rgba(0,0,0,0.25);color:#fff;outline:none;font-size:14px;box-sizing:border-box">
             </div>
+            <div id="enroll-class-wrap" style="display:none">
+              <label for="enroll-input-class" style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Student's Class</label>
+              <select id="enroll-input-class" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:#0b1a0c;color:#fff;outline:none;font-size:14px;box-sizing:border-box"></select>
+            </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
               <div>
                 <label style="display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Parent / Guardian Name</label>
@@ -1638,6 +1729,37 @@
         </div>
       </div>
 
+      <!-- DELIVERY ADDRESS CARD (online courses only: books are sent by courier) -->
+      <div class="pay-card" id="enroll-address-card" style="display:none">
+        <div style="padding:clamp(24px,4vw,40px)">
+          <h3 style="font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:#f8f2e0;margin:0 0 6px">Delivery Address</h3>
+          <p style="color:rgba(248,242,224,0.45);font-size:13.5px;margin:0 0 26px">The Learning Books and Workbooks are sent by courier to this address. Please enter the full address.</p>
+          <style>
+            .addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px}
+            .addr-grid label{display:block;font-size:11px;font-weight:700;color:rgba(248,242,224,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+            .addr-grid input,.addr-grid select{width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(212,160,23,0.2);background:rgba(0,0,0,0.25);color:#fff;outline:none;font-size:14px;box-sizing:border-box}
+            .addr-grid select option{background:#0b1a0c;color:#fff}
+            @media (max-width:560px){.addr-grid{grid-template-columns:1fr}}
+          </style>
+          <div class="addr-grid">
+            <div><label for="addr-door">Door / House No. *</label><input id="addr-door" type="text" placeholder="e.g. 12-3-45" autocomplete="address-line1"></div>
+            <div><label for="addr-street">Street / Area / Colony *</label><input id="addr-street" type="text" placeholder="Street, area or colony" autocomplete="address-line2"></div>
+            <div><label for="addr-landmark">Landmark</label><input id="addr-landmark" type="text" placeholder="Near temple, school… (optional)"></div>
+            <div><label for="addr-city">Village / Town / City *</label><input id="addr-city" type="text" placeholder="e.g. Ravulapalem" autocomplete="address-level2"></div>
+            <div><label for="addr-district">District *</label><input id="addr-district" type="text" placeholder="e.g. Konaseema"></div>
+            <div><label for="addr-state">State *</label><select id="addr-state" autocomplete="address-level1"><option>Andhra Pradesh</option><option>Telangana</option><option>Karnataka</option><option>Tamil Nadu</option><option>Odisha</option><option>Maharashtra</option><option>Other</option></select></div>
+            <div><label for="addr-pin">PIN Code *</label><input id="addr-pin" type="text" inputmode="numeric" maxlength="6" placeholder="6-digit PIN" autocomplete="postal-code"></div>
+            <div><label for="addr-phone">Mobile for Courier *</label><input id="addr-phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" autocomplete="tel"></div>
+            <div><label for="addr-alt-phone">Alternate Mobile</label><input id="addr-alt-phone" type="tel" inputmode="numeric" maxlength="10" placeholder="Optional"></div>
+          </div>
+          <p id="addr-error" style="display:none;color:#f87a50;font-size:13.5px;font-weight:600;margin:16px 0 0"></p>
+          <div style="display:flex;gap:12px;max-width:640px;margin-top:22px">
+            <button id="enroll-address-back" type="button" style="background:transparent;border:1.5px solid rgba(248,242,224,0.3);color:#f8f2e0;font-weight:700;font-size:15px;padding:15px 22px;border-radius:14px;cursor:pointer">Back</button>
+            <button id="enroll-address-continue" type="button" style="flex:1;background:linear-gradient(135deg,#F5B800 0%,#e8a800 100%);color:#0A1F05;font-weight:900;font-size:16px;padding:16px 24px;border:none;border-radius:14px;cursor:pointer">Continue to Payment</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Main Card -->
       <div class="pay-card" id="enroll-payment-card" style="display:none">
 
@@ -1645,7 +1767,7 @@
         <div class="pay-ribbon">
           <div class="pay-ribbon-left">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Early Bird offer · Limited seats available
+            <span id="pay-ribbon-text">Early Bird offer · Limited seats available</span>
           </div>
           <div class="pay-ribbon-right">
             <span class="pay-ribbon-dot"></span>
@@ -1659,9 +1781,13 @@
           <!-- LEFT: Course info + price + features -->
           <div class="pay-left">
             <div>
-              <span class="pay-course-tag">JNVST Coaching</span>
+              <span class="pay-course-tag" id="pay-course-tag">JNVST Coaching</span>
               <h3 class="pay-course-name" data-pay-course-title>NAVODAYA ONLINE/OFFLINE COACHING</h3>
-              <p class="pay-course-sub">Full course access · Everything included</p>
+              <p class="pay-course-sub" id="pay-course-sub">Full course access · Everything included</p>
+              <div id="enroll-address-summary" style="display:none;background:rgba(245,184,0,0.06);border:1px solid rgba(245,184,0,0.2);border-radius:12px;padding:12px 14px;margin:6px 0 4px">
+                <div style="color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Books will be sent to</div>
+                <div data-addr-text style="color:rgba(248,242,224,0.8);font-size:13px;line-height:1.5"></div>
+              </div>
 
               <div class="pay-price-block">
                 <div class="pay-price-row">
@@ -1676,7 +1802,7 @@
               </div>
             </div>
 
-            <div class="pay-features">
+            <div class="pay-features" id="pay-features-list">
               <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Complete curriculum with expert faculty</div>
               <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Printed study material delivered home</div>
               <div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Weekly mocks + personalized analytics</div>
@@ -1791,6 +1917,11 @@
       <div class="ec-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#F5C12E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
       <h1 class="ec-h1">&#127881; Congratulations! Your Enrollment is Confirmed</h1>
       <p class="ec-sub">Welcome to Taxila Academy. Complete the two steps below to activate your course access and stay connected with your batch.</p>
+      <div id="ec-delivery-note" style="display:none;background:#0e1f09;border:1.5px solid rgba(245,184,0,0.3);border-radius:16px;padding:18px 22px;margin:-24px 0 24px;text-align:left">
+        <div style="color:#F5B800;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">Your study material will be sent to</div>
+        <div data-ec-addr style="color:rgba(248,242,224,0.85);font-size:14.5px;line-height:1.55"></div>
+        <div style="color:rgba(248,242,224,0.5);font-size:12.5px;margin-top:8px">Your Zoom class link will be shared on WhatsApp before the batch starts.</div>
+      </div>
       <div class="ec-card">
         <span class="ec-step-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.13 2 2 0 012 .82h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Step 1</span>
         <h3 class="ec-card-title">Share Your Payment Screenshot</h3>
@@ -2189,6 +2320,7 @@ class Component extends DCLogic {
         ]
       },
       rimc: {
+        hidden: true, // HIDDEN section: delete this line to show it again
         title: "RIMC Entrance coaching",
         tagline: "Rashtriya Indian Military College Admission Prep",
         bannerColor: "linear-gradient(135deg, #1b3811 0%, #0a1707 100%)",
@@ -2226,6 +2358,7 @@ class Component extends DCLogic {
         ]
       },
       foundation23: {
+        hidden: true, // HIDDEN section: delete this line to show it again
         title: "2nd & 3rd Class Foundation",
         tagline: "Foundation Course",
         bannerColor: "linear-gradient(135deg, #25441b 0%, #0f210a 100%)",
@@ -2254,6 +2387,7 @@ class Component extends DCLogic {
         ]
       },
       foundation45: {
+        hidden: true, // HIDDEN section: delete this line to show it again
         title: "4th & 5th Class Foundation",
         tagline: "Foundation Course",
         bannerColor: "linear-gradient(135deg, #1b3e15 0%, #0a1b08 100%)",
@@ -2281,7 +2415,211 @@ class Component extends DCLogic {
           { name: "Narayana K.", text: "Perfect bridge program. Clears JNVST and Sainik school entrance basics beforehand.", sub: "Father of Varun" },
           { name: "Lata Rani", text: "My daughter became very independent with homework after joining Taxila's daily sessions.", sub: "Mother of Deepa" }
         ]
+      },
+      // ── NEW ONLINE LIVE COURSES (Zoom + study material by courier) ──
+      // online:true turns on the schedule / curriculum / what-you-get blocks;
+      // needsAddress:true adds the Delivery Address step to enrollment.
+      reasoning: {
+        isNew: true, online: true, needsAddress: true,
+        title: "Online Reasoning Course",
+        tagline: "Sharpen thinking with live Zoom classes, step-by-step methods and Taxila's own study material, sent to your home by courier.",
+        bannerColor: "linear-gradient(135deg, #1B4D0E 0%, #0A1F05 100%)",
+        duration: "2 Months · Live on Zoom",
+        fee: "5,000",
+        feeNote: "for 2 months · courier included",
+        teacherPhoto: "./reasoning_teacher.jpg",
+        classOptions: ["Class 3", "Class 4", "Class 5", "Class 6", "Class 7", "Class 8"],
+        schedule: [
+          { label: "Class timing", value: "5:30 – 6:15 AM", sub: "Morning, 45 minutes daily" },
+          { label: "Schedule", value: "Monday to Friday", sub: "5 days a week" },
+          { label: "Mode", value: "Live on Zoom", sub: "Interactive, with live doubts" },
+          { label: "Course period", value: "2 months", sub: "Step-by-step reasoning" },
+          { label: "Batch starts", value: "To be announced", sub: "Call to confirm your seat" }
+        ],
+        curriculum: [
+          { name: "Reasoning", note: "12 topics", topics: ["What Comes Next? Number, Letter and Shape Series", "Analogy: Same Relation, Next Pair", "Odd One Out", "Alphabet and Coding-Decoding", "Direction Sense: Left, Right, North, South", "Ranking and Order", "Family and Blood Relations", "Missing Numbers in Figures", "Counting Figures", "Mirror Images and Pattern Completion", "Days, Months and Time Puzzles", "Grouping, Venn Diagrams and Simple Number Puzzles"] }
+        ],
+        includes: ["Live Zoom classes, 5:30 to 6:15 AM, Mon to Fri", "Taxila's own Reasoning Learning Book", "Objective Workbook and practice sheets", "Study material delivered by courier, free of charge"],
+        material: ["Reasoning Learning Book", "Objective Workbook & practice sheets"],
+        refundNote: "The course fee is non-refundable once paid.",
+        subjects: [
+          { name: "Series & Analogy", desc: "Number, letter and shape series, analogies and odd one out." },
+          { name: "Coding & Directions", desc: "Alphabet coding-decoding, direction sense, ranking and order." },
+          { name: "Relations & Figures", desc: "Blood relations, missing numbers, counting figures, mirror images." },
+          { name: "Puzzles & Venn", desc: "Days, months and time puzzles, grouping and Venn diagrams." }
+        ],
+        books: [
+          { title: "Reasoning Learning Book", author: "Taxila Academy", category: "Online Course", desc: "Taxila's own book covering all 12 topics with step-by-step methods. Sent to your home by courier." },
+          { title: "Objective Workbook", author: "Taxila Academy", category: "Online Course", desc: "Objective practice questions and worksheets for every topic, used in the live classes." }
+        ],
+        studentTestimonials: [],
+        parentTestimonials: []
+      },
+      class3: {
+        isNew: true, online: true, needsAddress: true,
+        title: "Class 3 Foundation Course",
+        tagline: "Concepts Foundation Course · Level 1. Live Zoom classes in Maths, English, Reasoning and GK, taught on a digital board with Taxila's own study material.",
+        bannerColor: "linear-gradient(135deg, #1B4D0E 0%, #0A1F05 100%)",
+        duration: "4 Months · Live on Zoom",
+        fee: "11,000",
+        feeNote: "complete course · material included",
+        classOptions: ["Class 3"],
+        schedule: [
+          { label: "Batch starts", value: "December 2026", sub: "Admissions open now" },
+          { label: "Class timing", value: "6:00 – 7:00 PM", sub: "Evening, one hour daily" },
+          { label: "Schedule", value: "Monday to Friday", sub: "5 days a week" },
+          { label: "Mode", value: "Live on Zoom", sub: "Interactive, with live doubts" },
+          { label: "Teaching", value: "Digital board", sub: "Every class on a smartboard" },
+          { label: "Duration", value: "4 months", sub: "4 subjects" }
+        ],
+        curriculum: [
+          { name: "Maths", note: "Level 1 · Months 1 to 4", topics: ["Maths Keywords (+ − × ÷ words)", "Numbers: Digits & Place Value to Crores", "Roman Numerals", "Addition & Subtraction", "Multiplication & Tables", "Division", "Statement Sums on every topic"] },
+          { name: "English", note: "Vocabulary & grammar", topics: ["Synonyms & Antonyms", "One Word for Many Words", "Look-alike Words", "Word Building", "Spelling & Plurals", "Nouns & Pronouns", "Verbs & Tenses", "Adjectives", "Articles & Prepositions", "Sentences & Punctuation", "Is, Am, Are, Was, Were"] },
+          { name: "Reasoning", note: "Intelligence section", topics: ["Number & Letter Series", "Analogy", "Odd One Out", "Alphabet & Coding", "Direction Sense", "Ranking", "Blood Relations", "Missing Numbers", "Counting Figures", "Mirror Images", "Days, Months & Time", "Grouping & Venn"] },
+          { name: "GK", note: "Why? How? Who? When?", topics: ["Our National Symbols", "India at a Glance", "Indian Defence System", "Solar System & Our Earth", "Water Cycle", "Farmers, Farming & Seeds", "Super Senses of Animals"] }
+        ],
+        includes: ["Course: 4 months, Monday to Friday, 6 to 7 PM", "Learning Book and Workbook for every subject", "Worksheets provided for every topic", "Digital board teaching and live doubt solving", "Study material sent to your address"],
+        material: ["Learning Book: Maths", "Learning Book: English", "Learning Book: Reasoning", "Learning Book: GK", "Workbooks & worksheets (all 4 subjects)"],
+        refundNote: "No refund policy: the course fee once paid is not returnable.",
+        subjects: [
+          { name: "Maths", desc: "Place value to crores, Roman numerals, the four operations and statement sums." },
+          { name: "English", desc: "Vocabulary, word building, nouns, verbs, tenses and punctuation." },
+          { name: "Reasoning", desc: "Series, analogy, coding, directions, ranking and figure puzzles." },
+          { name: "GK", desc: "National symbols, India, defence, our Earth, water cycle and farming." }
+        ],
+        books: [
+          { title: "Learning Books (4 subjects)", author: "Taxila Academy", category: "Class 3", desc: "Taxila's own Learning Book for Maths, English, Reasoning and GK." },
+          { title: "Workbooks & Worksheets", author: "Taxila Academy", category: "Class 3", desc: "An objective workbook for every subject and worksheets for every topic." }
+        ],
+        studentTestimonials: [],
+        parentTestimonials: []
+      },
+      class45: {
+        isNew: true, online: true, needsAddress: true,
+        title: "Class 4 & 5 Foundation Course",
+        tagline: "Concepts Foundation Course. Live Zoom classes in Maths, English, Reasoning and GK on a digital board. Class 4 builds concepts in depth; Class 5 adds exam-level practice.",
+        bannerColor: "linear-gradient(135deg, #1B4D0E 0%, #0A1F05 100%)",
+        duration: "4 Months · Live on Zoom",
+        fee: "11,000",
+        feeNote: "complete course · material included",
+        classOptions: ["Class 4", "Class 5"],
+        schedule: [
+          { label: "Batch starts", value: "December 2026", sub: "Admissions open now" },
+          { label: "Class timing", value: "6:00 – 7:00 PM", sub: "Evening, one hour daily" },
+          { label: "Schedule", value: "Monday to Friday", sub: "5 days a week" },
+          { label: "Mode", value: "Live on Zoom", sub: "Interactive, with live doubts" },
+          { label: "Teaching", value: "Digital board", sub: "Every class on a smartboard" },
+          { label: "Duration", value: "4 months", sub: "4 subjects" }
+        ],
+        curriculum: [
+          { name: "Maths", note: "Level 1 · Months 1 to 4", topics: ["Maths Keywords (+ − × ÷ words)", "Numbers: 5-Digit, Lakhs & Place Value to Crores", "Roman Numerals up to 1000", "Addition & Subtraction (5-digit)", "Multiplication & Tables to 20", "Division (long division, remainders)", "Divisibility Rules", "Statement Sums on every topic"] },
+          { name: "English", note: "Vocabulary & grammar", topics: ["Synonyms & Antonyms", "One Word for Many Words", "Look-alike Words", "Word Building", "Idioms & Phrases", "Spelling & Plurals", "Nouns & Pronouns", "Verbs & Tenses", "Adjectives & Adverbs", "Prepositions & Conjunctions", "Sentences & Punctuation", "Subject–Verb Agreement", "Reading Comprehension"] },
+          { name: "Reasoning", note: "Intelligence section", topics: ["Number & Letter Series", "Analogy", "Odd One Out", "Alphabet & Coding", "Direction Sense", "Ranking", "Blood Relations", "Missing Numbers", "Counting Figures", "Mirror Images", "Days, Months & Time", "Grouping & Venn"] },
+          { name: "GK", note: "Why? How? Who? When?", topics: ["Our National Symbols", "India at a Glance", "Indian Defence System", "Solar System & Our Earth", "Water Cycle", "Farmers, Farming & Seeds", "Super Senses of Animals"] }
+        ],
+        includes: ["Course: 4 months, Monday to Friday, 6 to 7 PM", "Learning Book and Workbook for every subject", "Worksheets provided for every topic", "Digital board teaching and live doubt solving", "Study material sent to your address"],
+        material: ["Learning Book: Maths", "Learning Book: English", "Learning Book: Reasoning", "Learning Book: GK", "Workbooks & worksheets (all 4 subjects)"],
+        refundNote: "No refund policy: the course fee once paid is not returnable.",
+        subjects: [
+          { name: "Maths", desc: "Lakhs to crores, Roman numerals to 1000, long division, divisibility and statement sums." },
+          { name: "English", desc: "Vocabulary, idioms, grammar, subject–verb agreement and reading comprehension." },
+          { name: "Reasoning", desc: "Series, analogy, coding, directions, ranking and figure puzzles." },
+          { name: "GK", desc: "National symbols, India, defence, our Earth, water cycle and farming." }
+        ],
+        books: [
+          { title: "Learning Books (4 subjects)", author: "Taxila Academy", category: "Class 4 & 5", desc: "Taxila's own Learning Book for Maths, English, Reasoning and GK." },
+          { title: "Workbooks & Worksheets", author: "Taxila Academy", category: "Class 4 & 5", desc: "An objective workbook for every subject and worksheets for every topic." }
+        ],
+        studentTestimonials: [],
+        parentTestimonials: []
       }
+    };
+
+    // HIDDEN sections: any course marked hidden:true is skipped and its link opens Sainik instead.
+    Object.keys(courseData).forEach(function(k){ if (courseData[k].hidden) delete courseData[k]; });
+
+    // ── Online live courses (Reasoning, Class 3, Class 4 & 5) ──────────
+    // Shows the schedule / curriculum / what-you-get section, the NEW badge,
+    // the class picker and course-specific payment text for courses marked
+    // online:true, and puts the normal text back for every other course.
+    const ocEsc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const ocTick = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const ocSwap = (el, on, value, html) => {
+      if (!el) return;
+      if (el.dataset.ocOrig === undefined) el.dataset.ocOrig = html ? el.innerHTML : el.textContent;
+      const v = on ? value : el.dataset.ocOrig;
+      if (html) el.innerHTML = v; else el.textContent = v;
+    };
+    const applyOnlineCourse = (c) => {
+      const on = !!c.online;
+      const byId = (id) => document.getElementById(id);
+      const setShow = (el, show, disp) => { if (el) el.style.display = show ? (disp || '') : 'none'; };
+
+      window.__enrollThreeSteps = on && !!c.needsAddress;
+      setEnrollStep(1);
+      setShow(byId('online-course-section'), on, 'block');
+      setShow(byId('hero-new-badge'), !!c.isNew, 'inline-flex');
+      setShow(byId('duration-section'), !on);
+      if (on) {
+        ['navodaya-demo-videos', 'duration-top-divider', 'duration-bottom-divider'].forEach(id => setShow(byId(id), false));
+      }
+
+      // Hero text that is generic for the coaching courses
+      ocSwap(byId('hero-curriculum-title'), on, (c.curriculum && c.curriculum.length > 1) ? 'Four subjects, one course' : 'What you will learn');
+      const currBlocks = c.curriculum || [];
+      const currCount = currBlocks.length === 1 ? (currBlocks[0].topics || []).length + ' Topics' : currBlocks.length + ' Subjects';
+      ocSwap(byId('hero-curriculum-meta'), on, currCount + ' · ' + String(c.duration || '').split('·')[0].trim());
+      ocSwap(byId('hero-offer-text'), on, 'Live on Zoom · Study material by courier');
+      root.querySelectorAll('[data-hero-original-fee], .pay-price-strike, .pay-save-badge').forEach(el => setShow(el, !on));
+
+      // Payment card text
+      ocSwap(byId('pay-course-tag'), on, 'Online Live Course');
+      ocSwap(byId('pay-course-sub'), on, c.feeNote || 'Live on Zoom · Study material included');
+      ocSwap(byId('pay-ribbon-text'), on, 'Live on Zoom · Seats are limited');
+      ocSwap(byId('pay-features-list'), on, (c.includes || []).map(t =>
+        '<div class="pay-feat"><div class="pay-feat-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' + ocEsc(t) + '</div>'
+      ).join('') + (c.refundNote ? '<div style="color:#f0a58a;font-size:12.5px;font-weight:700;margin-top:6px">' + ocEsc(c.refundNote) + '</div>' : ''), true);
+
+      // Class picker in Student Details
+      const classWrap = byId('enroll-class-wrap');
+      const classSel = byId('enroll-input-class');
+      if (classWrap && classSel) {
+        const opts = on && Array.isArray(c.classOptions) ? c.classOptions : [];
+        setShow(classWrap, opts.length > 0);
+        classSel.innerHTML = (opts.length > 1 ? '<option value="">Select class</option>' : '') + opts.map(o => '<option>' + ocEsc(o) + '</option>').join('');
+      }
+      const contBtn = byId('enroll-continue-btn');
+      if (contBtn) contBtn.textContent = (on && c.needsAddress) ? 'Continue to Delivery Address' : 'Continue to Payment';
+
+      if (!on) return;
+
+      // Online course section
+      const t = byId('oc-title'); if (t) t.textContent = 'Timings, topics and fee';
+      const photo = byId('oc-photo'), photoImg = byId('oc-photo-img');
+      if (photo && photoImg) {
+        setShow(photo, !!c.teacherPhoto, 'flex');
+        if (c.teacherPhoto) photoImg.src = c.teacherPhoto;
+      }
+      const sched = byId('oc-schedule');
+      if (sched) sched.innerHTML = (c.schedule || []).map(s =>
+        '<div class="oc-sched-item"><div class="oc-sched-label">' + ocEsc(s.label) + '</div><div class="oc-sched-value">' + ocEsc(s.value) + '</div>' + (s.sub ? '<div class="oc-sched-sub">' + ocEsc(s.sub) + '</div>' : '') + '</div>'
+      ).join('');
+      const curr = byId('oc-curriculum');
+      if (curr) {
+        const blocks = c.curriculum || [];
+        curr.className = 'oc-curr' + (blocks.length === 1 ? ' single' : '');
+        curr.innerHTML = blocks.map((b, i) =>
+          '<div class="oc-subject"><div class="oc-subject-head"><div class="oc-subject-name"><span class="oc-subject-num">' + String(i + 1).padStart(2, '0') + '</span>' + ocEsc(b.name) + '</div>' + (b.note ? '<span class="oc-subject-note">' + ocEsc(b.note) + '</span>' : '') + '</div>'
+          + '<ul class="oc-topics">' + (b.topics || []).map(tp => '<li>' + ocEsc(tp) + '</li>').join('') + '</ul></div>'
+        ).join('');
+      }
+      const currTitle = byId('oc-curr-title');
+      if (currTitle) currTitle.textContent = (c.curriculum && c.curriculum.length === 1) ? 'Course Topics' : 'Course Curriculum';
+      const fee = byId('oc-fee'); if (fee) fee.textContent = c.fee;
+      const feeNote = byId('oc-fee-note'); if (feeNote) feeNote.textContent = c.feeNote || '';
+      const inc = byId('oc-includes');
+      if (inc) inc.innerHTML = (c.includes || []).map(x => '<div class="oc-get">' + ocTick + '<span>' + ocEsc(x) + '</span></div>').join('');
+      const refund = byId('oc-refund'); if (refund) refund.textContent = c.refundNote || '';
     };
 
     // Render Dynamic Course View based on Hash
@@ -2304,6 +2642,10 @@ class Component extends DCLogic {
       if (detailsCardReset) detailsCardReset.style.display = '';
       const paymentCardReset = document.getElementById('enroll-payment-card');
       if (paymentCardReset) paymentCardReset.style.display = 'none';
+      const addressCardReset = document.getElementById('enroll-address-card');
+      if (addressCardReset) addressCardReset.style.display = 'none';
+      const addrSummaryReset = document.getElementById('enroll-address-summary');
+      if (addrSummaryReset) addrSummaryReset.style.display = 'none';
       pendingEnrollDocRef = null;
       setEnrollStep(1);
 
@@ -2397,7 +2739,7 @@ class Component extends DCLogic {
       durationEls.forEach(el => el.textContent = c.duration);
 
       // Update Hero Pricing Banner
-      const feeNum = parseInt(c.fee.replace(/,/g, ''));
+      const feeNum = parseInt(String(c.fee).replace(/[^\d]/g, ''), 10) || 0;
       const originalFeeNum = Math.round(feeNum * 1.4); // approx 30% discount
       const discountedFeeEl = root.querySelector('[data-hero-discounted-fee]');
       const originalFeeEl = root.querySelector('[data-hero-original-fee]');
@@ -2710,6 +3052,9 @@ class Component extends DCLogic {
 
       // Initial testimonial render (students)
       renderTestimonials('students');
+
+      // Online live course extras (no-op for coaching courses)
+      applyOnlineCourse(c);
     };
 
     // Expose for Admin CMS Preview control
@@ -2727,7 +3072,10 @@ class Component extends DCLogic {
           snap.forEach(doc => {
             const courseHash = doc.id;
             if (courseData[courseHash]) {
-              Object.assign(courseData[courseHash], doc.data());
+              const data = doc.data();
+              // Older admin saves wrote the fee as "price"; the page reads "fee".
+              if (data.price && !data.fee) data.fee = data.price;
+              Object.assign(courseData[courseHash], data);
             }
           });
           renderCourse();
@@ -2775,18 +3123,38 @@ class Component extends DCLogic {
 
         const hash = window.location.hash.substring(1) || 'sainik';
         const c = courseData[hash] || courseData.sainik;
+        const classWrapEl = document.getElementById('enroll-class-wrap');
+        const classVal = (classWrapEl && classWrapEl.style.display !== 'none') ? document.getElementById('enroll-input-class').value : '';
+        if (classWrapEl && classWrapEl.style.display !== 'none' && !classVal) {
+          alert("Please select the student's class.");
+          return;
+        }
+        pendingDelivery = null;
 
         saveRegistrationToFirestore({
           name: nameVal,
           parentName: parentVal,
           phone: phoneVal,
           email: emailVal,
+          class: classVal,
+          courseKey: hash,
           exam: c.title || 'Course Enrollment',
           stream: c.title || 'Course Enrollment',
           paymentStatus: 'pending',
-          source: 'Course Enrollment'
-        }).then(function(docRef) { pendingEnrollDocRef = docRef; });
+          source: c.online ? 'Online Course' : 'Course Enrollment'
+        }).then(function(docRef) {
+          pendingEnrollDocRef = docRef;
+          if (docRef && pendingDelivery) docRef.update({ delivery: pendingDelivery }).catch(function(){});
+        });
 
+        if (c.needsAddress) {
+          // Online courses: ask for the delivery address before payment
+          const phoneField = document.getElementById('addr-phone');
+          if (phoneField && !phoneField.value) phoneField.value = phoneVal.replace(/\D/g, '').slice(-10);
+          showEnrollCard('enroll-address-card');
+          setEnrollStep(2);
+          return;
+        }
         const detailsCard = document.getElementById('enroll-details-card');
         const paymentCard = document.getElementById('enroll-payment-card');
         if (detailsCard) detailsCard.style.display = 'none';
@@ -2795,6 +3163,74 @@ class Component extends DCLogic {
         const modal = document.getElementById('fee-section');
         if (modal) modal.scrollTop = 0;
       };
+    }
+
+    // ---- Delivery Address step (online courses) ----
+    let pendingDelivery = null;
+    const addrVal = (id) => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    const showEnrollCard = (which) => {
+      ['enroll-details-card', 'enroll-address-card', 'enroll-payment-card'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = (id === which) ? '' : 'none';
+      });
+      const modal = document.getElementById('fee-section');
+      if (modal) modal.scrollTop = 0;
+    };
+    const addrBack = document.getElementById('enroll-address-back');
+    if (addrBack) addrBack.onclick = function() { showEnrollCard('enroll-details-card'); setEnrollStep(1); };
+    const addrContinue = document.getElementById('enroll-address-continue');
+    if (addrContinue) {
+      addrContinue.onclick = function() {
+        const err = document.getElementById('addr-error');
+        const d = {
+          door: addrVal('addr-door'), street: addrVal('addr-street'), landmark: addrVal('addr-landmark'),
+          city: addrVal('addr-city'), district: addrVal('addr-district'), state: addrVal('addr-state'),
+          pin: addrVal('addr-pin'), phone: addrVal('addr-phone').replace(/\D/g, ''), altPhone: addrVal('addr-alt-phone').replace(/\D/g, '')
+        };
+        let msg = '';
+        if (!d.door || !d.street || !d.city || !d.district || !d.state || !d.pin || !d.phone) msg = 'Please fill in all the fields marked *.';
+        else if (!/^\d{6}$/.test(d.pin)) msg = 'PIN code must be exactly 6 digits.';
+        else if (!/^\d{10}$/.test(d.phone)) msg = 'Mobile for courier must be a 10-digit number.';
+        else if (d.altPhone && !/^\d{10}$/.test(d.altPhone)) msg = 'Alternate mobile must be a 10-digit number.';
+        if (err) { err.textContent = msg; err.style.display = msg ? 'block' : 'none'; }
+        if (msg) return;
+        pendingDelivery = d;
+        if (pendingEnrollDocRef) pendingEnrollDocRef.update({ delivery: d }).catch(function(){});
+        const sum = document.getElementById('enroll-address-summary');
+        if (sum) {
+          sum.style.display = 'block';
+          sum.querySelector('[data-addr-text]').textContent =
+            [d.door, d.street, d.landmark, d.city, d.district, d.state + ' – ' + d.pin].filter(Boolean).join(', ') + ' · Ph ' + d.phone;
+        }
+        showEnrollCard('enroll-payment-card');
+        setEnrollStep(3);
+      };
+    }
+
+    // After a paid online-course enrollment, add a Book Deliveries order so
+    // the admin can send the study material to the saved address.
+    function saveCourseOrder(c, hash, payId) {
+      var cfg = window.TAXILA_FIREBASE_CONFIG;
+      if (!cfg || !cfg.apiKey || cfg.apiKey === 'YOUR_API_KEY' || !pendingDelivery) return;
+      try {
+        var app;
+        try { app = firebase.app('teereg'); } catch (e) { app = firebase.initializeApp(cfg, 'teereg'); }
+        var classEl = document.getElementById('enroll-input-class');
+        firebase.firestore(app).collection('orders').add({
+          type: 'course',
+          course: c.title, courseKey: hash,
+          student: { name: addrVal('enroll-input-name'), class: classEl ? classEl.value : '', stream: c.title },
+          parent: { name: addrVal('enroll-input-parent'), mobile: addrVal('enroll-input-phone'), email: addrVal('enroll-input-email') },
+          delivery: pendingDelivery,
+          books: (c.material || []).map(function(t) { return { title: t, qty: 1, price: 0 }; }),
+          amount: parseInt(String(c.fee).replace(/[^\d]/g, ''), 10) || 0,
+          payment: { id: payId || '', method: 'razorpay', status: 'captured' },
+          status: 'New',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(function() {
+          alert('Payment received (ID ' + (payId || '—') + ') but your delivery details could not be saved. Please WhatsApp this ID to 79897 70033 so we can send your books.');
+        });
+      } catch (e) {}
     }
 
     // ---- RAZORPAY STANDARD CHECKOUT ----
@@ -2826,7 +3262,7 @@ class Component extends DCLogic {
       payBtn.onclick = function() {
         const hash = window.location.hash.substring(1) || 'sainik';
         const c = courseData[hash] || courseData.sainik;
-        const feeInPaise = parseInt(c.fee.replace(/,/g, ''), 10) * 100;
+        const feeInPaise = (parseInt(String(c.fee).replace(/[^\d]/g, ''), 10) || 0) * 100;
         const courseName = c.title || 'Course Program';
 
         const options = {
@@ -2837,7 +3273,7 @@ class Component extends DCLogic {
           description: courseName + ' — Enrollment',
           image: 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png',
           theme: { color: '#1a56db' },
-          prefill: {},
+          prefill: { name: addrVal('enroll-input-parent'), contact: addrVal('enroll-input-phone'), email: addrVal('enroll-input-email') },
           notes: { course: hash },
           modal: {
             backdropclose: false,
@@ -2849,7 +3285,18 @@ class Component extends DCLogic {
             // Payment captured — response contains:
             // razorpay_payment_id, razorpay_order_id (blank without backend), razorpay_signature
             if (pendingEnrollDocRef) {
-              pendingEnrollDocRef.update({ paymentStatus: 'paid', txRef: response.razorpay_payment_id || '' }).catch(function(){});
+              const upd = { paymentStatus: 'paid', txRef: response.razorpay_payment_id || '' };
+              if (c.needsAddress && pendingDelivery) upd.delivery = pendingDelivery;
+              pendingEnrollDocRef.update(upd).catch(function(){});
+            }
+            if (c.needsAddress) {
+              saveCourseOrder(c, hash, response.razorpay_payment_id);
+              const note = document.getElementById('ec-delivery-note');
+              if (note && pendingDelivery) {
+                const d = pendingDelivery;
+                note.querySelector('[data-ec-addr]').textContent = [d.door, d.street, d.landmark, d.city, d.district, d.state + ' – ' + d.pin].filter(Boolean).join(', ');
+                note.style.display = 'block';
+              }
             }
             showPaymentSuccess(response.razorpay_payment_id);
           }
