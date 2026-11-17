@@ -4,10 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="./firebase-config.js"></script>
+
+<style id="perf-tweaks">
+/* Faster on phones: glass blur is costly on low-end devices */
+@media (max-width: 768px){ *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important} }
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important} }
+</style>
 </head>
 <body>
 <x-dc id="taxila-details-root">
@@ -837,7 +843,7 @@
   <!-- NAV -->
   <nav style="position:fixed;top:0;left:0;width:100%;z-index:150;background:#0A1F05;padding:16px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15)">
     <a href="./index.html" style="display:flex;align-items:center;gap:8px">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:75px;width:auto;object-fit:contain">
+      <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:75px;width:auto;object-fit:contain">
       <span style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:25px;color:#fff;letter-spacing:-0.03em">TAXILA ACADEMY</span>
     </a>
     <div style="display:flex;align-items:center;gap:14px">
@@ -873,7 +879,7 @@
   <section id="hero-banner" data-banner style="padding:160px clamp(18px, 4vw, 56px) 100px;color:#fff;position:relative;background:linear-gradient(135deg, #1B4D0E, #0A1F05);overflow:hidden">
     <!-- Background image -->
     <div style="position:absolute;inset:0;z-index:0">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1782483597/Copilot_20260626_194929_wfjxij.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 70%;display:block" fetchpriority="high">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1782483597/Copilot_20260626_194929_wfjxij.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 70%;display:block" fetchpriority="high">
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,30,5,0.82) 0%,rgba(18,60,8,0.72) 50%,rgba(6,18,3,0.85) 100%)"></div>
     </div>
     <!-- Subtle grid overlay -->
@@ -891,12 +897,12 @@
           <!-- Badge 1: Admissions open -->
           <div style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(245,184,0,.4);background:rgba(245,184,0,.08);color:#F5B800;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px">
             <span style="width:7px;height:7px;border-radius:50%;background:#F5B800;display:inline-block;animation:checkAnimation 1.5s infinite alternate"></span>
-            Admissions open 2025–26
+            <span id="hero-badge-admissions">Admissions open 2025–26</span>
           </div>
           <!-- Badge 2: Verified curriculum -->
           <div style="display:inline-flex;align-items:center;gap:6px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#ffffff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="3" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg>
-            100% Verified Prep
+            <span id="hero-badge-verified">100% Verified Prep</span>
           </div>
         </div>
 
@@ -920,7 +926,12 @@
           <!-- Stat 2: Faculty -->
           <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2.5 3 6 3s6-1 6-3v-5"/></svg>
-            <span style="font-weight:600">Expert Academy Faculty</span>
+            <span id="hero-stat-2" style="font-weight:600">Expert Academy Faculty</span>
+          </div>
+          <!-- Stat 3: Class timing (online courses only) -->
+          <div id="hero-stat-3-wrap" style="display:none;align-items:center;gap:8px;font-size:13.5px;color:#e6f0de">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B800" stroke-width="2.2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            <span id="hero-stat-3" style="font-weight:600"></span>
           </div>
         </div>
 
@@ -972,72 +983,235 @@
   </section>
 
   <!-- ══ ONLINE LIVE COURSE DETAILS (shown only for courses with online:true) ══ -->
-  <section id="online-course-section" style="display:none;background:#06120a;padding:70px clamp(18px,4vw,56px) 80px;border-top:2px solid rgba(212,160,23,0.25)">
+  <section id="online-course-section" style="display:none">
     <style>
-      .oc-wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
-      .oc-head{display:flex;flex-wrap:wrap;align-items:center;gap:28px}
-      .oc-head-text{flex:1 1 420px;min-width:0}
-      .oc-kicker{display:inline-flex;align-items:center;gap:8px;color:#F5B800;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-      .oc-new{background:#F5B800;color:#0A1F05;font-size:10.5px;font-weight:800;letter-spacing:.1em;padding:3px 9px;border-radius:100px}
-      .oc-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,3.4vw,38px);color:#F8F2E0;margin:10px 0 0;line-height:1.15}
-      .oc-photo{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
-      .oc-photo img{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #F5B800;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
-      .oc-live{background:#F5B800;color:#0A1F05;font-size:11px;font-weight:800;letter-spacing:.12em;padding:5px 12px;border-radius:8px}
-      .oc-sched{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(232,213,176,0.14);border:1px solid rgba(232,213,176,0.14);border-radius:18px;overflow:hidden}
-      .oc-sched-item{background:#0b1a0c;padding:18px 20px}
-      .oc-sched-label{color:#C9A97A;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-      .oc-sched-value{color:#F8F2E0;font-weight:800;font-size:16.5px;margin-top:6px}
-      .oc-sched-sub{color:rgba(232,213,176,0.55);font-size:12.5px;margin-top:3px}
-      .oc-sec-title{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.6vw,30px);color:#F8F2E0;margin:0 0 18px}
-      .oc-curr{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-      .oc-subject{background:#0e1f0f;border:1px solid rgba(212,160,23,0.18);border-radius:18px;padding:22px}
-      .oc-subject-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-      .oc-subject-name{display:flex;align-items:center;gap:10px;color:#F8F2E0;font-weight:800;font-size:17px}
-      .oc-subject-num{background:rgba(245,184,0,0.15);color:#F5B800;font-size:12px;font-weight:800;border-radius:8px;padding:3px 8px}
-      .oc-subject-note{color:rgba(232,213,176,0.5);font-size:12px;font-weight:600}
-      .oc-topics{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
-      .oc-topics li{position:relative;padding-left:18px;color:rgba(248,242,224,0.85);font-size:14px;line-height:1.45}
-      .oc-topics li::before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:#F5B800}
-      .oc-curr.single .oc-topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:9px 26px}
-      .oc-fee{display:flex;flex-wrap:wrap;border-radius:20px;overflow:hidden;border:1.5px solid rgba(245,184,0,0.35)}
-      .oc-fee-left{flex:1 1 280px;background:#1B4D0E;padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
-      .oc-fee-label{color:#F5B800;font-size:12px;font-weight:800;letter-spacing:.16em}
-      .oc-fee-amount{color:#fff;font-size:50px;font-weight:900;line-height:1.05}
-      .oc-fee-note{color:rgba(245,237,216,0.75);font-size:13px}
-      .oc-fee-btn{margin-top:14px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:15.5px;padding:14px 30px;border-radius:12px;text-decoration:none;border:none;cursor:pointer}
-      .oc-fee-right{flex:2 1 420px;background:#0b1a0c;padding:32px;display:flex;flex-direction:column;gap:12px}
-      .oc-get-title{color:#F5B800;font-size:13px;font-weight:800;letter-spacing:.14em}
-      .oc-get{display:flex;gap:10px;color:#F8F2E0;font-size:15px;line-height:1.45}
+      #online-course-section{background:#06120a;padding:76px clamp(18px,4vw,56px) 88px;border-top:2px solid rgba(212,160,23,0.25);color:#F8F2E0}
+      .oc-wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:64px}
+      .oc-block{display:flex;flex-direction:column;gap:22px}
+      .oc-eyebrow{display:inline-flex;align-items:center;gap:10px;color:#F5B800;font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+      .oc-eyebrow::before{content:'';width:28px;height:2px;background:#F5B800;border-radius:2px}
+      .oc-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(26px,3.2vw,38px);color:#F8F2E0;margin:0;line-height:1.15;letter-spacing:-.01em}
+      .oc-lede{color:rgba(232,213,176,0.72);font-size:15.5px;line-height:1.65;margin:0;max-width:640px}
+      .oc-row-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+      .oc-row-head>div{display:flex;flex-direction:column;gap:10px;min-width:0}
+      .oc-meta{border:1px solid rgba(245,184,0,0.35);color:#F5B800;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:100px;white-space:nowrap}
+
+      /* Intro */
+      .oc-intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center}
+      .oc-intro-text{display:flex;flex-direction:column;gap:14px;min-width:0}
+      .oc-new{background:#F5B800;color:#0A1F05;font-size:10.5px;font-weight:900;letter-spacing:.12em;padding:4px 10px;border-radius:100px}
+      .oc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+      .oc-chip{background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.3);color:#F8E3A3;font-size:13px;font-weight:700;padding:7px 14px;border-radius:100px}
+      .oc-teacher{display:flex;flex-direction:column;align-items:center;gap:12px;padding:22px 26px;background:linear-gradient(160deg,rgba(27,77,14,0.55),rgba(10,31,5,0.6));border:1px solid rgba(245,184,0,0.25);border-radius:22px}
+      .oc-teacher img{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #F5B800;box-shadow:0 0 0 6px rgba(245,184,0,0.12),0 14px 34px rgba(0,0,0,0.5)}
+      .oc-teacher-role{color:rgba(232,213,176,0.75);font-size:12.5px;font-weight:600}
+      .oc-live{display:inline-flex;align-items:center;gap:7px;background:#F5B800;color:#0A1F05;font-size:11px;font-weight:900;letter-spacing:.12em;padding:6px 13px;border-radius:8px}
+      .oc-live i{width:7px;height:7px;border-radius:50%;background:#0A1F05;display:inline-block}
+
+      .oc-quick{width:300px;background:linear-gradient(160deg,rgba(27,77,14,0.6),rgba(10,31,5,0.7));border:1px solid rgba(245,184,0,0.3);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:8px}
+      .oc-quick-label{color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.18em}
+      .oc-quick-fee{color:#fff;font-size:40px;font-weight:900;line-height:1}
+      .oc-quick-note{color:rgba(245,237,216,0.7);font-size:12.5px}
+      .oc-quick-rows{display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(232,213,176,0.14);padding-top:12px;margin-top:6px}
+      .oc-quick-row{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+      .oc-quick-row span:first-child{color:rgba(232,213,176,0.6)}
+      .oc-quick-row span:last-child{color:#F8F2E0;font-weight:700;text-align:right}
+      /* Schedule tiles */
+      .oc-sched{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:rgba(232,213,176,0.12);border:1px solid rgba(232,213,176,0.14);border-radius:20px;overflow:hidden}
+      .oc-sched-item{background:#0a1a0b;padding:22px 22px;display:flex;gap:16px;align-items:flex-start}
+      .oc-sched-icon{flex:none;width:44px;height:44px;border-radius:12px;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.25);display:grid;place-items:center;color:#F5B800}
+      .oc-sched-label{color:#C9A97A;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+      .oc-sched-value{color:#F8F2E0;font-weight:800;font-size:17px;margin-top:5px;line-height:1.25}
+      .oc-sched-sub{color:rgba(232,213,176,0.55);font-size:12.5px;margin-top:3px;line-height:1.4}
+      .oc-bundle{display:flex;align-items:center;gap:18px;background:linear-gradient(90deg,rgba(245,184,0,0.14),rgba(245,184,0,0.03));border:1px solid rgba(245,184,0,0.28);border-left:4px solid #F5B800;border-radius:14px;padding:18px 22px}
+      .oc-bundle-tag{flex:none;background:#F5B800;color:#0A1F05;font-size:10.5px;font-weight:900;letter-spacing:.14em;padding:6px 10px;border-radius:7px}
+      .oc-bundle-title{color:#F8F2E0;font-weight:800;font-size:16px}
+      .oc-bundle-sub{color:rgba(232,213,176,0.65);font-size:13.5px;margin-top:2px}
+
+      /* Curriculum */
+      .oc-curr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+      .oc-subject{background:#0c1d0d;border:1px solid rgba(212,160,23,0.18);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+      .oc-subject.wide{grid-column:1/-1}
+      .oc-subject-head{display:flex;align-items:center;gap:14px;padding:18px 22px;background:linear-gradient(90deg,rgba(27,77,14,0.65),rgba(27,77,14,0.15));border-bottom:1px solid rgba(212,160,23,0.15)}
+      .oc-subject-num{flex:none;width:38px;height:38px;border-radius:10px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:14px;display:grid;place-items:center}
+      .oc-subject-name{color:#F8F2E0;font-weight:800;font-size:18px;line-height:1.2}
+      .oc-subject-note{color:rgba(232,213,176,0.6);font-size:12.5px;font-weight:600;margin-top:2px}
+      .oc-subject-count{margin-left:auto;flex:none;color:#F5B800;font-size:12px;font-weight:800;background:rgba(245,184,0,0.1);padding:5px 10px;border-radius:100px}
+      .oc-topics{list-style:none;margin:0;padding:20px 22px 22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px}
+      .oc-subject.wide .oc-topics{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .oc-topics li{position:relative;padding-left:22px;color:rgba(248,242,224,0.88);font-size:14px;line-height:1.45}
+      .oc-topics li::before{content:'';position:absolute;left:0;top:3px;width:13px;height:13px;border-radius:50%;background:rgba(245,184,0,0.15);border:2px solid #F5B800;box-sizing:border-box}
+
+      /* Material */
+      .oc-mat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+      .oc-mat-card{background:#0c1d0d;border:1px solid rgba(212,160,23,0.18);border-radius:18px;padding:22px 20px;display:flex;flex-direction:column;gap:12px}
+      .oc-mat-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#1B4D0E,#0f2d08);border:1px solid rgba(245,184,0,0.35);display:grid;place-items:center;color:#F5B800}
+      .oc-mat-title{color:#F8F2E0;font-weight:800;font-size:15.5px;line-height:1.3}
+      .oc-mat-sub{color:rgba(232,213,176,0.6);font-size:13px;line-height:1.5}
+
+      /* Fee */
+      .oc-fee{display:grid;grid-template-columns:minmax(260px,5fr) 7fr;border-radius:22px;overflow:hidden;border:1.5px solid rgba(245,184,0,0.35);box-shadow:0 24px 60px rgba(0,0,0,0.35)}
+      .oc-fee-left{background:radial-gradient(circle at 30% 0%,#2a6b17 0%,#1B4D0E 45%,#123a09 100%);padding:38px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
+      .oc-fee-label{color:#F5B800;font-size:12px;font-weight:800;letter-spacing:.18em}
+      .oc-fee-amount{color:#fff;font-size:clamp(44px,5vw,58px);font-weight:900;line-height:1.05;letter-spacing:-.01em}
+      .oc-fee-note{color:rgba(245,237,216,0.78);font-size:13.5px}
+      .oc-fee-btn{margin-top:18px;display:inline-flex;align-items:center;gap:10px;background:#F5B800;color:#0A1F05;font-weight:900;font-size:16px;padding:15px 32px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 10px 26px rgba(245,184,0,0.3);transition:transform .2s}
+      .oc-fee-btn:hover{transform:translateY(-2px)}
+      .oc-fee-secure{display:flex;align-items:center;gap:6px;color:rgba(245,237,216,0.6);font-size:12px;margin-top:10px}
+      .oc-fee-right{background:#0a1a0b;padding:34px 34px;display:flex;flex-direction:column;gap:22px}
+      .oc-get-title{color:#F5B800;font-size:12.5px;font-weight:800;letter-spacing:.16em}
+      .oc-gets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px}
+      .oc-get{display:flex;gap:10px;color:#F8F2E0;font-size:14.5px;line-height:1.45}
       .oc-get svg{flex:none;margin-top:3px}
-      .oc-refund{margin-top:8px;color:#f0a58a;font-size:13px;font-weight:700}
+      .oc-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+      .oc-fact{background:rgba(255,255,255,0.03);border:1px solid rgba(232,213,176,0.12);border-radius:14px;padding:14px 16px}
+      .oc-fact-title{color:#F8F2E0;font-weight:800;font-size:14px}
+      .oc-fact-sub{color:rgba(232,213,176,0.6);font-size:12.5px;line-height:1.5;margin-top:3px}
+      .oc-fact.warn{background:rgba(220,90,60,0.08);border-color:rgba(240,165,138,0.35)}
+      .oc-fact.warn .oc-fact-title{color:#f4b39b}
+
+      /* Steps */
+      .oc-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;counter-reset:ocstep;position:relative}
+      .oc-step{position:relative;background:#0c1d0d;border:1px solid rgba(212,160,23,0.18);border-radius:18px;padding:24px 20px 22px;display:flex;flex-direction:column;gap:6px}
+      .oc-step-num{width:40px;height:40px;border-radius:50%;background:#F5B800;color:#0A1F05;font-weight:900;font-size:16px;display:grid;place-items:center;margin-bottom:8px;box-shadow:0 0 0 6px rgba(245,184,0,0.12)}
+      .oc-step:not(:last-child)::after{content:'';position:absolute;top:44px;right:-17px;width:18px;height:2px;background:rgba(245,184,0,0.45)}
+      .oc-step-title{color:#F8F2E0;font-weight:800;font-size:15.5px;line-height:1.3}
+      .oc-step-sub{color:rgba(232,213,176,0.6);font-size:13px;line-height:1.45}
+
+      /* CTA */
+      .oc-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;background:linear-gradient(120deg,#1B4D0E 0%,#0f2d08 100%);border:1px solid rgba(245,184,0,0.3);border-left:5px solid #F5B800;border-radius:20px;padding:30px 34px}
+      .oc-cta-title{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,2.6vw,30px);color:#fff;margin:0}
+      .oc-cta-sub{color:rgba(245,237,216,0.75);font-size:14px;margin-top:6px}
+      .oc-cta-right{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+      .oc-cta-phones{display:flex;flex-direction:column;gap:2px}
+      .oc-cta-phones span{color:#F5B800;font-size:11px;font-weight:800;letter-spacing:.16em}
+      .oc-cta-phones a{color:#F5B800;font-size:22px;font-weight:900;text-decoration:none;letter-spacing:.02em;line-height:1.25}
+      .oc-cta-phones a:hover{color:#ffd24d}
+      .oc-cta-btns{display:flex;flex-wrap:wrap;gap:10px}
+      .oc-cta-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#06210f;font-weight:800;font-size:14.5px;padding:13px 20px;border-radius:12px;text-decoration:none}
+
+      @media (max-width:980px){
+        .oc-sched{grid-template-columns:repeat(2,minmax(0,1fr))}
+        .oc-mat,.oc-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+        .oc-step:not(:last-child)::after{display:none}
+        .oc-fee{grid-template-columns:1fr}
+        .oc-subject.wide .oc-topics{grid-template-columns:repeat(2,minmax(0,1fr))}
+      }
+      @media (max-width:680px){
+        #online-course-section{padding:56px 16px 64px}
+        .oc-wrap{gap:48px}
+        .oc-intro{grid-template-columns:1fr}
+        .oc-teacher{flex-direction:row;justify-content:flex-start;padding:16px}
+        .oc-quick{width:auto}
+        .oc-teacher img{width:84px;height:84px}
+        .oc-sched,.oc-curr,.oc-gets,.oc-facts{grid-template-columns:1fr}
+        .oc-sched-item{padding:16px 18px}
+        .oc-topics,.oc-subject.wide .oc-topics{grid-template-columns:1fr}
+        .oc-mat,.oc-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+        .oc-mat-card,.oc-step{padding:16px 14px}
+        .oc-mat-title,.oc-step-title{font-size:14px}
+        .oc-fee-right{padding:26px 20px}
+        .oc-bundle{flex-direction:column;align-items:flex-start;gap:10px}
+        .oc-cta{padding:24px 20px}
+      }
+      /* Online courses: hide the coaching-only sections and demo links */
+      html.oc-mode #subjects-section,html.oc-mode #books-section,html.oc-mode #special-section,
+      html.oc-mode #journey-timeline-section,html.oc-mode #navodaya-demo-videos,html.oc-mode #duration-section,
+      html.oc-mode #duration-top-divider,html.oc-mode #duration-bottom-divider{display:none!important}
+      html.oc-mode .card-demo-link{visibility:hidden}
     </style>
     <div class="oc-wrap">
-      <div class="oc-head">
-        <div class="oc-head-text">
-          <span class="oc-kicker"><span class="oc-new">NEW</span> Online Live Course</span>
-          <h2 class="oc-h2" id="oc-title">Online course</h2>
+      <!-- Intro -->
+      <div class="oc-intro">
+        <div class="oc-intro-text">
+          <span class="oc-eyebrow"><span class="oc-new">NEW</span><span id="oc-kicker">Online Live Course</span></span>
+          <h2 class="oc-h2" id="oc-title">Course at a glance</h2>
+          <p class="oc-lede" id="oc-lede"></p>
+          <div class="oc-chips" id="oc-chips"></div>
         </div>
-        <div class="oc-photo" id="oc-photo" style="display:none">
-          <img id="oc-photo-img" src="" alt="Course teacher">
-          <span class="oc-live">● LIVE ON ZOOM</span>
+        <div class="oc-quick" id="oc-quick" style="display:none">
+          <div class="oc-quick-label">COURSE FEE</div>
+          <div class="oc-quick-fee">₹<span id="oc-quick-fee"></span></div>
+          <div class="oc-quick-note" id="oc-quick-note"></div>
+          <div class="oc-quick-rows" id="oc-quick-rows"></div>
+          <button type="button" class="oc-fee-btn" style="margin-top:6px;width:100%;justify-content:center" onclick="openEnrollModal()">Enroll Now</button>
+        </div>
+        <div class="oc-teacher" id="oc-photo" style="display:none">
+          <img loading="lazy" decoding="async" id="oc-photo-img" src="" alt="Course teacher">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span class="oc-teacher-role" id="oc-photo-role">Your teacher</span>
+            <span class="oc-live"><i></i>LIVE ON ZOOM</span>
+          </div>
         </div>
       </div>
-      <div class="oc-sched" id="oc-schedule"></div>
-      <div>
-        <h3 class="oc-sec-title" id="oc-curr-title">Course Curriculum</h3>
+
+      <!-- Timings -->
+      <div class="oc-block">
+        <div class="oc-sched" id="oc-schedule"></div>
+        <div class="oc-bundle" id="oc-bundle">
+          <span class="oc-bundle-tag">ALL INCLUDED</span>
+          <div><div class="oc-bundle-title">One fee covers the course and all study material</div><div class="oc-bundle-sub" id="oc-bundle-sub"></div></div>
+        </div>
+      </div>
+
+      <!-- Curriculum -->
+      <div class="oc-block">
+        <div class="oc-row-head">
+          <div><span class="oc-eyebrow">Curriculum</span><h3 class="oc-h2" id="oc-curr-title">Course Curriculum</h3></div>
+          <span class="oc-meta" id="oc-curr-meta"></span>
+        </div>
         <div class="oc-curr" id="oc-curriculum"></div>
       </div>
-      <div class="oc-fee">
-        <div class="oc-fee-left">
-          <div class="oc-fee-label">COURSE FEE</div>
-          <div class="oc-fee-amount">₹<span id="oc-fee">0</span></div>
-          <div class="oc-fee-note" id="oc-fee-note"></div>
-          <button type="button" class="oc-fee-btn" onclick="openEnrollModal()">Enroll &amp; Pay</button>
+
+      <!-- Material -->
+      <div class="oc-block">
+        <div class="oc-row-head">
+          <div><span class="oc-eyebrow">Our own material</span><h3 class="oc-h2">Made by Taxila, for this course</h3></div>
         </div>
-        <div class="oc-fee-right">
-          <div class="oc-get-title">WHAT YOU GET</div>
-          <div id="oc-includes" style="display:flex;flex-direction:column;gap:10px"></div>
-          <div class="oc-refund" id="oc-refund"></div>
+        <div class="oc-mat" id="oc-material"></div>
+      </div>
+
+      <!-- Fee -->
+      <div class="oc-block" id="oc-fee-block">
+        <div class="oc-row-head">
+          <div><span class="oc-eyebrow">Fee and material</span><h3 class="oc-h2">One simple fee</h3></div>
+        </div>
+        <div class="oc-fee">
+          <div class="oc-fee-left">
+            <div class="oc-fee-label">COURSE FEE</div>
+            <div class="oc-fee-amount">₹<span id="oc-fee">0</span></div>
+            <div class="oc-fee-note" id="oc-fee-note"></div>
+            <button type="button" class="oc-fee-btn" onclick="openEnrollModal()">Enroll &amp; Pay <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            <div class="oc-fee-secure"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure payment by Razorpay</div>
+          </div>
+          <div class="oc-fee-right">
+            <div class="oc-get-title">WHAT YOU GET</div>
+            <div class="oc-gets" id="oc-includes"></div>
+            <div class="oc-facts" id="oc-facts"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How to enrol -->
+      <div class="oc-block">
+        <div class="oc-row-head">
+          <div><span class="oc-eyebrow">How to enrol</span><h3 class="oc-h2">Four easy steps</h3></div>
+        </div>
+        <div class="oc-steps" id="oc-steps"></div>
+      </div>
+
+      <!-- Call to action -->
+      <div class="oc-cta">
+        <div>
+          <h3 class="oc-cta-title">Reserve your seat today</h3>
+          <div class="oc-cta-sub">Seats are limited · 100% live, interactive classes</div>
+        </div>
+        <div class="oc-cta-right">
+          <div class="oc-cta-phones"><span>CALL FOR ADMISSIONS</span><a href="tel:+917989770033">79897 70033</a><a href="tel:+919989976111">99899 76111</a></div>
+          <div class="oc-cta-btns">
+            <button type="button" class="oc-fee-btn" style="margin:0" onclick="openEnrollModal()">Enroll Now</button>
+            <a class="oc-cta-wa" id="oc-cta-wa" href="https://wa.me/917989770033" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>WhatsApp us</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1152,7 +1326,7 @@
   <!-- NAVODAYA DEMO VIDEOS -->
   <section id="navodaya-demo-videos" style="position:relative;padding:80px clamp(18px,4vw,56px) 90px;border-top:2px solid rgba(212,160,23,0.2);overflow:hidden">
     <div style="position:absolute;inset:0;z-index:0">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783400522/WhatsApp_Image_2026-06-12_at_12.02.25_PM_1_oq0bjm.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+      <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783400522/WhatsApp_Image_2026-06-12_at_12.02.25_PM_1_oq0bjm.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,22,4,0.88) 0%,rgba(14,42,7,0.80) 50%,rgba(6,16,3,0.90) 100%)"></div>
     </div>
     <div style="position:relative;z-index:1;display:contents">
@@ -1342,7 +1516,7 @@
   <!-- 4. BOOKS FOR THIS COURSE -->
   <section id="books-section" style="position:relative;padding:80px clamp(18px,4vw,56px);overflow:hidden">
     <div style="position:absolute;inset:0;z-index:0">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1783406242/Copilot_20260707_120529_ovdqjf.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+      <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783406242/Copilot_20260707_120529_ovdqjf.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,251,238,0.92) 0%,rgba(230,248,220,0.88) 50%,rgba(240,250,234,0.93) 100%)"></div>
     </div>
     <div style="position:relative;z-index:1">
@@ -2138,6 +2312,8 @@ class Component extends DCLogic {
     // so the same registration doc flips from "pending" to "paid" instead of
     // creating a second record.
     let pendingEnrollDocRef = null;
+    let pendingEnrollPromise = null;
+    let pendingEnrollData = null;
 
     // Detailed Course Data Map covering all 9 academy streams
     const courseData = {
@@ -2191,7 +2367,7 @@ class Component extends DCLogic {
           { name: "Environmental Studies", desc: "Basic ecology, natural resources, environmental awareness and conservation concepts for JNVST.", videoId: "jnj7kvss9Ys" }
         ],
         books: [
-          { title: "Jawahar Navodaya Vidyalaya Class VI Entrance Exam 2025 Study Guide", author: "VGS", category: "Study Guide", desc: "A comprehensive preparation guide for JNVST Class 6 admission. Includes detailed coverage of Mental Ability, Arithmetic, and Language Tests based on the latest syllabus, alongside Solved Papers and practice sets.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783405377/WhatsApp_Image_2026-07-07_at_11.52.16_AM_uurhjx.jpg" }
+          { title: "Jawahar Navodaya Vidyalaya Class VI Entrance Exam 2025 Study Guide", author: "VGS", category: "Study Guide", desc: "A comprehensive preparation guide for JNVST Class 6 admission. Includes detailed coverage of Mental Ability, Arithmetic, and Language Tests based on the latest syllabus, alongside Solved Papers and practice sets.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783405377/WhatsApp_Image_2026-07-07_at_11.52.16_AM_uurhjx.jpg" }
         ],
         studentTestimonials: [
           { name: "Sri Priya", text: "The figure reasoning questions in JNVST were exactly like what we practiced at Taxila.", sub: "Selected Class 6 JNV" },
@@ -2372,10 +2548,10 @@ class Component extends DCLogic {
           { name: "General Awareness", desc: "Our environment, national symbols, basic plants/animals." }
         ],
         books: [
-          { title: "Taxila Kid's Math Book", author: "Taxila Academy", category: "Foundation", desc: "Tables, quick addition-subtraction and arithmetic puzzles paced for young learners.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781143860/WhatsApp_Image_2026-06-10_at_7.37.16_PM_2_utukpp.jpg" },
-          { title: "Phonics Reader Vol 1", author: "Taxila Academy", category: "Foundation", desc: "Correct reading habits, spelling rules and phonetics built through guided practice pages.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781143862/WhatsApp_Image_2026-06-10_at_7.19.01_PM_wjtp3y.jpg" },
-          { title: "Junior Logic Puzzles", author: "Taxila Academy", category: "Foundation", desc: "Odd-one-out, pattern series and figure-grouping puzzles that build early analytical skill.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781187739/WhatsApp_Image_2026-06-11_at_7.50.54_PM_wuaoev.jpg" },
-          { title: "Spoken English Guide", author: "Taxila Academy", category: "Foundation", desc: "Simple sentence construction and conversational vocabulary for everyday spoken practice.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673574/WhatsApp_Image_2026-07-10_at_2.22.34_PM_n1kw3r.jpg" }
+          { title: "Taxila Kid's Math Book", author: "Taxila Academy", category: "Foundation", desc: "Tables, quick addition-subtraction and arithmetic puzzles paced for young learners.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781143860/WhatsApp_Image_2026-06-10_at_7.37.16_PM_2_utukpp.jpg" },
+          { title: "Phonics Reader Vol 1", author: "Taxila Academy", category: "Foundation", desc: "Correct reading habits, spelling rules and phonetics built through guided practice pages.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781143862/WhatsApp_Image_2026-06-10_at_7.19.01_PM_wjtp3y.jpg" },
+          { title: "Junior Logic Puzzles", author: "Taxila Academy", category: "Foundation", desc: "Odd-one-out, pattern series and figure-grouping puzzles that build early analytical skill.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781187739/WhatsApp_Image_2026-06-11_at_7.50.54_PM_wuaoev.jpg" },
+          { title: "Spoken English Guide", author: "Taxila Academy", category: "Foundation", desc: "Simple sentence construction and conversational vocabulary for everyday spoken practice.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783673574/WhatsApp_Image_2026-07-10_at_2.22.34_PM_n1kw3r.jpg" }
         ],
         studentTestimonials: [
           { name: "Aaradhya G.", text: "I love the GK quizzes and color puzzle games we play in our class.", sub: "Class 3 Student" },
@@ -2402,10 +2578,10 @@ class Component extends DCLogic {
           { name: "Spoken & Writing Skill", desc: "Paragraph writing, story summary, spoken dialogues." }
         ],
         books: [
-          { title: "Aptitude Junior Part 1", author: "Taxila Academy", category: "Foundation", desc: "Figure matrices, blood relations and coding series introduced through simple logical exercises.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1781143616/WhatsApp_Image_2026-06-10_at_7.00.27_PM_nskcuj.jpg" },
-          { title: "Science Concepts Junior", author: "Taxila Academy", category: "Foundation", desc: "States of matter, the water cycle and plant classification explained with everyday examples.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.56_PM_1_nxczcp.jpg" },
-          { title: "Primary Grammatika", author: "Taxila Academy", category: "Foundation", desc: "Nouns, pronouns, tenses and sentence-correction drills for growing grammar confidence.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.56_PM_babwwo.jpg" },
-          { title: "Arithmetic Bridge Book", author: "Taxila Academy", category: "Foundation", desc: "Fractions, calendar math and simple unit conversions bridging primary to competitive-level math.", img: "https://res.cloudinary.com/diancfp03/image/upload/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.57_PM_r5a5s8.jpg" }
+          { title: "Aptitude Junior Part 1", author: "Taxila Academy", category: "Foundation", desc: "Figure matrices, blood relations and coding series introduced through simple logical exercises.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781143616/WhatsApp_Image_2026-06-10_at_7.00.27_PM_nskcuj.jpg" },
+          { title: "Science Concepts Junior", author: "Taxila Academy", category: "Foundation", desc: "States of matter, the water cycle and plant classification explained with everyday examples.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.56_PM_1_nxczcp.jpg" },
+          { title: "Primary Grammatika", author: "Taxila Academy", category: "Foundation", desc: "Nouns, pronouns, tenses and sentence-correction drills for growing grammar confidence.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.56_PM_babwwo.jpg" },
+          { title: "Arithmetic Bridge Book", author: "Taxila Academy", category: "Foundation", desc: "Fractions, calendar math and simple unit conversions bridging primary to competitive-level math.", img: "https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1783673281/WhatsApp_Image_2026-07-10_at_2.16.57_PM_r5a5s8.jpg" }
         ],
         studentTestimonials: [
           { name: "Varun P.", text: "Solving puzzles and math sums is like a game now. I enjoy my studies.", sub: "Class 5 Student" },
@@ -2434,7 +2610,22 @@ class Component extends DCLogic {
           { label: "Schedule", value: "Monday to Friday", sub: "5 days a week" },
           { label: "Mode", value: "Live on Zoom", sub: "Interactive, with live doubts" },
           { label: "Course period", value: "2 months", sub: "Step-by-step reasoning" },
-          { label: "Batch starts", value: "To be announced", sub: "Call to confirm your seat" }
+          { label: "Material", value: "Sent by courier", sub: "Delivered to your address" },
+          { label: "Material includes", value: "Book + Workbook", sub: "Objective practice sheets" }
+        ],
+        batchText: "To be announced",
+        heroStat: "Book + Workbook by courier",
+        heroTiming: "5:30 – 6:15 AM · Mon to Fri",
+        teacherRole: "Your Reasoning teacher",
+        glance: "Live, interactive Zoom classes every weekday morning. Each topic is taught step by step, practised in Taxila's own workbook, and your books are delivered to your home.",
+        bundleNote: "Reasoning Learning Book, Objective Workbook and practice sheets, sent to your address by courier, free of charge.",
+        materialNote: "Reasoning Learning Book, Objective Workbook and practice sheets, sent by courier.",
+        currMeta: "12 topics · 2 months",
+        ownMaterial: [
+          { icon: "book", title: "Reasoning Learning Book", sub: "All 12 topics with step-by-step methods" },
+          { icon: "sheet", title: "Objective Workbook", sub: "Practice questions and sheets for every topic" },
+          { icon: "truck", title: "Sent by courier", sub: "Delivered to your address, free of charge" },
+          { icon: "video", title: "Live Zoom classes", sub: "5:30 to 6:15 AM, Monday to Friday" }
         ],
         curriculum: [
           { name: "Reasoning", note: "12 topics", topics: ["What Comes Next? Number, Letter and Shape Series", "Analogy: Same Relation, Next Pair", "Odd One Out", "Alphabet and Coding-Decoding", "Direction Sense: Left, Right, North, South", "Ranking and Order", "Family and Blood Relations", "Missing Numbers in Figures", "Counting Figures", "Mirror Images and Pattern Completion", "Days, Months and Time Puzzles", "Grouping, Venn Diagrams and Simple Number Puzzles"] }
@@ -2471,6 +2662,19 @@ class Component extends DCLogic {
           { label: "Mode", value: "Live on Zoom", sub: "Interactive, with live doubts" },
           { label: "Teaching", value: "Digital board", sub: "Every class on a smartboard" },
           { label: "Duration", value: "4 months", sub: "4 subjects" }
+        ],
+        heroStat: "Digital board teaching",
+        heroTiming: "6:00 – 7:00 PM · Mon to Fri",
+        kicker: "Concepts Foundation Course · Level 1",
+        glance: "A 4-month live course that builds strong concepts in Maths, English, Reasoning and GK, step by step. Every class is taught on a digital board with Taxila\'s own study material.",
+        bundleNote: "Learning Book, Workbook, worksheets and smartboard teaching in every subject.",
+        materialNote: "Learning Books, Workbooks and worksheets for all four subjects.",
+        currMeta: "Class 3 · Level 1 · 4 subjects",
+        ownMaterial: [
+          { icon: "book", title: "Learning Book", sub: "For every subject" },
+          { icon: "sheet", title: "Worksheets & objective workbooks", sub: "Worksheets for every topic" },
+          { icon: "board", title: "Digital board teaching slides", sub: "Every class on a smartboard" },
+          { icon: "video", title: "Live Zoom classes", sub: "6 to 7 PM, Monday to Friday" }
         ],
         curriculum: [
           { name: "Maths", note: "Level 1 · Months 1 to 4", topics: ["Maths Keywords (+ − × ÷ words)", "Numbers: Digits & Place Value to Crores", "Roman Numerals", "Addition & Subtraction", "Multiplication & Tables", "Division", "Statement Sums on every topic"] },
@@ -2510,6 +2714,19 @@ class Component extends DCLogic {
           { label: "Mode", value: "Live on Zoom", sub: "Interactive, with live doubts" },
           { label: "Teaching", value: "Digital board", sub: "Every class on a smartboard" },
           { label: "Duration", value: "4 months", sub: "4 subjects" }
+        ],
+        heroStat: "Digital board teaching",
+        heroTiming: "6:00 – 7:00 PM · Mon to Fri",
+        kicker: "Concepts Foundation Course",
+        glance: "A 4-month live course in Maths, English, Reasoning and GK. Class 4 builds concepts in depth; Class 5 adds exam-level practice. Every class is taught on a digital board with Taxila\'s own study material.",
+        bundleNote: "Learning Book, Workbook, worksheets and smartboard teaching in every subject.",
+        materialNote: "Learning Books, Workbooks and worksheets for all four subjects.",
+        currMeta: "Class 4 and 5 · 4 subjects",
+        ownMaterial: [
+          { icon: "book", title: "Learning Book", sub: "For every subject" },
+          { icon: "sheet", title: "Worksheets & objective workbooks", sub: "Worksheets for every topic" },
+          { icon: "board", title: "Digital board teaching slides", sub: "Every class on a smartboard" },
+          { icon: "video", title: "Live Zoom classes", sub: "6 to 7 PM, Monday to Friday" }
         ],
         curriculum: [
           { name: "Maths", note: "Level 1 · Months 1 to 4", topics: ["Maths Keywords (+ − × ÷ words)", "Numbers: 5-Digit, Lakhs & Place Value to Crores", "Roman Numerals up to 1000", "Addition & Subtraction (5-digit)", "Multiplication & Tables to 20", "Division (long division, remainders)", "Divisibility Rules", "Statement Sums on every topic"] },
@@ -2558,6 +2775,13 @@ class Component extends DCLogic {
       window.__enrollThreeSteps = on && !!c.needsAddress;
       setEnrollStep(1);
       setShow(byId('online-course-section'), on, 'block');
+      document.documentElement.classList.toggle('oc-mode', on);
+      const ocBatch = ((c.schedule || []).find(s => /batch|start/i.test(s.label || '')) || {}).value;
+      ocSwap(byId('hero-badge-admissions'), on, ocBatch ? 'Admissions open · Batch ' + ocBatch : 'Admissions open now');
+      ocSwap(byId('hero-badge-verified'), on, 'Seats are limited');
+      ocSwap(byId('hero-stat-2'), on, c.heroStat || 'Digital board teaching');
+      ocSwap(byId('hero-stat-3'), on, c.heroTiming || '');
+      setShow(byId('hero-stat-3-wrap'), on && !!c.heroTiming, 'flex');
       setShow(byId('hero-new-badge'), !!c.isNew, 'inline-flex');
       setShow(byId('duration-section'), !on);
       if (on) {
@@ -2594,32 +2818,115 @@ class Component extends DCLogic {
       if (!on) return;
 
       // Online course section
-      const t = byId('oc-title'); if (t) t.textContent = 'Timings, topics and fee';
+      const ocIcon = (name) => {
+        const p = {
+          clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+          cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+          video: '<rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/>',
+          hour: '<path d="M6 2h12M6 22h12M7 2c0 5 5 6 5 10s-5 5-5 10M17 2c0 5-5 6-5 10s5 5 5 10"/>',
+          board: '<rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21l4-5 4 5M7 8h6M7 11h10"/>',
+          rocket: '<path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 15l-3-3c1-4 4-9 12-9 0 8-5 11-9 12z"/><circle cx="14.5" cy="9.5" r="1.5"/>',
+          box: '<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/>',
+          book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/>',
+          sheet: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
+          truck: '<path d="M1 6h13v10H1zM14 10h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/>'
+        }[name] || '<circle cx="12" cy="12" r="9"/>';
+        return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
+      };
+      const iconFor = (label) => {
+        const l = String(label || '').toLowerCase();
+        if (/timing|time/.test(l)) return 'clock';
+        if (/schedule|days/.test(l)) return 'cal';
+        if (/mode|zoom/.test(l)) return 'video';
+        if (/batch|start/.test(l)) return 'rocket';
+        if (/teach|board/.test(l)) return 'board';
+        if (/includes|book/.test(l)) return 'book';
+        if (/material|courier|deliver/.test(l)) return 'box';
+        return 'hour';
+      };
+      const blocks = c.curriculum || [];
+      const single = blocks.length === 1;
+      const batch = (c.schedule || []).find(s => /batch|start/i.test(s.label || ''));
+      const batchText = batch ? batch.value : (c.batchText || 'To be announced');
+
+      const kicker = byId('oc-kicker'); if (kicker) kicker.textContent = c.kicker || 'Online Live Course';
+      const t = byId('oc-title'); if (t) t.textContent = 'Course at a glance';
+      const lede = byId('oc-lede'); if (lede) lede.textContent = c.glance || c.tagline || '';
+      const chips = byId('oc-chips');
+      if (chips) chips.innerHTML = (single ? [] : blocks.map(b => b.name)).map(n => '<span class="oc-chip">' + ocEsc(n) + '</span>').join('');
       const photo = byId('oc-photo'), photoImg = byId('oc-photo-img');
       if (photo && photoImg) {
         setShow(photo, !!c.teacherPhoto, 'flex');
         if (c.teacherPhoto) photoImg.src = c.teacherPhoto;
+        const role = byId('oc-photo-role'); if (role) role.textContent = c.teacherRole || 'Your teacher';
+      }
+      const quick = byId('oc-quick');
+      if (quick) {
+        setShow(quick, !c.teacherPhoto, 'flex');
+        const qf = byId('oc-quick-fee'); if (qf) qf.textContent = c.fee;
+        const qn = byId('oc-quick-note'); if (qn) qn.textContent = c.feeNote || '';
+        const sv = (re) => ((c.schedule || []).find(x => re.test(x.label || '')) || {}).value;
+        const rows = [['Starts', batchText], ['Timing', sv(/timing/i)], ['Days', sv(/schedule/i)], ['Duration', String(c.duration || '').split('·')[0].trim()]].filter(r => r[1]);
+        const qr = byId('oc-quick-rows'); if (qr) qr.innerHTML = rows.map(r => '<div class="oc-quick-row"><span>' + ocEsc(r[0]) + '</span><span>' + ocEsc(r[1]) + '</span></div>').join('');
       }
       const sched = byId('oc-schedule');
       if (sched) sched.innerHTML = (c.schedule || []).map(s =>
-        '<div class="oc-sched-item"><div class="oc-sched-label">' + ocEsc(s.label) + '</div><div class="oc-sched-value">' + ocEsc(s.value) + '</div>' + (s.sub ? '<div class="oc-sched-sub">' + ocEsc(s.sub) + '</div>' : '') + '</div>'
+        '<div class="oc-sched-item"><div class="oc-sched-icon">' + ocIcon(iconFor(s.label)) + '</div><div><div class="oc-sched-label">' + ocEsc(s.label) + '</div><div class="oc-sched-value">' + ocEsc(s.value) + '</div>' + (s.sub ? '<div class="oc-sched-sub">' + ocEsc(s.sub) + '</div>' : '') + '</div></div>'
       ).join('');
+      const bundleSub = byId('oc-bundle-sub'); if (bundleSub) bundleSub.textContent = c.bundleNote || (c.material || []).join(' · ');
+
       const curr = byId('oc-curriculum');
       if (curr) {
-        const blocks = c.curriculum || [];
-        curr.className = 'oc-curr' + (blocks.length === 1 ? ' single' : '');
-        curr.innerHTML = blocks.map((b, i) =>
-          '<div class="oc-subject"><div class="oc-subject-head"><div class="oc-subject-name"><span class="oc-subject-num">' + String(i + 1).padStart(2, '0') + '</span>' + ocEsc(b.name) + '</div>' + (b.note ? '<span class="oc-subject-note">' + ocEsc(b.note) + '</span>' : '') + '</div>'
-          + '<ul class="oc-topics">' + (b.topics || []).map(tp => '<li>' + ocEsc(tp) + '</li>').join('') + '</ul></div>'
-        ).join('');
+        // First and last subject span the full width when there are 4 (like the printed brochure)
+        curr.innerHTML = blocks.map((b, i) => {
+          const wide = single || (blocks.length === 4 && (i === 0 || i === 3)) || (blocks.length % 2 === 1 && i === blocks.length - 1);
+          const n = (b.topics || []).length;
+          return '<div class="oc-subject' + (wide ? ' wide' : '') + '"><div class="oc-subject-head"><span class="oc-subject-num">' + String(i + 1).padStart(2, '0') + '</span><div><div class="oc-subject-name">' + ocEsc(b.name) + '</div>' + (b.note ? '<div class="oc-subject-note">' + ocEsc(b.note) + '</div>' : '') + '</div>' + (single ? '' : '<span class="oc-subject-count">' + n + ' topics</span>') + '</div>'
+            + '<ul class="oc-topics">' + (b.topics || []).map(tp => '<li>' + ocEsc(tp) + '</li>').join('') + '</ul></div>';
+        }).join('');
       }
       const currTitle = byId('oc-curr-title');
-      if (currTitle) currTitle.textContent = (c.curriculum && c.curriculum.length === 1) ? 'Course Topics' : 'Course Curriculum';
+      if (currTitle) currTitle.textContent = single ? 'Course Topics' : 'Course Curriculum';
+      const currMeta = byId('oc-curr-meta');
+      if (currMeta) currMeta.textContent = c.currMeta || (single ? (blocks[0].topics || []).length + ' topics' : blocks.length + ' subjects');
+
+      const mat = byId('oc-material');
+      if (mat) mat.innerHTML = (c.ownMaterial || []).map(m =>
+        '<div class="oc-mat-card"><div class="oc-mat-icon">' + ocIcon(m.icon) + '</div><div class="oc-mat-title">' + ocEsc(m.title) + '</div><div class="oc-mat-sub">' + ocEsc(m.sub) + '</div></div>'
+      ).join('');
+
       const fee = byId('oc-fee'); if (fee) fee.textContent = c.fee;
       const feeNote = byId('oc-fee-note'); if (feeNote) feeNote.textContent = c.feeNote || '';
       const inc = byId('oc-includes');
       if (inc) inc.innerHTML = (c.includes || []).map(x => '<div class="oc-get">' + ocTick + '<span>' + ocEsc(x) + '</span></div>').join('');
-      const refund = byId('oc-refund'); if (refund) refund.textContent = c.refundNote || '';
+      const facts = byId('oc-facts');
+      if (facts) {
+        const dur = String(c.duration || '').split('·')[0].trim().toLowerCase();
+        const list = [
+          { title: 'Course fee: ₹' + c.fee, sub: 'For the complete ' + (dur ? dur.replace(/^(\d+)\s*months?$/, '$1-month') + ' ' : '') + 'course' + (single ? '.' : ', ' + blocks.length + ' subjects.') },
+          { title: 'Material included', sub: c.materialNote || 'Learning Books, Workbooks and worksheets, sent to your address.' },
+          { title: 'Batch starts: ' + batchText, sub: 'Call to confirm your seat.' },
+          { title: 'No refund policy', sub: String(c.refundNote || 'The course fee is not returnable once paid.').replace(/^No refund policy:\s*/i, '').replace(/^./, m => m.toUpperCase()), warn: true }
+        ];
+        facts.innerHTML = list.map(f => '<div class="oc-fact' + (f.warn ? ' warn' : '') + '"><div class="oc-fact-title">' + ocEsc(f.title) + '</div><div class="oc-fact-sub">' + ocEsc(f.sub) + '</div></div>').join('');
+      }
+      const steps = byId('oc-steps');
+      if (steps) {
+        const list = [
+          { title: 'Book your seat', sub: 'Enroll online, or call 79897 70033' },
+          { title: 'Pay the course fee', sub: '₹' + c.fee + ' · secure online payment' },
+          { title: 'Get the Zoom link & material', sub: 'Books are sent to your address' },
+          { title: 'Classes start', sub: batchText }
+        ];
+        steps.innerHTML = list.map((s, i) => '<div class="oc-step"><span class="oc-step-num">' + (i + 1) + '</span><div class="oc-step-title">' + ocEsc(s.title) + '</div><div class="oc-step-sub">' + ocEsc(s.sub) + '</div></div>').join('');
+      }
+      const wa = byId('oc-cta-wa');
+      if (wa) wa.href = 'https://wa.me/917989770033?text=' + encodeURIComponent('Hello Taxila Academy, I want to know more about the ' + (c.title || 'online course') + '.');
+
+      // Hero cards scroll to the curriculum of this section
+      root.querySelectorAll('.hero-subject-card').forEach(card => {
+        card.onclick = (e) => { e.preventDefault(); const el = byId('oc-curriculum'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+      });
     };
 
     // Render Dynamic Course View based on Hash
@@ -2647,6 +2954,8 @@ class Component extends DCLogic {
       const addrSummaryReset = document.getElementById('enroll-address-summary');
       if (addrSummaryReset) addrSummaryReset.style.display = 'none';
       pendingEnrollDocRef = null;
+      pendingEnrollPromise = null;
+      pendingEnrollData = null;
       setEnrollStep(1);
 
       // Every course now renders with the same section layout as Navodaya:
@@ -3131,7 +3440,7 @@ class Component extends DCLogic {
         }
         pendingDelivery = null;
 
-        saveRegistrationToFirestore({
+        pendingEnrollData = {
           name: nameVal,
           parentName: parentVal,
           phone: phoneVal,
@@ -3142,8 +3451,10 @@ class Component extends DCLogic {
           stream: c.title || 'Course Enrollment',
           paymentStatus: 'pending',
           source: c.online ? 'Online Course' : 'Course Enrollment'
-        }).then(function(docRef) {
+        };
+        pendingEnrollPromise = saveRegistrationToFirestore(pendingEnrollData).then(function(docRef) {
           pendingEnrollDocRef = docRef;
+          return docRef;
           if (docRef && pendingDelivery) docRef.update({ delivery: pendingDelivery }).catch(function(){});
         });
 
@@ -3271,7 +3582,7 @@ class Component extends DCLogic {
           currency: 'INR',
           name: 'Taxila Academy',
           description: courseName + ' — Enrollment',
-          image: 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png',
+          image: 'https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781592060/Copilot_20260616_121045_yri1yc.png',
           theme: { color: '#1a56db' },
           prefill: { name: addrVal('enroll-input-parent'), contact: addrVal('enroll-input-phone'), email: addrVal('enroll-input-email') },
           notes: { course: hash },
@@ -3284,11 +3595,15 @@ class Component extends DCLogic {
           handler: function(response) {
             // Payment captured — response contains:
             // razorpay_payment_id, razorpay_order_id (blank without backend), razorpay_signature
-            if (pendingEnrollDocRef) {
-              const upd = { paymentStatus: 'paid', txRef: response.razorpay_payment_id || '' };
-              if (c.needsAddress && pendingDelivery) upd.delivery = pendingDelivery;
-              pendingEnrollDocRef.update(upd).catch(function(){});
-            }
+            // Always record the payment, even if the first save was slow or failed:
+            // wait for it, and if there is still no record, save a new paid one.
+            const upd = { paymentStatus: 'paid', txRef: response.razorpay_payment_id || '', paidAt: new Date().toISOString() };
+            if (c.needsAddress && pendingDelivery) upd.delivery = pendingDelivery;
+            const paidData = Object.assign({}, pendingEnrollData || { name: addrVal('enroll-input-name'), parentName: addrVal('enroll-input-parent'), phone: addrVal('enroll-input-phone'), email: addrVal('enroll-input-email'), courseKey: hash, exam: courseName, stream: courseName, source: c.online ? 'Online Course' : 'Course Enrollment' }, upd);
+            Promise.resolve(pendingEnrollDocRef || pendingEnrollPromise).then(function(ref) {
+              if (ref) return ref.update(upd).catch(function() { return saveRegistrationToFirestore(paidData); });
+              return saveRegistrationToFirestore(paidData);
+            });
             if (c.needsAddress) {
               saveCourseOrder(c, hash, response.razorpay_payment_id);
               const note = document.getElementById('ec-delivery-note');

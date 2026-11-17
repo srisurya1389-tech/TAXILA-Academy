@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+
+<style id="perf-tweaks">
+/* Faster on phones: glass blur is costly on low-end devices */
+@media (max-width: 768px){ *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important} }
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important} }
+</style>
 </head>
 <body>
 <x-dc id="taxila-root">
@@ -1204,7 +1210,7 @@
 
   <!-- CINEMATIC INTRO -->
   <div data-intro style="position:fixed;inset:0;z-index:300;background:radial-gradient(120% 120% at 50% 40%,#11340b 0%,#0A1F05 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .45s cubic-bezier(0.22,1,0.36,1)">
-    <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:280px;width:auto;object-fit:contain;margin-bottom:40px;animation:introZoom .45s cubic-bezier(0.22,1,0.36,1) both">
+    <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:280px;width:auto;object-fit:contain;margin-bottom:40px;animation:introZoom .45s cubic-bezier(0.22,1,0.36,1) both">
     <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(34px,7vw,72px);color:#fff;letter-spacing:.12em;animation:introZoom .5s cubic-bezier(0.22,1,0.36,1) .05s both">TAXILA ACADEMY</div>
     <div style="margin-top:14px;color:#F5B800;font-size:clamp(12px,2vw,16px);letter-spacing:.42em;font-weight:600;text-transform:uppercase;animation:introZoom .5s cubic-bezier(0.22,1,0.36,1) .12s both">Where Champions Begin</div>
   </div>
@@ -1212,7 +1218,7 @@
   <!-- NAV -->
   <nav data-nav style="position:fixed;top:0;left:0;width:100%;z-index:150;display:flex;align-items:center;justify-content:space-between;padding:10px clamp(14px,4vw,56px);transition:background .35s ease,box-shadow .35s ease,backdrop-filter .35s ease;background:transparent">
     <a href="#home" style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:clamp(40px,6vw,72px);width:auto;object-fit:contain">
+      <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:clamp(40px,6vw,72px);width:auto;object-fit:contain">
       <span data-logo-text style="font-family:Inter,system-ui,sans-serif;font-weight:900;font-size:clamp(16px,2vw,25px);color:#F5EDD8;letter-spacing:-0.03em;transition:color 0.25s;white-space:nowrap">TAXILA ACADEMY</span>
     </a>
     <div data-navlinks style="display:flex;align-items:center;gap:28px">
@@ -1271,7 +1277,7 @@
     <!-- Menu header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid rgba(201,169,122,0.1);flex-shrink:0">
       <a href="#home" data-mlink style="display:flex;align-items:center;gap:10px;text-decoration:none">
-        <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:44px;width:auto;object-fit:contain">
+        <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781247341/Copilot_20260612_122511_ggalr2.png" alt="Taxila Academy Logo" style="height:44px;width:auto;object-fit:contain">
         <span style="font-family:Inter,sans-serif;font-weight:900;font-size:17px;color:#F5EDD8;letter-spacing:-0.02em">TAXILA<br><span style="color:#C9A97A;font-size:11px;letter-spacing:.18em;font-weight:700">ACADEMY</span></span>
       </a>
       <button data-menuclose class="gold-hover-icon" style="width:40px;height:40px;border-radius:10px;background:rgba(232,213,176,0.07);border:1.5px solid rgba(232,213,176,0.14);color:#C9A97A;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
@@ -1328,7 +1334,7 @@
 
     <!-- Hero Background Image -->
     <div style="position:absolute;inset:0;z-index:0;overflow:hidden">
-      <img id="cms-hero-bg" src="https://res.cloudinary.com/diancfp03/image/upload/v1782484172/Copilot_20260626_195745_aft2ml.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block" fetchpriority="high">
+      <img id="cms-hero-bg" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1782484172/Copilot_20260626_195745_aft2ml.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block" fetchpriority="high">
       <!-- Dark gradient overlay to keep text readable -->
       <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(4,12,2,0.82) 0%,rgba(4,12,2,0.55) 50%,rgba(4,12,2,0.72) 100%)"></div>
     </div>
@@ -1594,7 +1600,7 @@
 
     <!-- Background image -->
     <div style="position:absolute;inset:0;z-index:0">
-      <img src="https://res.cloudinary.com/diancfp03/image/upload/v1782488779/Copilot_20260626_211541_fozjwx.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block" fetchpriority="high">
+      <img src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1782488779/Copilot_20260626_211541_fozjwx.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block" fetchpriority="high">
       <div style="position:absolute;inset:0;background:rgba(10,40,5,0.72)"></div>
     </div>
 
@@ -1694,12 +1700,12 @@
         <!-- Slide 1: NDA -->
         <div class="cslide" data-index="0" style="display:flex;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
           <div style="position:absolute;inset:-30px;z-index:0">
-            <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_42_PM_ahtme7.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/ChatGPT_Image_Jun_12_2026_07_15_42_PM_ahtme7.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
             <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
           </div>
           <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
             <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
-              <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_42_PM_ahtme7.png" alt="NDA Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/ChatGPT_Image_Jun_12_2026_07_15_42_PM_ahtme7.png" alt="NDA Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
             </div>
             <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
@@ -1717,12 +1723,12 @@
         <!-- Slide 2: RMS -->
         <div class="cslide" data-index="1" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
           <div style="position:absolute;inset:-30px;z-index:0">
-            <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_51_PM_j243wz.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/ChatGPT_Image_Jun_12_2026_07_15_51_PM_j243wz.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
             <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
           </div>
           <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
             <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
-              <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_51_PM_j243wz.png" alt="RMS Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/ChatGPT_Image_Jun_12_2026_07_15_51_PM_j243wz.png" alt="RMS Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
             </div>
             <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
@@ -1740,12 +1746,12 @@
         <!-- Slide 3: RIMC (HIDDEN: rename class back to "cslide" to show it again) -->
         <div class="cslide-hidden" data-index="2" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
           <div style="position:absolute;inset:-30px;z-index:0">
-            <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
             <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
           </div>
           <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
             <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
-              <img src="https://res.cloudinary.com/diancfp03/image/upload/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="RIMC Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/ChatGPT_Image_Jun_12_2026_07_15_57_PM_sbnmp3.png" alt="RIMC Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
             </div>
             <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
@@ -1763,12 +1769,12 @@
         <!-- Slide 4: Navodaya -->
         <div class="cslide" data-index="3" style="display:none;position:relative;overflow:hidden;min-height:clamp(420px,52vh,560px)">
           <div style="position:absolute;inset:-30px;z-index:0">
-            <img src="https://res.cloudinary.com/diancfp03/image/upload/parade_nyz4ux.jpg" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
+            <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/parade_nyz4ux.jpg" alt="" style="width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;display:block;filter:blur(12px);transform:scale(1.1)">
             <div style="position:absolute;inset:0;background:rgba(5,18,3,0.62)"></div>
           </div>
           <div style="position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;width:100%">
             <div style="flex:0 0 46%;min-width:280px;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,4vw,48px) clamp(24px,4vw,48px)">
-              <img src="https://res.cloudinary.com/diancfp03/image/upload/parade_nyz4ux.jpg" alt="Navodaya Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/parade_nyz4ux.jpg" alt="Navodaya Coaching" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.55);display:block">
             </div>
             <div style="flex:1 1 300px;padding:clamp(32px,5vw,60px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center">
               <p style="color:#F5B800;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 12px">Know everything...</p>
@@ -1841,7 +1847,7 @@
               <div style="position:absolute;inset:12px;border:1.5px solid rgba(245,184,0,0.28);border-radius:14px;pointer-events:none;"></div>
               <div style="position:absolute;top:16px;left:16px;font-family:Inter,sans-serif;font-size:13px;font-weight:800;color:rgba(245,184,0,0.7);letter-spacing:0.06em;line-height:1;">TA</div>
               <div style="position:absolute;bottom:16px;right:16px;font-family:Inter,sans-serif;font-size:13px;font-weight:800;color:rgba(245,184,0,0.7);letter-spacing:0.06em;line-height:1;transform:rotate(180deg);">TA</div>
-              <img src="https://res.cloudinary.com/diancfp03/image/upload/v1781247341/Copilot_20260612_122511_ggalr2.png" style="width:82%;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5));" alt="Taxila Academy">
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781247341/Copilot_20260612_122511_ggalr2.png" style="width:82%;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5));" alt="Taxila Academy">
             </div>
             <!-- BACK: step icon -->
             <div id="journey-card-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border-radius:22px;background:radial-gradient(circle at 40% 36%,#ffd166,#e8a020 58%,#c87800);box-shadow:0 24px 72px rgba(200,120,0,0.65),inset 0 -8px 24px rgba(0,0,0,0.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
@@ -2904,7 +2910,7 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:40px;align-items:center">
           <!-- Left side photo -->
           <div style="position:relative;border-radius:24px;overflow:hidden;box-shadow:0 20px 48px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05)">
-            <img src="./parental_reading.png" alt="Father and son reading" style="width:100%;height:auto;display:block;object-fit:cover">
+            <img loading="lazy" decoding="async" src="./parental_reading.jpg" alt="Father and son reading" style="width:100%;height:auto;display:block;object-fit:cover">
             <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(3,10,2,0.6) 0%, transparent 100%)"></div>
           </div>
           
@@ -2960,7 +2966,7 @@
           <!-- Left side photo -->
           <div style="display:flex;justify-content:center;position:relative">
             <div style="position:relative;width:100%;max-width:280px;border-radius:20px;overflow:hidden;box-shadow:0 16px 36px rgba(0,0,0,0.4);border:1.5px solid rgba(217,160,91,0.2)">
-              <img src="./dr_anil_sharma.png" alt="Dr. Anil Sharma Portrait" style="width:100%;height:auto;display:block">
+              <img loading="lazy" decoding="async" src="./dr_anil_sharma.jpg" alt="Dr. Anil Sharma Portrait" style="width:100%;height:auto;display:block">
               <!-- Certified Badge -->
               <div style="position:absolute;bottom:0;right:0;background:#D9A05B;color:#030A02;font-size:9.5px;font-weight:800;padding:6px 14px;border-top-left-radius:12px;letter-spacing:0.04em;text-transform:uppercase">
                 🎗️ Certified Mentor
@@ -3520,7 +3526,7 @@
     ];
     const CART_KEY = 'taxila_cart_v1';
     const RZP_KEY = 'rzp_live_T5ptyJeQl3KoUD';
-    const RZP_IMG = 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png';
+    const RZP_IMG = 'https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781592060/Copilot_20260616_121045_yri1yc.png';
     const money = n => '₹' + Number(n).toLocaleString('en-IN');
     const pct = b => Math.round((b.mrp - b.price) / b.mrp * 100);
 
@@ -4037,6 +4043,8 @@ class Component extends DCLogic {
       // it to "paid" on the same doc once Razorpay confirms, instead of
       // losing the lead entirely if the visitor abandons payment.
       let pendingParentalDocRef = null;
+      let pendingParentalPromise = null;
+      let pendingParentalData = null;
       let pendingParentalSummary = null;
 
       // Parent & Candidate Info -> Continue to Payment
@@ -4060,7 +4068,7 @@ class Component extends DCLogic {
           const orderSummaryEl = parentalModal.querySelector('#p-order-summary');
           if (orderSummaryEl) orderSummaryEl.textContent = `${classLvl} · ${sessionDate}`;
 
-          saveRegistrationToFirestore({
+          pendingParentalData = {
             name: childName,
             parentName: parentName,
             phone: phone,
@@ -4072,7 +4080,8 @@ class Component extends DCLogic {
             admitCardId: mockPassId,
             paymentStatus: 'pending',
             source: 'Parental Session'
-          }).then(function(docRef) { pendingParentalDocRef = docRef; });
+          };
+          pendingParentalPromise = saveRegistrationToFirestore(pendingParentalData).then(function(docRef) { pendingParentalDocRef = docRef; return docRef; });
 
           setParentalStep(2);
         });
@@ -4088,13 +4097,17 @@ class Component extends DCLogic {
             currency: 'INR',
             name: 'Taxila Academy',
             description: 'Parental Awareness Session — Booking',
-            image: 'https://res.cloudinary.com/diancfp03/image/upload/v1781592060/Copilot_20260616_121045_yri1yc.png',
+            image: 'https://res.cloudinary.com/diancfp03/image/upload/f_auto,q_auto,w_1920,c_limit/v1781592060/Copilot_20260616_121045_yri1yc.png',
             theme: { color: '#1B4D0E' },
-            prefill: {},
+            prefill: pendingParentalData ? { name: pendingParentalData.parentName, contact: pendingParentalData.phone, email: pendingParentalData.email } : {},
             handler: function(response) {
-              if (pendingParentalDocRef) {
-                pendingParentalDocRef.update({ paymentStatus: 'paid', txRef: response.razorpay_payment_id || '' }).catch(function(){});
-              }
+              // Always record the payment, even if the first save was slow or failed.
+              const upd = { paymentStatus: 'paid', txRef: response.razorpay_payment_id || '', paidAt: new Date().toISOString() };
+              const paidData = Object.assign({}, pendingParentalData || { source: 'Parental Session' }, upd);
+              Promise.resolve(pendingParentalDocRef || pendingParentalPromise).then(function(ref) {
+                if (ref) return ref.update(upd).catch(function() { return saveRegistrationToFirestore(paidData); });
+                return saveRegistrationToFirestore(paidData);
+              });
               if (pendingParentalSummary) {
                 const s = pendingParentalSummary;
                 parentalModal.querySelector('#p-pass-val-id').textContent = s.mockPassId;
@@ -4793,9 +4806,51 @@ class Component extends DCLogic {
     const cSubmit = root.querySelector('[data-contact-submit]');
     const cMsg = root.querySelector('[data-contact-msg]');
     if (cSubmit && cMsg) cSubmit.addEventListener('click', () => {
-      cMsg.style.display = 'block';
-      cSubmit.textContent = 'Submitted ✓';
-      cSubmit.style.background = '#25803a';
+      // Save the enquiry so it shows in the admin panel's Enquiries page.
+      let form = cSubmit.parentElement;
+      while (form && form.querySelectorAll('input').length < 4 && form.parentElement) form = form.parentElement;
+      const ins = Array.from(form.querySelectorAll('input'));
+      const sels = Array.from(form.querySelectorAll('select'));
+      const ta = form.querySelector('textarea');
+      const byPh = (re) => (ins.find(i => re.test(i.placeholder || '')) || {}).value || '';
+      const d = {
+        name: byPh(/student/i).trim(),
+        parentName: byPh(/parent|guardian/i).trim(),
+        phone: byPh(/mobile|phone/i).replace(/\D/g, '').slice(-10),
+        email: byPh(/email/i).trim(),
+        class: sels[0] ? sels[0].value : '',
+        course: sels[1] ? sels[1].value : '',
+        city: byPh(/city|district/i).trim(),
+        note: ta ? ta.value.trim() : ''
+      };
+      const showErr = (m) => { cMsg.style.display = 'block'; cMsg.style.color = '#f4b39b'; cMsg.textContent = m; };
+      if (!d.name || !d.parentName) return showErr('Please enter the student and parent names.');
+      if (d.phone.length !== 10) return showErr('Please enter a valid 10-digit mobile number.');
+      if (!d.class || !d.course) return showErr('Please choose the class and the course.');
+      const message = [d.course && ('Course: ' + d.course), d.class && ('Class: ' + d.class), d.city && ('City: ' + d.city), 'Parent: ' + d.parentName, d.note].filter(Boolean).join(' · ');
+      cSubmit.disabled = true;
+      cSubmit.textContent = 'Sending…';
+      const done = () => {
+        cMsg.style.display = 'block'; cMsg.style.color = '#a3c98a';
+        cMsg.textContent = '✓ Thank you! Our counsellor will contact you within 24 hours.';
+        cSubmit.textContent = 'Submitted ✓';
+        cSubmit.style.background = '#25803a';
+      };
+      try {
+        const cfg = window.TAXILA_FIREBASE_CONFIG;
+        let app;
+        try { app = firebase.app('teereg'); } catch (e) { app = firebase.initializeApp(cfg, 'teereg'); }
+        firebase.firestore(app).collection('enquiries').add(Object.assign({}, d, {
+          message: message, status: 'new', source: 'Website enquiry',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        })).then(done).catch(() => {
+          cSubmit.disabled = false; cSubmit.textContent = 'Get Admission Guidance';
+          showErr('Could not send right now. Please call or WhatsApp 79897 70033.');
+        });
+      } catch (e) {
+        cSubmit.disabled = false; cSubmit.textContent = 'Get Admission Guidance';
+        showErr('Could not send right now. Please call or WhatsApp 79897 70033.');
+      }
     });
 
     // ---- Course Cards + Modal ----
@@ -5415,7 +5470,9 @@ class Component extends DCLogic {
 
 <!-- CMS Content Loader — reads from Firestore and updates page content -->
 <script>
-(function() {
+// Runs after the page has built its course cards, so saved admin changes are
+// never overwritten by the built-in defaults.
+(function(run){ if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(run, 0); }); else run(); })(function() {
   // Shared config lives in ./firebase-config.js — same credentials used by
   // admin/index.html and entrance-exam.dc.html. Edit that one file.
   var CMS_CONFIG = window.TAXILA_FIREBASE_CONFIG || {};
@@ -5671,7 +5728,7 @@ class Component extends DCLogic {
   }).catch(function(){});
 
   function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-})();
+});
 </script>
 </body>
 </html>
