@@ -287,7 +287,7 @@
     .site-link:hover{border-color:var(--green);background:#f3f8f1}
     .bell-btn{border-radius:10px}
     .topbar-date{padding-left:10px;border-left:1px solid var(--border)}
-    .content-area{padding:28px;max-width:1440px;width:100%}
+    .content-area{padding:28px;width:100%;min-width:0}
     /* Welcome banner */
     .welcome{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:24px 28px;margin-bottom:22px;border-radius:18px;color:#F5EDD8;background:linear-gradient(120deg,#1a4a0e 0%,#123a0a 50%,#0d2a08 100%);box-shadow:0 10px 30px rgba(16,50,10,0.18)}
     .welcome::after{content:'';position:absolute;right:-80px;top:-120px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(232,183,48,0.26),transparent 65%);pointer-events:none}
@@ -338,7 +338,13 @@
     .page-banner{background:#fff;border:1px solid var(--border);border-radius:12px}
     .stat-card.gold,.stat-card.red,.stat-card.blue,.stat-card.green{border-left-color:var(--border)}
     .btn,.badge,.followup-chip{white-space:nowrap}
-    #reg-table td,#dash-reg-table td,#enq-table td{white-space:nowrap}
+    #reg-table td,#dash-reg-table td,#enq-table td{white-space:normal}
+    #reg-table td:nth-child(1),#reg-table td:nth-child(3),#reg-table td:nth-child(5),#reg-table td:nth-child(9),#reg-table td:nth-child(10),#reg-table td:nth-child(11),#enq-table td:nth-child(1),#enq-table td:nth-child(3),#enq-table td:nth-child(6),#enq-table td:nth-child(7),#enq-table td:nth-child(8),#enq-table td:nth-child(9),#dash-reg-table td:nth-child(3),#dash-reg-table td:nth-child(6),#dash-reg-table td:nth-child(7){white-space:nowrap}
+    #reg-table td:nth-child(6),#enq-table td:nth-child(4),#dash-reg-table td:nth-child(4){overflow-wrap:anywhere;min-width:150px}
+    #reg-table td,#reg-table ~ th,#section-registrations thead th{padding-left:12px;padding-right:12px}
+    #main-content{min-width:0}
+    @media(max-width:1700px){#reg-table td:nth-child(11) > div{flex-wrap:wrap;width:104px;row-gap:5px}#reg-table td{padding-left:10px;padding-right:10px;font-size:12.5px}#section-registrations thead th{padding-left:10px;padding-right:10px}#reg-table td:nth-child(6){min-width:130px}}
+    @media(max-width:1400px){#reg-table td:nth-child(7){min-width:130px}#reg-table td:nth-child(6){min-width:105px}#reg-table td{padding-left:8px;padding-right:8px}#section-registrations thead th{padding-left:8px;padding-right:8px}}
     #reg-table td:nth-child(7),#dash-reg-table td:nth-child(5){white-space:normal;min-width:170px}
     #enq-table td:nth-child(5){white-space:normal;min-width:240px;max-width:360px}
     .edit-pane{padding:2px 6px 8px 2px}
