@@ -1255,6 +1255,7 @@
         </a>
         <div class="nav-dropdown-menu">
           <a href="./entrance-exam.dc.html" class="dropdown-link">Entrance Exam</a>
+          <a href="#free-papers" class="dropdown-link">Free Question Papers</a>
           <a href="#books" class="dropdown-link">Books</a>
           <a href="#parental-sessions" class="dropdown-link">Parental Sessions</a>
           <a href="#our-publications" class="dropdown-link">Our Publications</a>
@@ -1298,6 +1299,10 @@
       </a>
       <a href="./about.html" data-mlink style="display:flex;align-items:center;justify-content:space-between;color:#F5EDD8;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;padding:16px 0;border-bottom:1px solid rgba(232,213,176,0.07);text-decoration:none">
         About Us
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,122,0.4)" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#free-papers" data-mlink style="display:flex;align-items:center;justify-content:space-between;color:#F5EDD8;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;padding:16px 0;border-bottom:1px solid rgba(232,213,176,0.07);text-decoration:none">
+        Free Question Papers
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,122,0.4)" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a href="#books" data-mlink style="display:flex;align-items:center;justify-content:space-between;color:#F5EDD8;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;padding:16px 0;border-bottom:1px solid rgba(232,213,176,0.07);text-decoration:none">
@@ -2564,6 +2569,85 @@
 
     </div>
   </section>
+
+  <!-- FREE PREVIOUS YEAR PAPERS (lead form) -->
+  <section id="free-papers" data-screen-label="Free Papers" style="background:linear-gradient(135deg,#0d2806,#040c02);padding:clamp(64px,9vw,100px) clamp(18px,4vw,56px);scroll-margin-top:80px;border-top:1px solid rgba(245,184,0,0.15);border-bottom:1px solid rgba(245,184,0,0.15)">
+    <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,56px);align-items:center">
+      <div>
+        <span style="display:inline-block;background:#F5B800;color:#0A1F05;font-size:11px;font-weight:800;letter-spacing:.14em;padding:5px 12px;border-radius:100px;text-transform:uppercase">100% Free</span>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4vw,42px);color:#F5EDD8;margin:16px 0 14px;line-height:1.15">Download Last Year's<br>Sainik &amp; RMS Question Papers</h2>
+        <p style="color:#cbdcc5;font-size:15.5px;line-height:1.7;margin:0 0 20px">Let your child practise with the real exam paper. Enter your details and download it instantly.</p>
+        <ul style="list-style:none;padding:0;margin:0;color:#e8efe0;font-size:14.5px;line-height:2">
+          <li>&#10003; Sainik School (AISSEE) Class 6 paper</li>
+          <li>&#10003; RMS (Rashtriya Military School) CET paper</li>
+          <li>&#10003; Free guidance call from our counsellor</li>
+        </ul>
+      </div>
+      <form id="free-paper-form" novalidate style="background:#0b1a07;border:1px solid rgba(245,184,0,0.3);border-radius:20px;padding:clamp(22px,4vw,32px);display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)">
+        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:#F5EDD8">Get your free paper</div>
+        <input id="fp-name" type="text" placeholder="Parent name *" autocomplete="name" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1.5px solid rgba(201,169,122,0.25);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none">
+        <input id="fp-phone" type="tel" inputmode="numeric" placeholder="WhatsApp number (10 digits) *" autocomplete="tel" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1.5px solid rgba(201,169,122,0.25);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none">
+        <select id="fp-exam" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1.5px solid rgba(201,169,122,0.25);border-radius:10px;background:#0b1a07;color:#cbdcc5;outline:none">
+          <option value="">Which paper? *</option>
+          <option value="sainik">Sainik School (AISSEE) Class 6</option>
+          <option value="rms">RMS CET</option>
+          <option value="both">Both papers</option>
+        </select>
+        <input id="fp-city" type="text" placeholder="Town / City" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1.5px solid rgba(201,169,122,0.25);border-radius:10px;background:rgba(255,255,255,0.04);color:#f0f6e8;outline:none">
+        <button id="fp-submit" type="submit" style="font-family:inherit;font-size:16px;font-weight:800;padding:15px;border:none;border-radius:12px;background:#F5B800;color:#0A1F05 !important;cursor:pointer">Download Free Paper &#8595;</button>
+        <div id="fp-msg" style="display:none;font-size:14px;line-height:1.6"></div>
+        <div id="fp-links" style="display:none;flex-direction:column;gap:10px"></div>
+        <div style="color:rgba(232,213,176,0.4);font-size:11.5px;line-height:1.5">We'll only use your number to help with your child's admission. No spam.</div>
+      </form>
+    </div>
+  </section>
+  <script>
+  (function(){
+    var PAPERS = {
+      sainik: { label: 'Sainik School (AISSEE) Class 6 paper', url: './papers/sainik-aissee-class6.pdf' },
+      rms:    { label: 'RMS CET paper',                        url: './papers/rms-cet.pdf' }
+    };
+    var form = document.getElementById('free-paper-form');
+    if (!form) return;
+    var msg = document.getElementById('fp-msg'), links = document.getElementById('fp-links'), btn = document.getElementById('fp-submit');
+    function err(t){ msg.style.display='block'; msg.style.color='#f4b39b'; msg.textContent=t; }
+    function showLinks(exam){
+      var keys = exam === 'both' ? ['sainik','rms'] : [exam];
+      links.innerHTML = keys.map(function(k){
+        return '<a href="'+PAPERS[k].url+'" target="_blank" rel="noopener" download style="display:block;text-align:center;background:#25803a;color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:10px;text-decoration:none">&#8595; '+PAPERS[k].label+'</a>';
+      }).join('');
+      links.style.display='flex';
+      msg.style.display='block'; msg.style.color='#a3c98a';
+      msg.textContent='Thank you! Tap below to download. Our counsellor will also WhatsApp you.';
+      btn.style.display='none';
+    }
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var d = {
+        parentName: document.getElementById('fp-name').value.trim(),
+        phone: document.getElementById('fp-phone').value.replace(/\D/g,'').slice(-10),
+        exam: document.getElementById('fp-exam').value,
+        city: document.getElementById('fp-city').value.trim()
+      };
+      if (!d.parentName) return err('Please enter your name.');
+      if (d.phone.length !== 10) return err('Please enter a valid 10-digit WhatsApp number.');
+      if (!d.exam) return err('Please choose which paper you want.');
+      btn.disabled = true; btn.textContent = 'Please wait…';
+      var examLabel = d.exam === 'both' ? 'Sainik + RMS' : PAPERS[d.exam].label;
+      var record = {
+        name: d.parentName, parentName: d.parentName, phone: d.phone, city: d.city,
+        course: examLabel, message: 'Downloaded free paper: ' + examLabel + (d.city ? ' · City: ' + d.city : ''),
+        status: 'new', source: 'Free paper download'
+      };
+      try { if (window.gtag) gtag('event', 'generate_lead', { form: 'free_paper', exam: d.exam }); } catch (x) {}
+      try {
+        var app; try { app = firebase.app('teereg'); } catch (x) { app = firebase.initializeApp(window.TAXILA_FIREBASE_CONFIG, 'teereg'); }
+        record.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        firebase.firestore(app).collection('enquiries').add(record).then(function(){ showLinks(d.exam); }).catch(function(){ showLinks(d.exam); });
+      } catch (x) { showLinks(d.exam); }
+    });
+  })();
+  </script>
 
   <!-- BOOKS SECTION -->
   <section id="books" data-screen-label="Books" style="background:#040c02;padding:clamp(72px,9vw,110px) clamp(18px,4vw,56px);scroll-margin-top:80px">
@@ -5132,7 +5216,7 @@ class Component extends DCLogic {
 
     function routeHash() {
       const hash = window.location.hash || '#home';
-      const homeSections = ['#home', '#stats', '#courses-slider', '#why-choose-us', '#journey', '#comparison', '#testimonials', '#faq', '#journey-scroll'];
+      const homeSections = ['#home', '#stats', '#courses-slider', '#why-choose-us', '#journey', '#comparison', '#testimonials', '#free-papers', '#faq', '#journey-scroll'];
       const specificSections = ['#courses', '#books', '#parental-sessions', '#our-publications', '#contact'];
       
       if (mobileMenu) mobileMenu.style.display = 'none';
