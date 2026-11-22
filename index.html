@@ -1597,6 +1597,108 @@
 
   </section>
 
+  <!-- SELECTED STUDENTS WALL — add students to the TOPPERS list in the script below -->
+  <section id="selected" style="display:none;background:#040c02;padding:clamp(56px,8vw,96px) clamp(18px,4vw,56px);scroll-margin-top:80px">
+    <style>
+      .tp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;max-width:1180px;margin:0 auto}
+      .tp-card{background:#0b1a07;border:1px solid rgba(245,184,0,0.22);border-radius:16px;overflow:hidden;text-align:center}
+      .tp-photo{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:linear-gradient(145deg,#1B4D0E,#0A1F05)}
+      .tp-init{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#1B4D0E,#0A1F05);color:#F5B800;font:800 40px 'Playfair Display',serif}
+      .tp-body{padding:12px 10px 14px}
+      .tp-name{color:#F5EDD8;font-weight:800;font-size:15px;line-height:1.25}
+      .tp-school{color:#F5B800;font-weight:700;font-size:12.5px;margin-top:5px;line-height:1.3}
+      .tp-meta{color:#8fa384;font-size:11.5px;margin-top:4px}
+      .tp-filter{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 26px}
+      .tp-filter button{font:700 13px Inter,sans-serif;padding:8px 16px;border-radius:100px;border:1.5px solid rgba(245,184,0,0.35);background:transparent;color:#F5EDD8;cursor:pointer}
+      .tp-filter button.on{background:#F5B800;color:#0A1F05;border-color:#F5B800}
+      @media (max-width:420px){.tp-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+    </style>
+    <div style="text-align:center;max-width:640px;margin:0 auto 28px">
+      <span style="color:#C9A97A;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">Our Pride</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4.5vw,46px);color:#F5EDD8;margin:10px 0 10px;line-height:1.1">Our Selected Students</h2>
+      <p id="tp-count" style="color:#cbdcc5;font-size:15.5px;margin:0"></p>
+    </div>
+    <div class="tp-filter" id="tp-filter"></div>
+    <div class="tp-grid" id="tp-grid"></div>
+  </section>
+  <script>
+  (function(){
+    // Add one line per selected student. photo = image link (leave '' to show initials).
+    // exam: 'Sainik School' | 'RMS' | 'Navodaya' | 'AP Gurukulam' | 'NDA'
+    var TOPPERS = [
+      // { name: 'Student Name', school: 'Sainik School Korukonda', exam: 'Sainik School', year: 2025, photo: '' },
+    ];
+    var esc = function(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+    function render(list){
+      var sec = document.getElementById('selected');
+      if (!sec) return;
+      if (!list.length) { sec.setAttribute('data-empty', '1'); sec.style.display = 'none'; return; }
+      sec.removeAttribute('data-empty');
+      if (!location.hash || location.hash === '#home' || location.hash === '#selected') sec.style.display = 'block';
+      var exams = ['All'].concat(list.map(function(t){ return t.exam; }).filter(function(e, i, a){ return e && a.indexOf(e) === i; }));
+      document.getElementById('tp-count').textContent = list.length + ' students selected into Sainik, RMS, Navodaya and other defence schools';
+      var grid = document.getElementById('tp-grid'), filter = document.getElementById('tp-filter');
+      function draw(ex){
+        grid.innerHTML = list.filter(function(t){ return ex === 'All' || t.exam === ex; }).sort(function(a, b){ return (b.year || 0) - (a.year || 0); }).map(function(t){
+          var initials = esc(String(t.name || '').split(/\s+/).map(function(w){ return w.charAt(0); }).join('').slice(0, 2).toUpperCase());
+          var pic = t.photo ? '<img class="tp-photo" loading="lazy" src="' + esc(t.photo) + '" alt="' + esc(t.name) + '">' : '<div class="tp-init">' + initials + '</div>';
+          return '<div class="tp-card">' + pic + '<div class="tp-body"><div class="tp-name">' + esc(t.name) + '</div><div class="tp-school">' + esc(t.school) + '</div><div class="tp-meta">' + esc(t.exam) + (t.year ? ' · ' + esc(t.year) : '') + '</div></div></div>';
+        }).join('');
+        filter.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.ex === ex); });
+      }
+      filter.innerHTML = exams.length > 2 ? exams.map(function(e){ return '<button type="button" data-ex="' + esc(e) + '">' + esc(e) + '</button>'; }).join('') : '';
+      filter.onclick = function(e){ if (e.target.dataset.ex) draw(e.target.dataset.ex); };
+      draw('All');
+    }
+    window.renderSelectedStudents = render;
+    render(TOPPERS);
+  })();
+  </script>
+
+  <!-- THREE PATHS: Offline school / Online courses / Books -->
+  <section id="paths" style="background:linear-gradient(180deg,#0A1F05,#040c02);padding:clamp(56px,8vw,96px) clamp(18px,4vw,56px);scroll-margin-top:80px">
+    <style>
+      .path-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1180px;margin:0 auto}
+      .path-card{background:#0b1a07;border:1px solid rgba(245,184,0,0.25);border-radius:22px;padding:28px 24px;display:flex;flex-direction:column}
+      .path-icon{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px}
+      .path-card h3{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;color:#F5EDD8;margin:0 0 8px}
+      .path-card p{color:#cbdcc5;font-size:14.5px;line-height:1.6;margin:0 0 14px}
+      .path-card ul{list-style:none;padding:0;margin:0 0 22px;color:#e8efe0;font-size:14px;line-height:1.9;flex:1}
+      .path-btn{display:block;text-align:center;font-weight:800;font-size:15px;padding:14px;border-radius:12px;text-decoration:none;margin-top:10px}
+      .path-row{display:flex;gap:10px}.path-row a{flex:1}
+    </style>
+    <div style="text-align:center;max-width:640px;margin:0 auto 36px">
+      <span style="color:#C9A97A;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase">How can we help?</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4.5vw,46px);color:#F5EDD8;margin:10px 0 0;line-height:1.1">What are you looking for?</h2>
+    </div>
+    <div class="path-grid">
+      <div class="path-card">
+        <div class="path-icon" style="background:rgba(245,184,0,0.15)">🏫</div>
+        <h3>Offline School</h3>
+        <p>Residential and day-scholar coaching at our Ravulapalem campus.</p>
+        <ul><li>✓ Sainik School, RMS, Navodaya, AP Gurukulam, NDA</li><li>✓ Hostel, meals, daily PT and discipline</li><li>✓ Weekly mock tests and parent reports</li></ul>
+        <a class="path-btn" href="#courses" style="background:#F5B800;color:#0A1F05 !important">See Courses &amp; Fees →</a>
+        <div class="path-row"><a data-dept class="path-btn" href="tel:+917989770033" style="background:#1B4D0E;color:#fff">📞 Call</a><a data-dept class="path-btn" href="https://wa.me/917989770033?text=Hi+Taxila+Academy%2C+I+want+to+know+about+admissions" style="background:#25803a;color:#fff">WhatsApp</a></div>
+      </div>
+      <div class="path-card">
+        <div class="path-icon" style="background:rgba(37,128,58,0.2)">💻</div>
+        <h3>Online Courses</h3>
+        <p>Live classes on Zoom for students anywhere in India.</p>
+        <ul><li>✓ Sainik and Navodaya online batches</li><li>✓ Same study material and mock tests</li><li>✓ WhatsApp doubt support</li></ul>
+        <a class="path-btn" href="#courses" style="background:#F5B800;color:#0A1F05 !important">See Online Courses →</a>
+        <div class="path-row"><a data-dept class="path-btn" href="tel:+919989976111" style="background:#1B4D0E;color:#fff">📞 Call</a><a data-dept class="path-btn" href="https://wa.me/919989976111?text=Hi+Taxila+Academy%2C+I+want+to+join+online+classes" style="background:#25803a;color:#fff">WhatsApp</a></div>
+      </div>
+      <div class="path-card">
+        <div class="path-icon" style="background:rgba(200,146,10,0.2)">📚</div>
+        <h3>Books</h3>
+        <p>Workbooks and practice papers written by Taxila faculty.</p>
+        <ul><li>✓ Sainik School and Navodaya books</li><li>✓ Delivered to your home</li><li>✓ Secure payment by Razorpay</li></ul>
+        <a class="path-btn" href="#our-publications" style="background:#F5B800;color:#0A1F05 !important">Shop Books →</a>
+        <div class="path-row"><a data-dept class="path-btn" href="tel:+919959965111" style="background:#1B4D0E;color:#fff">📞 Call</a><a data-dept class="path-btn" href="https://wa.me/919959965111?text=Hi+Taxila+Academy%2C+I+want+to+order+books" style="background:#25803a;color:#fff">WhatsApp</a></div>
+      </div>
+    </div>
+  </section>
+
   <!-- STATS -->
   <section id="stats" style="background:#0A1F05;padding:0 0 80px;position:relative;overflow:hidden">
 
@@ -5132,7 +5234,7 @@ class Component extends DCLogic {
 
     function routeHash() {
       const hash = window.location.hash || '#home';
-      const homeSections = ['#home', '#stats', '#courses-slider', '#why-choose-us', '#journey', '#comparison', '#testimonials', '#faq', '#journey-scroll'];
+      const homeSections = ['#home', '#selected', '#paths', '#stats', '#courses-slider', '#why-choose-us', '#journey', '#comparison', '#testimonials', '#faq', '#journey-scroll'];
       const specificSections = ['#courses', '#books', '#parental-sessions', '#our-publications', '#contact'];
       
       if (mobileMenu) mobileMenu.style.display = 'none';
@@ -5173,7 +5275,7 @@ class Component extends DCLogic {
         // Showing home sections (Home view)
         homeSections.forEach(selector => {
           const sec = root.querySelector(selector);
-          if (sec) sec.style.display = 'block';
+          if (sec && !sec.hasAttribute('data-empty')) sec.style.display = 'block';
         });
         if (contactSec) contactSec.style.display = 'none';
         if (mainContent) mainContent.style.display = 'block';
